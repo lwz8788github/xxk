@@ -11,12 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace Common.Data
 {
-    /*
-     * 
-     * 
-     * 
-     * 
-     */
+
     public static class DbUtils
     {
         static string cs = MysqlEasy.ConnectionString; //数据库连接字符串
@@ -27,7 +22,6 @@ namespace Common.Data
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandType = CommandType.Text;
-
                     cmd.CommandText = "select * from " + TableConvention.Resolve(typeof(T)) + " where "
                         .InjectFrom(new FieldsBy()
                         .SetFormat("{0}=@{0}")
@@ -51,7 +45,6 @@ namespace Common.Data
 
      
         }
-
 
 
 

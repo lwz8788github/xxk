@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using Common.Data;
 
-
+[TableName("t_sysuser")]
+[Description("用户信息")]
 public class UserInfoBean
-    {
-    /// <summary>
-    /// 用户名
-
-    /// </summary>
+{
+    [Description("用户名")]
     private string _UserName;
     public string UserName
     {
@@ -16,19 +16,15 @@ public class UserInfoBean
         set { _UserName = value; }
     }
 
-    /// <summary>
-    /// 密码
-    /// </summary>
-    private string _Password;
+    [Description("密码")]
+       private string _Password;
     public string Password
     {
         get { return _Password; }
         set { _Password = value; }
     }
 
-    /// <summary>
-    /// 用户单位
-    /// </summary>
+    [Description("用户单位")]
     private string _UserUnit;
     public string UserUnit
     {
@@ -36,9 +32,7 @@ public class UserInfoBean
         set { _UserUnit = value; }
     }
 
-    /// <summary>
-    /// 用户权限
-    /// </summary>
+    [Description("用户权限")]
     private string _UserAthrty;
     public string UserAthrty
     {

@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,9 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\EqkBll.cs" />
+    <Compile Include="BLL\LineBll.cs" />
+    <Compile Include="BLL\LineObsBll.cs" />
     <Compile Include="BLL\SiteBll.cs" />
+    <Compile Include="BLL\UnitInfoBll.cs" />
+    <Compile Include="BLL\UserInfoBll.cs" />
     <Compile Include="DAL\EqkDal.cs" />
+    <Compile Include="DAL\LineBeanDal.cs" />
+    <Compile Include="DAL\LineObsDal.cs" />
     <Compile Include="DAL\SiteDal.cs" />
+    <Compile Include="DAL\UnitInfoDal.cs" />
+    <Compile Include="DAL\UserInfoDal.cs" />
     <Compile Include="Form\Login.cs">
       <SubType>Form</SubType>
     </Compile>

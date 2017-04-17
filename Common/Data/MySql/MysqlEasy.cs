@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data;
 using Common.Data.MySql;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace Common.Data.MySql
 {
@@ -14,8 +15,11 @@ namespace Common.Data.MySql
         private static string connString;
         public static string ConnectionString
         {
-            get { return connString; }
-            set { connString = value; }
+            get
+            {
+                string connStr = ConfigurationManager.ConnectionStrings["MyConnnect"].ConnectionString;
+                return connStr;
+            }
         }
 
         public static int ExecuteNonQuery(string SQLString)

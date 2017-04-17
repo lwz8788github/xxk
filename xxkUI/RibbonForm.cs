@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
+using xxkUI.Form;
 
 namespace xxkUI
 {
@@ -21,6 +22,20 @@ namespace xxkUI
         private void treeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
         {
 
+        }
+
+        private void btnLogin_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Login lg = new Login();
+        
+            if (lg.ShowDialog() == DialogResult.OK)
+            {
+                currentUser.Caption = currentUser.Caption + lg.Username;
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

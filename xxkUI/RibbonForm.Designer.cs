@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barCheckItem1 = new DevExpress.XtraBars.BarCheckItem();
             this.barCheckItem2 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem3 = new DevExpress.XtraBars.BarCheckItem();
+            this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
+            this.currentUser = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -77,10 +79,8 @@
             this.ribbonPageGroup33 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
-
-  
-
-
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
@@ -89,23 +89,12 @@
             this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
-
-            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.barCheckItem3 = new DevExpress.XtraBars.BarCheckItem();
-
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
             this.splitContainerControl1.SuspendLayout();
-
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-
-
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage2.SuspendLayout();
@@ -113,11 +102,6 @@
             this.splitContainerControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
             this.xtraTabControl2.SuspendLayout();
-
-            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
-
-    
-
             this.SuspendLayout();
             // 
             // ribbon
@@ -125,46 +109,37 @@
             this.ribbon.ExpandCollapseItem.Id = 0;
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
-            this.barButtonItem1,
+            this.btnLogin,
             this.barButtonItem3,
             this.barButtonItem2,
             this.barButtonItem4,
             this.barButtonItem5,
             this.barCheckItem1,
             this.barCheckItem2,
-            this.barCheckItem3});
+            this.barCheckItem3,
+            this.barHeaderItem1,
+            this.currentUser});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 20;
-
-            this.ribbon.MaxItemId = 4;
-
-            this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 4;
-
+            this.ribbon.MaxItemId = 8;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
-
             this.ribbonPage2,
             this.ribbonPage3,
             this.ribbonPage4,
             this.ribbonPage5,
             this.ribbonPage6});
-            this.ribbon.Size = new System.Drawing.Size(1506, 147);
-
-            this.ribbon.Size = new System.Drawing.Size(1721, 184);
-
             this.ribbon.Size = new System.Drawing.Size(1262, 147);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
-            // barButtonItem1
+            // btnLogin
             // 
-            this.barButtonItem1.Caption = "登录";
-            this.barButtonItem1.Id = 1;
-            this.barButtonItem1.Name = "barButtonItem1";
-            this.barButtonItem1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnLogin.Caption = "登录";
+            this.btnLogin.Id = 1;
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnLogin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLogin_ItemClick);
             // 
             // barButtonItem3
             // 
@@ -208,6 +183,26 @@
             this.barCheckItem2.Name = "barCheckItem2";
             this.barCheckItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
+            // barCheckItem3
+            // 
+            this.barCheckItem3.Caption = "数据列表";
+            this.barCheckItem3.Id = 19;
+            this.barCheckItem3.Name = "barCheckItem3";
+            this.barCheckItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // barHeaderItem1
+            // 
+            this.barHeaderItem1.Caption = "barHeaderItem1";
+            this.barHeaderItem1.Id = 6;
+            this.barHeaderItem1.Name = "barHeaderItem1";
+            // 
+            // currentUser
+            // 
+            this.currentUser.Caption = "当前用户:";
+            this.currentUser.Id = 7;
+            this.currentUser.Name = "currentUser";
+            this.currentUser.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -221,7 +216,7 @@
             // 
             // ribbonPageGroup1
             // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem1);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem4);
@@ -446,17 +441,12 @@
             // 
             // ribbonStatusBar
             // 
+            this.ribbonStatusBar.ItemLinks.Add(this.currentUser);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
             this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1506, 31);
-
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1721, 40);
-
             this.ribbonStatusBar.Size = new System.Drawing.Size(1262, 31);
-
             // 
             // splitContainerControl1
             // 
@@ -469,32 +459,26 @@
             this.splitContainerControl1.Panel1.Text = "Panel1";
             this.splitContainerControl1.Panel2.Controls.Add(this.xtraTabControl1);
             this.splitContainerControl1.Panel2.Text = "Panel2";
-
-            this.splitContainerControl1.Size = new System.Drawing.Size(1506, 458);
-
-            this.splitContainerControl1.Size = new System.Drawing.Size(1721, 594);
-
             this.splitContainerControl1.Size = new System.Drawing.Size(1262, 458);
-
             this.splitContainerControl1.SplitterPosition = 385;
             this.splitContainerControl1.TabIndex = 3;
             this.splitContainerControl1.Text = "splitContainerControl1";
-   
-            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupControl2.Location = new System.Drawing.Point(0, 241);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(385, 217);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "预处理数据";
-  
             // 
-
+            // groupControl2
+            // 
+            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl2.Location = new System.Drawing.Point(0, 337);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(385, 121);
+            this.groupControl2.TabIndex = 1;
+            this.groupControl2.Text = "工作区";
+            // 
             // groupControl1
             // 
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupControl1.Location = new System.Drawing.Point(0, 0);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(385, 235);
+            this.groupControl1.Size = new System.Drawing.Size(385, 337);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "原始数据";
             // 
@@ -505,11 +489,7 @@
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-
-            this.xtraTabControl1.Size = new System.Drawing.Size(1116, 458);
-
-            this.xtraTabControl1.Size = new System.Drawing.Size(1330, 594);
-   this.xtraTabControl1.Size = new System.Drawing.Size(920, 458);
+            this.xtraTabControl1.Size = new System.Drawing.Size(872, 458);
             this.xtraTabControl1.TabIndex = 0;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -519,13 +499,7 @@
             // 
             this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-
-            this.xtraTabPage1.Size = new System.Drawing.Size(1110, 429);
-
-            this.xtraTabPage1.Size = new System.Drawing.Size(1323, 558);
-
-            this.xtraTabPage1.Size = new System.Drawing.Size(914, 429);
-
+            this.xtraTabPage1.Size = new System.Drawing.Size(866, 429);
             this.xtraTabPage1.Text = "场地分布";
             // 
             // xtraTabPage2
@@ -533,13 +507,7 @@
             this.xtraTabPage2.Controls.Add(this.splitContainerControl2);
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-
-            this.xtraTabPage2.Size = new System.Drawing.Size(1110, 429);
-
-            this.xtraTabPage2.Size = new System.Drawing.Size(955, 558);
-
-            this.xtraTabPage2.Size = new System.Drawing.Size(914, 429);
-
+            this.xtraTabPage2.Size = new System.Drawing.Size(866, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
             // splitContainerControl2
@@ -551,12 +519,7 @@
             this.splitContainerControl2.Panel1.Text = "Panel1";
             this.splitContainerControl2.Panel2.Controls.Add(this.xtraTabControl2);
             this.splitContainerControl2.Panel2.Text = "Panel2";
-            this.splitContainerControl2.Size = new System.Drawing.Size(1110, 429);
-
-            this.splitContainerControl2.Size = new System.Drawing.Size(955, 558);
-
-            this.splitContainerControl2.Size = new System.Drawing.Size(914, 429);
-
+            this.splitContainerControl2.Size = new System.Drawing.Size(866, 429);
             this.splitContainerControl2.SplitterPosition = 752;
             this.splitContainerControl2.TabIndex = 0;
             this.splitContainerControl2.Text = "splitContainerControl2";
@@ -568,12 +531,7 @@
             this.xtraTabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl2.Name = "xtraTabControl2";
             this.xtraTabControl2.SelectedTabPage = this.xtraTabPage3;
-
-            this.xtraTabControl2.Size = new System.Drawing.Size(353, 429);
-
-            this.xtraTabControl2.Size = new System.Drawing.Size(197, 558);
-            this.xtraTabControl2.Size = new System.Drawing.Size(251, 429);
-
+            this.xtraTabControl2.Size = new System.Drawing.Size(109, 429);
             this.xtraTabControl2.TabIndex = 0;
             this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage3,
@@ -584,83 +542,32 @@
             // 
             this.xtraTabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage3.Name = "xtraTabPage3";
-
-            this.xtraTabPage3.Size = new System.Drawing.Size(347, 400);
-
-            this.xtraTabPage3.Size = new System.Drawing.Size(190, 522);
-
-            this.xtraTabPage3.Size = new System.Drawing.Size(245, 400);
-
+            this.xtraTabPage3.Size = new System.Drawing.Size(103, 400);
             this.xtraTabPage3.Text = "历史地震";
             // 
             // xtraTabPage4
             // 
             this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage4.Name = "xtraTabPage4";
-
-            this.xtraTabPage4.Size = new System.Drawing.Size(347, 400);
-
-            this.xtraTabPage4.Size = new System.Drawing.Size(190, 522);
-            this.xtraTabPage4.Size = new System.Drawing.Size(490, 404);
+            this.xtraTabPage4.Size = new System.Drawing.Size(103, 400);
             this.xtraTabPage4.Text = "属性";
             // 
             // xtraTabPage5
             // 
             this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage5.Name = "xtraTabPage5";
-
-            this.xtraTabPage5.Size = new System.Drawing.Size(347, 400);
-
-            this.xtraTabPage5.Size = new System.Drawing.Size(190, 522);
-
-            this.xtraTabPage5.Size = new System.Drawing.Size(490, 404);
-
+            this.xtraTabPage5.Size = new System.Drawing.Size(103, 400);
             this.xtraTabPage5.Text = "监测数据";
-            // 
-            // popupMenu1
-            // 
-            this.popupMenu1.Name = "popupMenu1";
-            this.popupMenu1.Ribbon = this.ribbon;
             // 
             // ribbonPageGroup6
             // 
             this.ribbonPageGroup6.Name = "ribbonPageGroup6";
             this.ribbonPageGroup6.Text = "系统";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // barCheckItem3
-            // 
-            this.barCheckItem3.Caption = "数据列表";
-            this.barCheckItem3.Id = 19;
-            this.barCheckItem3.Name = "barCheckItem3";
-            this.barCheckItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Location = new System.Drawing.Point(3, 3);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(333, 218);
-            this.groupControl1.TabIndex = 0;
-            this.groupControl1.Text = "原始数据";
-            // 
-            // groupControl2
-            // 
-            this.groupControl2.Location = new System.Drawing.Point(3, 227);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(334, 226);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "工作区";
-            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1506, 636);
-            this.ClientSize = new System.Drawing.Size(1721, 818);
             this.ClientSize = new System.Drawing.Size(1262, 636);
             this.Controls.Add(this.splitContainerControl1);
             this.Controls.Add(this.ribbonStatusBar);
@@ -675,7 +582,6 @@
             this.splitContainerControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage2.ResumeLayout(false);
@@ -683,10 +589,6 @@
             this.splitContainerControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
             this.xtraTabControl2.ResumeLayout(false);
-
-            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
-
-
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -698,7 +600,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
@@ -737,9 +639,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup20;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage5;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage6;
-        private DevExpress.XtraBars.PopupMenu popupMenu1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup21;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup22;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup23;
@@ -756,6 +656,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup32;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup33;
         private DevExpress.XtraBars.BarCheckItem barCheckItem3;
-
+        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
+        private DevExpress.XtraBars.BarStaticItem currentUser;
     }
 }

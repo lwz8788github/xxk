@@ -37,5 +37,9 @@ namespace xxkUI.Bll
             return SiteDal.Instance.Get(id);
         }
 
+        public IEnumerable<SiteBean> GetAll()
+        {
+            return SiteDal.Instance.GetAll();
+        }
     }
 }

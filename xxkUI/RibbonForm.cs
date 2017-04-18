@@ -13,6 +13,7 @@ using System.Configuration;
 using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 
 namespace xxkUI
 {
@@ -72,19 +73,21 @@ namespace xxkUI
             this.gMapCtrl.MinZoom = 1;
             //设置控件当前的缩放比例  
             this.gMapCtrl.Zoom = 13;
-            //创建一个新图层  
-           GMapOverlay routes = new GMapOverlay("routes");
-            GMapOverlay MyMark = new GMapOverlay("MyMark");
-            routes.IsVisibile = true;//可以显示  
-            MyMark.IsVisibile = true;
-            this.gMapCtrl.Overlays.Add(routes);//添加到图层列表中  
-            this.gMapCtrl.Overlays.Add(MyMark);
-        
 
-           // GMapMarker gmm =new G
+            LoadSiteMarker();
 
 
-           
+        }
+
+
+        private void LoadSiteMarker()
+        {
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
+            GMapMarker marker = new GMarkerGoogle(new PointLatLng(48.8617774, 2.349272),GMarkerGoogleType.blue_pushpin);
+
+            SiteOverlay.Markers.Add(marker);
+            gMapCtrl.Overlays.Add(SiteOverlay);
         }
 
         private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)

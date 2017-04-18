@@ -76,11 +76,11 @@
   <ItemGroup>
     <Reference Include="Mono.Data.SqliteClient, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GMap\GMap源码编译引用dll\Mono.Data.SqliteClient.dll</HintPath>
+      <HintPath>..\..\GMap源码编译引用dll\Mono.Data.SqliteClient.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GMap\GMap源码编译引用dll\Mono.Security.dll</HintPath>
+      <HintPath>..\..\GMap源码编译引用dll\Mono.Security.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\References\Windows\MySql.Data.dll</HintPath>
@@ -89,14 +89,14 @@
     </Reference>
     <Reference Include="Npgsql, Version=2.0.11.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GMap\GMap源码编译引用dll\Npgsql.dll</HintPath>
+      <HintPath>..\..\GMap源码编译引用dll\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.SQLite, Version=1.0.84.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <HintPath>C:\Program Files (x86)\System.Data.SQLite\2010\bin\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\GMap源码编译引用dll\System.Data.SQLite.DLL</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>

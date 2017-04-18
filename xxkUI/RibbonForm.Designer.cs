@@ -40,10 +40,23 @@
             this.barCheckItem2 = new DevExpress.XtraBars.BarCheckItem();
             this.barCheckItem3 = new DevExpress.XtraBars.BarCheckItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
-            this.currentUser = new DevExpress.XtraBars.BarStaticItem();
             this.btnZoomin = new DevExpress.XtraBars.BarButtonItem();
             this.btnZoomout = new DevExpress.XtraBars.BarButtonItem();
             this.btnReloadMap = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSysAbout = new DevExpress.XtraBars.BarButtonItem();
+            this.btnHelper = new DevExpress.XtraBars.BarButtonItem();
+            this.btnExit = new DevExpress.XtraBars.BarButtonItem();
+            this.barCheckItem4 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem5 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem6 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem7 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem8 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem9 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem10 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem11 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem12 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem13 = new DevExpress.XtraBars.BarCheckItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -86,20 +99,7 @@
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.btnSysAbout = new DevExpress.XtraBars.BarButtonItem();
-            this.btnHelper = new DevExpress.XtraBars.BarButtonItem();
-            this.btnExit = new DevExpress.XtraBars.BarButtonItem();
-            this.barCheckItem4 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem5 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem6 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem7 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem8 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem9 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem10 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem11 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem12 = new DevExpress.XtraBars.BarCheckItem();
-            this.barCheckItem13 = new DevExpress.XtraBars.BarCheckItem();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
@@ -120,6 +120,7 @@
             // 
             // ribbonStatusBar
             // 
+            this.ribbonStatusBar.ItemLinks.Add(this.currentUserBar);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
             this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
@@ -140,7 +141,6 @@
             this.barCheckItem2,
             this.barCheckItem3,
             this.barHeaderItem1,
-            this.currentUser,
             this.btnZoomin,
             this.btnZoomout,
             this.btnReloadMap,
@@ -157,10 +157,11 @@
             this.barCheckItem11,
             this.barCheckItem12,
             this.barCheckItem13,
-            this.barButtonItem1});
+            this.barButtonItem1,
+            this.currentUserBar});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 40;
+            this.ribbon.MaxItemId = 41;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -232,14 +233,7 @@
             this.barHeaderItem1.Caption = "barHeaderItem1";
             this.barHeaderItem1.Id = 6;
             this.barHeaderItem1.Name = "barHeaderItem1";
-            // 
-            // currentUser
-            // 
-            this.currentUser.Caption = "当前用户:";
-            this.currentUser.Id = 7;
-            this.currentUser.Name = "currentUser";
-            this.currentUser.TextAlignment = System.Drawing.StringAlignment.Near;
-            // 
+                      // 
             // btnZoomin
             // 
             this.btnZoomin.Caption = "缩小";
@@ -263,6 +257,93 @@
             this.btnReloadMap.Name = "btnReloadMap";
             this.btnReloadMap.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnReloadMap.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnReloadMap_ItemClick);
+            // 
+            // btnSysAbout
+            // 
+            this.btnSysAbout.Caption = "关于";
+            this.btnSysAbout.Id = 24;
+            this.btnSysAbout.Name = "btnSysAbout";
+            this.btnSysAbout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // btnHelper
+            // 
+            this.btnHelper.Caption = "帮助";
+            this.btnHelper.Id = 25;
+            this.btnHelper.Name = "btnHelper";
+            this.btnHelper.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Caption = "退出";
+            this.btnExit.Id = 26;
+            this.btnExit.Name = "btnExit";
+            this.btnExit.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // barCheckItem4
+            // 
+            this.barCheckItem4.Caption = "前第四纪活动断裂(隐伏)";
+            this.barCheckItem4.Id = 27;
+            this.barCheckItem4.Name = "barCheckItem4";
+            // 
+            // barCheckItem5
+            // 
+            this.barCheckItem5.Caption = "全新世活动断裂(非隐伏)";
+            this.barCheckItem5.Id = 28;
+            this.barCheckItem5.Name = "barCheckItem5";
+            // 
+            // barCheckItem6
+            // 
+            this.barCheckItem6.Caption = "全新世活动断裂(隐伏)";
+            this.barCheckItem6.Id = 29;
+            this.barCheckItem6.Name = "barCheckItem6";
+            // 
+            // barCheckItem7
+            // 
+            this.barCheckItem7.Caption = "晚更新世活动断裂(非隐伏)";
+            this.barCheckItem7.Id = 31;
+            this.barCheckItem7.Name = "barCheckItem7";
+            // 
+            // barCheckItem8
+            // 
+            this.barCheckItem8.Caption = "晚更新世活动断裂(隐伏)";
+            this.barCheckItem8.Id = 32;
+            this.barCheckItem8.Name = "barCheckItem8";
+            // 
+            // barCheckItem9
+            // 
+            this.barCheckItem9.Caption = "早第四纪活动断裂(Q12)(非隐伏)";
+            this.barCheckItem9.Id = 33;
+            this.barCheckItem9.Name = "barCheckItem9";
+            // 
+            // barCheckItem10
+            // 
+            this.barCheckItem10.Caption = "早第四纪活动断裂(Q12)(隐伏)";
+            this.barCheckItem10.Id = 34;
+            this.barCheckItem10.Name = "barCheckItem10";
+            // 
+            // barCheckItem11
+            // 
+            this.barCheckItem11.Caption = "早第四纪活动断裂(Q1)(非隐伏)";
+            this.barCheckItem11.Id = 35;
+            this.barCheckItem11.Name = "barCheckItem11";
+            // 
+            // barCheckItem12
+            // 
+            this.barCheckItem12.Caption = "早第四纪活动断裂(Q1)(隐伏)";
+            this.barCheckItem12.Id = 36;
+            this.barCheckItem12.Name = "barCheckItem12";
+            // 
+            // barCheckItem13
+            // 
+            this.barCheckItem13.Caption = "早第四纪活动断裂(Q2)(非隐伏)";
+            this.barCheckItem13.Id = 37;
+            this.barCheckItem13.Name = "barCheckItem13";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "早第四纪活动断裂(Q2)(隐伏)";
+            this.barButtonItem1.Id = 38;
+            this.barButtonItem1.Name = "barButtonItem1";
             // 
             // ribbonPage1
             // 
@@ -628,92 +709,12 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(856, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
-            // btnSysAbout
+            // currentUserBar
             // 
-            this.btnSysAbout.Caption = "关于";
-            this.btnSysAbout.Id = 24;
-            this.btnSysAbout.Name = "btnSysAbout";
-            this.btnSysAbout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // btnHelper
-            // 
-            this.btnHelper.Caption = "帮助";
-            this.btnHelper.Id = 25;
-            this.btnHelper.Name = "btnHelper";
-            this.btnHelper.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // btnExit
-            // 
-            this.btnExit.Caption = "退出";
-            this.btnExit.Id = 26;
-            this.btnExit.Name = "btnExit";
-            this.btnExit.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // barCheckItem4
-            // 
-            this.barCheckItem4.Caption = "前第四纪活动断裂(隐伏)";
-            this.barCheckItem4.Id = 27;
-            this.barCheckItem4.Name = "barCheckItem4";
-            // 
-            // barCheckItem5
-            // 
-            this.barCheckItem5.Caption = "全新世活动断裂(非隐伏)";
-            this.barCheckItem5.Id = 28;
-            this.barCheckItem5.Name = "barCheckItem5";
-            // 
-            // barCheckItem6
-            // 
-            this.barCheckItem6.Caption = "全新世活动断裂(隐伏)";
-            this.barCheckItem6.Id = 29;
-            this.barCheckItem6.Name = "barCheckItem6";
-            // 
-            // barCheckItem7
-            // 
-            this.barCheckItem7.Caption = "晚更新世活动断裂(非隐伏)";
-            this.barCheckItem7.Id = 31;
-            this.barCheckItem7.Name = "barCheckItem7";
-            // 
-            // barCheckItem8
-            // 
-            this.barCheckItem8.Caption = "晚更新世活动断裂(隐伏)";
-            this.barCheckItem8.Id = 32;
-            this.barCheckItem8.Name = "barCheckItem8";
-            // 
-            // barCheckItem9
-            // 
-            this.barCheckItem9.Caption = "早第四纪活动断裂(Q12)(非隐伏)";
-            this.barCheckItem9.Id = 33;
-            this.barCheckItem9.Name = "barCheckItem9";
-            // 
-            // barCheckItem10
-            // 
-            this.barCheckItem10.Caption = "早第四纪活动断裂(Q12)(隐伏)";
-            this.barCheckItem10.Id = 34;
-            this.barCheckItem10.Name = "barCheckItem10";
-            // 
-            // barCheckItem11
-            // 
-            this.barCheckItem11.Caption = "早第四纪活动断裂(Q1)(非隐伏)";
-            this.barCheckItem11.Id = 35;
-            this.barCheckItem11.Name = "barCheckItem11";
-            // 
-            // barCheckItem12
-            // 
-            this.barCheckItem12.Caption = "早第四纪活动断裂(Q1)(隐伏)";
-            this.barCheckItem12.Id = 36;
-            this.barCheckItem12.Name = "barCheckItem12";
-            // 
-            // barCheckItem13
-            // 
-            this.barCheckItem13.Caption = "早第四纪活动断裂(Q2)(非隐伏)";
-            this.barCheckItem13.Id = 37;
-            this.barCheckItem13.Name = "barCheckItem13";
-            // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "早第四纪活动断裂(Q2)(隐伏)";
-            this.barButtonItem1.Id = 38;
-            this.barButtonItem1.Name = "barButtonItem1";
+            this.currentUserBar.Caption = "当前用户：";
+            this.currentUserBar.Id = 40;
+            this.currentUserBar.Name = "currentUserBar";
+            this.currentUserBar.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // RibbonForm
             // 
@@ -764,7 +765,7 @@
         private DevExpress.XtraBars.BarCheckItem barCheckItem2;
         private DevExpress.XtraBars.BarCheckItem barCheckItem3;
         private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
-        private DevExpress.XtraBars.BarStaticItem currentUser;
+     
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
@@ -825,5 +826,6 @@
         private DevExpress.XtraBars.BarCheckItem barCheckItem12;
         private DevExpress.XtraBars.BarCheckItem barCheckItem13;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarStaticItem currentUserBar;
     }
 }

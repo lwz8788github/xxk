@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
@@ -39,6 +41,9 @@
             this.barCheckItem3 = new DevExpress.XtraBars.BarCheckItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
             this.currentUser = new DevExpress.XtraBars.BarStaticItem();
+            this.btnZoomin = new DevExpress.XtraBars.BarButtonItem();
+            this.btnZoomout = new DevExpress.XtraBars.BarButtonItem();
+            this.btnReloadMap = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -62,47 +67,64 @@
             this.ribbonPageGroup18 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup19 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup20 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPage5 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroup21 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup22 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup23 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup24 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup25 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup26 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup27 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup28 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup29 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup30 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup31 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPage6 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroup32 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup33 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
-            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
-            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.splitContainerControl2 = new DevExpress.XtraEditors.SplitContainerControl();
+            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
+            this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
+            this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
-            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
+            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
+            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.btnSysAbout = new DevExpress.XtraBars.BarButtonItem();
+            this.btnHelper = new DevExpress.XtraBars.BarButtonItem();
+            this.btnExit = new DevExpress.XtraBars.BarButtonItem();
+            this.barCheckItem4 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem5 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem6 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem7 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem8 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem9 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem10 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem11 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem12 = new DevExpress.XtraBars.BarCheckItem();
+            this.barCheckItem13 = new DevExpress.XtraBars.BarCheckItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
-            this.splitContainerControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
-            this.xtraTabControl1.SuspendLayout();
-            this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl2)).BeginInit();
-            this.splitContainerControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
+            this.panelContainer1.SuspendLayout();
+            this.dockPanelWorkSpace.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
+            this.dockPanelOriData.SuspendLayout();
+            this.dockPanel3_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
+            this.dockPanel2.SuspendLayout();
+            this.dockPanel2_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
             this.xtraTabControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
+            this.xtraTabControl1.SuspendLayout();
+            this.xtraTabPage1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // ribbonStatusBar
+            // 
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
+            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ribbonStatusBar.Name = "ribbonStatusBar";
+            this.ribbonStatusBar.Ribbon = this.ribbon;
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1262, 31);
             // 
             // ribbon
             // 
@@ -118,18 +140,33 @@
             this.barCheckItem2,
             this.barCheckItem3,
             this.barHeaderItem1,
-            this.currentUser});
+            this.currentUser,
+            this.btnZoomin,
+            this.btnZoomout,
+            this.btnReloadMap,
+            this.btnSysAbout,
+            this.btnHelper,
+            this.btnExit,
+            this.barCheckItem4,
+            this.barCheckItem5,
+            this.barCheckItem6,
+            this.barCheckItem7,
+            this.barCheckItem8,
+            this.barCheckItem9,
+            this.barCheckItem10,
+            this.barCheckItem11,
+            this.barCheckItem12,
+            this.barCheckItem13,
+            this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 8;
+            this.ribbon.MaxItemId = 40;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
             this.ribbonPage2,
             this.ribbonPage3,
-            this.ribbonPage4,
-            this.ribbonPage5,
-            this.ribbonPage6});
+            this.ribbonPage4});
             this.ribbon.Size = new System.Drawing.Size(1262, 147);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
@@ -203,6 +240,30 @@
             this.currentUser.Name = "currentUser";
             this.currentUser.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
+            // btnZoomin
+            // 
+            this.btnZoomin.Caption = "缩小";
+            this.btnZoomin.Id = 19;
+            this.btnZoomin.Name = "btnZoomin";
+            this.btnZoomin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnZoomin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnZoomin_ItemClick);
+            // 
+            // btnZoomout
+            // 
+            this.btnZoomout.Caption = "放大";
+            this.btnZoomout.Id = 20;
+            this.btnZoomout.Name = "btnZoomout";
+            this.btnZoomout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnZoomout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnZoomout_ItemClick);
+            // 
+            // btnReloadMap
+            // 
+            this.btnReloadMap.Caption = "重载";
+            this.btnReloadMap.Id = 21;
+            this.btnReloadMap.Name = "btnReloadMap";
+            this.btnReloadMap.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnReloadMap.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnReloadMap_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -241,6 +302,9 @@
             // 
             // ribbonPageGroup5
             // 
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnSysAbout);
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnHelper);
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnExit);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.Text = "系统";
             // 
@@ -329,10 +393,13 @@
             this.ribbonPageGroup19,
             this.ribbonPageGroup20});
             this.ribbonPage4.Name = "ribbonPage4";
-            this.ribbonPage4.Text = "工具";
+            this.ribbonPage4.Text = "地图工具";
             // 
             // ribbonPageGroup18
             // 
+            this.ribbonPageGroup18.ItemLinks.Add(this.btnZoomout);
+            this.ribbonPageGroup18.ItemLinks.Add(this.btnZoomin);
+            this.ribbonPageGroup18.ItemLinks.Add(this.btnReloadMap);
             this.ribbonPageGroup18.Name = "ribbonPageGroup18";
             this.ribbonPageGroup18.Text = "工具栏";
             // 
@@ -346,183 +413,129 @@
             // 
             // ribbonPageGroup20
             // 
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem4);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem5);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem6);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem7);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem8);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem9);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem10);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem11);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem12);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barCheckItem13);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem1);
             this.ribbonPageGroup20.Name = "ribbonPageGroup20";
-            this.ribbonPageGroup20.Text = "显示/隐藏元素";
+            this.ribbonPageGroup20.Text = "断层数据";
             // 
-            // ribbonPage5
+            // ribbonPageGroup6
             // 
-            this.ribbonPage5.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup21,
-            this.ribbonPageGroup22,
-            this.ribbonPageGroup23,
-            this.ribbonPageGroup24,
-            this.ribbonPageGroup25,
-            this.ribbonPageGroup26,
-            this.ribbonPageGroup27,
-            this.ribbonPageGroup28,
-            this.ribbonPageGroup29,
-            this.ribbonPageGroup30,
-            this.ribbonPageGroup31});
-            this.ribbonPage5.Name = "ribbonPage5";
-            this.ribbonPage5.Text = "断层";
+            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
+            this.ribbonPageGroup6.Text = "系统";
             // 
-            // ribbonPageGroup21
+            // dockManager
             // 
-            this.ribbonPageGroup21.Name = "ribbonPageGroup21";
-            this.ribbonPageGroup21.Text = "前第四纪活动断裂(隐伏)";
+            this.dockManager.Form = this;
+            this.dockManager.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
+            this.panelContainer1,
+            this.dockPanel2});
+            this.dockManager.TopZIndexControls.AddRange(new string[] {
+            "DevExpress.XtraBars.BarDockControl",
+            "DevExpress.XtraBars.StandaloneBarDockControl",
+            "System.Windows.Forms.StatusBar",
+            "System.Windows.Forms.MenuStrip",
+            "System.Windows.Forms.StatusStrip",
+            "DevExpress.XtraBars.Ribbon.RibbonStatusBar",
+            "DevExpress.XtraBars.Ribbon.RibbonControl",
+            "DevExpress.XtraBars.Navigation.OfficeNavigationBar",
+            "DevExpress.XtraBars.Navigation.TileNavPane",
+            "DevExpress.XtraBars.TabFormControl"});
             // 
-            // ribbonPageGroup22
+            // panelContainer1
             // 
-            this.ribbonPageGroup22.Name = "ribbonPageGroup22";
-            this.ribbonPageGroup22.Text = "全新世活动断裂(非隐伏)";
+            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
+            this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
+            this.panelContainer1.Controls.Add(this.dockPanelOriData);
+            this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
+            this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
+            this.panelContainer1.Location = new System.Drawing.Point(0, 147);
+            this.panelContainer1.Name = "panelContainer1";
+            this.panelContainer1.OriginalSize = new System.Drawing.Size(200, 200);
+            this.panelContainer1.Size = new System.Drawing.Size(200, 458);
+            this.panelContainer1.Tabbed = true;
+            this.panelContainer1.Text = "panelContainer1";
             // 
-            // ribbonPageGroup23
+            // dockPanelWorkSpace
             // 
-            this.ribbonPageGroup23.Name = "ribbonPageGroup23";
-            this.ribbonPageGroup23.Text = "全新世活动断裂(隐伏)";
+            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
+            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(200, 200);
+            this.dockPanelWorkSpace.Size = new System.Drawing.Size(191, 403);
+            this.dockPanelWorkSpace.Text = "工作区";
             // 
-            // ribbonPageGroup24
+            // dockPanel1_Container
             // 
-            this.ribbonPageGroup24.Name = "ribbonPageGroup24";
-            this.ribbonPageGroup24.Text = "晚更新世活动断裂(非隐伏)";
+            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(191, 403);
+            this.dockPanel1_Container.TabIndex = 0;
             // 
-            // ribbonPageGroup25
+            // treeListWorkSpace
             // 
-            this.ribbonPageGroup25.Name = "ribbonPageGroup25";
-            this.ribbonPageGroup25.Text = "晚更新世活动断裂(隐伏)";
+            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
+            this.treeListWorkSpace.Name = "treeListWorkSpace";
+            this.treeListWorkSpace.Size = new System.Drawing.Size(191, 403);
+            this.treeListWorkSpace.TabIndex = 16;
             // 
-            // ribbonPageGroup26
+            // dockPanelOriData
             // 
-            this.ribbonPageGroup26.Name = "ribbonPageGroup26";
-            this.ribbonPageGroup26.Text = "早第四纪活动断裂(Q12)(非隐伏)";
+            this.dockPanelOriData.Controls.Add(this.dockPanel3_Container);
+            this.dockPanelOriData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
+            this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelOriData.Name = "dockPanelOriData";
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(200, 200);
+            this.dockPanelOriData.Size = new System.Drawing.Size(191, 403);
+            this.dockPanelOriData.Text = "原始数据";
             // 
-            // ribbonPageGroup27
+            // dockPanel3_Container
             // 
-            this.ribbonPageGroup27.Name = "ribbonPageGroup27";
-            this.ribbonPageGroup27.Text = "早第四纪活动断裂(Q12)(隐伏)";
+            this.dockPanel3_Container.Controls.Add(this.treeListOriData);
+            this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel3_Container.Name = "dockPanel3_Container";
+            this.dockPanel3_Container.Size = new System.Drawing.Size(191, 403);
+            this.dockPanel3_Container.TabIndex = 0;
             // 
-            // ribbonPageGroup28
+            // treeListOriData
             // 
-            this.ribbonPageGroup28.Name = "ribbonPageGroup28";
-            this.ribbonPageGroup28.Text = "早第四纪活动断裂(Q1)(非隐伏)";
+            this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListOriData.Location = new System.Drawing.Point(0, 0);
+            this.treeListOriData.Name = "treeListOriData";
+            this.treeListOriData.Size = new System.Drawing.Size(191, 403);
+            this.treeListOriData.TabIndex = 0;
             // 
-            // ribbonPageGroup29
+            // dockPanel2
             // 
-            this.ribbonPageGroup29.Name = "ribbonPageGroup29";
-            this.ribbonPageGroup29.Text = "早第四纪活动断裂(Q1)(隐伏)";
+            this.dockPanel2.Controls.Add(this.dockPanel2_Container);
+            this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
+            this.dockPanel2.ID = new System.Guid("49e93dec-f66c-46cb-8053-1cfec0a03c09");
+            this.dockPanel2.Location = new System.Drawing.Point(1062, 147);
+            this.dockPanel2.Name = "dockPanel2";
+            this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 200);
+            this.dockPanel2.Size = new System.Drawing.Size(200, 458);
+            this.dockPanel2.Text = "数据表";
             // 
-            // ribbonPageGroup30
+            // dockPanel2_Container
             // 
-            this.ribbonPageGroup30.Name = "ribbonPageGroup30";
-            this.ribbonPageGroup30.Text = "早第四纪活动断裂(Q2)(非隐伏)";
-            // 
-            // ribbonPageGroup31
-            // 
-            this.ribbonPageGroup31.Name = "ribbonPageGroup31";
-            this.ribbonPageGroup31.Text = "早第四纪活动断裂(Q2)(隐伏)";
-            // 
-            // ribbonPage6
-            // 
-            this.ribbonPage6.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup32,
-            this.ribbonPageGroup33});
-            this.ribbonPage6.Name = "ribbonPage6";
-            this.ribbonPage6.Text = "帮助";
-            // 
-            // ribbonPageGroup32
-            // 
-            this.ribbonPageGroup32.Name = "ribbonPageGroup32";
-            this.ribbonPageGroup32.Text = "关于本系统";
-            // 
-            // ribbonPageGroup33
-            // 
-            this.ribbonPageGroup33.Name = "ribbonPageGroup33";
-            this.ribbonPageGroup33.Text = "系统操作说明";
-            // 
-            // ribbonStatusBar
-            // 
-            this.ribbonStatusBar.ItemLinks.Add(this.currentUser);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
-            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbonStatusBar.Name = "ribbonStatusBar";
-            this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1262, 31);
-            // 
-            // splitContainerControl1
-            // 
-            this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerControl1.Location = new System.Drawing.Point(0, 147);
-            this.splitContainerControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainerControl1.Name = "splitContainerControl1";
-            this.splitContainerControl1.Panel1.Controls.Add(this.groupControl2);
-            this.splitContainerControl1.Panel1.Controls.Add(this.groupControl1);
-            this.splitContainerControl1.Panel1.Text = "Panel1";
-            this.splitContainerControl1.Panel2.Controls.Add(this.xtraTabControl1);
-            this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(1262, 458);
-            this.splitContainerControl1.SplitterPosition = 385;
-            this.splitContainerControl1.TabIndex = 3;
-            this.splitContainerControl1.Text = "splitContainerControl1";
-            // 
-            // groupControl2
-            // 
-            this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(0, 337);
-            this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(385, 121);
-            this.groupControl2.TabIndex = 1;
-            this.groupControl2.Text = "工作区";
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupControl1.Location = new System.Drawing.Point(0, 0);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(385, 337);
-            this.groupControl1.TabIndex = 0;
-            this.groupControl1.Text = "原始数据";
-            // 
-            // xtraTabControl1
-            // 
-            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(0, 0);
-            this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabControl1.Name = "xtraTabControl1";
-            this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(872, 458);
-            this.xtraTabControl1.TabIndex = 0;
-            this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage1,
-            this.xtraTabPage2});
-            // 
-            // xtraTabPage1
-            // 
-            this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(866, 429);
-            this.xtraTabPage1.Text = "场地分布";
-            // 
-            // xtraTabPage2
-            // 
-            this.xtraTabPage2.Controls.Add(this.splitContainerControl2);
-            this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(866, 429);
-            this.xtraTabPage2.Text = "监测数据";
-            // 
-            // splitContainerControl2
-            // 
-            this.splitContainerControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerControl2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainerControl2.Name = "splitContainerControl2";
-            this.splitContainerControl2.Panel1.Text = "Panel1";
-            this.splitContainerControl2.Panel2.Controls.Add(this.xtraTabControl2);
-            this.splitContainerControl2.Panel2.Text = "Panel2";
-            this.splitContainerControl2.Size = new System.Drawing.Size(866, 429);
-            this.splitContainerControl2.SplitterPosition = 752;
-            this.splitContainerControl2.TabIndex = 0;
-            this.splitContainerControl2.Text = "splitContainerControl2";
+            this.dockPanel2_Container.Controls.Add(this.xtraTabControl2);
+            this.dockPanel2_Container.Location = new System.Drawing.Point(5, 23);
+            this.dockPanel2_Container.Name = "dockPanel2_Container";
+            this.dockPanel2_Container.Size = new System.Drawing.Size(191, 431);
+            this.dockPanel2_Container.TabIndex = 0;
             // 
             // xtraTabControl2
             // 
@@ -531,8 +544,8 @@
             this.xtraTabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl2.Name = "xtraTabControl2";
             this.xtraTabControl2.SelectedTabPage = this.xtraTabPage3;
-            this.xtraTabControl2.Size = new System.Drawing.Size(109, 429);
-            this.xtraTabControl2.TabIndex = 0;
+            this.xtraTabControl2.Size = new System.Drawing.Size(191, 431);
+            this.xtraTabControl2.TabIndex = 12;
             this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage3,
             this.xtraTabPage4,
@@ -542,34 +555,174 @@
             // 
             this.xtraTabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(103, 400);
+            this.xtraTabPage3.Size = new System.Drawing.Size(185, 402);
             this.xtraTabPage3.Text = "历史地震";
             // 
             // xtraTabPage4
             // 
             this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(103, 400);
+            this.xtraTabPage4.Size = new System.Drawing.Size(185, 402);
             this.xtraTabPage4.Text = "属性";
             // 
             // xtraTabPage5
             // 
             this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage5.Name = "xtraTabPage5";
-            this.xtraTabPage5.Size = new System.Drawing.Size(103, 400);
+            this.xtraTabPage5.Size = new System.Drawing.Size(185, 402);
             this.xtraTabPage5.Text = "监测数据";
             // 
-            // ribbonPageGroup6
+            // xtraTabControl1
             // 
-            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
-            this.ribbonPageGroup6.Text = "系统";
+            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xtraTabControl1.Location = new System.Drawing.Point(200, 147);
+            this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xtraTabControl1.Name = "xtraTabControl1";
+            this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
+            this.xtraTabControl1.Size = new System.Drawing.Size(862, 458);
+            this.xtraTabControl1.TabIndex = 10;
+            this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.xtraTabPage1,
+            this.xtraTabPage2});
+            // 
+            // xtraTabPage1
+            // 
+            this.xtraTabPage1.Controls.Add(this.gMapCtrl);
+            this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xtraTabPage1.Name = "xtraTabPage1";
+            this.xtraTabPage1.Size = new System.Drawing.Size(856, 429);
+            this.xtraTabPage1.Text = "场地分布";
+            // 
+            // gMapCtrl
+            // 
+            this.gMapCtrl.Bearing = 0F;
+            this.gMapCtrl.CanDragMap = true;
+            this.gMapCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gMapCtrl.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapCtrl.GrayScaleMode = false;
+            this.gMapCtrl.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapCtrl.LevelsKeepInMemmory = 5;
+            this.gMapCtrl.Location = new System.Drawing.Point(0, 0);
+            this.gMapCtrl.MarkersEnabled = true;
+            this.gMapCtrl.MaxZoom = 2;
+            this.gMapCtrl.MinZoom = 2;
+            this.gMapCtrl.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapCtrl.Name = "gMapCtrl";
+            this.gMapCtrl.NegativeMode = false;
+            this.gMapCtrl.PolygonsEnabled = true;
+            this.gMapCtrl.RetryLoadTile = 0;
+            this.gMapCtrl.RoutesEnabled = true;
+            this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapCtrl.ShowTileGridLines = false;
+            this.gMapCtrl.Size = new System.Drawing.Size(856, 429);
+            this.gMapCtrl.TabIndex = 0;
+            this.gMapCtrl.Zoom = 0D;
+            this.gMapCtrl.Load += new System.EventHandler(this.gMapCtrl_Load);
+            this.gMapCtrl.DoubleClick += new System.EventHandler(this.gMapCtrl_DoubleClick);
+            // 
+            // xtraTabPage2
+            // 
+            this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xtraTabPage2.Name = "xtraTabPage2";
+            this.xtraTabPage2.Size = new System.Drawing.Size(856, 429);
+            this.xtraTabPage2.Text = "监测数据";
+            // 
+            // btnSysAbout
+            // 
+            this.btnSysAbout.Caption = "关于";
+            this.btnSysAbout.Id = 24;
+            this.btnSysAbout.Name = "btnSysAbout";
+            this.btnSysAbout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // btnHelper
+            // 
+            this.btnHelper.Caption = "帮助";
+            this.btnHelper.Id = 25;
+            this.btnHelper.Name = "btnHelper";
+            this.btnHelper.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Caption = "退出";
+            this.btnExit.Id = 26;
+            this.btnExit.Name = "btnExit";
+            this.btnExit.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // barCheckItem4
+            // 
+            this.barCheckItem4.Caption = "前第四纪活动断裂(隐伏)";
+            this.barCheckItem4.Id = 27;
+            this.barCheckItem4.Name = "barCheckItem4";
+            // 
+            // barCheckItem5
+            // 
+            this.barCheckItem5.Caption = "全新世活动断裂(非隐伏)";
+            this.barCheckItem5.Id = 28;
+            this.barCheckItem5.Name = "barCheckItem5";
+            // 
+            // barCheckItem6
+            // 
+            this.barCheckItem6.Caption = "全新世活动断裂(隐伏)";
+            this.barCheckItem6.Id = 29;
+            this.barCheckItem6.Name = "barCheckItem6";
+            // 
+            // barCheckItem7
+            // 
+            this.barCheckItem7.Caption = "晚更新世活动断裂(非隐伏)";
+            this.barCheckItem7.Id = 31;
+            this.barCheckItem7.Name = "barCheckItem7";
+            // 
+            // barCheckItem8
+            // 
+            this.barCheckItem8.Caption = "晚更新世活动断裂(隐伏)";
+            this.barCheckItem8.Id = 32;
+            this.barCheckItem8.Name = "barCheckItem8";
+            // 
+            // barCheckItem9
+            // 
+            this.barCheckItem9.Caption = "早第四纪活动断裂(Q12)(非隐伏)";
+            this.barCheckItem9.Id = 33;
+            this.barCheckItem9.Name = "barCheckItem9";
+            // 
+            // barCheckItem10
+            // 
+            this.barCheckItem10.Caption = "早第四纪活动断裂(Q12)(隐伏)";
+            this.barCheckItem10.Id = 34;
+            this.barCheckItem10.Name = "barCheckItem10";
+            // 
+            // barCheckItem11
+            // 
+            this.barCheckItem11.Caption = "早第四纪活动断裂(Q1)(非隐伏)";
+            this.barCheckItem11.Id = 35;
+            this.barCheckItem11.Name = "barCheckItem11";
+            // 
+            // barCheckItem12
+            // 
+            this.barCheckItem12.Caption = "早第四纪活动断裂(Q1)(隐伏)";
+            this.barCheckItem12.Id = 36;
+            this.barCheckItem12.Name = "barCheckItem12";
+            // 
+            // barCheckItem13
+            // 
+            this.barCheckItem13.Caption = "早第四纪活动断裂(Q2)(非隐伏)";
+            this.barCheckItem13.Id = 37;
+            this.barCheckItem13.Name = "barCheckItem13";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "早第四纪活动断裂(Q2)(隐伏)";
+            this.barButtonItem1.Id = 38;
+            this.barButtonItem1.Name = "barButtonItem1";
             // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 636);
-            this.Controls.Add(this.splitContainerControl1);
+            this.Controls.Add(this.xtraTabControl1);
+            this.Controls.Add(this.dockPanel2);
+            this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -578,49 +731,47 @@
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "跨断层流动形变数据与信息库";
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
-            this.splitContainerControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
-            this.xtraTabControl1.ResumeLayout(false);
-            this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl2)).EndInit();
-            this.splitContainerControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
+            this.panelContainer1.ResumeLayout(false);
+            this.dockPanelWorkSpace.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
+            this.dockPanelOriData.ResumeLayout(false);
+            this.dockPanel3_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
+            this.dockPanel2.ResumeLayout(false);
+            this.dockPanel2_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
             this.xtraTabControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
+            this.xtraTabControl1.ResumeLayout(false);
+            this.xtraTabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
+        private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem1;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem2;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem3;
+        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
+        private DevExpress.XtraBars.BarStaticItem currentUser;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage2;
-        private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
-        private DevExpress.XtraEditors.SplitContainerControl splitContainerControl2;
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl2;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage5;
-        private DevExpress.XtraEditors.GroupControl groupControl2;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup7;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup8;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup9;
@@ -637,26 +788,41 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup18;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup19;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup20;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage5;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage6;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup21;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup22;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup23;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup24;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup25;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup26;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup27;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup28;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup29;
-        private DevExpress.XtraBars.BarCheckItem barCheckItem1;
-        private DevExpress.XtraBars.BarCheckItem barCheckItem2;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup30;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup31;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup32;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup33;
-        private DevExpress.XtraBars.BarCheckItem barCheckItem3;
-        private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
-        private DevExpress.XtraBars.BarStaticItem currentUser;
+        private DevExpress.XtraBars.Docking.DockManager dockManager;
+        private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
+    
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
+        private DevExpress.XtraBars.Docking.DockPanel dockPanel2;
+        private DevExpress.XtraBars.Docking.ControlContainer dockPanel2_Container;
+        private DevExpress.XtraBars.Docking.DockPanel dockPanelOriData;
+        private DevExpress.XtraBars.Docking.ControlContainer dockPanel3_Container;
+        private DevExpress.XtraTab.XtraTabControl xtraTabControl2;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
+        private DevExpress.XtraTab.XtraTabPage xtraTabPage5;
+        private DevExpress.XtraBars.Docking.DockPanel panelContainer1;
+        private DevExpress.XtraBars.Docking.DockPanel dockPanelWorkSpace;
+        private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
+        private DevExpress.XtraTreeList.TreeList treeListWorkSpace;
+        private DevExpress.XtraTreeList.TreeList treeListOriData;
+        private GMap.NET.WindowsForms.GMapControl gMapCtrl;
+        private DevExpress.XtraBars.BarButtonItem btnZoomin;
+        private DevExpress.XtraBars.BarButtonItem btnZoomout;
+        private DevExpress.XtraBars.BarButtonItem btnReloadMap;
+        private DevExpress.XtraBars.BarButtonItem btnSysAbout;
+        private DevExpress.XtraBars.BarButtonItem btnHelper;
+        private DevExpress.XtraBars.BarButtonItem btnExit;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem4;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem5;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem6;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem7;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem8;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem9;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem10;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem11;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem12;
+        private DevExpress.XtraBars.BarCheckItem barCheckItem13;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
     }
 }

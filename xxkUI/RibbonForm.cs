@@ -19,10 +19,6 @@ namespace xxkUI
             InitializeComponent();
         }
 
-        private void treeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
-        {
-
-        }
 
         private void btnLogin_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -37,5 +33,7 @@ namespace xxkUI
                 return;
             }
         }
+
+
     }
 }

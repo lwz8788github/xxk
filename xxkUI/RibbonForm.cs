@@ -24,9 +24,14 @@ namespace xxkUI
             GmapInit();
         }
 
-
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLogin_ItemClick(object sender, ItemClickEventArgs e)
         {
+            
             Login lg = new Login();
         
             if (lg.ShowDialog() == DialogResult.OK)

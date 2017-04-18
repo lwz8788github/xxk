@@ -18,6 +18,9 @@ using GMap.NET.WindowsForms.Markers;
 using System.Collections;
 
 using xxkUI.Bll;
+using DevExpress.XtraTreeList.Nodes;
+using xxkUI.Model;
+using xxkUI.BLL;
 
 namespace xxkUI
 {
@@ -26,7 +29,8 @@ namespace xxkUI
         public RibbonForm()
         {
             InitializeComponent();
-            GmapInit();
+          
+            InitOriDataTree();
         }
 
         /// <summary>
@@ -50,10 +54,7 @@ namespace xxkUI
         }
 
 
-        private void GmapInit()
-        {
-     
-        }
+    
 
        
 
@@ -92,9 +93,9 @@ namespace xxkUI
             {
                 GMapMarker marker = null;
 
-                if (sb.SiteType == "L")
+                if (sb.SiteCode.Substring(0,1) == "L")
                     marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_pushpin);
-                else if (sb.SiteType == "D")
+                else if (sb.SiteCode.Substring(0, 1) == "D")
                     marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_pushpin);
 
                 SiteOverlay.Markers.Add(marker);
@@ -121,13 +122,40 @@ namespace xxkUI
 
         private void InitOriDataTree()
         {
-            IEnumerable<SiteBean> sblist = null;
+            
+            List<TreeBean> treelist = new List<TreeBean>();
+            IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+           
+            foreach (UnitInfoBean sb in ubEnumt)
+            {
+                TreeBean tb = new TreeBean();
+                tb.KeyFieldName = sb.UnitCode;
+                tb.ParentFieldName = "0";
+                tb.Caption = sb.UnitName;
+                tb.SiteType = "";
+                tb.SiteStatus = "";
+                treelist.Add(tb);
+            }
 
+            IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+            foreach (SiteBean sb in sbEnumt)
+            {
+                TreeBean tb = new TreeBean();
+                tb.KeyFieldName = sb.SiteCode;
+                tb.ParentFieldName = sb.UnitCode;
+                tb.Caption = sb.SiteName;
+                tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                tb.SiteStatus = sb.SiteStatus=="0"?"正常":(sb.SiteStatus=="1"?"废弃":"改造中");
+                treelist.Add(tb);
+            }
 
-            this.treeListOriData.KeyFieldName = "SiteCode";　　　　      //这里绑定的ID的值必须是独一无二的
-            this.treeListOriData.ParentFieldName = "UnitCode";　　//表示使用parentID进行树形绑定
-            this.treeListOriData.DataSource = sblist;　　//绑定数据源
+            this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+            this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+   
+            this.treeListOriData.DataSource = treelist;　　//绑定数据源
             this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+            this.treeListOriData.OptionsView.ShowCheckBoxes = true;
+
 		}
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {

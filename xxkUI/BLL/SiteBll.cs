@@ -41,5 +41,8 @@ namespace xxkUI.Bll
         {
             return SiteDal.Instance.GetAll();
         }
+
+
+  
     }
 }

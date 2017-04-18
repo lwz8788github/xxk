@@ -14,6 +14,9 @@ using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+
+using System.Collections;
+
 using xxkUI.Bll;
 
 namespace xxkUI
@@ -115,6 +118,17 @@ namespace xxkUI
             this.gMapCtrl.ReloadMap();
         }
 
+
+        private void InitOriDataTree()
+        {
+            IEnumerable<SiteBean> sblist = null;
+
+
+            this.treeListOriData.KeyFieldName = "SiteCode";　　　　      //这里绑定的ID的值必须是独一无二的
+            this.treeListOriData.ParentFieldName = "UnitCode";　　//表示使用parentID进行树形绑定
+            this.treeListOriData.DataSource = sblist;　　//绑定数据源
+            this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+		}
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             this.gMapCtrl.Zoom += 1;

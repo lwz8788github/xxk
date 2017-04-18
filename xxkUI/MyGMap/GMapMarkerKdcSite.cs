@@ -5,7 +5,7 @@ using System.Text;
 using GMap.NET;
 
 
-namespace xxkUI.GMap
+namespace xxkUI.MyGMap
 {
     public class GMapMarkerKdcSite    {
        

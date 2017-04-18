@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
-
             this.currentLocation = new DevExpress.XtraBars.BarStaticItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
@@ -89,6 +88,9 @@
             this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
@@ -558,8 +560,8 @@
             this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
             this.panelContainer1.Location = new System.Drawing.Point(0, 147);
             this.panelContainer1.Name = "panelContainer1";
-            this.panelContainer1.OriginalSize = new System.Drawing.Size(200, 200);
-            this.panelContainer1.Size = new System.Drawing.Size(200, 458);
+            this.panelContainer1.OriginalSize = new System.Drawing.Size(261, 200);
+            this.panelContainer1.Size = new System.Drawing.Size(261, 458);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
             // 
@@ -570,8 +572,8 @@
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
             this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
             this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanelOriData.Size = new System.Drawing.Size(191, 403);
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(191, 403);
+            this.dockPanelOriData.Size = new System.Drawing.Size(252, 403);
             this.dockPanelOriData.Text = "原始数据";
             // 
             // dockPanel3_Container
@@ -579,18 +581,60 @@
             this.dockPanel3_Container.Controls.Add(this.treeListOriData);
             this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
             this.dockPanel3_Container.Name = "dockPanel3_Container";
-            this.dockPanel3_Container.Size = new System.Drawing.Size(191, 403);
+            this.dockPanel3_Container.Size = new System.Drawing.Size(252, 403);
             this.dockPanel3_Container.TabIndex = 0;
             // 
             // treeListOriData
             // 
+            this.treeListOriData.AppearancePrint.OddRow.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.treeListOriData.AppearancePrint.OddRow.Options.UseBackColor = true;
+            this.treeListOriData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn1,
+            this.treeListColumn2,
+            this.treeListColumn3});
+            this.treeListOriData.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListOriData.KeyFieldName = "";
             this.treeListOriData.Location = new System.Drawing.Point(0, 0);
             this.treeListOriData.Name = "treeListOriData";
+            this.treeListOriData.OptionsSelection.MultiSelect = true;
             this.treeListOriData.ParentFieldName = "";
-            this.treeListOriData.Size = new System.Drawing.Size(191, 403);
+            this.treeListOriData.Size = new System.Drawing.Size(252, 403);
             this.treeListOriData.TabIndex = 0;
+            // 
+            // treeListColumn1
+            // 
+            this.treeListColumn1.Caption = "场地";
+            this.treeListColumn1.FieldName = "Caption";
+            this.treeListColumn1.Name = "treeListColumn1";
+            this.treeListColumn1.OptionsColumn.AllowEdit = false;
+            this.treeListColumn1.OptionsColumn.FixedWidth = true;
+            this.treeListColumn1.Visible = true;
+            this.treeListColumn1.VisibleIndex = 0;
+            this.treeListColumn1.Width = 120;
+            // 
+            // treeListColumn2
+            // 
+            this.treeListColumn2.Caption = "类型";
+            this.treeListColumn2.FieldName = "SiteType";
+            this.treeListColumn2.MinWidth = 16;
+            this.treeListColumn2.Name = "treeListColumn2";
+            this.treeListColumn2.OptionsColumn.AllowEdit = false;
+            this.treeListColumn2.OptionsColumn.FixedWidth = true;
+            this.treeListColumn2.Visible = true;
+            this.treeListColumn2.VisibleIndex = 1;
+            this.treeListColumn2.Width = 35;
+            // 
+            // treeListColumn3
+            // 
+            this.treeListColumn3.Caption = "状态";
+            this.treeListColumn3.FieldName = "SiteStatus";
+            this.treeListColumn3.Name = "treeListColumn3";
+            this.treeListColumn3.OptionsColumn.AllowEdit = false;
+            this.treeListColumn3.OptionsColumn.FixedWidth = true;
+            this.treeListColumn3.Visible = true;
+            this.treeListColumn3.VisibleIndex = 2;
+            this.treeListColumn3.Width = 35;
             // 
             // dockPanelWorkSpace
             // 
@@ -599,8 +643,8 @@
             this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
             this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
             this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(191, 403);
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(191, 403);
+            this.dockPanelWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.dockPanelWorkSpace.Text = "工作区";
             // 
             // dockPanel1_Container
@@ -608,7 +652,7 @@
             this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
             this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(191, 403);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(252, 403);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // treeListWorkSpace
@@ -616,7 +660,7 @@
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
             this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(191, 403);
+            this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.treeListWorkSpace.TabIndex = 16;
             // 
             // dockPanel2
@@ -676,11 +720,11 @@
             // xtraTabControl1
             // 
             this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(200, 147);
+            this.xtraTabControl1.Location = new System.Drawing.Point(261, 147);
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(862, 458);
+            this.xtraTabControl1.Size = new System.Drawing.Size(801, 458);
             this.xtraTabControl1.TabIndex = 10;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -691,7 +735,7 @@
             this.xtraTabPage1.Controls.Add(this.gMapCtrl);
             this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(856, 429);
+            this.xtraTabPage1.Size = new System.Drawing.Size(795, 429);
             this.xtraTabPage1.Text = "场地分布";
             // 
             // gMapCtrl
@@ -716,7 +760,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(856, 429);
+            this.gMapCtrl.Size = new System.Drawing.Size(795, 429);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.Load += new System.EventHandler(this.gMapCtrl_Load);
@@ -727,7 +771,7 @@
             // 
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(856, 429);
+            this.xtraTabPage2.Size = new System.Drawing.Size(795, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
             // RibbonForm
@@ -842,5 +886,8 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarStaticItem currentUserBar;
         private DevExpress.XtraBars.BarStaticItem currentLocation;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
     }
 }

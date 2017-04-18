@@ -14,7 +14,10 @@ using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+
 using System.Collections;
+
+using xxkUI.Bll;
 
 namespace xxkUI
 {
@@ -38,7 +41,7 @@ namespace xxkUI
         
             if (lg.ShowDialog() == DialogResult.OK)
             {
-                currentUserBar.Caption = currentUserBar.Caption + lg.Username;
+                currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
             }
             else
             {
@@ -52,11 +55,7 @@ namespace xxkUI
      
         }
 
-        private void gMapCtrl_DoubleClick(object sender, EventArgs e)
-        {
-            this.gMapCtrl.Zoom += 1;
-
-        }
+       
 
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
@@ -67,13 +66,13 @@ namespace xxkUI
             this.gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
             //设置控件显示的当前中心位置  
             //31.7543, 121.6281  
-            this.gMapCtrl.Position = new PointLatLng(45.7543, 126.6281);
+            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
             //设置控件最大的缩放比例  
             this.gMapCtrl.MaxZoom = 50;
             //设置控件最小的缩放比例  
-            this.gMapCtrl.MinZoom = 1;
+            this.gMapCtrl.MinZoom = 2;
             //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 13;
+            this.gMapCtrl.Zoom = 4;
 
             LoadSiteMarker();
 
@@ -81,13 +80,26 @@ namespace xxkUI
         }
 
 
+
         private void LoadSiteMarker()
         {
+            IEnumerable<SiteBean> sblist = SiteBll.Instance.GetAll();
+
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
-            GMapMarker marker = new GMarkerGoogle(new PointLatLng(48.8617774, 2.349272),GMarkerGoogleType.blue_pushpin);
 
-            SiteOverlay.Markers.Add(marker);
+            foreach (SiteBean sb in sblist)
+            {
+                GMapMarker marker = null;
+
+                if (sb.SiteType == "L")
+                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_pushpin);
+                else if (sb.SiteType == "D")
+                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_pushpin);
+
+                SiteOverlay.Markers.Add(marker);
+            }
+           
             gMapCtrl.Overlays.Add(SiteOverlay);
         }
 
@@ -116,6 +128,17 @@ namespace xxkUI
             this.treeListOriData.ParentFieldName = "UnitCode";　　//表示使用parentID进行树形绑定
             this.treeListOriData.DataSource = sblist;　　//绑定数据源
             this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+		}
+        private void gMapCtrl_DoubleClick(object sender, EventArgs e)
+        {
+            this.gMapCtrl.Zoom += 1;
+
+        }
+
+        private void gMapCtrl_MouseMove(object sender, MouseEventArgs e)
+        {
+            PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
+            this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
     }
 }

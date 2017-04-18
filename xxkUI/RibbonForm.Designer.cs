@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
+
+            this.currentLocation = new DevExpress.XtraBars.BarStaticItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
@@ -121,6 +123,7 @@
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.ItemLinks.Add(this.currentUserBar);
+            this.ribbonStatusBar.ItemLinks.Add(this.currentLocation);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
             this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
@@ -133,6 +136,13 @@
             this.currentUserBar.Id = 40;
             this.currentUserBar.Name = "currentUserBar";
             this.currentUserBar.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
+            // currentLocation
+            // 
+            this.currentLocation.Caption = "当前坐标：";
+            this.currentLocation.Id = 41;
+            this.currentLocation.Name = "currentLocation";
+            this.currentLocation.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // ribbon
             // 
@@ -165,10 +175,11 @@
             this.barCheckItem12,
             this.barCheckItem13,
             this.barButtonItem1,
-            this.currentUserBar});
+            this.currentUserBar,
+            this.currentLocation});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 41;
+            this.ribbon.MaxItemId = 42;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -710,6 +721,7 @@
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.Load += new System.EventHandler(this.gMapCtrl_Load);
             this.gMapCtrl.DoubleClick += new System.EventHandler(this.gMapCtrl_DoubleClick);
+            this.gMapCtrl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gMapCtrl_MouseMove);
             // 
             // xtraTabPage2
             // 
@@ -829,5 +841,6 @@
         private DevExpress.XtraBars.BarCheckItem barCheckItem13;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarStaticItem currentUserBar;
+        private DevExpress.XtraBars.BarStaticItem currentLocation;
     }
 }

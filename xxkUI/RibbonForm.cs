@@ -31,7 +31,7 @@ namespace xxkUI
         
             if (lg.ShowDialog() == DialogResult.OK)
             {
-                currentUser.Caption = currentUser.Caption + lg.Username;
+                currentUserBar.Caption = currentUserBar.Caption + lg.Username;
             }
             else
             {

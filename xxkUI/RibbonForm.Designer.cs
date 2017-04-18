@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
@@ -83,12 +84,12 @@
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
             this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
+            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
             this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
@@ -99,16 +100,15 @@
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelWorkSpace.SuspendLayout();
-            this.dockPanel1_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             this.dockPanelOriData.SuspendLayout();
             this.dockPanel3_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
+            this.dockPanelWorkSpace.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             this.dockPanel2.SuspendLayout();
             this.dockPanel2_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
@@ -126,6 +126,13 @@
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
             this.ribbonStatusBar.Size = new System.Drawing.Size(1262, 31);
+            // 
+            // currentUserBar
+            // 
+            this.currentUserBar.Caption = "当前用户：";
+            this.currentUserBar.Id = 40;
+            this.currentUserBar.Name = "currentUserBar";
+            this.currentUserBar.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // ribbon
             // 
@@ -233,7 +240,7 @@
             this.barHeaderItem1.Caption = "barHeaderItem1";
             this.barHeaderItem1.Id = 6;
             this.barHeaderItem1.Name = "barHeaderItem1";
-                      // 
+            // 
             // btnZoomin
             // 
             this.btnZoomin.Caption = "缩小";
@@ -533,9 +540,9 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
-            this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
+            this.panelContainer1.ActiveChild = this.dockPanelOriData;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
+            this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
             this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
             this.panelContainer1.Location = new System.Drawing.Point(0, 147);
@@ -544,6 +551,35 @@
             this.panelContainer1.Size = new System.Drawing.Size(200, 458);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
+            // 
+            // dockPanelOriData
+            // 
+            this.dockPanelOriData.Controls.Add(this.dockPanel3_Container);
+            this.dockPanelOriData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
+            this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelOriData.Name = "dockPanelOriData";
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(200, 200);
+            this.dockPanelOriData.Size = new System.Drawing.Size(191, 403);
+            this.dockPanelOriData.Text = "原始数据";
+            // 
+            // dockPanel3_Container
+            // 
+            this.dockPanel3_Container.Controls.Add(this.treeListOriData);
+            this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel3_Container.Name = "dockPanel3_Container";
+            this.dockPanel3_Container.Size = new System.Drawing.Size(191, 403);
+            this.dockPanel3_Container.TabIndex = 0;
+            // 
+            // treeListOriData
+            // 
+            this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListOriData.KeyFieldName = "";
+            this.treeListOriData.Location = new System.Drawing.Point(0, 0);
+            this.treeListOriData.Name = "treeListOriData";
+            this.treeListOriData.ParentFieldName = "";
+            this.treeListOriData.Size = new System.Drawing.Size(191, 403);
+            this.treeListOriData.TabIndex = 0;
             // 
             // dockPanelWorkSpace
             // 
@@ -571,33 +607,6 @@
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(191, 403);
             this.treeListWorkSpace.TabIndex = 16;
-            // 
-            // dockPanelOriData
-            // 
-            this.dockPanelOriData.Controls.Add(this.dockPanel3_Container);
-            this.dockPanelOriData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
-            this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanelOriData.Size = new System.Drawing.Size(191, 403);
-            this.dockPanelOriData.Text = "原始数据";
-            // 
-            // dockPanel3_Container
-            // 
-            this.dockPanel3_Container.Controls.Add(this.treeListOriData);
-            this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel3_Container.Name = "dockPanel3_Container";
-            this.dockPanel3_Container.Size = new System.Drawing.Size(191, 403);
-            this.dockPanel3_Container.TabIndex = 0;
-            // 
-            // treeListOriData
-            // 
-            this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListOriData.Location = new System.Drawing.Point(0, 0);
-            this.treeListOriData.Name = "treeListOriData";
-            this.treeListOriData.Size = new System.Drawing.Size(191, 403);
-            this.treeListOriData.TabIndex = 0;
             // 
             // dockPanel2
             // 
@@ -709,13 +718,6 @@
             this.xtraTabPage2.Size = new System.Drawing.Size(856, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
-            // currentUserBar
-            // 
-            this.currentUserBar.Caption = "当前用户：";
-            this.currentUserBar.Id = 40;
-            this.currentUserBar.Name = "currentUserBar";
-            this.currentUserBar.TextAlignment = System.Drawing.StringAlignment.Near;
-            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -734,12 +736,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelWorkSpace.ResumeLayout(false);
-            this.dockPanel1_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             this.dockPanelOriData.ResumeLayout(false);
             this.dockPanel3_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
+            this.dockPanelWorkSpace.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             this.dockPanel2.ResumeLayout(false);
             this.dockPanel2_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();

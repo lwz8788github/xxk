@@ -807,6 +807,7 @@
         private DevExpress.XtraTreeList.TreeList treeListWorkSpace;
         private DevExpress.XtraTreeList.TreeList treeListOriData;
         private GMap.NET.WindowsForms.GMapControl gMapCtrl;
+     
         private DevExpress.XtraBars.BarButtonItem btnZoomin;
         private DevExpress.XtraBars.BarButtonItem btnZoomout;
         private DevExpress.XtraBars.BarButtonItem btnReloadMap;

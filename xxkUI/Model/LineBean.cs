@@ -1,11 +1,16 @@
-﻿using System;
+﻿using Common.Data;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 
+[TableName("t_obslinetb")]
+[Description("测线信息")]
 public class LineBean
 {
 
+    [Description("场地编码")]
     private string _SITECODE;
     /// <summary>
     /// 场地编码
@@ -189,5 +194,16 @@ public class LineBean
     {
         get { return _ENDPOINTCODE; }
         set { _ENDPOINTCODE = value; }
+    }
+
+    [Description("运行状况")]
+    /// <summary>
+    /// 运行状况
+    /// </summary>
+    private string _LineStatus;
+    public string LineStatus
+    {
+        get { return _LineStatus; }
+        set { _LineStatus = value; }
     }
 }

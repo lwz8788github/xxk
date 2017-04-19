@@ -94,6 +94,9 @@
             this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
@@ -553,7 +556,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelOriData;
+            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
@@ -597,6 +600,7 @@
             this.treeListOriData.KeyFieldName = "";
             this.treeListOriData.Location = new System.Drawing.Point(0, 0);
             this.treeListOriData.Name = "treeListOriData";
+            this.treeListOriData.OptionsBehavior.Editable = false;
             this.treeListOriData.OptionsSelection.MultiSelect = true;
             this.treeListOriData.ParentFieldName = "";
             this.treeListOriData.Size = new System.Drawing.Size(252, 403);
@@ -628,7 +632,7 @@
             // treeListColumn3
             // 
             this.treeListColumn3.Caption = "状态";
-            this.treeListColumn3.FieldName = "SiteStatus";
+            this.treeListColumn3.FieldName = "LineStatus";
             this.treeListColumn3.Name = "treeListColumn3";
             this.treeListColumn3.OptionsColumn.AllowEdit = false;
             this.treeListColumn3.OptionsColumn.FixedWidth = true;
@@ -657,11 +661,49 @@
             // 
             // treeListWorkSpace
             // 
+            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn4,
+            this.treeListColumn5,
+            this.treeListColumn6});
+            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.treeListWorkSpace.TabIndex = 16;
+            // 
+            // treeListColumn4
+            // 
+            this.treeListColumn4.Caption = "场地";
+            this.treeListColumn4.FieldName = "Caption";
+            this.treeListColumn4.Name = "treeListColumn4";
+            this.treeListColumn4.OptionsColumn.AllowEdit = false;
+            this.treeListColumn4.OptionsColumn.FixedWidth = true;
+            this.treeListColumn4.Visible = true;
+            this.treeListColumn4.VisibleIndex = 0;
+            this.treeListColumn4.Width = 134;
+            // 
+            // treeListColumn5
+            // 
+            this.treeListColumn5.Caption = "类型";
+            this.treeListColumn5.FieldName = "SiteType";
+            this.treeListColumn5.Name = "treeListColumn5";
+            this.treeListColumn5.OptionsColumn.AllowEdit = false;
+            this.treeListColumn5.OptionsColumn.FixedWidth = true;
+            this.treeListColumn5.Visible = true;
+            this.treeListColumn5.VisibleIndex = 1;
+            this.treeListColumn5.Width = 49;
+            // 
+            // treeListColumn6
+            // 
+            this.treeListColumn6.Caption = "状态";
+            this.treeListColumn6.FieldName = "LineStatus";
+            this.treeListColumn6.Name = "treeListColumn6";
+            this.treeListColumn6.OptionsColumn.AllowEdit = false;
+            this.treeListColumn6.OptionsColumn.FixedWidth = true;
+            this.treeListColumn6.Visible = true;
+            this.treeListColumn6.VisibleIndex = 2;
+            this.treeListColumn6.Width = 51;
             // 
             // dockPanel2
             // 
@@ -889,5 +931,8 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn5;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn6;
     }
 }

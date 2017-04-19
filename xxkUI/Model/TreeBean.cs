@@ -41,11 +41,11 @@ namespace xxkUI.Model
             set { _SiteType = value; }
         }
         [Description("运行状况")]
-        private string _SiteStatus;
-        public string SiteStatus
+        private string _LineStatus;
+        public string LineStatus
         {
-            get { return _SiteStatus; }
-            set { _SiteStatus = value; }
+            get { return _LineStatus; }
+            set { _LineStatus = value; }
         }
     }
 }

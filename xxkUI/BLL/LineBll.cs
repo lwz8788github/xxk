@@ -36,6 +36,10 @@ namespace xxkUI.Bll
         {
             return LineDal.Instance.Get(id);
         }
+        public IEnumerable<LineBean> GetAll()
+        {
+            return LineDal.Instance.GetAll();
+        }
 
     }
 }

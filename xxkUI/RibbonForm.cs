@@ -14,23 +14,23 @@ using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-
 using System.Collections;
-
 using xxkUI.Bll;
 using DevExpress.XtraTreeList.Nodes;
 using xxkUI.Model;
-using xxkUI.BLL;
 using System.Reflection;
 using xxkUI.Tool;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraEditors.Controls;
 using System.IO;
+using DevExpress.XtraEditors;
+using DevExpress.XtraTreeList;
+using xxkUI.BLL;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
+
+        private List<string> userAut = new List<string>();
         public RibbonForm()
         {
             InitializeComponent();
@@ -51,6 +51,7 @@ namespace xxkUI
             if (lg.ShowDialog() == DialogResult.OK)
             {
                 currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
+                //获取用户权限，放入userAut
             }
             else
             {
@@ -134,44 +135,104 @@ namespace xxkUI
 
         private void InitOriDataTree()
         {
-            
-            List<TreeBean> treelist = new List<TreeBean>();
-            IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
-           
-            foreach (UnitInfoBean sb in ubEnumt)
+            try
             {
-                TreeBean tb = new TreeBean();
-                tb.KeyFieldName = sb.UnitCode;
-                tb.ParentFieldName = "0";
-                tb.Caption = sb.UnitName;
-                tb.SiteType = "";
-                tb.SiteStatus = "";
-                treelist.Add(tb);
-            }
+                List<TreeBean> treelist = new List<TreeBean>();
+                IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
-            IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
-            foreach (SiteBean sb in sbEnumt)
+                foreach (UnitInfoBean sb in ubEnumt)
+                {
+                    TreeBean tb = new TreeBean();
+                    if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
+                        || sb.UnitCode == "152006" || sb.UnitCode == "152008"
+                        || sb.UnitCode == "152009" || sb.UnitCode == "152010"
+                        || sb.UnitCode == "152012" || sb.UnitCode == "152015"
+                        || sb.UnitCode == "152022" || sb.UnitCode == "152023"
+                        || sb.UnitCode == "152026" || sb.UnitCode == "152029"
+                        || sb.UnitCode == "152032" || sb.UnitCode == "152034"
+                        || sb.UnitCode == "152035" || sb.UnitCode == "152036"
+                        || sb.UnitCode == "152039" || sb.UnitCode == "152040"
+                        || sb.UnitCode == "152041" || sb.UnitCode == "152042"
+                        || sb.UnitCode == "152043" || sb.UnitCode == "152044"
+                        || sb.UnitCode == "152045" || sb.UnitCode == "152046"
+                        || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
+                    tb.KeyFieldName = sb.UnitCode;
+                    tb.ParentFieldName = "0";
+                    tb.Caption = sb.UnitName;
+                    tb.SiteType = "";
+                    tb.LineStatus = "";
+                    treelist.Add(tb);
+                }
+
+                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+                foreach (SiteBean sb in sbEnumt)
+                {
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = sb.SiteCode;
+                    tb.ParentFieldName = sb.UnitCode;
+                    tb.Caption = sb.SiteName;
+                    tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                   
+                   
+                    treelist.Add(tb);
+                }
+
+                //测线列表显示
+                IEnumerable<LineBean> olEnumt = LineBll.Instance.GetAll();
+
+                foreach (LineBean ol in olEnumt)
+                {
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = ol.OBSLINECODE;
+                    tb.ParentFieldName = ol.SITECODE;
+                    tb.Caption = ol.OBSLINENAME;
+                    tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                    treelist.Add(tb);
+                }
+
+                //原始数据树列表显示
+                this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+
+                this.treeListOriData.DataSource = treelist;　　//绑定数据源
+                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+                this.treeListOriData.OptionsView.ShowCheckBoxes = true;
+                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListOriData.OptionsBehavior.Editable = false;
+                this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
+
+                //工作区树列表显示
+                this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+
+                this.treeListWorkSpace.DataSource = treelist;　　//绑定数据源
+                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+                this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
+                //this.treeListWorkSpace.Enabled = false;
+                this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListWorkSpace.OptionsBehavior.Editable = false;
+                this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
+
+            }
+            catch (Exception ex)
             {
-                TreeBean tb = new TreeBean();
-                tb.KeyFieldName = sb.SiteCode;
-                tb.ParentFieldName = sb.UnitCode;
-                tb.Caption = sb.SiteName;
-                tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-                tb.SiteStatus = sb.SiteStatus=="0"?"正常":(sb.SiteStatus=="1"?"废弃":"改造中");
-                treelist.Add(tb);
+                XtraMessageBox.Show(ex.Message, "错误");
             }
-
-            this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-            this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-   
-            this.treeListOriData.DataSource = treelist;　　//绑定数据源
-            this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
-            this.treeListOriData.OptionsView.ShowCheckBoxes = true;
-
-
-          
 
         }
+        private void GetObsDataByUser(string username)
+        { 
+            //1.根据username查询权限，并放入list中
+            List<string> userlist = new List<string>();
+           // userlist = ;
+            //2.遍历list下载数据
+
+
+        
+        }
+
+
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             this.gMapCtrl.Zoom += 1;
@@ -183,6 +244,7 @@ namespace xxkUI
             PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
+
 
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
@@ -203,9 +265,9 @@ namespace xxkUI
         {
             int cHeight = vGridControlSiteInfo.Height;
 
-           RepositoryItemMemoEdit memoEdit = new RepositoryItemMemoEdit();
+            DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
             memoEdit.LinesCount = 1;
-            RepositoryItemImageEdit imgEdit = new RepositoryItemImageEdit();
+            DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
 
             ModelHandler<SiteBean> hm = new ModelHandler<SiteBean>();
 
@@ -237,9 +299,9 @@ namespace xxkUI
         }
  
 
-        public  RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
+        public DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
         {
-            RepositoryItemLookUpEdit rEdit = new RepositoryItemLookUpEdit();
+            DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit rEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
 
             DataTable dtTmp = new DataTable();
             dtTmp.Columns.Add("请选择");
@@ -255,13 +317,56 @@ namespace xxkUI
 
             rEdit.ValueMember = "请选择";
             rEdit.DisplayMember = "请选择";
-            rEdit.BestFitMode = BestFitMode.BestFit;
+            rEdit.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
             rEdit.ShowFooter = false;
             rEdit.ShowHeader = false;
             return rEdit;
         }
 
+        
+        private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        {
+            if (e.Column == treeListColumn1)
+            {
+              
+                if (e.CellValue.ToString()!="")
+                {
+                    e.Appearance.BackColor = Color.LightGray;
+                    e.Appearance.Options.UseBackColor = true;
+                }
+            }
+        }
 
+        private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        {
+            if (e.Column == treeListColumn4)
+            {
+
+                if (e.CellValue.ToString() != "")
+                {
+                    e.Appearance.BackColor = Color.LightGray;
+                    e.Appearance.Options.UseBackColor = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 禁止操作节点CheckBox
+        /// 说明
+        /// 在BeforeCheckNode事件中使用
+        /// </summary>
+        /// <param name="tree">TreeListNode</param>
+        /// <param name="conditionHanlder">委托</param>
+        /// <param name="e">CheckNodeEventArgs</param>
+        private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
+        {
+            e.CanCheck = false;
+        }
+
+        private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
+        {
+            e.CanCheck = false;
+        }
 
     }
 }

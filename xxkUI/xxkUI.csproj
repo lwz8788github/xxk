@@ -82,7 +82,7 @@
       <DependentUpon>OriDataControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\EqkDal.cs" />
-    <Compile Include="DAL\LineBeanDal.cs" />
+    <Compile Include="DAL\LineDal.cs" />
     <Compile Include="DAL\LineObsDal.cs" />
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />

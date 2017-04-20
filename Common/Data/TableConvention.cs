@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace Common.Data
 {
@@ -34,5 +35,10 @@ namespace Common.Data
         {
             return Resolve(o.GetType());
         }
+
+   
+
+
+
     }
 }

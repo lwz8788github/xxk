@@ -475,5 +475,41 @@ namespace Common.Data
             }
             return default(T);
         }
+
+
+        /// <summary>
+        /// 读取流字段
+        /// </summary>
+        /// <typeparam name="T">模型</typeparam>
+        /// <param name="idname">主键字段名</param>
+        /// <param name="idvalue">主键字段值</param>
+        /// <param name="blobfieldname">流字段名</param>
+        /// <returns></returns>
+        public static byte[] GetBlobByID<T>(string idname, string idvalue, string blobfieldname)
+        {
+            byte[] ms = null;
+            using (var conn = new MySqlConnection(cs))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "select " + blobfieldname + " from " + TableConvention.Resolve(typeof(T))
+                        + " where " + idname + "='" + idvalue + "'";
+                    conn.Open();
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        if (dr[0] != DBNull.Value)
+                        {
+                            ms = (byte[])dr[0];
+                        }
+                        else
+                            ms = new byte[0];
+                    
+                    }
+                }
+            }
+            return ms;
+        }
     }
 }

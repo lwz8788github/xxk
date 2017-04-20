@@ -41,5 +41,15 @@ namespace xxkUI.Bll
         {
             return SiteDal.Instance.GetAll();
         }
+
+        public byte[] GetBlob<SiteBean>(string idname, string idvalue, string blobfield)
+        {
+            return SiteDal.Instance.GetBlob(idname, idvalue, blobfield);
+        }
+
+        public IEnumerable<SiteBean> GetWhere(object where)
+        {
+            return SiteDal.Instance.GetWhere(where);
+        }
     }
 }

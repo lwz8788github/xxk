@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Common.Data;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 
+[TableName("t_unittb")]
+[Description("单位信息")]
 public class UnitInfoBean
     {
     /// <summary>

@@ -36,5 +36,11 @@ namespace xxkUI.BLL
         {
             return UnitInfoDal.Instance.Get(id);
         }
+
+
+        public IEnumerable<UnitInfoBean> GetAll()
+        {
+            return UnitInfoDal.Instance.GetAll();
+        }
     }
 }

@@ -14,7 +14,18 @@ using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+
+using System.Collections;
+
 using xxkUI.Bll;
+using DevExpress.XtraTreeList.Nodes;
+using xxkUI.Model;
+using xxkUI.BLL;
+using System.Reflection;
+using xxkUI.Tool;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraEditors.Controls;
+using System.IO;
 
 namespace xxkUI
 {
@@ -23,7 +34,8 @@ namespace xxkUI
         public RibbonForm()
         {
             InitializeComponent();
-            GmapInit();
+          
+            InitOriDataTree();
         }
 
         /// <summary>
@@ -46,14 +58,11 @@ namespace xxkUI
             }
         }
 
-
-        private void GmapInit()
-        {
-     
-        }
-
-       
-
+        /// <summary>
+        /// 地图加载
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
             this.gMapCtrl.BackColor = Color.Red;
@@ -73,11 +82,12 @@ namespace xxkUI
 
             LoadSiteMarker();
 
-
         }
 
 
-
+        /// <summary>
+        /// 添加场地标记
+        /// </summary>
         private void LoadSiteMarker()
         {
             IEnumerable<SiteBean> sblist = SiteBll.Instance.GetAll();
@@ -89,15 +99,22 @@ namespace xxkUI
             {
                 GMapMarker marker = null;
 
-                if (sb.SiteType == "L")
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_pushpin);
-                else if (sb.SiteType == "D")
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_pushpin);
-
+                if (sb.SiteCode.Substring(0,1) == "L")
+                { 
+                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_small);
+                   
+                }
+                else if (sb.SiteCode.Substring(0, 1) == "D")
+                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
+                marker.Tag = sb;
                 SiteOverlay.Markers.Add(marker);
+
+               
             }
            
             gMapCtrl.Overlays.Add(SiteOverlay);
+
+      
         }
 
         private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
@@ -115,6 +132,46 @@ namespace xxkUI
             this.gMapCtrl.ReloadMap();
         }
 
+        private void InitOriDataTree()
+        {
+            
+            List<TreeBean> treelist = new List<TreeBean>();
+            IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+           
+            foreach (UnitInfoBean sb in ubEnumt)
+            {
+                TreeBean tb = new TreeBean();
+                tb.KeyFieldName = sb.UnitCode;
+                tb.ParentFieldName = "0";
+                tb.Caption = sb.UnitName;
+                tb.SiteType = "";
+                tb.SiteStatus = "";
+                treelist.Add(tb);
+            }
+
+            IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+            foreach (SiteBean sb in sbEnumt)
+            {
+                TreeBean tb = new TreeBean();
+                tb.KeyFieldName = sb.SiteCode;
+                tb.ParentFieldName = sb.UnitCode;
+                tb.Caption = sb.SiteName;
+                tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                tb.SiteStatus = sb.SiteStatus=="0"?"正常":(sb.SiteStatus=="1"?"废弃":"改造中");
+                treelist.Add(tb);
+            }
+
+            this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+            this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+   
+            this.treeListOriData.DataSource = treelist;　　//绑定数据源
+            this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+            this.treeListOriData.OptionsView.ShowCheckBoxes = true;
+
+
+          
+
+        }
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             this.gMapCtrl.Zoom += 1;
@@ -126,5 +183,85 @@ namespace xxkUI
             PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
+
+        private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        {
+            SiteBean sb = (SiteBean)item.Tag;
+
+            ModelHandler<SiteBean> mh = new ModelHandler<SiteBean>();
+            
+            this.vGridControlSiteInfo.DataSource = mh.FillDataTable(new List<SiteBean>() { sb });
+
+            SetBaseinfoVGridControl(sb.SiteCode);
+        }
+
+
+        /// <summary>
+        /// 设置是VGridControl行列样式
+        /// </summary>
+        private void SetBaseinfoVGridControl(string sitecode)
+        {
+            int cHeight = vGridControlSiteInfo.Height;
+
+           RepositoryItemMemoEdit memoEdit = new RepositoryItemMemoEdit();
+            memoEdit.LinesCount = 1;
+            RepositoryItemImageEdit imgEdit = new RepositoryItemImageEdit();
+
+            ModelHandler<SiteBean> hm = new ModelHandler<SiteBean>();
+
+
+            for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
+            {
+                vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
+                vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
+
+                vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+                vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+                if (i == 0)
+                {
+                    MemoryStream ms = new MemoryStream(SiteBll.Instance.GetBlob<SiteBean>("sitecode", sitecode, "SiteMapFile"));
+                    Image image = Image.FromStream(ms);
+                    imgEdit.ContextImage = image;
+                    vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
+
+                }
+                else
+                    vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
+
+                vGridControlSiteInfo.Rows[i].Height = (cHeight - 10) / vGridControlSiteInfo.Rows.Count;
+            }
+            
+            vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
+            vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
+        }
+ 
+
+        public  RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
+        {
+            RepositoryItemLookUpEdit rEdit = new RepositoryItemLookUpEdit();
+
+            DataTable dtTmp = new DataTable();
+            dtTmp.Columns.Add("请选择");
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                DataRow drTmp1 = dtTmp.NewRow();
+                drTmp1[0] = values[i];
+                dtTmp.Rows.Add(drTmp1);
+            }
+
+            rEdit.DataSource = dtTmp;
+
+            rEdit.ValueMember = "请选择";
+            rEdit.DisplayMember = "请选择";
+            rEdit.BestFitMode = BestFitMode.BestFit;
+            rEdit.ShowFooter = false;
+            rEdit.ShowHeader = false;
+            return rEdit;
+        }
+
+
+
     }
 }

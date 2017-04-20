@@ -249,53 +249,46 @@ namespace xxkUI
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             SiteBean sb = (SiteBean)item.Tag;
+            sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
 
-            ModelHandler<SiteBean> mh = new ModelHandler<SiteBean>();
-            
-            this.vGridControlSiteInfo.DataSource = mh.FillDataTable(new List<SiteBean>() { sb });
-
-            SetBaseinfoVGridControl(sb.SiteCode);
+            this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb }; 
+            SetBaseinfoVGridControl();
         }
 
 
         /// <summary>
         /// 设置是VGridControl行列样式
         /// </summary>
-        private void SetBaseinfoVGridControl(string sitecode)
+        private void SetBaseinfoVGridControl()
         {
-            int cHeight = vGridControlSiteInfo.Height;
-
-            DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
-            memoEdit.LinesCount = 1;
-            DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
-
-            ModelHandler<SiteBean> hm = new ModelHandler<SiteBean>();
-
-
-            for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
+            try
             {
-                vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
-                vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
+                int cHeight = vGridControlSiteInfo.Height;
 
-                vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-                vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+                DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+                memoEdit.LinesCount = 1;
 
-                if (i == 0)
+                for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
                 {
-                    MemoryStream ms = new MemoryStream(SiteBll.Instance.GetBlob<SiteBean>("sitecode", sitecode, "SiteMapFile"));
-                    Image image = Image.FromStream(ms);
-                    imgEdit.ContextImage = image;
-                    vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
+                    vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
+                    vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
 
+                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+                    if (i != 0)
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
+                    vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
                 }
-                else
-                    vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
 
-                vGridControlSiteInfo.Rows[i].Height = (cHeight - 10) / vGridControlSiteInfo.Rows.Count;
+                vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
+                vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
+                vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
             }
-            
-            vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
-            vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
         }
  
 
@@ -368,5 +361,9 @@ namespace xxkUI
             e.CanCheck = false;
         }
 
+        private void dockPanel2_SizeChanged(object sender, EventArgs e)
+        {
+            SetBaseinfoVGridControl();
+        }
     }
 }

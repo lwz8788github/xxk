@@ -22,6 +22,7 @@ using DevExpress.XtraTreeList.Nodes;
 using xxkUI.Model;
 using xxkUI.BLL;
 using DevExpress.XtraEditors;
+using DevExpress.XtraTreeList;
 
 namespace xxkUI
 {
@@ -50,10 +51,6 @@ namespace xxkUI
             {
                 currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
                 //获取用户权限，放入userAut
-
-                this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
-             
-
             }
             else
             {
@@ -123,7 +120,6 @@ namespace xxkUI
             this.gMapCtrl.ReloadMap();
         }
 
-
         private void InitOriDataTree()
         {
             try
@@ -188,6 +184,10 @@ namespace xxkUI
                 this.treeListOriData.DataSource = treelist;　　//绑定数据源
                 //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
                 this.treeListOriData.OptionsView.ShowCheckBoxes = true;
+                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListOriData.OptionsBehavior.Editable = false;
+                this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
 
                 //工作区树列表显示
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
@@ -197,7 +197,9 @@ namespace xxkUI
                 //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
                 this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
                 //this.treeListWorkSpace.Enabled = false;
-
+                this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListWorkSpace.OptionsBehavior.Editable = false;
+                this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
 
             }
             catch (Exception ex)
@@ -206,17 +208,17 @@ namespace xxkUI
             }
 
         }
-
-
         private void GetObsDataByUser(string username)
         { 
             //1.根据username查询权限，并放入list中
-
+            List<string> userlist = new List<string>();
+           // userlist = ;
             //2.遍历list下载数据
 
 
         
         }
+
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             this.gMapCtrl.Zoom += 1;
@@ -238,10 +240,39 @@ namespace xxkUI
                 {
                     e.Appearance.BackColor = Color.LightGray;
                     e.Appearance.Options.UseBackColor = true;
-                    //e.Appearance.ForeColor = Color.Yellow;
-                    //e.Appearance.Options.UseForeColor = true;
                 }
             }
+        }
+
+        private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        {
+            if (e.Column == treeListColumn4)
+            {
+
+                if (e.CellValue.ToString() != "")
+                {
+                    e.Appearance.BackColor = Color.LightGray;
+                    e.Appearance.Options.UseBackColor = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 禁止操作节点CheckBox
+        /// 说明
+        /// 在BeforeCheckNode事件中使用
+        /// </summary>
+        /// <param name="tree">TreeListNode</param>
+        /// <param name="conditionHanlder">委托</param>
+        /// <param name="e">CheckNodeEventArgs</param>
+        private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
+        {
+            e.CanCheck = false;
+        }
+
+        private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
+        {
+            e.CanCheck = false;
         }
 
     }

@@ -99,6 +99,29 @@
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
+            this.vGridControlSiteInfo = new DevExpress.XtraVerticalGrid.VGridControl();
+            this.siteMapPic = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+            this.row18 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row4 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row5 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row6 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row7 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row16 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row17 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row19 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row20 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row8 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row9 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row10 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row11 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row12 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row13 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row14 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.row15 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
@@ -117,6 +140,9 @@
             this.dockPanel2_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
             this.xtraTabControl2.SuspendLayout();
+            this.xtraTabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
@@ -668,10 +694,10 @@
             this.dockPanel2.Controls.Add(this.dockPanel2_Container);
             this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
             this.dockPanel2.ID = new System.Guid("49e93dec-f66c-46cb-8053-1cfec0a03c09");
-            this.dockPanel2.Location = new System.Drawing.Point(1062, 147);
+            this.dockPanel2.Location = new System.Drawing.Point(998, 147);
             this.dockPanel2.Name = "dockPanel2";
-            this.dockPanel2.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanel2.Size = new System.Drawing.Size(200, 458);
+            this.dockPanel2.OriginalSize = new System.Drawing.Size(264, 200);
+            this.dockPanel2.Size = new System.Drawing.Size(264, 458);
             this.dockPanel2.Text = "数据表";
             // 
             // dockPanel2_Container
@@ -679,7 +705,7 @@
             this.dockPanel2_Container.Controls.Add(this.xtraTabControl2);
             this.dockPanel2_Container.Location = new System.Drawing.Point(5, 23);
             this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(191, 431);
+            this.dockPanel2_Container.Size = new System.Drawing.Size(255, 431);
             this.dockPanel2_Container.TabIndex = 0;
             // 
             // xtraTabControl2
@@ -689,7 +715,7 @@
             this.xtraTabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl2.Name = "xtraTabControl2";
             this.xtraTabControl2.SelectedTabPage = this.xtraTabPage3;
-            this.xtraTabControl2.Size = new System.Drawing.Size(191, 431);
+            this.xtraTabControl2.Size = new System.Drawing.Size(255, 431);
             this.xtraTabControl2.TabIndex = 12;
             this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage3,
@@ -700,21 +726,323 @@
             // 
             this.xtraTabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(185, 402);
+            this.xtraTabPage3.Size = new System.Drawing.Size(249, 402);
             this.xtraTabPage3.Text = "历史地震";
             // 
             // xtraTabPage4
             // 
+            this.xtraTabPage4.Controls.Add(this.vGridControlSiteInfo);
             this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(185, 402);
+            this.xtraTabPage4.Size = new System.Drawing.Size(249, 402);
             this.xtraTabPage4.Text = "属性";
+            // 
+            // vGridControlSiteInfo
+            // 
+            this.vGridControlSiteInfo.Appearance.BandBorder.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.BandBorder.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.BandBorder.Options.UseTextOptions = true;
+            this.vGridControlSiteInfo.Appearance.BandBorder.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.vGridControlSiteInfo.Appearance.BandBorder.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.vGridControlSiteInfo.Appearance.Category.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.Category.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.CategoryExpandButton.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.CategoryExpandButton.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.DisabledRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.DisabledRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.Empty.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.Empty.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.ExpandButton.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.ExpandButton.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.FixedLine.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.FixedLine.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.FocusedCell.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.FocusedRecord.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.FocusedRecord.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.FocusedRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.ModifiedRecordValue.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.ModifiedRecordValue.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.ModifiedRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.ModifiedRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.PressedRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.PressedRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.ReadOnlyRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.ReadOnlyRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.RecordValue.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.RecordValue.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.Options.UseTextOptions = true;
+            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.vGridControlSiteInfo.Appearance.SelectedRecord.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.SelectedRecord.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.SelectedRow.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Appearance.VertLine.ForeColor = System.Drawing.Color.Black;
+            this.vGridControlSiteInfo.Appearance.VertLine.Options.UseForeColor = true;
+            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeNS;
+            this.vGridControlSiteInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vGridControlSiteInfo.Font = new System.Drawing.Font("Tahoma", 11F);
+            this.vGridControlSiteInfo.Location = new System.Drawing.Point(0, 0);
+            this.vGridControlSiteInfo.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
+            this.vGridControlSiteInfo.Name = "vGridControlSiteInfo";
+            this.vGridControlSiteInfo.OptionsView.MaxRowAutoHeight = 100;
+            this.vGridControlSiteInfo.OptionsView.MinRowAutoHeight = 25;
+            this.vGridControlSiteInfo.RecordWidth = 121;
+            this.vGridControlSiteInfo.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.siteMapPic});
+            this.vGridControlSiteInfo.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.row18,
+            this.row1,
+            this.row2,
+            this.row3,
+            this.row4,
+            this.row5,
+            this.row6,
+            this.row7,
+            this.row16,
+            this.row,
+            this.row17,
+            this.row19,
+            this.row20,
+            this.row8});
+            this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 402);
+            this.vGridControlSiteInfo.TabIndex = 1;
+            // 
+            // siteMapPic
+            // 
+            this.siteMapPic.Name = "siteMapPic";
+            this.siteMapPic.ZoomAccelerationFactor = 1D;
+            // 
+            // row18
+            // 
+            this.row18.Appearance.Options.UseTextOptions = true;
+            this.row18.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row18.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row18.Height = 24;
+            this.row18.Name = "row18";
+            this.row18.Properties.Caption = "场地布设图";
+            this.row18.Properties.FieldName = "SiteMapFile";
+            this.row18.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row1
+            // 
+            this.row1.Appearance.Options.UseTextOptions = true;
+            this.row1.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row1.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row1.Name = "row1";
+            this.row1.Properties.Caption = "场地名称";
+            this.row1.Properties.FieldName = "SiteName";
+            this.row1.Properties.Padding = new System.Windows.Forms.Padding(0);
+            this.row1.Properties.ReadOnly = true;
+            // 
+            // row2
+            // 
+            this.row2.Appearance.Options.UseTextOptions = true;
+            this.row2.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row2.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row2.Name = "row2";
+            this.row2.Properties.Caption = "场地类型";
+            this.row2.Properties.FieldName = "SiteType";
+            this.row2.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row3
+            // 
+            this.row3.Appearance.Options.UseTextOptions = true;
+            this.row3.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row3.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row3.Name = "row3";
+            this.row3.Properties.Caption = "观测类型";
+            this.row3.Properties.FieldName = "Type";
+            this.row3.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row4
+            // 
+            this.row4.Appearance.Options.UseTextOptions = true;
+            this.row4.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row4.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row4.Name = "row4";
+            this.row4.Properties.Caption = "经度";
+            this.row4.Properties.FieldName = "Longtitude";
+            this.row4.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row5
+            // 
+            this.row5.Appearance.Options.UseTextOptions = true;
+            this.row5.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row5.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row5.Height = 25;
+            this.row5.Name = "row5";
+            this.row5.Properties.Caption = "纬度";
+            this.row5.Properties.FieldName = "Latitude";
+            this.row5.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row6
+            // 
+            this.row6.Appearance.Options.UseTextOptions = true;
+            this.row6.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row6.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row6.Name = "row6";
+            this.row6.Properties.Caption = "高程";
+            this.row6.Properties.FieldName = "Altitude";
+            this.row6.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row7
+            // 
+            this.row7.Appearance.Options.UseTextOptions = true;
+            this.row7.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row7.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row7.Name = "row7";
+            this.row7.Properties.Caption = "所在地";
+            this.row7.Properties.FieldName = "Place";
+            this.row7.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row16
+            // 
+            this.row16.Appearance.Options.UseTextOptions = true;
+            this.row16.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row16.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row16.Name = "row16";
+            this.row16.Properties.Caption = "起测时间";
+            this.row16.Properties.FieldName = "StartDate";
+            this.row16.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row
+            // 
+            this.row.Appearance.Options.UseTextOptions = true;
+            this.row.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row.Name = "row";
+            this.row.Properties.Caption = "行政区";
+            this.row.Properties.FieldName = "XzCode";
+            this.row.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row17
+            // 
+            this.row17.Appearance.Options.UseTextOptions = true;
+            this.row17.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row17.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row17.Name = "row17";
+            this.row17.Properties.Caption = "所属单位";
+            this.row17.Properties.FieldName = "UnitCode";
+            this.row17.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row19
+            // 
+            this.row19.Appearance.Options.UseTextOptions = true;
+            this.row19.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row19.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row19.Name = "row19";
+            this.row19.Properties.Caption = "历史迁移";
+            this.row19.Properties.FieldName = "Historysite";
+            this.row19.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row20
+            // 
+            this.row20.Appearance.Options.UseTextOptions = true;
+            this.row20.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row20.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row20.Name = "row20";
+            this.row20.Properties.Caption = "运行状况";
+            this.row20.Properties.FieldName = "SiteStatus";
+            this.row20.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row8
+            // 
+            this.row8.Appearance.Options.UseTextOptions = true;
+            this.row8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row8.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row8.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.row9,
+            this.row10,
+            this.row11,
+            this.row12,
+            this.row13,
+            this.row14,
+            this.row15});
+            this.row8.Name = "row8";
+            this.row8.Properties.Caption = "所跨断层名";
+            this.row8.Properties.FieldName = "FaultName";
+            this.row8.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row9
+            // 
+            this.row9.Appearance.Options.UseTextOptions = true;
+            this.row9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row9.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row9.Name = "row9";
+            this.row9.Properties.Caption = "所属断裂带";
+            this.row9.Properties.FieldName = "FaultZone";
+            this.row9.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row10
+            // 
+            this.row10.Appearance.Options.UseTextOptions = true;
+            this.row10.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row10.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row10.Name = "row10";
+            this.row10.Properties.Caption = "断层性质";
+            this.row10.Properties.FieldName = "FaultProperty";
+            this.row10.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row11
+            // 
+            this.row11.Appearance.Options.UseTextOptions = true;
+            this.row11.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row11.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row11.Name = "row11";
+            this.row11.Properties.Caption = "断层走向";
+            this.row11.Properties.FieldName = "FaultStrike";
+            this.row11.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row12
+            // 
+            this.row12.Appearance.Options.UseTextOptions = true;
+            this.row12.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row12.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row12.Name = "row12";
+            this.row12.Properties.Caption = "断层倾向";
+            this.row12.Properties.FieldName = "FaultTendency";
+            this.row12.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row13
+            // 
+            this.row13.Appearance.Options.UseTextOptions = true;
+            this.row13.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row13.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row13.Name = "row13";
+            this.row13.Properties.Caption = "断层倾角";
+            this.row13.Properties.FieldName = "FaultDip";
+            this.row13.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row14
+            // 
+            this.row14.Appearance.Options.UseTextOptions = true;
+            this.row14.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row14.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row14.Name = "row14";
+            this.row14.Properties.Caption = "断层上盘岩性";
+            this.row14.Properties.FieldName = "UpRock";
+            this.row14.Properties.Padding = new System.Windows.Forms.Padding(0);
+            // 
+            // row15
+            // 
+            this.row15.Appearance.Options.UseTextOptions = true;
+            this.row15.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.row15.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            this.row15.Name = "row15";
+            this.row15.Properties.Caption = "断层下盘岩性";
+            this.row15.Properties.FieldName = "BottomRock";
+            this.row15.Properties.Padding = new System.Windows.Forms.Padding(0);
             // 
             // xtraTabPage5
             // 
             this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage5.Name = "xtraTabPage5";
-            this.xtraTabPage5.Size = new System.Drawing.Size(185, 402);
+            this.xtraTabPage5.Size = new System.Drawing.Size(249, 402);
             this.xtraTabPage5.Text = "监测数据";
             // 
             // xtraTabControl1
@@ -724,7 +1052,7 @@
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(801, 458);
+            this.xtraTabControl1.Size = new System.Drawing.Size(737, 458);
             this.xtraTabControl1.TabIndex = 10;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -735,7 +1063,7 @@
             this.xtraTabPage1.Controls.Add(this.gMapCtrl);
             this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(795, 429);
+            this.xtraTabPage1.Size = new System.Drawing.Size(731, 429);
             this.xtraTabPage1.Text = "场地分布";
             // 
             // gMapCtrl
@@ -760,9 +1088,10 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(795, 429);
+            this.gMapCtrl.Size = new System.Drawing.Size(731, 429);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
+            this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
             this.gMapCtrl.Load += new System.EventHandler(this.gMapCtrl_Load);
             this.gMapCtrl.DoubleClick += new System.EventHandler(this.gMapCtrl_DoubleClick);
             this.gMapCtrl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gMapCtrl_MouseMove);
@@ -771,7 +1100,7 @@
             // 
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(795, 429);
+            this.xtraTabPage2.Size = new System.Drawing.Size(731, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
             // RibbonForm
@@ -802,6 +1131,9 @@
             this.dockPanel2_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
             this.xtraTabControl2.ResumeLayout(false);
+            this.xtraTabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
@@ -889,5 +1221,28 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        private DevExpress.XtraVerticalGrid.VGridControl vGridControlSiteInfo;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row1;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row2;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row3;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row4;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row5;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row6;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row7;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row8;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row9;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row10;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row11;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row12;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row13;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row14;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row15;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row16;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row17;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row18;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row19;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow row20;
+        private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit siteMapPic;
     }
 }

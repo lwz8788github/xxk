@@ -100,6 +100,9 @@ namespace Common.Data
             return DbUtils.GetPageWithSp(pcp, out recordCount);
         }
 
-        
+        public byte[] GetBlob(string idname,string idvalue,string blobfield)
+        {
+            return DbUtils.GetBlobByID<T>(idname, idvalue, blobfield);
+        }
     }
 }

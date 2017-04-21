@@ -511,5 +511,42 @@ namespace Common.Data
             }
             return ms;
         }
+
+    
+        /// <summary>
+        /// 根据id获取字段值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="getwhat">查询字段</param>
+        /// <param name="idname">id字段名</param>
+        /// <param name="idvalue">id字段值</param>
+        /// <returns></returns>
+        public static object GetByID<T>(string getwhat, string idname,string idvalue)
+        {
+            object o;
+            using (var conn = new MySqlConnection(cs))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "select " + getwhat + " from " + TableConvention.Resolve(typeof(T))
+                        + " where " + idname + "='" + idvalue + "'";
+                    conn.Open();
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        if (dr[0] != DBNull.Value)
+                        {
+                            o = dr[0];
+                        }
+                        else
+                            o = null;
+                    }
+                }
+            }
+            return o;
+        }
+
+
     }
 }

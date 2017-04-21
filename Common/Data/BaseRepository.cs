@@ -104,5 +104,10 @@ namespace Common.Data
         {
             return DbUtils.GetBlobByID<T>(idname, idvalue, blobfield);
         }
+
+        public object GetByID(string getwhat, string idname, string idvalue)
+        {
+            return DbUtils.GetByID<T>(getwhat, idname, idvalue);
+        }
     }
 }

@@ -34,8 +34,6 @@ namespace xxkUI
         public RibbonForm()
         {
             InitializeComponent();
-          
-            InitOriDataTree();
         }
 
         /// <summary>
@@ -51,7 +49,15 @@ namespace xxkUI
             if (lg.ShowDialog() == DialogResult.OK)
             {
                 currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
+
                 //获取用户权限，放入userAut
+                List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
+                //List<string> siteCodeList = new List<string>();
+                //foreach (string u_list in userAhtList)
+                //{
+                //    ;
+                //}
+                InitOriDataTree(userAhtList);
             }
             else
             {
@@ -133,7 +139,7 @@ namespace xxkUI
             this.gMapCtrl.ReloadMap();
         }
 
-        private void InitOriDataTree()
+        private void InitOriDataTree(List<string> userAhtList)
         {
             try
             {
@@ -156,25 +162,30 @@ namespace xxkUI
                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
-                    tb.KeyFieldName = sb.UnitCode;
-                    tb.ParentFieldName = "0";
-                    tb.Caption = sb.UnitName;
-                    tb.SiteType = "";
-                    tb.LineStatus = "";
-                    treelist.Add(tb);
+                    if (userAhtList.Contains(sb.UnitCode))
+                    {
+                        tb.KeyFieldName = sb.UnitCode;
+                        tb.ParentFieldName = "0";
+                        tb.Caption = sb.UnitName;
+                        tb.SiteType = "";
+                        tb.LineStatus = "";
+                        treelist.Add(tb);
+                    }
                 }
 
                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
                 foreach (SiteBean sb in sbEnumt)
                 {
-                    TreeBean tb = new TreeBean();
-                    tb.KeyFieldName = sb.SiteCode;
-                    tb.ParentFieldName = sb.UnitCode;
-                    tb.Caption = sb.SiteName;
-                    tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                    if(userAhtList.Contains(sb.UnitCode))
+                    { 
+                        TreeBean tb = new TreeBean();
+                        tb.KeyFieldName = sb.SiteCode;
+                        tb.ParentFieldName = sb.UnitCode;
+                        tb.Caption = sb.SiteName;
+                        tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                    
-                   
-                    treelist.Add(tb);
+                        treelist.Add(tb);
+                    }
                 }
 
                 //测线列表显示
@@ -182,15 +193,19 @@ namespace xxkUI
 
                 foreach (LineBean ol in olEnumt)
                 {
-                    TreeBean tb = new TreeBean();
-                    tb.KeyFieldName = ol.OBSLINECODE;
-                    tb.ParentFieldName = ol.SITECODE;
-                    tb.Caption = ol.OBSLINENAME;
-                    tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
-                    treelist.Add(tb);
+                    if (userAhtList.Contains(ol.SITECODE))
+                    {
+                        TreeBean tb = new TreeBean();
+                        tb.KeyFieldName = ol.OBSLINECODE;
+                        tb.ParentFieldName = ol.SITECODE;
+                        tb.Caption = ol.OBSLINENAME;
+                        tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                        treelist.Add(tb);
+                    }
                 }
-
+                
                 //原始数据树列表显示
+          
                 this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                 this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
 
@@ -201,6 +216,7 @@ namespace xxkUI
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.Editable = false;
                 this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
+                this.treeListOriData.BeforeCheckNode += treeListOriData_BeforeCheckNode_1;
 
                 //工作区树列表显示
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
@@ -213,6 +229,7 @@ namespace xxkUI
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
                 this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
+                this.treeListWorkSpace.BeforeCheckNode += treeListWorkSpace_BeforeCheckNode;
 
             }
             catch (Exception ex)
@@ -328,7 +345,6 @@ namespace xxkUI
         {
             if (e.Column == treeListColumn1)
             {
-              
                 if (e.CellValue.ToString()!="")
                 {
                     e.Appearance.BackColor = Color.LightGray;
@@ -361,12 +377,23 @@ namespace xxkUI
         private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
         {
             e.CanCheck = false;
+            //if ((bool)sender)
+            //{
+            //    e.CanCheck = true;
+            //}
+            
         }
 
         private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
         {
             e.CanCheck = false;
+            //if ((bool) sender)
+            //{
+            //    e.CanCheck = true;
+            //}
         }
 
+
+        public TreeListNode a { get; set; }
     }
 }

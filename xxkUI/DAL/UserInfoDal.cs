@@ -18,32 +18,5 @@ namespace xxkUI.Dal
             get { return SingletonProvider<UserInfoDal>.Instance; }
         }
 
-        public UserInfoBean GetUserBy(string userName)
-        {
-            return GetAll().ToList().Find(n => n.UserName == userName);
-        }
-
-        public bool GetLogin(UserInfoBean uif)
-        {
-            UserInfoBean obj = GetAll().ToList().Find(n => (n.UserName == uif.UserName&& n.Password == uif.Password));
-
-            if (obj != null)
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// 给密码加密
-        /// </summary>
-        /// <param name="pwd">密码</param>
-        /// <returns></returns>
-        private string encryptPWD(string pwd)
-        {
-            //加密算法不可逆
-            string password = FormsAuthentication.HashPasswordForStoringInConfigFile(pwd, "MD5");
-            return password;
-        }
-
     }
 }

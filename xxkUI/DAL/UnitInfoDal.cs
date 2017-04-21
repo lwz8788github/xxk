@@ -18,5 +18,6 @@ namespace xxkUI.Dal
             get { return SingletonProvider<UnitInfoDal>.Instance; }
         }
              
+             
     }
 }

@@ -631,7 +631,7 @@
             this.treeListOriData.ParentFieldName = "";
             this.treeListOriData.Size = new System.Drawing.Size(252, 403);
             this.treeListOriData.TabIndex = 0;
-            this.treeListOriData.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListOriData_BeforeCheckNode_1);
+            //this.treeListOriData.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListOriData_BeforeCheckNode_1);
             // 
             // treeListColumn1
             // 
@@ -698,7 +698,7 @@
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.treeListWorkSpace.TabIndex = 16;
-            this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
+           // this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
             // 
             // treeListColumn4
             // 

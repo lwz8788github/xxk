@@ -45,10 +45,15 @@
       <HintPath>..\packages\valueinjecter.2.3.1\lib\net35\Omu.ValueInjecter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -68,6 +73,7 @@
     <Compile Include="Data\Filter\FilterRule.cs" />
     <Compile Include="Data\Filter\FilterTranslator.cs" />
     <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\List.cs" />
     <Compile Include="Data\MySql\MysqlHelper.cs" />
     <Compile Include="Data\MySql\MysqlEasy.cs" />
     <Compile Include="Data\Pageable.cs" />

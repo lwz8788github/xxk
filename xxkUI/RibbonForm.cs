@@ -26,16 +26,18 @@ using DevExpress.XtraTreeList;
 using xxkUI.BLL;
 using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
+using xxkUI.MyGMap;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-
+        GMapMarkerKdcSite gmmkks;
         private List<string> userAut = new List<string>();
         public RibbonForm()
         {
             InitializeComponent();
+            gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
         }
 
@@ -64,42 +66,6 @@ namespace xxkUI
         }
 
 
-
-
-        /// <summary>
-        /// 添加场地标记
-        /// </summary>
-        private void LoadSiteMarker()
-        {
-            IEnumerable<SiteBean> sblist = SiteBll.Instance.GetAll();
-
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
-            GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
-
-            foreach (SiteBean sb in sblist)
-            {
-                GMapMarker marker = null;
-                if (sb.SiteCode.Substring(0, 1) == "L")
-                {
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_small);
-                }
-                else
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
-
-                marker.Tag = sb;
-                SiteOverlay.Markers.Add(marker);
-
-                //if (sb.SiteCode.Substring(0, 1) == "D")
-                //{
-                //    GMapMarker marker = null;
-                //    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
-                //    marker.Tag = sb;
-                //    SiteOverlay.Markers.Add(marker);
-                //}
-
-            }
-            gMapCtrl.Overlays.Add(SiteOverlay);
-        }
 
 
 
@@ -215,9 +181,6 @@ namespace xxkUI
             List<string> userlist = new List<string>();
             // userlist = ;
             //2.遍历list下载数据
-
-
-
         }
 
         #region 地图事件 刘文龙
@@ -229,33 +192,18 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            this.gMapCtrl.BackColor = Color.Red;
-            //设置控件的管理模式  
-            this.gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
-            //设置控件显示的地图来源  
-            this.gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
-            //设置控件显示的当前中心位置  
-            //31.7543, 121.6281  
-            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
-            //设置控件最大的缩放比例  
-            this.gMapCtrl.MaxZoom = 50;
-            //设置控件最小的缩放比例  
-            this.gMapCtrl.MinZoom = 2;
-            //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 4;
-
-            LoadSiteMarker();
-
-        }
+            if (gmmkks.InitMap())
+                gmmkks.LoadSiteMarker(SiteBll.Instance.GetAll());
+                   }
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
-            this.gMapCtrl.Zoom += 1;
+            gmmkks.Zoom(1);
 
         }
 
         private void gMapCtrl_MouseMove(object sender, MouseEventArgs e)
         {
-            PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
+            PointLatLng latLng = gmmkks.FromLocalToLatLng(e.X, e.Y);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
 
@@ -272,24 +220,23 @@ namespace xxkUI
 
         private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
-                    //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 4;
+            gmmkks.Full();
         }
 
         private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Zoom += 1;
+            gmmkks.Zoom(1);
         }
 
         private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Zoom -= 1;
+            gmmkks.Zoom(-1);
+
         }
 
         private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.ReloadMap();
+            gmmkks.ReloadMap();
         }
 
 
@@ -337,82 +284,9 @@ namespace xxkUI
         }
 
 
-        public DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
-        {
-            DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit rEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-
-            DataTable dtTmp = new DataTable();
-            dtTmp.Columns.Add("请选择");
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                DataRow drTmp1 = dtTmp.NewRow();
-                drTmp1[0] = values[i];
-                dtTmp.Rows.Add(drTmp1);
-            }
-
-            rEdit.DataSource = dtTmp;
-
-            rEdit.ValueMember = "请选择";
-            rEdit.DisplayMember = "请选择";
-            rEdit.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
-            rEdit.ShowFooter = false;
-            rEdit.ShowHeader = false;
-            return rEdit;
-        }
-
-
-        private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn1)
-            {
-                if (e.CellValue.ToString() != "")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
-
-        private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn4)
-            {
-
-                if (e.CellValue.ToString() != "")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
+        
 
         
-        //private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        //{
-        //    if (e.Column == treeListColumn1)
-        //    {
-        //        if (e.CellValue.ToString()!="")
-        //        {
-        //            e.Appearance.BackColor = Color.LightGray;
-        //            e.Appearance.Options.UseBackColor = true;
-        //        }
-        //    }
-        //}
-
-        //private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        //{
-        //    if (e.Column == treeListColumn4)
-        //    {
-
-        //        if (e.CellValue.ToString() != "")
-        //        {
-        //            e.Appearance.BackColor = Color.LightGray;
-        //            e.Appearance.Options.UseBackColor = true;
-        //        }
-        //    }
-        //}
-
         /// <summary>
         /// 禁止操作节点CheckBox
         /// 说明

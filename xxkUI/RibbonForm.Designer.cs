@@ -582,7 +582,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
+            this.panelContainer1.ActiveChild = this.dockPanelOriData;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
@@ -601,7 +601,7 @@
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
             this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
             this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(191, 403);
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(252, 333);
             this.dockPanelOriData.Size = new System.Drawing.Size(252, 403);
             this.dockPanelOriData.Text = "原始数据";
             // 
@@ -631,7 +631,6 @@
             this.treeListOriData.ParentFieldName = "";
             this.treeListOriData.Size = new System.Drawing.Size(252, 403);
             this.treeListOriData.TabIndex = 0;
-            //this.treeListOriData.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListOriData_BeforeCheckNode_1);
             // 
             // treeListColumn1
             // 
@@ -674,7 +673,7 @@
             this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
             this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
             this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(191, 403);
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(252, 333);
             this.dockPanelWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.dockPanelWorkSpace.Text = "工作区";
             // 
@@ -698,7 +697,6 @@
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
             this.treeListWorkSpace.TabIndex = 16;
-           // this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
             // 
             // treeListColumn4
             // 
@@ -778,7 +776,7 @@
             this.xtraTabPage4.Controls.Add(this.vGridControlSiteInfo);
             this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(249, 402);
+            this.xtraTabPage4.Size = new System.Drawing.Size(249, 332);
             this.xtraTabPage4.Text = "属性";
             // 
             // vGridControlSiteInfo
@@ -853,7 +851,7 @@
             this.row19,
             this.row20,
             this.row8});
-            this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 402);
+            this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 332);
             this.vGridControlSiteInfo.TabIndex = 1;
             // 
             // siteMapPic
@@ -1086,7 +1084,7 @@
             // 
             this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage5.Name = "xtraTabPage5";
-            this.xtraTabPage5.Size = new System.Drawing.Size(249, 402);
+            this.xtraTabPage5.Size = new System.Drawing.Size(249, 332);
             this.xtraTabPage5.Text = "监测数据";
             // 
             // xtraTabControl1
@@ -1144,7 +1142,7 @@
             // 
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(731, 429);
+            this.xtraTabPage2.Size = new System.Drawing.Size(731, 359);
             this.xtraTabPage2.Text = "监测数据";
             // 
             // RibbonForm

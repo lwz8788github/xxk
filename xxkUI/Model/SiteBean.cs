@@ -156,8 +156,8 @@ public class SiteBean
     }
 
     [Description("场地布设图路径")]
-    private string _SiteMapFile;
-    public string SiteMapFile
+    private byte[] _SiteMapFile;
+    public byte[] SiteMapFile
     {
         get { return _SiteMapFile; }
         set { _SiteMapFile = value; }

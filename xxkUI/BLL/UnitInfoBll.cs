@@ -42,6 +42,21 @@ namespace xxkUI.BLL
         {
             return UnitInfoDal.Instance.GetAll();
         }
-       
+
+        //public List<string> GeSiteByUnit<UnitInfoBean>(string UnitCode)
+        //{
+        //    string authstr = UnitInfoDal.Instance.GetByID("SITECODE", "USERNAME", UnitCode).ToString();
+        //    string[] auths = authstr.Split(';');
+        //    return auths.ToList();
+        //}
+
+        public string GetUnitNameBy(string _unitcode)
+        {
+            IEnumerable<UnitInfoBean> uibEnum = UnitInfoDal.Instance.GetList("select unitname from t_unittb where unitcode=@Unitcode", new { Unitcode = _unitcode });
+            return uibEnum.ToList()[0].UnitName;
+        }
+
+
+
     }
 }

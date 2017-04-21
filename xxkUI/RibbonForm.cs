@@ -24,17 +24,23 @@ using System.IO;
 using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList;
 using xxkUI.BLL;
+using DevExpress.XtraVerticalGrid;
+using DevExpress.XtraEditors.Controls;
+using xxkUI.MyGMap;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
         private XTreeList xtl;
+        GMapMarkerKdcSite gmmkks;
         private List<string> userAut = new List<string>();
         public RibbonForm()
         {
             InitializeComponent();
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
+            gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
+            InitFaultCombobox();
         }
 
         /// <summary>
@@ -44,9 +50,9 @@ namespace xxkUI
         /// <param name="e"></param>
         private void btnLogin_ItemClick(object sender, ItemClickEventArgs e)
         {
-            
+
             Login lg = new Login();
-        
+
             if (lg.ShowDialog() == DialogResult.OK)
             {
                 currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
@@ -62,6 +68,8 @@ namespace xxkUI
             }
         }
 
+        #region 地图事件 刘文龙
+
         /// <summary>
         /// 地图加载
         /// </summary>
@@ -69,79 +77,18 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            this.gMapCtrl.BackColor = Color.Red;
-            //设置控件的管理模式  
-            this.gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
-            //设置控件显示的地图来源  
-            this.gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
-            //设置控件显示的当前中心位置  
-            //31.7543, 121.6281  
-            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
-            //设置控件最大的缩放比例  
-            this.gMapCtrl.MaxZoom = 50;
-            //设置控件最小的缩放比例  
-            this.gMapCtrl.MinZoom = 2;
-            //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 4;
-
-            LoadSiteMarker();
-
-        }
-
-
-        /// <summary>
-        /// 添加场地标记
-        /// </summary>
-        private void LoadSiteMarker()
-        {
-            IEnumerable<SiteBean> sblist = SiteBll.Instance.GetAll();
-
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
-            GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
-
-            foreach (SiteBean sb in sblist)
-            {
-                GMapMarker marker = null;
-                if (sb.SiteCode.Substring(0,1) == "L")
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_small);
-                else 
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
-                marker.Tag = sb;
-                SiteOverlay.Markers.Add(marker);
-               
-            }
-           
-            gMapCtrl.Overlays.Add(SiteOverlay);
-
-      
-        }
-
-        private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            this.gMapCtrl.Zoom += 1;
-        }
-
-        private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            this.gMapCtrl.Zoom -= 1;
-        }
-
-        private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            this.gMapCtrl.ReloadMap();
-        }
-
-
-
+            if (gmmkks.InitMap())
+                gmmkks.LoadSiteMarker(SiteBll.Instance.GetAll());
+                   }
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
-            this.gMapCtrl.Zoom += 1;
+            gmmkks.Zoom(1);
 
         }
 
         private void gMapCtrl_MouseMove(object sender, MouseEventArgs e)
         {
-            PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
+            PointLatLng latLng = gmmkks.FromLocalToLatLng(e.X, e.Y);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
 
@@ -149,13 +96,36 @@ namespace xxkUI
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             SiteBean sb = (SiteBean)item.Tag;
-            sb.SiteMapFile =SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
+            sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
             sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-            
-            this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb }; 
+
+            this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb };
             SetBaseinfoVGridControl();
         }
 
+        private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            gmmkks.Full();
+        }
+
+        private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            gmmkks.Zoom(1);
+        }
+
+        private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            gmmkks.Zoom(-1);
+
+        }
+
+        private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            gmmkks.ReloadMap();
+        }
+
+
+        #endregion
 
         /// <summary>
         /// 设置是VGridControl行列样式
@@ -169,8 +139,8 @@ namespace xxkUI
                 DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
                 memoEdit.LinesCount = 1;
                 DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
-                imgEdit.ShowIcon =true;
-               
+                imgEdit.ShowIcon = true;
+
 
                 for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
                 {
@@ -202,44 +172,74 @@ namespace xxkUI
             vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
 
         }
- 
-
-        public DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
-        {
-            DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit rEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-
-            DataTable dtTmp = new DataTable();
-            dtTmp.Columns.Add("请选择");
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                DataRow drTmp1 = dtTmp.NewRow();
-                drTmp1[0] = values[i];
-                dtTmp.Rows.Add(drTmp1);
-            }
-
-            rEdit.DataSource = dtTmp;
-
-            rEdit.ValueMember = "请选择";
-            rEdit.DisplayMember = "请选择";
-            rEdit.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
-            rEdit.ShowFooter = false;
-            rEdit.ShowHeader = false;
-            return rEdit;
-        }
-
         private void dockPanel2_SizeChanged(object sender, EventArgs e)
         {
             SetBaseinfoVGridControl();
+
         }
 
         private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
         {
             if (e.Row.Properties.FieldName == "UnitCode")
             {
-                //e.CellText = UnitInfoBll.Instance.Get(e.CellText);
-                  
+                if (e.CellText != "")
+                {
+                    string unitname = UnitInfoBll.Instance.GetUnitNameBy(e.CellText);
+                    e.CellText = unitname;
+                }
             }
+        }
+
+        /// <summary>
+        /// 初始化断层数据下拉列表
+        /// </summary>
+        private void InitFaultCombobox()
+        {
+            try
+            {
+
+                List<string> districtlist = new List<string>() {
+                    "前第四纪活动断裂(隐伏)",
+                    "全新世活动断裂(非隐伏)",
+                    "全新世活动断裂(隐伏)",
+                    "晚更新世活动断裂(非隐伏)",
+                    "晚更新世活动断裂(隐伏)",
+                    "早第四纪活动断裂(Q12)(非隐伏)",
+                    "早第四纪活动断裂(Q12)(隐伏)",
+                    "早第四纪活动断裂(Q1)(非隐伏)",
+                    "早第四纪活动断裂(Q1)(隐伏)",
+                    "早第四纪活动断裂(Q2)(非隐伏)",
+                    "早第四纪活动断裂(Q2)(隐伏)"};
+
+                this.faultChckCbbxEdit.Items.Clear();
+
+                CheckedListBoxItem[] itemListQuery = new CheckedListBoxItem[districtlist.Count];
+                int check = 0;
+                foreach (string det in districtlist)
+                {
+                    itemListQuery[check] = new CheckedListBoxItem(det);
+                    check++;
+                }
+                this.faultChckCbbxEdit.Items.AddRange(itemListQuery);
+                this.faultChckCbbxEdit.AllowMultiSelect = true;
+                this.faultChckCbbxEdit.SelectAllItemVisible = true;
+                this.faultChckCbbxEdit.SelectAllItemCaption = "全选";
+                for (int i = 0; i < this.faultChckCbbxEdit.Items.Count; i++)
+                {
+                    this.faultChckCbbxEdit.Items[i].CheckState = CheckState.Checked;
+                }
+                barFault.EditValue = faultChckCbbxEdit.GetCheckedItems();
+            }
+            catch (Exception ex)
+            {
+
+                XtraMessageBox.Show("初始化断层数据发生错误：" + ex.Message, "错误");
+            }
+        }
+
+        private void dockPanelWorkSpace_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

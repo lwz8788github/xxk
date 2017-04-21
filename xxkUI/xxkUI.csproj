@@ -117,7 +117,11 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\ModelHandler.cs" />
+<<<<<<< HEAD
     <Compile Include="XTreeList.cs" />
+=======
+    <Compile Include="Tool\PublicHelper.cs" />
+>>>>>>> f88ca8d9d3497975454b801eb350bc4cbf8a0ea7
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

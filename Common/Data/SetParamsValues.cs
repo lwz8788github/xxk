@@ -4,11 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using MySql.Data.MySqlClient;
 using Omu.ValueInjecter;
 
 namespace Common.Data
 {
-    public class SetParamsValues : KnownTargetValueInjection<SqlCommand>
+    public class SetParamsValues : KnownTargetValueInjection<MySqlCommand>
     {
         private IEnumerable<string> ignoredFields = new string[] { };
         private string prefix = string.Empty;
@@ -25,7 +26,7 @@ namespace Common.Data
             return this;
         }
 
-        protected override void Inject(object source, ref SqlCommand cmd)
+        protected override void Inject(object source, ref MySqlCommand cmd)
         {
             if (source == null) return;
             var sourceProps = source.GetInfos().ToList();

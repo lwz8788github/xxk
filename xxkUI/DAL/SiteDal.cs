@@ -17,6 +17,11 @@ namespace xxkUI.Dal
         {
             get { return SingletonProvider<SiteDal>.Instance; }
         }
-             
+
+
+        internal IEnumerable<SiteBean> GetList(string p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

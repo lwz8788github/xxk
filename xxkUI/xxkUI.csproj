@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Dic.cs" />
     <Compile Include="BLL\EqkBll.cs" />
     <Compile Include="BLL\LineBll.cs" />
     <Compile Include="BLL\LineObsBll.cs" />
@@ -116,6 +117,7 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\ModelHandler.cs" />
+    <Compile Include="Tool\PublicHelper.cs" />
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

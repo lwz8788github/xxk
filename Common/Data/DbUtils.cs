@@ -512,7 +512,7 @@ namespace Common.Data
             return ms;
         }
 
-    
+
         /// <summary>
         /// 根据id获取字段值
         /// </summary>

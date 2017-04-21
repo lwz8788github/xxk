@@ -99,17 +99,12 @@ namespace xxkUI
             foreach (SiteBean sb in sblist)
             {
                 GMapMarker marker = null;
-
                 if (sb.SiteCode.Substring(0,1) == "L")
-                { 
                     marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_small);
-                   
-                }
-                else if (sb.SiteCode.Substring(0, 1) == "D")
+                else 
                     marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
                 marker.Tag = sb;
                 SiteOverlay.Markers.Add(marker);
-
                
             }
            
@@ -249,8 +244,9 @@ namespace xxkUI
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             SiteBean sb = (SiteBean)item.Tag;
-            sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
-
+            sb.SiteMapFile =SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
+            sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+            
             this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb }; 
             SetBaseinfoVGridControl();
         }
@@ -267,6 +263,9 @@ namespace xxkUI
 
                 DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
                 memoEdit.LinesCount = 1;
+                DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
+                imgEdit.ShowIcon =true;
+               
 
                 for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
                 {
@@ -278,12 +277,15 @@ namespace xxkUI
 
                     if (i != 0)
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
+                    else
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
+
                     vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
                 }
 
                 vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
                 vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
-                vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
+                //vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
             }
             catch (Exception ex)
             {
@@ -364,6 +366,15 @@ namespace xxkUI
         private void dockPanel2_SizeChanged(object sender, EventArgs e)
         {
             SetBaseinfoVGridControl();
+        }
+
+        private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
+        {
+            if (e.Row.Properties.FieldName == "UnitCode")
+            {
+                //e.CellText = UnitInfoBll.Instance.Get(e.CellText);
+                  
+            }
         }
     }
 }

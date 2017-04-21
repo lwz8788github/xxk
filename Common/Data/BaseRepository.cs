@@ -28,7 +28,16 @@ namespace Common.Data
         /// <returns></returns>
         public  IEnumerable<T> GetList(string sql,object whereParam)
         {
-            return DbUtils.GetList<T>(sql, whereParam);
+            IEnumerable<T> list;
+            try
+            {
+                list=DbUtils.GetList<T>(sql, whereParam);
+            }
+            catch (Exception ex)
+            {
+                list = null;
+            }
+            return list;
         }
 
         public virtual int Insert(T o)

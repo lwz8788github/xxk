@@ -53,6 +53,22 @@
             this.repositoryItemCheckedComboBoxEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
             this.barEditItem3 = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemCheckedComboBoxEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+            this.barFault = new DevExpress.XtraBars.BarEditItem();
+            this.faultChckCbbxEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+            this.barEditItem6 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem7 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemCalcEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
+            this.barEditItem8 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
+            this.barEditItem9 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem10 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem11 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -76,22 +92,24 @@
             this.ribbonPageGroup18 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup19 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup21 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup20 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
@@ -126,39 +144,29 @@
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
-            this.barFault = new DevExpress.XtraBars.BarEditItem();
-            this.faultChckCbbxEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
-            this.ribbonPageGroup20 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
-            this.barEditItem6 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem7 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemCalcEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem8 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem9 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem10 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem11 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelOriData.SuspendLayout();
-            this.dockPanel3_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
             this.dockPanelWorkSpace.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
+            this.dockPanelOriData.SuspendLayout();
+            this.dockPanel3_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
             this.dockPanel2.SuspendLayout();
             this.dockPanel2_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
@@ -169,14 +177,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -400,6 +400,119 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCheckedComboBoxEdit3.Name = "repositoryItemCheckedComboBoxEdit3";
             // 
+            // barFault
+            // 
+            this.barFault.Caption = "断层数据：";
+            this.barFault.Edit = this.faultChckCbbxEdit;
+            this.barFault.EditWidth = 120;
+            this.barFault.Id = 51;
+            this.barFault.Name = "barFault";
+            // 
+            // faultChckCbbxEdit
+            // 
+            this.faultChckCbbxEdit.AllowMultiSelect = true;
+            this.faultChckCbbxEdit.AutoHeight = false;
+            this.faultChckCbbxEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.faultChckCbbxEdit.DropDownRows = 11;
+            this.faultChckCbbxEdit.Name = "faultChckCbbxEdit";
+            // 
+            // barEditItem6
+            // 
+            this.barEditItem6.Caption = "震级大于：";
+            this.barEditItem6.Edit = this.repositoryItemTextEdit1;
+            this.barEditItem6.EditWidth = 120;
+            this.barEditItem6.Id = 61;
+            this.barEditItem6.Name = "barEditItem6";
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            // 
+            // barEditItem7
+            // 
+            this.barEditItem7.Caption = "起始时间：";
+            this.barEditItem7.Edit = this.repositoryItemCalcEdit1;
+            this.barEditItem7.EditWidth = 120;
+            this.barEditItem7.Id = 63;
+            this.barEditItem7.Name = "barEditItem7";
+            // 
+            // repositoryItemCalcEdit1
+            // 
+            this.repositoryItemCalcEdit1.AutoHeight = false;
+            this.repositoryItemCalcEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemCalcEdit1.Name = "repositoryItemCalcEdit1";
+            // 
+            // barEditItem8
+            // 
+            this.barEditItem8.Caption = "终止时间：";
+            this.barEditItem8.Edit = this.repositoryItemCalcEdit2;
+            this.barEditItem8.EditWidth = 120;
+            this.barEditItem8.Id = 64;
+            this.barEditItem8.Name = "barEditItem8";
+            // 
+            // repositoryItemCalcEdit2
+            // 
+            this.repositoryItemCalcEdit2.AutoHeight = false;
+            this.repositoryItemCalcEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemCalcEdit2.Name = "repositoryItemCalcEdit2";
+            // 
+            // barEditItem9
+            // 
+            this.barEditItem9.Caption = "震级小于：";
+            this.barEditItem9.Edit = this.repositoryItemTextEdit3;
+            this.barEditItem9.EditWidth = 120;
+            this.barEditItem9.Id = 65;
+            this.barEditItem9.Name = "barEditItem9";
+            // 
+            // repositoryItemTextEdit3
+            // 
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            // 
+            // barEditItem10
+            // 
+            this.barEditItem10.Caption = "深度大于：";
+            this.barEditItem10.Edit = this.repositoryItemTextEdit4;
+            this.barEditItem10.EditWidth = 120;
+            this.barEditItem10.Id = 66;
+            this.barEditItem10.Name = "barEditItem10";
+            // 
+            // repositoryItemTextEdit4
+            // 
+            this.repositoryItemTextEdit4.AutoHeight = false;
+            this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
+            // 
+            // barEditItem11
+            // 
+            this.barEditItem11.Caption = "深度小于：";
+            this.barEditItem11.Edit = this.repositoryItemTextEdit5;
+            this.barEditItem11.EditWidth = 120;
+            this.barEditItem11.Id = 67;
+            this.barEditItem11.Name = "barEditItem11";
+            // 
+            // repositoryItemTextEdit5
+            // 
+            this.repositoryItemTextEdit5.AutoHeight = false;
+            this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Caption = "查询";
+            this.barButtonItem6.Id = 68;
+            this.barButtonItem6.Name = "barButtonItem6";
+            this.barButtonItem6.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Caption = "查询";
+            this.barButtonItem7.Id = 69;
+            this.barButtonItem7.Name = "barButtonItem7";
+            this.barButtonItem7.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -556,10 +669,27 @@
             this.ribbonPageGroup21.Name = "ribbonPageGroup21";
             this.ribbonPageGroup21.Text = "分类数据";
             // 
+            // ribbonPageGroup20
+            // 
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem6);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem9);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem7);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem8);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem10);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem11);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem7);
+            this.ribbonPageGroup20.Name = "ribbonPageGroup20";
+            this.ribbonPageGroup20.Text = "历史地震";
+            // 
             // repositoryItemCheckEdit1
             // 
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // ribbonPageGroup6
             // 
@@ -586,17 +716,75 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelOriData;
+            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
             this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
             this.panelContainer1.Location = new System.Drawing.Point(0, 147);
             this.panelContainer1.Name = "panelContainer1";
-            this.panelContainer1.OriginalSize = new System.Drawing.Size(261, 200);
-            this.panelContainer1.Size = new System.Drawing.Size(261, 458);
+            this.panelContainer1.OriginalSize = new System.Drawing.Size(355, 200);
+            this.panelContainer1.Size = new System.Drawing.Size(355, 458);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
+            // 
+            // dockPanelWorkSpace
+            // 
+            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
+            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(252, 403);
+            this.dockPanelWorkSpace.Size = new System.Drawing.Size(346, 403);
+            this.dockPanelWorkSpace.Text = "工作区";
+            this.dockPanelWorkSpace.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
+            // 
+            // dockPanel1_Container
+            // 
+            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(346, 403);
+            this.dockPanel1_Container.TabIndex = 0;
+            // 
+            // treeListWorkSpace
+            // 
+            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn4,
+            this.treeListColumn5,
+            this.treeListColumn6});
+            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
+            this.treeListWorkSpace.Name = "treeListWorkSpace";
+            this.treeListWorkSpace.Size = new System.Drawing.Size(346, 403);
+            this.treeListWorkSpace.TabIndex = 16;
+            this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
+            // 
+            // treeListColumn4
+            // 
+            this.treeListColumn4.Caption = "场地";
+            this.treeListColumn4.FieldName = "Caption";
+            this.treeListColumn4.Name = "treeListColumn4";
+            this.treeListColumn4.Visible = true;
+            this.treeListColumn4.VisibleIndex = 0;
+            // 
+            // treeListColumn5
+            // 
+            this.treeListColumn5.Caption = "类型";
+            this.treeListColumn5.FieldName = "SiteType";
+            this.treeListColumn5.Name = "treeListColumn5";
+            this.treeListColumn5.Visible = true;
+            this.treeListColumn5.VisibleIndex = 1;
+            // 
+            // treeListColumn6
+            // 
+            this.treeListColumn6.Caption = "状态";
+            this.treeListColumn6.FieldName = "LineStatus";
+            this.treeListColumn6.Name = "treeListColumn6";
+            this.treeListColumn6.Visible = true;
+            this.treeListColumn6.VisibleIndex = 2;
             // 
             // dockPanelOriData
             // 
@@ -605,8 +793,8 @@
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
             this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
             this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(191, 403);
-            this.dockPanelOriData.Size = new System.Drawing.Size(252, 403);
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(252, 403);
+            this.dockPanelOriData.Size = new System.Drawing.Size(346, 403);
             this.dockPanelOriData.Text = "原始数据";
             // 
             // dockPanel3_Container
@@ -614,7 +802,7 @@
             this.dockPanel3_Container.Controls.Add(this.treeListOriData);
             this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
             this.dockPanel3_Container.Name = "dockPanel3_Container";
-            this.dockPanel3_Container.Size = new System.Drawing.Size(252, 403);
+            this.dockPanel3_Container.Size = new System.Drawing.Size(346, 403);
             this.dockPanel3_Container.TabIndex = 0;
             // 
             // treeListOriData
@@ -633,7 +821,7 @@
             this.treeListOriData.OptionsBehavior.Editable = false;
             this.treeListOriData.OptionsSelection.MultiSelect = true;
             this.treeListOriData.ParentFieldName = "";
-            this.treeListOriData.Size = new System.Drawing.Size(252, 403);
+            this.treeListOriData.Size = new System.Drawing.Size(346, 403);
             this.treeListOriData.TabIndex = 0;
             // 
             // treeListColumn1
@@ -669,75 +857,6 @@
             this.treeListColumn3.Visible = true;
             this.treeListColumn3.VisibleIndex = 2;
             this.treeListColumn3.Width = 35;
-            // 
-            // dockPanelWorkSpace
-            // 
-            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
-            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(191, 403);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(252, 403);
-            this.dockPanelWorkSpace.Text = "工作区";
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(252, 403);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // treeListWorkSpace
-            // 
-            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn4,
-            this.treeListColumn5,
-            this.treeListColumn6,
-            this.treeListColumn4,
-            this.treeListColumn5,
-            this.treeListColumn6});
-            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
-            this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
-            this.treeListWorkSpace.TabIndex = 16;
-            this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
-            // 
-            // treeListColumn4
-            // 
-            this.treeListColumn4.Caption = "场地";
-            this.treeListColumn4.FieldName = "Caption";
-            this.treeListColumn4.Name = "treeListColumn4";
-            this.treeListColumn4.OptionsColumn.AllowEdit = false;
-            this.treeListColumn4.OptionsColumn.FixedWidth = true;
-            this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 1;
-            this.treeListColumn4.Width = 134;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "类型";
-            this.treeListColumn5.FieldName = "SiteType";
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.OptionsColumn.AllowEdit = false;
-            this.treeListColumn5.OptionsColumn.FixedWidth = true;
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 3;
-            this.treeListColumn5.Width = 49;
-            // 
-            // treeListColumn6
-            // 
-            this.treeListColumn6.Caption = "状态";
-            this.treeListColumn6.FieldName = "LineStatus";
-            this.treeListColumn6.Name = "treeListColumn6";
-            this.treeListColumn6.OptionsColumn.AllowEdit = false;
-            this.treeListColumn6.OptionsColumn.FixedWidth = true;
-            this.treeListColumn6.Visible = true;
-            this.treeListColumn6.VisibleIndex = 5;
-            this.treeListColumn6.Width = 51;
             // 
             // dockPanel2
             // 
@@ -827,7 +946,7 @@
             this.vGridControlSiteInfo.Appearance.SelectedRow.Options.UseForeColor = true;
             this.vGridControlSiteInfo.Appearance.VertLine.ForeColor = System.Drawing.Color.Black;
             this.vGridControlSiteInfo.Appearance.VertLine.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeNS;
+            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.vGridControlSiteInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vGridControlSiteInfo.Font = new System.Drawing.Font("Tahoma", 11F);
             this.vGridControlSiteInfo.Location = new System.Drawing.Point(0, 0);
@@ -1102,11 +1221,11 @@
             // xtraTabControl1
             // 
             this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(261, 147);
+            this.xtraTabControl1.Location = new System.Drawing.Point(355, 147);
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(737, 458);
+            this.xtraTabControl1.Size = new System.Drawing.Size(643, 458);
             this.xtraTabControl1.TabIndex = 10;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -1117,7 +1236,7 @@
             this.xtraTabPage1.Controls.Add(this.gMapCtrl);
             this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(731, 429);
+            this.xtraTabPage1.Size = new System.Drawing.Size(637, 429);
             this.xtraTabPage1.Text = "场地分布";
             // 
             // gMapCtrl
@@ -1142,7 +1261,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(731, 429);
+            this.gMapCtrl.Size = new System.Drawing.Size(637, 429);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -1154,45 +1273,14 @@
             // 
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(731, 429);
+            this.xtraTabPage2.Size = new System.Drawing.Size(637, 429);
             this.xtraTabPage2.Text = "监测数据";
             // 
             // barEditItemCounty
             // 
-            this.barEditItemCounty.Caption = "区      县：";
             this.barEditItemCounty.Edit = null;
-            this.barEditItemCounty.EditWidth = 120;
-            this.barEditItemCounty.Id = 31;
+            this.barEditItemCounty.Id = -1;
             this.barEditItemCounty.Name = "barEditItemCounty";
-            // 
-            // barFault
-            // 
-            this.barFault.Caption = "断层数据：";
-            this.barFault.Edit = this.faultChckCbbxEdit;
-            this.barFault.EditWidth = 120;
-            this.barFault.Id = 51;
-            this.barFault.Name = "barFault";
-            // 
-            // faultChckCbbxEdit
-            // 
-            this.faultChckCbbxEdit.AllowMultiSelect = true;
-            this.faultChckCbbxEdit.AutoHeight = false;
-            this.faultChckCbbxEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.faultChckCbbxEdit.DropDownRows = 11;
-            this.faultChckCbbxEdit.Name = "faultChckCbbxEdit";
-            // 
-            // ribbonPageGroup20
-            // 
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem6);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem9);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem7);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem8);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem10);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem11);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem7);
-            this.ribbonPageGroup20.Name = "ribbonPageGroup20";
-            this.ribbonPageGroup20.Text = "历史地震";
             // 
             // barEditItem4
             // 
@@ -1209,107 +1297,6 @@
             this.barEditItem5.EditWidth = 120;
             this.barEditItem5.Id = 50;
             this.barEditItem5.Name = "barEditItem5";
-            // 
-            // barEditItem6
-            // 
-            this.barEditItem6.Caption = "震级大于：";
-            this.barEditItem6.Edit = this.repositoryItemTextEdit1;
-            this.barEditItem6.EditWidth = 120;
-            this.barEditItem6.Id = 61;
-            this.barEditItem6.Name = "barEditItem6";
-            // 
-            // repositoryItemTextEdit1
-            // 
-            this.repositoryItemTextEdit1.AutoHeight = false;
-            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
-            // 
-            // repositoryItemTextEdit2
-            // 
-            this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
-            // 
-            // barEditItem7
-            // 
-            this.barEditItem7.Caption = "起始时间：";
-            this.barEditItem7.Edit = this.repositoryItemCalcEdit1;
-            this.barEditItem7.EditWidth = 120;
-            this.barEditItem7.Id = 63;
-            this.barEditItem7.Name = "barEditItem7";
-            // 
-            // repositoryItemCalcEdit1
-            // 
-            this.repositoryItemCalcEdit1.AutoHeight = false;
-            this.repositoryItemCalcEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemCalcEdit1.Name = "repositoryItemCalcEdit1";
-            // 
-            // barEditItem8
-            // 
-            this.barEditItem8.Caption = "终止时间：";
-            this.barEditItem8.Edit = this.repositoryItemCalcEdit2;
-            this.barEditItem8.EditWidth = 120;
-            this.barEditItem8.Id = 64;
-            this.barEditItem8.Name = "barEditItem8";
-            // 
-            // repositoryItemCalcEdit2
-            // 
-            this.repositoryItemCalcEdit2.AutoHeight = false;
-            this.repositoryItemCalcEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemCalcEdit2.Name = "repositoryItemCalcEdit2";
-            // 
-            // barEditItem9
-            // 
-            this.barEditItem9.Caption = "震级小于：";
-            this.barEditItem9.Edit = this.repositoryItemTextEdit3;
-            this.barEditItem9.EditWidth = 120;
-            this.barEditItem9.Id = 65;
-            this.barEditItem9.Name = "barEditItem9";
-            // 
-            // repositoryItemTextEdit3
-            // 
-            this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
-            // 
-            // barEditItem10
-            // 
-            this.barEditItem10.Caption = "深度大于：";
-            this.barEditItem10.Edit = this.repositoryItemTextEdit4;
-            this.barEditItem10.EditWidth = 120;
-            this.barEditItem10.Id = 66;
-            this.barEditItem10.Name = "barEditItem10";
-            // 
-            // repositoryItemTextEdit4
-            // 
-            this.repositoryItemTextEdit4.AutoHeight = false;
-            this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
-            // 
-            // barEditItem11
-            // 
-            this.barEditItem11.Caption = "深度小于：";
-            this.barEditItem11.Edit = this.repositoryItemTextEdit5;
-            this.barEditItem11.EditWidth = 120;
-            this.barEditItem11.Id = 67;
-            this.barEditItem11.Name = "barEditItem11";
-            // 
-            // repositoryItemTextEdit5
-            // 
-            this.repositoryItemTextEdit5.AutoHeight = false;
-            this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
-            // 
-            // barButtonItem6
-            // 
-            this.barButtonItem6.Caption = "查询";
-            this.barButtonItem6.Id = 68;
-            this.barButtonItem6.Name = "barButtonItem6";
-            this.barButtonItem6.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // barButtonItem7
-            // 
-            this.barButtonItem7.Caption = "查询";
-            this.barButtonItem7.Id = 69;
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
             // RibbonForm
             // 
@@ -1330,15 +1317,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelOriData.ResumeLayout(false);
-            this.dockPanel3_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
             this.dockPanelWorkSpace.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
+            this.dockPanelOriData.ResumeLayout(false);
+            this.dockPanel3_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
             this.dockPanel2.ResumeLayout(false);
             this.dockPanel2_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
@@ -1349,14 +1344,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1426,10 +1413,6 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
-
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn5;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn6;
         private DevExpress.XtraVerticalGrid.VGridControl vGridControlSiteInfo;
         private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit siteMapPic;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow row18;
@@ -1483,5 +1466,8 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
         private DevExpress.XtraBars.BarEditItem barEditItem4;
         private DevExpress.XtraBars.BarEditItem barEditItem5;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn5;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn6;
     }
 }

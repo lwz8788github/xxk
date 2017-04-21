@@ -68,6 +68,7 @@
     <Compile Include="CookieHelper.cs" />
     <Compile Include="Data\BaseRepository.cs" />
     <Compile Include="Data\DbUtils.cs" />
+    <Compile Include="Data\Dic.cs" />
     <Compile Include="Data\FieldsBy.cs" />
     <Compile Include="Data\Filter\FilterGroup.cs" />
     <Compile Include="Data\Filter\FilterRule.cs" />

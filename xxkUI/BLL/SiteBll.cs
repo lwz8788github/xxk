@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Common.Provider;
 using xxkUI.Dal;
+using xxkUI.BLL;
 
 namespace xxkUI.Bll
 {
@@ -50,6 +51,11 @@ namespace xxkUI.Bll
         public IEnumerable<SiteBean> GetWhere(object where)
         {
             return SiteDal.Instance.GetWhere(where);
+        }
+        public string GeSiteCodeByUnitCode<SiteBean>(string UnitCode)
+        {
+            string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "UNITCODE", UnitCode).ToString();
+            return siteCodestr;
         }
     }
 }

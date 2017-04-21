@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using xxkUI.Dal;
+using xxkUI.Bll;
 
 namespace xxkUI.Form
 {
@@ -37,10 +38,10 @@ namespace xxkUI.Form
             {
                 var userName = txtUsername.Text;
                 var password = txtPsd.Text;
-                UserInfoBean u = UserInfoDal.Instance.GetUserBy(userName);
+                UserInfoBean u = UserInfoBll.Instance.GetUserBy(userName);
                 if (u != null)
                 {
-                    if (UserInfoDal.Instance.GetLogin(u))
+                    if (UserInfoBll.Instance.GetLogin(u))
                         this.Username = txtUsername.Text;
                     else
                     {

@@ -28,7 +28,16 @@ namespace Common.Data
         /// <returns></returns>
         public  IEnumerable<T> GetList(string sql,object whereParam)
         {
-            return DbUtils.GetList<T>(sql, whereParam);
+            IEnumerable<T> list;
+            try
+            {
+                list=DbUtils.GetList<T>(sql, whereParam);
+            }
+            catch (Exception ex)
+            {
+                list = null;
+            }
+            return list;
         }
 
         public virtual int Insert(T o)
@@ -103,6 +112,11 @@ namespace Common.Data
         public byte[] GetBlob(string idname,string idvalue,string blobfield)
         {
             return DbUtils.GetBlobByID<T>(idname, idvalue, blobfield);
+        }
+
+        public object GetByID(string getwhat, string idname, string idvalue)
+        {
+            return DbUtils.GetByID<T>(getwhat, idname, idvalue);
         }
     }
 }

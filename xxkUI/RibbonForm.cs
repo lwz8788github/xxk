@@ -52,11 +52,6 @@ namespace xxkUI
 
                 //获取用户权限，放入userAut
                 List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                //List<string> siteCodeList = new List<string>();
-                //foreach (string u_list in userAhtList)
-                //{
-                //    ;
-                //}
                 InitOriDataTree(userAhtList);
             }
             else
@@ -169,10 +164,12 @@ namespace xxkUI
                 }
 
                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+                List<string> siteCodeList = new List<string>();
                 foreach (SiteBean sb in sbEnumt)
                 {
                     if(userAhtList.Contains(sb.UnitCode))
-                    { 
+                    {
+                        siteCodeList.Add(sb.SiteCode);
                         TreeBean tb = new TreeBean();
                         tb.KeyFieldName = sb.SiteCode;
                         tb.ParentFieldName = sb.UnitCode;
@@ -188,7 +185,7 @@ namespace xxkUI
 
                 foreach (LineBean ol in olEnumt)
                 {
-                    if (userAhtList.Contains(ol.SITECODE))
+                    if (siteCodeList.Contains(ol.SITECODE))
                     {
                         TreeBean tb = new TreeBean();
                         tb.KeyFieldName = ol.OBSLINECODE;
@@ -210,8 +207,8 @@ namespace xxkUI
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.Editable = false;
-                this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
-                this.treeListOriData.BeforeCheckNode += treeListOriData_BeforeCheckNode_1;
+                //this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
+                //this.treeListOriData.BeforeCheckNode += treeListOriData_BeforeCheckNode_1;
 
                 //工作区树列表显示
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
@@ -223,8 +220,8 @@ namespace xxkUI
                 //this.treeListWorkSpace.Enabled = false;
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
-                this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
-                this.treeListWorkSpace.BeforeCheckNode += treeListWorkSpace_BeforeCheckNode;
+                //this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
+                //this.treeListWorkSpace.BeforeCheckNode += treeListWorkSpace_BeforeCheckNode;
 
             }
             catch (Exception ex)
@@ -336,30 +333,30 @@ namespace xxkUI
         }
 
         
-        private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn1)
-            {
-                if (e.CellValue.ToString()!="")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
+        //private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        //{
+        //    if (e.Column == treeListColumn1)
+        //    {
+        //        if (e.CellValue.ToString()!="")
+        //        {
+        //            e.Appearance.BackColor = Color.LightGray;
+        //            e.Appearance.Options.UseBackColor = true;
+        //        }
+        //    }
+        //}
 
-        private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn4)
-            {
+        //private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        //{
+        //    if (e.Column == treeListColumn4)
+        //    {
 
-                if (e.CellValue.ToString() != "")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
+        //        if (e.CellValue.ToString() != "")
+        //        {
+        //            e.Appearance.BackColor = Color.LightGray;
+        //            e.Appearance.Options.UseBackColor = true;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 禁止操作节点CheckBox
@@ -371,7 +368,7 @@ namespace xxkUI
         /// <param name="e">CheckNodeEventArgs</param>
         private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
         {
-            e.CanCheck = false;
+            e.CanCheck = true;
             //if ((bool)sender)
             //{
             //    e.CanCheck = true;
@@ -381,7 +378,7 @@ namespace xxkUI
 
         private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
         {
-            e.CanCheck = false;
+            e.CanCheck = true;
             //if ((bool) sender)
             //{
             //    e.CanCheck = true;

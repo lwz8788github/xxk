@@ -42,5 +42,7 @@ namespace xxkUI.BLL
         {
             return UnitInfoDal.Instance.GetAll();
         }
+
+       
     }
 }

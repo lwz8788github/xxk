@@ -857,6 +857,7 @@
             this.row8});
             this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 402);
             this.vGridControlSiteInfo.TabIndex = 1;
+            this.vGridControlSiteInfo.CustomDrawRowValueCell += new DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventHandler(this.vGridControlSiteInfo_CustomDrawRowValueCell);
             // 
             // siteMapPic
             // 
@@ -870,12 +871,10 @@
             this.row18.Appearance.Options.UseTextOptions = true;
             this.row18.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.row18.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row18.Height = 24;
             this.row18.Name = "row18";
             this.row18.Properties.Caption = "场地布设图";
             this.row18.Properties.FieldName = "SiteMapFile";
             this.row18.Properties.Padding = new System.Windows.Forms.Padding(0);
-            this.row18.Properties.RowEdit = this.siteMapPic;
             // 
             // row1
             // 

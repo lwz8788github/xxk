@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tctest
+namespace xxkUI.MyCls
 {
     public class MyTeeChart
     {
@@ -43,6 +43,16 @@ namespace tctest
            
 
             return isok;
+        }
+
+        public TChart CreateTChartCtrol(int width,int height, System.Drawing.Point location)
+        {
+            this.tChart.Width = width;
+            this.tChart.Height = height;
+            this.tChart.Location = location;
+
+            return this.tChart;
+        
         }
 
 

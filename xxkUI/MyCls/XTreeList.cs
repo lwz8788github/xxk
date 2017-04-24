@@ -9,6 +9,7 @@ using xxkUI.Bll;
 using xxkUI.BLL;
 using xxkUI.Model;
 using xxkUI.Form;
+using DevExpress.XtraTreeList.Nodes;
 
 namespace xxkUI.MyCls
 {
@@ -200,5 +201,64 @@ namespace xxkUI.MyCls
             //    e.CanCheck = true;
             //}
         }
+
+        /// <summary>
+        /// 获取选中的测线节点tag lwl
+        /// </summary>
+        /// <param name="treeType"></param>
+        /// <returns></returns>
+        public List<LineBean> GetCheckedLine(string treeType)
+        {
+            TreeList tree = null;
+            if (treeType == "treeListOriData")
+                tree = this.treeListOriData;
+            else if (treeType == "treeListWorkSpace")
+                tree = this.treeListWorkSpace;
+
+            List<LineBean> lblist = new List<LineBean>();
+            try
+            {
+                foreach (TreeListNode dn in tree.Nodes)
+                {
+                     GetCheckedNode(dn, ref lblist);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return lblist;
+                
+        }
+        /// <summary>
+        /// 获取选择状态的数据主键ID集合  lwl
+        /// </summary>
+        /// <param name="parentNode">父级节点</param>
+        private void GetCheckedNode(TreeListNode parentNode, ref List<LineBean> lblist)
+        {
+            if (parentNode.Nodes.Count == 0)
+            {
+                return;//递归终止
+            }
+
+            foreach (TreeListNode node in parentNode.Nodes)
+            {
+               
+                    if (node.CheckState == CheckState.Checked)
+                    {
+                        TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+                        LineBean tag = nodeInfo.Tag as LineBean;
+                        if (tag != null)
+                        {
+                            lblist.Add(tag);
+                        }
+                    }
+                    GetCheckedNode(node, ref lblist);
+              
+            }
+
+        }
+
+
     }
 }

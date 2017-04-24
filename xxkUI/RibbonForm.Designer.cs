@@ -764,7 +764,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelOriData;
+            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
@@ -995,7 +995,7 @@
             this.vGridControlSiteInfo.Appearance.SelectedRow.Options.UseForeColor = true;
             this.vGridControlSiteInfo.Appearance.VertLine.ForeColor = System.Drawing.Color.Black;
             this.vGridControlSiteInfo.Appearance.VertLine.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeWE;
+            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeNS;
             this.vGridControlSiteInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vGridControlSiteInfo.Font = new System.Drawing.Font("Tahoma", 11F);
             this.vGridControlSiteInfo.Location = new System.Drawing.Point(0, 0);

@@ -27,6 +27,7 @@ using xxkUI.BLL;
 using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
 using xxkUI.MyCls;
+using KdcApp.Helper;
 
 namespace xxkUI
 {
@@ -34,7 +35,7 @@ namespace xxkUI
     {
         private XTreeList xtl;
         private GMapMarkerKdcSite gmmkks;
-        private DevChart dc;
+        
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
 
@@ -285,10 +286,29 @@ namespace xxkUI
         /// <param name="e"></param>
         private void popMenu_ItemClick(object sender, ItemClickEventArgs e)
         {
-        
+            
             switch (e.Item.Name)
             {
                 case "btnSaveToWorkspace"://保存到工作区
+                    {
+                        //IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+                        DownLoadInfoBean downLoadInfo = new DownLoadInfoBean();
+                        downLoadInfo.Obslinecode = currentClickNodeInfo.KeyFieldName;
+                        
+                        downLoadInfo.Tag =  currentClickNodeInfo.Tag;
+                        downLoadInfo.DownloadStr = currentClickNodeInfo.KeyFieldName;
+                        downLoadInfo.DownloadPath = Directory.CreateDirectory("~/xxk/xxkUI/bin/Debug/myworkspace/"
+                                    + currentClickNodeInfo.ParentFieldName + "/" );
+                        string title = currentClickNodeInfo.Caption + ".xls";
+                        string downloadFileName = downLoadInfo.DownloadPath + "/" + title;
+                        //string table = "t_obsrvtntb";
+                        System.Data.DataTable dt = null;
+                        LineObsBean obsDt = LineObsBll.Instance.Get(int.Parse(downLoadInfo.Obslinecode));
+                        //NpoiCreator npcreator = new NpoiCreator();
+                        //npcreator.TemplateFile = downloadFileName;
+                        //npcreator.NpoiExcel(dt, title, downloadFileName);
+
+                    }
                     break;
                 case "btnChart"://趋势图
                     break;
@@ -303,6 +323,23 @@ namespace xxkUI
             }
         }
 
+        /////<summary>
+        /////数据下载
+        /////</summary>
+        /////
+        //private string Download(DownLoadInfoBean dlb)
+        //{
+        //    try
+        //    {
+        //        string targetPath = dlb.DownloadPath;
+
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return downLoadName;
+        //}
 
         #region Teechart鼠标交互操作
 

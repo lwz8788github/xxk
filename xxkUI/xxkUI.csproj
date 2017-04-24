@@ -59,6 +59,15 @@
       <HintPath>..\..\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="NPOI">
+      <HintPath>..\..\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
     <Reference Include="NVelocity">
       <HintPath>..\Common\bin\Debug\NVelocity.dll</HintPath>
     </Reference>
@@ -109,9 +118,9 @@
     <Compile Include="Form\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\DownLoadInfoBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
-    <Compile Include="MyCls\DevChart.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
     <Compile Include="Model\EqkBean.cs" />
     <Compile Include="Model\LineBean.cs" />
@@ -130,6 +139,7 @@
     </Compile>
     <Compile Include="Tool\ModelHandler.cs" />
     <Compile Include="MyCls\XTreeList.cs" />
+    <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -169,7 +179,9 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TeeChart.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,6 +15,11 @@ namespace Common.Data
             return DbUtils.Get<T>(id);
         }
 
+        public IEnumerable<T> Get(string id)
+        {
+            return DbUtils.Get<T>(id);
+        }
+
         public IEnumerable<T> GetAll()
         {
             return DbUtils.GetAll<T>();
@@ -131,5 +136,11 @@ namespace Common.Data
         {
             return DbUtils.GetByID<T>(getwhat, idname, idvalue);
         }
+
+        public DataTable GetDataTable(string sql)
+        {
+            return DbUtils.GetDataTable(sql);
+        }
+        
     }
 }

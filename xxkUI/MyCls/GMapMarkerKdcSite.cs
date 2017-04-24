@@ -8,7 +8,7 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 
-namespace xxkUI.MyGMap
+namespace xxkUI.MyCls
 {
     public class GMapMarkerKdcSite    {
         /// <summary>
@@ -120,6 +120,21 @@ namespace xxkUI.MyGMap
 
             }
             gMapCtrl.Overlays.Add(SiteOverlay);
+
+            gMapCtrl.Zoom += 1;
+            gMapCtrl.Refresh();
+           
+        }
+
+        /// <summary>
+        /// 定位到场地
+        /// </summary>
+        /// <param name="sb"></param>
+        public void ZoomToSite(SiteBean sb)
+        {
+            PointLatLng sitepoint = new PointLatLng(sb.Latitude, sb.Longtitude);
+            gMapCtrl.Position = sitepoint;
+            gMapCtrl.Zoom = 10;
         }
     }
 }

@@ -47,5 +47,16 @@ namespace xxkUI.Model
             get { return _LineStatus; }
             set { _LineStatus = value; }
         }
+
+        private object tag;
+        /// <summary>
+        /// 用于装节点对象
+        /// </summary>
+        /// 
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
+        }
     }
 }

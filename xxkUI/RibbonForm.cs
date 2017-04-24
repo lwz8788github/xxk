@@ -26,21 +26,27 @@ using DevExpress.XtraTreeList;
 using xxkUI.BLL;
 using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
-using xxkUI.MyGMap;
+using xxkUI.MyCls;
+using KdcApp.Helper;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
         private XTreeList xtl;
-        GMapMarkerKdcSite gmmkks;
+        private GMapMarkerKdcSite gmmkks;
+        
         private List<string> userAut = new List<string>();
+        private TreeBean currentClickNodeInfo;//当前点击的树节点信息
+
+
         public RibbonForm()
         {
             InitializeComponent();
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
+
         }
 
         /// <summary>
@@ -59,8 +65,7 @@ namespace xxkUI
 
                 //获取用户权限，放入userAut
                 List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-   
-                xtl.InitOriDataTree(userAhtList);
+                xtl.InitOriDataTree(userAhtList,this.gmmkks);
             }
             else
             {
@@ -77,9 +82,9 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            if (gmmkks.InitMap())
-                gmmkks.LoadSiteMarker(SiteBll.Instance.GetAll());
-                   }
+            gmmkks.InitMap();
+        }
+             
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             gmmkks.Zoom(1);
@@ -140,7 +145,6 @@ namespace xxkUI
                 memoEdit.LinesCount = 1;
                 DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
                 imgEdit.ShowIcon = true;
-
 
                 for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
                 {
@@ -241,5 +245,173 @@ namespace xxkUI
         {
 
         }
+
+        /// <summary>
+        /// 树列表右击菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tree_MouseUp(object sender, MouseEventArgs e)
+        {
+            TreeList tree = sender as TreeList;
+            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None)&& (tree.State == TreeListState.Regular))
+            {
+                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
+                TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                if (hitInfo.HitInfoType == HitInfoType.Cell)
+                {
+                    tree.SetFocusedNode(hitInfo.Node);
+
+                    currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
+                    if (currentClickNodeInfo == null)
+                    {
+                        return;
+                    }
+                    if (hitInfo.Node.Level == 1)
+                    {
+                        popSiteTree.ShowPopup(p);
+                    }
+                    else if (hitInfo.Node.Level == 2)
+                    {
+                        popLineTree.ShowPopup(p);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 菜单项点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void popMenu_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            
+            switch (e.Item.Name)
+            {
+                case "btnSaveToWorkspace"://保存到工作区
+                    {
+                        //IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+                        DownLoadInfoBean downLoadInfo = new DownLoadInfoBean();
+                        downLoadInfo.Obslinecode = currentClickNodeInfo.KeyFieldName;
+                        
+                        downLoadInfo.Tag =  currentClickNodeInfo.Tag;
+                        downLoadInfo.DownloadStr = currentClickNodeInfo.KeyFieldName;
+                        downLoadInfo.DownloadPath = Directory.CreateDirectory("~/xxk/xxkUI/bin/Debug/myworkspace/"
+                                    + currentClickNodeInfo.ParentFieldName + "/" );
+                        string title = currentClickNodeInfo.Caption + ".xls";
+                        string downloadFileName = downLoadInfo.DownloadPath + "/" + title;
+                        //string table = "t_obsrvtntb";
+                        System.Data.DataTable dt = null;
+                        LineObsBean obsDt = LineObsBll.Instance.Get(int.Parse(downLoadInfo.Obslinecode));
+                        //NpoiCreator npcreator = new NpoiCreator();
+                        //npcreator.TemplateFile = downloadFileName;
+                        //npcreator.NpoiExcel(dt, title, downloadFileName);
+
+                    }
+                    break;
+                case "btnChart"://趋势图
+                    break;
+                case "btnLineAttri"://测线属性
+                    break;
+                case "btnSiteLocation"://定位到地图
+                    gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
+                    break;
+                case "btnSiteAttri"://场地属性
+                    break;
+
+            }
+        }
+
+        /////<summary>
+        /////数据下载
+        /////</summary>
+        /////
+        //private string Download(DownLoadInfoBean dlb)
+        //{
+        //    try
+        //    {
+        //        string targetPath = dlb.DownloadPath;
+
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return downLoadName;
+        //}
+
+        #region Teechart鼠标交互操作
+
+        //private Point start = new Point();//矩形起点
+        //private Point end = new Point();//矩形终点
+        //private bool blnDraw = false;//是否开始画矩形
+        //Graphics g;
+
+        //private void chartControl1_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    g = this.tChart1.CreateGraphics();
+        //    start.X = e.X;
+        //    start.Y = e.Y;
+        //    end.X = e.X;
+        //    end.Y = e.Y;
+        //    blnDraw = true;
+
+
+        //}
+
+        //private void chartControl1_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (blnDraw)
+        //    {
+        //        //先擦除
+        //        g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
+        //        end.X = e.X;
+        //        end.Y = e.Y;
+        //        //再画
+        //        g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
+        //    }
+        //}
+        //private void chartControl1_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, e.X - start.X, e.Y - start.Y);
+        //    blnDraw = false;
+
+
+        //    int minX = Math.Min(start.X, e.X);
+        //    int minY = Math.Min(start.Y, e.Y);
+        //    int maxX = Math.Max(start.X, e.X);
+        //    int maxY = Math.Max(start.Y, e.Y);
+
+        //    try
+        //    {
+        //        if (tChart1 != null)
+        //        {
+        //            if (tChart1.Series.Count > 0)
+        //            {
+
+        //                Steema.TeeChart.Styles.Series series = tChart1.Series[0];
+        //               Steema.TeeChart.Styles.Line  ln = series as Steema.TeeChart.Styles.Line;
+        //                this.tChart1.Refresh();
+        //                for (int i = 0; i < ln.Count; i++)
+        //                {
+        //                    int screenX = series.CalcXPosValue(ln[i].X);
+        //                    int screenY = series.CalcYPosValue(ln[i].Y);
+        //                    if (screenX >= minX && screenX <= maxX && screenY >= minY && screenY <= maxY)
+        //                    {
+        //                        Rectangle r = new Rectangle(screenX - 4, screenY - 4, 10, 10);//标识圆的大小
+        //                        g.DrawEllipse(new Pen(Color.Red), r);
+        //                    }
+        //                }
+
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        #endregion
     }
 }

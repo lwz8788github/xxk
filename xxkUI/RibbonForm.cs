@@ -27,6 +27,9 @@ using xxkUI.BLL;
 using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
 using xxkUI.MyCls;
+using DevExpress.XtraTab;
+using Steema.TeeChart;
+using DevExpress.XtraGrid;
 
 namespace xxkUI
 {
@@ -34,16 +37,16 @@ namespace xxkUI
     {
         private XTreeList xtl;
         private GMapMarkerKdcSite gmmkks;
-        private DevChart dc;
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
-
-
+      
         public RibbonForm()
         {
             InitializeComponent();
+            this.chartTabPage.PageVisible = false;//曲线图页面不可见
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
+
             InitFaultCombobox();
 
         }
@@ -285,12 +288,33 @@ namespace xxkUI
         /// <param name="e"></param>
         private void popMenu_ItemClick(object sender, ItemClickEventArgs e)
         {
-        
             switch (e.Item.Name)
             {
                 case "btnSaveToWorkspace"://保存到工作区
                     break;
                 case "btnChart"://趋势图
+                    {
+
+                        this.chartTabPage.PageVisible = true;//曲线图页面可见
+                        this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
+
+                        tChart.Series.Clear();
+                        tChart.Header.Text = "";
+
+                        List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+
+                        foreach (LineBean checkedLb in checkedNodes)
+                        {
+                            Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
+                            ln.Title = checkedLb.OBSLINENAME;
+                            ln.YValues.DataMember = "obvvalue";
+                            ln.LabelMember = "obvdate";
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                            ln.DataSource = dt;
+                            tChart.Series.Add(ln);
+
+                        }
+                      }
                     break;
                 case "btnLineAttri"://测线属性
                     break;
@@ -376,5 +400,45 @@ namespace xxkUI
         //}
 
         #endregion
+
+        private void splitChart_Panel1_SizeChanged(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (Control cl in splitChart.Panel1.Controls)
+            {
+                cl.Width = splitChart.Panel1.Width;
+                cl.Height = splitChart.Panel1.Height / splitChart.Panel1.Controls.Count;
+                cl.Location = new Point(0, cl.Height * i);
+                i++;
+            }
+            splitChart.Panel1.Refresh();
+        }
+
+        private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
+        {
+            this.chartTabPage.PageVisible = true;//曲线图页面可见
+            this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
+
+            tChart.Series.Clear();
+            tChart.Header.Text = "";
+
+            if(e.Node.CheckState== CheckState.Checked)
+            {
+                TreeBean nodeInfo = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
+                LineBean tag = nodeInfo.Tag as LineBean;
+
+                   if (tag == null)
+                    return;
+                    
+                Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
+                ln.Title = tag.OBSLINENAME;
+                ln.YValues.DataMember = "obvvalue";
+                ln.LabelMember = "obvdate";
+                DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + tag.OBSLINECODE + "'");
+                ln.DataSource = dt;
+                tChart.Series.Add(ln);
+
+            }
+        }
     }
 }

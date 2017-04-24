@@ -39,7 +39,7 @@ namespace xxkUI
         private GMapMarkerKdcSite gmmkks;
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
-      
+        private SiteAttri siteAttriFrm = new SiteAttri();
         public RibbonForm()
         {
             InitializeComponent();
@@ -106,8 +106,8 @@ namespace xxkUI
             sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
             sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
 
-            this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb };
-            SetBaseinfoVGridControl();
+            GetSiteAttriForm();
+            this.siteAttriFrm.SetDataSource(new List<SiteBean>() { sb });
         }
 
         private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
@@ -135,54 +135,8 @@ namespace xxkUI
         #endregion
 
         /// <summary>
-        /// 设置是VGridControl行列样式
-        /// </summary>
-        private void SetBaseinfoVGridControl()
-        {
-            try
-            {
-                int cHeight = vGridControlSiteInfo.Height;
 
-                DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
-                memoEdit.LinesCount = 1;
-                DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
-                imgEdit.ShowIcon = true;
-
-                for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
-                {
-                    vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
-                    vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-
-                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-
-                    if (i != 0)
-                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
-                    else
-                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
-
-                    vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
-                }
-
-                vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
-                vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
-                //vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-
-         
-            vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
-            vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
-
-        }
-        private void dockPanel2_SizeChanged(object sender, EventArgs e)
-        {
-            SetBaseinfoVGridControl();
-
-        }
+  
 
         private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
         {
@@ -322,11 +276,46 @@ namespace xxkUI
                     gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
                     break;
                 case "btnSiteAttri"://场地属性
+                    {
+
+                        GetSiteAttriForm();
+                        this.siteAttriFrm.SetDataSource(new List<SiteBean>() { (SiteBean)currentClickNodeInfo.Tag });
+
+                  
+                    }
                     break;
 
             }
         }
 
+
+        /// <summary>
+        /// 打开SiteAttri窗体
+        /// </summary>
+        private void GetSiteAttriForm()
+        {
+            if (siteAttriFrm != null)
+            {
+                if (siteAttriFrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    siteAttriFrm = new  SiteAttri();//此为你双击打开的FORM
+                    siteAttriFrm.Show();
+                    siteAttriFrm.Focus();
+                }
+                else
+                {
+                    siteAttriFrm.Show();
+                    siteAttriFrm.Focus();
+                }
+            }
+            else
+            {
+                siteAttriFrm = new SiteAttri();
+                siteAttriFrm.Show();
+                siteAttriFrm.Focus();
+            }
+           
+        }
 
         #region Teechart鼠标交互操作
 
@@ -416,29 +405,7 @@ namespace xxkUI
 
         private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
         {
-            this.chartTabPage.PageVisible = true;//曲线图页面可见
-            this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-
-            tChart.Series.Clear();
-            tChart.Header.Text = "";
-
-            if(e.Node.CheckState== CheckState.Checked)
-            {
-                TreeBean nodeInfo = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
-                LineBean tag = nodeInfo.Tag as LineBean;
-
-                   if (tag == null)
-                    return;
-                    
-                Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
-                ln.Title = tag.OBSLINENAME;
-                ln.YValues.DataMember = "obvvalue";
-                ln.LabelMember = "obvdate";
-                DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + tag.OBSLINECODE + "'");
-                ln.DataSource = dt;
-                tChart.Series.Add(ln);
-
-            }
+           
         }
     }
 }

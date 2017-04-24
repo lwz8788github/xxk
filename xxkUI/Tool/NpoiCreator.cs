@@ -9,7 +9,7 @@ using System.Web;
 using NPOI.XSSF.UserModel;
 using System.Data;
 
-namespace KdcApp.Helper
+namespace xxkUI.Tool
 {
     public class SheetCell
     {

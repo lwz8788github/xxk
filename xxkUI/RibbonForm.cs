@@ -245,6 +245,30 @@ namespace xxkUI
             switch (e.Item.Name)
             {
                 case "btnSaveToWorkspace"://保存到工作区
+                    {
+                        List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+
+                        List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+
+                        foreach (LineBean checkedLb in checkedNodes)
+                        {
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                            NpoiCreator npcreator = new NpoiCreator();
+                            string savefile = Application.StartupPath + "/myworkspace";
+                            npcreator.TemplateFile = savefile;
+                            npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
+
+                            TreeBean tb = new TreeBean();
+                            tb.KeyFieldName = checkedLb.OBSLINECODE;
+                            tb.ParentFieldName = checkedLb.SITECODE;
+                            tb.Caption = checkedLb.OBSLINENAME;
+
+                            treelistOriData.Add(tb);
+
+                        }
+
+                        this.treeListWorkSpace.DataSource = treelistOriData;
+                    }
                     break;
                 case "btnChart"://趋势图
                     {

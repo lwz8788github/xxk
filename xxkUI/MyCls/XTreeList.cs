@@ -33,7 +33,8 @@ namespace xxkUI.MyCls
         {
             try
             {
-                List<TreeBean> treelist = new List<TreeBean>();
+                List<TreeBean> treelistOriData = new List<TreeBean>();
+                List<TreeBean> treelistWorkSpace = new List<TreeBean>();
                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
                 foreach (UnitInfoBean sb in ubEnumt)
@@ -60,7 +61,8 @@ namespace xxkUI.MyCls
                         tb.SiteType = "";
                         tb.LineStatus = "";
                         tb.Tag = sb;//lwl
-                        treelist.Add(tb);
+                        treelistOriData.Add(tb);
+                        treelistWorkSpace.Add(tb);
                     }
                 }
 
@@ -85,12 +87,12 @@ namespace xxkUI.MyCls
                     tb.Caption = sb.SiteName;
                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                     tb.Tag = sb;//lwl
-                    treelist.Add(tb);
+                    treelistOriData.Add(tb);
+                    treelistWorkSpace.Add(tb);
                 }
 
                 //测线列表显示
                 IEnumerable<LineBean> olEnumt = LineBll.Instance.GetAll();
-
                 foreach (LineBean ol in olEnumt)
                 {
                     if (olSiteCode.Contains(ol.SITECODE))
@@ -101,36 +103,26 @@ namespace xxkUI.MyCls
                         tb.Caption = ol.OBSLINENAME;
                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
                         tb.Tag = ol;//lwl
-                        treelist.Add(tb);
+                        treelistOriData.Add(tb);
                     }
                 }
 
                 //原始数据树列表显示
-
                 this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                 this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-
-                this.treeListOriData.DataSource = treelist;　　//绑定数据源
-                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+                this.treeListOriData.DataSource = treelistOriData;　　//绑定数据源
                 this.treeListOriData.OptionsView.ShowCheckBoxes = true;
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.Editable = false;
-                //this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
-                //this.treeListOriData.BeforeCheckNode += treeListOriData_BeforeCheckNode_1;
 
                 //工作区树列表显示
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                 this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-
-                this.treeListWorkSpace.DataSource = treelist;　　//绑定数据源
-                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
+                this.treeListWorkSpace.DataSource = treelistWorkSpace;　　//绑定数据源
                 this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
-                //this.treeListWorkSpace.Enabled = false;
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
-                //this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
-                //this.treeListWorkSpace.BeforeCheckNode += treeListWorkSpace_BeforeCheckNode;
 
             }
             catch (Exception ex)
@@ -230,6 +222,31 @@ namespace xxkUI.MyCls
             return lblist;
                 
         }
+
+
+        public List<TreeListNode> GetNodesByKey(string treeType,string keyfieldname)
+        {
+            TreeList tree = null;
+            if (treeType == "treeListOriData")
+                tree = this.treeListOriData;
+            else if (treeType == "treeListWorkSpace")
+                tree = this.treeListWorkSpace;
+
+            List<TreeListNode> lblist = new List<TreeListNode>();
+            try
+            {
+                foreach (TreeListNode dn in tree.Nodes)
+                {
+                    GetNodesRec(dn, keyfieldname, ref lblist);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return lblist;
+
+        }
         /// <summary>
         /// 获取选择状态的数据主键ID集合  lwl
         /// </summary>
@@ -259,6 +276,26 @@ namespace xxkUI.MyCls
 
         }
 
+
+        private void GetNodesRec(TreeListNode parentNode, string keyfieldname,ref List<TreeListNode> lblist)
+        {
+            if (parentNode.Nodes.Count == 0)
+            {
+                return;//递归终止
+            }
+
+            foreach (TreeListNode node in parentNode.Nodes)
+            {
+                TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+
+                if (nodeInfo.KeyFieldName == keyfieldname)
+                    lblist.Add(node);
+
+                GetNodesRec(node, keyfieldname, ref lblist);
+
+            }
+
+        }
 
     }
 }

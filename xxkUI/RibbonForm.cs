@@ -246,6 +246,7 @@ namespace xxkUI
             {
                 case "btnSaveToWorkspace"://保存到工作区
                     {
+
                         List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
 
                         List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
@@ -268,6 +269,24 @@ namespace xxkUI
                         }
 
                         this.treeListWorkSpace.DataSource = treelistOriData;
+
+                        //IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+                        DownLoadInfoBean downLoadInfo = new DownLoadInfoBean();
+                        downLoadInfo.Obslinecode = currentClickNodeInfo.KeyFieldName;
+                        
+                        downLoadInfo.Tag =  currentClickNodeInfo.Tag;
+                        downLoadInfo.DownloadStr = currentClickNodeInfo.KeyFieldName;
+                        downLoadInfo.DownloadPath = Directory.CreateDirectory("~/xxk/xxkUI/bin/Debug/myworkspace/"
+                                    + currentClickNodeInfo.ParentFieldName + "/" );
+                        string title = currentClickNodeInfo.Caption + ".xls";
+                        string downloadFileName = downLoadInfo.DownloadPath + "/" + title;
+                        //string table = "t_obsrvtntb";
+                        System.Data.DataTable dt = null;
+                        LineObsBean obsDt = LineObsBll.Instance.Get(int.Parse(downLoadInfo.Obslinecode));
+                        //NpoiCreator npcreator = new NpoiCreator();
+                        //npcreator.TemplateFile = downloadFileName;
+                        //npcreator.NpoiExcel(dt, title, downloadFileName);
+
                     }
                     break;
                 case "btnChart"://趋势图
@@ -312,6 +331,23 @@ namespace xxkUI
             }
         }
 
+        /////<summary>
+        /////数据下载
+        /////</summary>
+        /////
+        //private string Download(DownLoadInfoBean dlb)
+        //{
+        //    try
+        //    {
+        //        string targetPath = dlb.DownloadPath;
+
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return downLoadName;
+        //}
 
         /// <summary>
         /// 打开SiteAttri窗体

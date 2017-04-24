@@ -57,5 +57,11 @@ namespace xxkUI.Bll
             string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "UNITCODE", UnitCode).ToString();
             return siteCodestr;
         }
+
+        public IEnumerable<SiteBean> GetSitesByAuth(string auths)
+        {
+            return SiteDal.Instance.GetList("select * from t_siteinfodb where UNITCODE in " + auths);
+        }
+
     }
 }

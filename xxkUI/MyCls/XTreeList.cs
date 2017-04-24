@@ -10,7 +10,7 @@ using xxkUI.BLL;
 using xxkUI.Model;
 using xxkUI.Form;
 
-namespace xxkUI
+namespace xxkUI.MyCls
 {
    public class XTreeList
     {
@@ -22,7 +22,13 @@ namespace xxkUI
              treeListOriData = _treeListOriData;
             treeListWorkSpace = _treeListWorkSpace;
          }
-        public void InitOriDataTree(List<string> userAhtList)
+        
+        /// <summary>
+        /// 加载树和地图
+        /// </summary>
+        /// <param name="userAhtList"></param>
+        /// <param name="gmmkks"></param>
+        public void InitOriDataTree(List<string> userAhtList, GMapMarkerKdcSite gmmkks) 
         {
             try
             {
@@ -52,25 +58,33 @@ namespace xxkUI
                         tb.Caption = sb.UnitName;
                         tb.SiteType = "";
                         tb.LineStatus = "";
+                        tb.Tag = sb;//lwl
                         treelist.Add(tb);
                     }
                 }
 
-                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+                #region 将加载场地标记的的过程移植到此处(lwl)
+                string userahths = "(";
+                foreach (string str in userAhtList)
+                {
+                    userahths +="'"+ str + "',";
+                }
+                userahths = userahths.Substring(0, userahths.Length - 1) + ")";
+                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetSitesByAuth(userahths);
+                gmmkks.LoadSiteMarker(sbEnumt);
+                #endregion
+
                 List<string> olSiteCode = new List<string>();
                 foreach (SiteBean sb in sbEnumt)
                 {
-                    if (userAhtList.Contains(sb.UnitCode))
-                    {
-                        olSiteCode.Add(sb.SiteCode);
-                        TreeBean tb = new TreeBean();
-                        tb.KeyFieldName = sb.SiteCode;
-                        tb.ParentFieldName = sb.UnitCode;
-                        tb.Caption = sb.SiteName;
-                        tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-
-                        treelist.Add(tb);
-                    }
+                    olSiteCode.Add(sb.SiteCode);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = sb.SiteCode;
+                    tb.ParentFieldName = sb.UnitCode;
+                    tb.Caption = sb.SiteName;
+                    tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                    tb.Tag = sb;//lwl
+                    treelist.Add(tb);
                 }
 
                 //测线列表显示
@@ -85,6 +99,7 @@ namespace xxkUI
                         tb.ParentFieldName = ol.SITECODE;
                         tb.Caption = ol.OBSLINENAME;
                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                        tb.Tag = ol;//lwl
                         treelist.Add(tb);
                     }
                 }

@@ -40,6 +40,19 @@ namespace Common.Data
             return list;
         }
 
+        public IEnumerable<T> GetList(string sql)
+        {
+            IEnumerable<T> list;
+            try
+            {
+                list = DbUtils.GetList<T>(sql);
+            }
+            catch (Exception ex)
+            {
+                list = null;
+            }
+            return list;
+        }
         public virtual int Insert(T o)
         {
             return DbUtils.Insert(o);

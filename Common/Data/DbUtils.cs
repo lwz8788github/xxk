@@ -395,6 +395,29 @@ namespace Common.Data
             }
         }
 
+        public static IEnumerable<T> GetList<T>(string sql) where T : new()
+        {
+            using (var conn = new MySqlConnection(cs))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql;
+                    conn.Open();
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var o = new T();
+                            o.InjectFrom<ReaderInjection>(dr);
+                            yield return o;
+                        }
+                    }
+                }
+            }
+        }
+
         public static DataTable GetPageWithSp(ProcCustomPage pcp,out int recordCount)
         {
             using (var conn = new MySqlConnection(cs))

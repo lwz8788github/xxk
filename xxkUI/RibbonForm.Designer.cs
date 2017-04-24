@@ -101,9 +101,6 @@
             this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
@@ -114,6 +111,7 @@
             this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
+            this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
             this.vGridControlSiteInfo = new DevExpress.XtraVerticalGrid.VGridControl();
             this.siteMapPic = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
             this.row18 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
@@ -137,7 +135,6 @@
             this.row13 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.row14 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.row15 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
@@ -146,6 +143,9 @@
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
+            this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -171,7 +171,7 @@
             this.dockPanel2_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
             this.xtraTabControl2.SuspendLayout();
-            this.xtraTabPage3.SuspendLayout();
+            this.xtraTabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -760,31 +760,6 @@
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(346, 403);
             this.treeListWorkSpace.TabIndex = 16;
-            this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
-            // 
-            // treeListColumn4
-            // 
-            this.treeListColumn4.Caption = "场地";
-            this.treeListColumn4.FieldName = "Caption";
-            this.treeListColumn4.Name = "treeListColumn4";
-            this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 0;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "类型";
-            this.treeListColumn5.FieldName = "SiteType";
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 1;
-            // 
-            // treeListColumn6
-            // 
-            this.treeListColumn6.Caption = "状态";
-            this.treeListColumn6.FieldName = "LineStatus";
-            this.treeListColumn6.Name = "treeListColumn6";
-            this.treeListColumn6.Visible = true;
-            this.treeListColumn6.VisibleIndex = 2;
             // 
             // dockPanelOriData
             // 
@@ -793,10 +768,8 @@
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
             this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
             this.dockPanelOriData.Name = "dockPanelOriData";
-
             this.dockPanelOriData.OriginalSize = new System.Drawing.Size(252, 403);
             this.dockPanelOriData.Size = new System.Drawing.Size(346, 403);
-
             this.dockPanelOriData.Text = "原始数据";
             // 
             // dockPanel3_Container
@@ -860,72 +833,6 @@
             this.treeListColumn3.VisibleIndex = 2;
             this.treeListColumn3.Width = 35;
             // 
-
-            // dockPanelWorkSpace
-            // 
-            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
-            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(252, 333);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(252, 403);
-            this.dockPanelWorkSpace.Text = "工作区";
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(252, 403);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // treeListWorkSpace
-            // 
-            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn4,
-            this.treeListColumn5,
-            this.treeListColumn6});
-            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
-            this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
-            this.treeListWorkSpace.TabIndex = 16;
-            // 
-            // treeListColumn4
-            // 
-            this.treeListColumn4.Caption = "场地";
-            this.treeListColumn4.FieldName = "Caption";
-            this.treeListColumn4.Name = "treeListColumn4";
-            this.treeListColumn4.OptionsColumn.AllowEdit = false;
-            this.treeListColumn4.OptionsColumn.FixedWidth = true;
-            this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 0;
-            this.treeListColumn4.Width = 134;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "类型";
-            this.treeListColumn5.FieldName = "SiteType";
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.OptionsColumn.AllowEdit = false;
-            this.treeListColumn5.OptionsColumn.FixedWidth = true;
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 1;
-            this.treeListColumn5.Width = 49;
-            // 
-            // treeListColumn6
-            // 
-            this.treeListColumn6.Caption = "状态";
-            this.treeListColumn6.FieldName = "LineStatus";
-            this.treeListColumn6.Name = "treeListColumn6";
-            this.treeListColumn6.OptionsColumn.AllowEdit = false;
-            this.treeListColumn6.OptionsColumn.FixedWidth = true;
-            this.treeListColumn6.Visible = true;
-            this.treeListColumn6.VisibleIndex = 2;
-            this.treeListColumn6.Width = 51;
-            // 
             // dockPanel2
             // 
             this.dockPanel2.Controls.Add(this.dockPanel2_Container);
@@ -962,21 +869,18 @@
             // 
             // xtraTabPage3
             // 
-            this.xtraTabPage3.Controls.Add(this.vGridControlSiteInfo);
             this.xtraTabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage3.Name = "xtraTabPage3";
             this.xtraTabPage3.Size = new System.Drawing.Size(249, 402);
-
-            this.xtraTabPage4.Text = "历史地震";
+            this.xtraTabPage3.Text = "场地属性";
             // 
             // xtraTabPage4
             // 
             this.xtraTabPage4.Controls.Add(this.vGridControlSiteInfo);
             this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(249, 332);
-            this.xtraTabPage3.Text = "场地属性";
-
+            this.xtraTabPage4.Size = new System.Drawing.Size(249, 402);
+            this.xtraTabPage4.Text = "监测数据";
             // 
             // vGridControlSiteInfo
             // 
@@ -1050,7 +954,6 @@
             this.row19,
             this.row20,
             this.row8});
-
             this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 402);
             this.vGridControlSiteInfo.TabIndex = 2;
             this.vGridControlSiteInfo.CustomDrawRowValueCell += new DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventHandler(this.vGridControlSiteInfo_CustomDrawRowValueCell);
@@ -1283,18 +1186,10 @@
             this.row15.Properties.FieldName = "BottomRock";
             this.row15.Properties.Padding = new System.Windows.Forms.Padding(0);
             // 
-            // xtraTabPage4
-            // 
-            this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(249, 402);
-            this.xtraTabPage4.Text = "监测数据";
-            // 
             // xtraTabPage5
             // 
             this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage5.Name = "xtraTabPage5";
-
             this.xtraTabPage5.Size = new System.Drawing.Size(249, 402);
             this.xtraTabPage5.Text = "历史地震";
             // 
@@ -1353,9 +1248,7 @@
             // 
             this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabPage2.Name = "xtraTabPage2";
-
             this.xtraTabPage2.Size = new System.Drawing.Size(637, 429);
-
             this.xtraTabPage2.Text = "监测数据";
             // 
             // barEditItemCounty
@@ -1379,6 +1272,30 @@
             this.barEditItem5.EditWidth = 120;
             this.barEditItem5.Id = 50;
             this.barEditItem5.Name = "barEditItem5";
+            // 
+            // treeListColumn4
+            // 
+            this.treeListColumn4.Caption = "场地";
+            this.treeListColumn4.FieldName = "Caption";
+            this.treeListColumn4.Name = "treeListColumn4";
+            this.treeListColumn4.Visible = true;
+            this.treeListColumn4.VisibleIndex = 0;
+            // 
+            // treeListColumn5
+            // 
+            this.treeListColumn5.Caption = "类型";
+            this.treeListColumn5.FieldName = "SiteType";
+            this.treeListColumn5.Name = "treeListColumn5";
+            this.treeListColumn5.Visible = true;
+            this.treeListColumn5.VisibleIndex = 1;
+            // 
+            // treeListColumn6
+            // 
+            this.treeListColumn6.Caption = "状态";
+            this.treeListColumn6.FieldName = "LineStatus";
+            this.treeListColumn6.Name = "treeListColumn6";
+            this.treeListColumn6.Visible = true;
+            this.treeListColumn6.VisibleIndex = 2;
             // 
             // RibbonForm
             // 
@@ -1420,7 +1337,7 @@
             this.dockPanel2_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
             this.xtraTabControl2.ResumeLayout(false);
-            this.xtraTabPage3.ResumeLayout(false);
+            this.xtraTabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();

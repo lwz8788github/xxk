@@ -59,7 +59,7 @@ namespace xxkUI
 
                 //获取用户权限，放入userAut
                 List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                InitOriDataTree(userAhtList);
+   
                 xtl.InitOriDataTree(userAhtList);
             }
             else

@@ -444,6 +444,10 @@ namespace xxkUI
         {
            
         }
+        private void treeListWorkSpace_AfterCheckNode(object sender, NodeEventArgs e)
+        {
+
+        }
 
         private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)
         {

@@ -48,5 +48,10 @@ namespace xxkUI.Bll
             return LineObsDal.Instance.GetAll();
         }
 
+
+        internal List<string> GetNameByID(string p1, string p2, string lineCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

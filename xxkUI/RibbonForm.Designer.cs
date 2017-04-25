@@ -122,6 +122,7 @@
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
             this.popSiteTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -149,6 +150,7 @@
             this.chartTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -727,7 +729,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
+            this.panelContainer1.ActiveChild = this.dockPanelOriData;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
@@ -832,6 +834,8 @@
             this.treeListWorkSpace.Name = "treeListWorkSpace";
             this.treeListWorkSpace.Size = new System.Drawing.Size(276, 403);
             this.treeListWorkSpace.TabIndex = 16;
+            this.treeListWorkSpace.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListWorkSpace_AfterCheckNode);
+            this.treeListWorkSpace.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn4
             // 
@@ -1134,6 +1138,11 @@
             this.popLineTree.Name = "popLineTree";
             this.popLineTree.Ribbon = this.ribbon;
             // 
+            // popupMenu1
+            // 
+            this.popupMenu1.Name = "popupMenu1";
+            this.popupMenu1.Ribbon = this.ribbon;
+            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1175,6 +1184,7 @@
             this.chartTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1276,5 +1286,6 @@
         private DevExpress.XtraBars.PopupMenu popLineTree;
         private DevExpress.XtraTab.XtraTabPage chartTabPage;
         private Steema.TeeChart.TChart tChart;
+        private DevExpress.XtraBars.PopupMenu popupMenu1;
     }
 }

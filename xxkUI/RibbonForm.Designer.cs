@@ -1136,7 +1136,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelOriData;
+            this.panelContainer1.ActiveChild = this.dockPanelWorkSpace;
             this.panelContainer1.Controls.Add(this.dockPanelOriData);
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;

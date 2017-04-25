@@ -46,7 +46,6 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
-
             InitFaultCombobox();
 
         }
@@ -292,22 +291,34 @@ namespace xxkUI
             {
                 case "btnSaveToWorkspace"://保存到工作区
                     {
-                        //IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
-                        DownLoadInfoBean downLoadInfo = new DownLoadInfoBean();
-                        downLoadInfo.Obslinecode = currentClickNodeInfo.KeyFieldName;
-                        
-                        downLoadInfo.Tag =  currentClickNodeInfo.Tag;
-                        downLoadInfo.DownloadStr = currentClickNodeInfo.KeyFieldName;
-                        downLoadInfo.DownloadPath = Directory.CreateDirectory("~/xxk/xxkUI/bin/Debug/myworkspace/"
-                                    + currentClickNodeInfo.ParentFieldName + "/" );
-                        string title = currentClickNodeInfo.Caption + ".xls";
-                        string downloadFileName = downLoadInfo.DownloadPath + "/" + title;
-                        //string table = "t_obsrvtntb";
-                        System.Data.DataTable dt = null;
-                        LineObsBean obsDt = LineObsBll.Instance.Get(int.Parse(downLoadInfo.Obslinecode));
-                        //NpoiCreator npcreator = new NpoiCreator();
-                        //npcreator.TemplateFile = downloadFileName;
-                        //npcreator.NpoiExcel(dt, title, downloadFileName);
+                        List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+
+                        TreeBean tb = new TreeBean();
+                        List<TreeBean> worktreelist = new List<TreeBean>();
+                        foreach (LineBean checkedLb in checkedNodes)
+                        {
+
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+
+                            NpoiCreator npcreator = new NpoiCreator();
+                            string savefile = Application.StartupPath + "/myworkspace";
+                            npcreator.TemplateFile = savefile;
+                            npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
+                            tb.KeyFieldName = checkedLb.OBSLINECODE;
+                            tb.ParentFieldName = checkedLb.SITECODE;
+                            tb.Caption = checkedLb.OBSLINENAME;
+
+                           
+                            //worktreelist.Add(tb);
+
+
+                           //TreeListNode aa= xtl.GetNodeBy("treeListWorkSpace", tb.KeyFieldName);
+                            
+                           this.treeListWorkSpace.AppendNode(tb, null);
+                        }
+
+
+
 
                     }
                     break;
@@ -452,29 +463,29 @@ namespace xxkUI
 
         private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
         {
-            this.chartTabPage.PageVisible = true;//曲线图页面可见
-            this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
+            //this.chartTabPage.PageVisible = true;//曲线图页面可见
+            //this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-            tChart.Series.Clear();
-            tChart.Header.Text = "";
+            //tChart.Series.Clear();
+            //tChart.Header.Text = "";
 
-            if(e.Node.CheckState== CheckState.Checked)
-            {
-                TreeBean nodeInfo = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
-                LineBean tag = nodeInfo.Tag as LineBean;
+            //if(e.Node.CheckState== CheckState.Checked)
+            //{
+            //    TreeBean nodeInfo = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
+            //    LineBean tag = nodeInfo.Tag as LineBean;
 
-                   if (tag == null)
-                    return;
+            //       if (tag == null)
+            //        return;
                     
-                Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
-                ln.Title = tag.OBSLINENAME;
-                ln.YValues.DataMember = "obvvalue";
-                ln.LabelMember = "obvdate";
-                DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + tag.OBSLINECODE + "'");
-                ln.DataSource = dt;
-                tChart.Series.Add(ln);
+            //    Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
+            //    ln.Title = tag.OBSLINENAME;
+            //    ln.YValues.DataMember = "obvvalue";
+            //    ln.LabelMember = "obvdate";
+            //    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + tag.OBSLINECODE + "'");
+            //    ln.DataSource = dt;
+            //    tChart.Series.Add(ln);
 
-            }
+            //}
         }
     }
 }

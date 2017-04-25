@@ -138,7 +138,12 @@
     <Compile Include="Form\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-
+    <Compile Include="Form\ObsData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ObsData.Designer.cs">
+      <DependentUpon>ObsData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\SiteAttri.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +177,9 @@
     <Compile Include="Tool\PublicHelper.cs" />
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ObsData.resx">
+      <DependentUpon>ObsData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\SiteAttri.resx">
       <DependentUpon>SiteAttri.cs</DependentUpon>

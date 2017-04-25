@@ -309,22 +309,19 @@ namespace xxkUI
                             DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
                             ln.DataSource = dt;
                             tChart.Series.Add(ln);
-
                         }
                       }
                     break;
                 case "btnLineAttri"://测线属性
                     break;
                 case "btnSiteLocation"://定位到地图
+                    this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
                     gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
                     break;
                 case "btnSiteAttri"://场地属性
                     {
-
                         GetSiteAttriForm();
                         this.siteAttriFrm.SetDataSource(new List<SiteBean>() { (SiteBean)currentClickNodeInfo.Tag });
-
-                  
                     }
                     break;
 
@@ -450,22 +447,28 @@ namespace xxkUI
 
         #endregion
 
-        private void splitChart_Panel1_SizeChanged(object sender, EventArgs e)
-        {
-            int i = 0;
-            foreach (Control cl in splitChart.Panel1.Controls)
-            {
-                cl.Width = splitChart.Panel1.Width;
-                cl.Height = splitChart.Panel1.Height / splitChart.Panel1.Controls.Count;
-                cl.Location = new Point(0, cl.Height * i);
-                i++;
-            }
-            splitChart.Panel1.Refresh();
-        }
 
         private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
         {
            
+        }
+
+        private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)
+        {
+
+        }
+
+        private void chartTabPage_SizeChanged(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (Control cl in chartTabPage.Controls)
+            {
+                cl.Width = chartTabPage.Width;
+                cl.Height = chartTabPage.Height / chartTabPage.Controls.Count;
+                cl.Location = new Point(0, cl.Height * i);
+                i++;
+            }
+            chartTabPage.Refresh();
         }
     }
 }

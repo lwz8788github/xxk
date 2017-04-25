@@ -116,10 +116,7 @@
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
-            this.splitChart = new DevExpress.XtraEditors.SplitContainerControl();
             this.tChart = new Steema.TeeChart.TChart();
-            this.obsdataGridControl = new DevExpress.XtraGrid.GridControl();
-            this.obsdataGridView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
@@ -150,10 +147,6 @@
             this.xtraTabControl1.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitChart)).BeginInit();
-            this.splitChart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.obsdataGridControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.obsdataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
             this.SuspendLayout();
@@ -911,25 +904,11 @@
             // 
             // chartTabPage
             // 
-            this.chartTabPage.Controls.Add(this.splitChart);
+            this.chartTabPage.Controls.Add(this.tChart);
             this.chartTabPage.Name = "chartTabPage";
-            this.chartTabPage.Size = new System.Drawing.Size(707, 429);
+            this.chartTabPage.Size = new System.Drawing.Size(971, 429);
             this.chartTabPage.Text = "趋势图";
-            // 
-            // splitChart
-            // 
-            this.splitChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitChart.Location = new System.Drawing.Point(0, 0);
-            this.splitChart.Name = "splitChart";
-            this.splitChart.Panel1.Controls.Add(this.tChart);
-            this.splitChart.Panel1.Text = "Panel1";
-            this.splitChart.Panel1.SizeChanged += new System.EventHandler(this.splitChart_Panel1_SizeChanged);
-            this.splitChart.Panel2.Controls.Add(this.obsdataGridControl);
-            this.splitChart.Panel2.Text = "Panel2";
-            this.splitChart.Size = new System.Drawing.Size(707, 429);
-            this.splitChart.SplitterPosition = 898;
-            this.splitChart.TabIndex = 0;
-            this.splitChart.Text = "splitContainerControl1";
+            this.chartTabPage.SizeChanged += new System.EventHandler(this.chartTabPage_SizeChanged);
             // 
             // tChart
             // 
@@ -1102,8 +1081,8 @@
             // 
             // 
             this.tChart.Panel.Brush.Gradient.Visible = false;
-            this.tChart.Size = new System.Drawing.Size(702, 429);
-            this.tChart.TabIndex = 0;
+            this.tChart.Size = new System.Drawing.Size(971, 429);
+            this.tChart.TabIndex = 1;
             // 
             // 
             // 
@@ -1116,23 +1095,7 @@
             this.tChart.Walls.Back.Brush.Visible = false;
             this.tChart.Walls.Back.Transparent = true;
             this.tChart.Walls.Back.Visible = false;
-            // 
-            // obsdataGridControl
-            // 
-            this.obsdataGridControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.obsdataGridControl.Location = new System.Drawing.Point(0, 0);
-            this.obsdataGridControl.MainView = this.obsdataGridView;
-            this.obsdataGridControl.MenuManager = this.ribbon;
-            this.obsdataGridControl.Name = "obsdataGridControl";
-            this.obsdataGridControl.Size = new System.Drawing.Size(0, 0);
-            this.obsdataGridControl.TabIndex = 0;
-            this.obsdataGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.obsdataGridView});
-            // 
-            // obsdataGridView
-            // 
-            this.obsdataGridView.GridControl = this.obsdataGridControl;
-            this.obsdataGridView.Name = "obsdataGridView";
+            this.tChart.ClickSeries += new Steema.TeeChart.SeriesEventHandler(this.tChart_ClickSeries);
             // 
             // barEditItemCounty
             // 
@@ -1210,10 +1173,6 @@
             this.xtraTabControl1.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitChart)).EndInit();
-            this.splitChart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.obsdataGridControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.obsdataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
             this.ResumeLayout(false);
@@ -1316,9 +1275,6 @@
         private DevExpress.XtraBars.BarButtonItem btnLineAttri;
         private DevExpress.XtraBars.PopupMenu popLineTree;
         private DevExpress.XtraTab.XtraTabPage chartTabPage;
-        private DevExpress.XtraEditors.SplitContainerControl splitChart;
-        private DevExpress.XtraGrid.GridControl obsdataGridControl;
-        private DevExpress.XtraGrid.Views.Grid.GridView obsdataGridView;
         private Steema.TeeChart.TChart tChart;
     }
 }

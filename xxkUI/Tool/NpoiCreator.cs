@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-<<<<<<< HEAD
-=======
-
->>>>>>> dcf3198408c913610b4e4ee12d324f9a75991dd8
 using NPOI.XSSF.UserModel;
 using System.Data;
 

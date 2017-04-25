@@ -5,6 +5,7 @@
 
 #xxk file
 xxkUI/*.config
+xxkUI/Properties/licenses.licx
 
 # User-specific files
 *.suo

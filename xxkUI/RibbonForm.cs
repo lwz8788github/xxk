@@ -46,7 +46,6 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
-
             InitFaultCombobox();
 
         }
@@ -247,22 +246,29 @@ namespace xxkUI
                 case "btnSaveToWorkspace"://保存到工作区
                     {
 
+
                         List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
 
                         List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
 
+                      
                         foreach (LineBean checkedLb in checkedNodes)
                         {
+
                             DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+
                             NpoiCreator npcreator = new NpoiCreator();
                             string savefile = Application.StartupPath + "/myworkspace";
                             npcreator.TemplateFile = savefile;
                             npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
 
+
                             TreeBean tb = new TreeBean();
+
                             tb.KeyFieldName = checkedLb.OBSLINECODE;
                             tb.ParentFieldName = checkedLb.SITECODE;
                             tb.Caption = checkedLb.OBSLINENAME;
+
 
                             treelistOriData.Add(tb);
 
@@ -270,22 +276,8 @@ namespace xxkUI
 
                         this.treeListWorkSpace.DataSource = treelistOriData;
 
-                        //IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
-                        DownLoadInfoBean downLoadInfo = new DownLoadInfoBean();
-                        downLoadInfo.Obslinecode = currentClickNodeInfo.KeyFieldName;
-                        
-                        downLoadInfo.Tag =  currentClickNodeInfo.Tag;
-                        downLoadInfo.DownloadStr = currentClickNodeInfo.KeyFieldName;
-                        downLoadInfo.DownloadPath = Directory.CreateDirectory("~/xxk/xxkUI/bin/Debug/myworkspace/"
-                                    + currentClickNodeInfo.ParentFieldName + "/" );
-                        string title = currentClickNodeInfo.Caption + ".xls";
-                        string downloadFileName = downLoadInfo.DownloadPath + "/" + title;
-                        //string table = "t_obsrvtntb";
-                        System.Data.DataTable dt = null;
-                        LineObsBean obsDt = LineObsBll.Instance.Get(int.Parse(downLoadInfo.Obslinecode));
-                        //NpoiCreator npcreator = new NpoiCreator();
-                        //npcreator.TemplateFile = downloadFileName;
-                        //npcreator.NpoiExcel(dt, title, downloadFileName);
+                    
+
 
                     }
                     break;
@@ -456,6 +448,7 @@ namespace xxkUI
         private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)
         {
 
+
         }
 
         private void chartTabPage_SizeChanged(object sender, EventArgs e)
@@ -469,6 +462,8 @@ namespace xxkUI
                 i++;
             }
             chartTabPage.Refresh();
+
+          
         }
     }
 }

@@ -35,6 +35,7 @@ namespace xxkUI.MyCls
             {
                 List<TreeBean> treelistOriData = new List<TreeBean>();
                 List<TreeBean> treelistWorkSpace = new List<TreeBean>();
+
                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
                 foreach (UnitInfoBean sb in ubEnumt)
@@ -61,8 +62,10 @@ namespace xxkUI.MyCls
                         tb.SiteType = "";
                         tb.LineStatus = "";
                         tb.Tag = sb;//lwl
+
                         treelistOriData.Add(tb);
                         treelistWorkSpace.Add(tb);
+
                     }
                 }
 
@@ -87,8 +90,10 @@ namespace xxkUI.MyCls
                     tb.Caption = sb.SiteName;
                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                     tb.Tag = sb;//lwl
+
                     treelistOriData.Add(tb);
                     treelistWorkSpace.Add(tb);
+
                 }
 
                 //测线列表显示
@@ -120,6 +125,7 @@ namespace xxkUI.MyCls
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                 this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
                 this.treeListWorkSpace.DataSource = treelistWorkSpace;　　//绑定数据源
+
                 this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
@@ -296,6 +302,7 @@ namespace xxkUI.MyCls
             }
 
         }
+
 
     }
 }

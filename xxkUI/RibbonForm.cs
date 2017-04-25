@@ -40,10 +40,13 @@ namespace xxkUI
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
         private SiteAttri siteAttriFrm = new SiteAttri();
+        private ObsData obsfrm = new ObsData();
+        private MyTeeChart mtc = null;
         public RibbonForm()
         {
             InitializeComponent();
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
+            mtc = new MyTeeChart(this.tChart);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
@@ -251,7 +254,6 @@ namespace xxkUI
 
                         List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
 
-                      
                         foreach (LineBean checkedLb in checkedNodes)
                         {
 
@@ -269,15 +271,10 @@ namespace xxkUI
                             tb.ParentFieldName = checkedLb.SITECODE;
                             tb.Caption = checkedLb.OBSLINENAME;
 
-
                             treelistOriData.Add(tb);
-
                         }
 
                         this.treeListWorkSpace.DataSource = treelistOriData;
-
-                    
-
 
                     }
                     break;
@@ -287,21 +284,12 @@ namespace xxkUI
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                        tChart.Series.Clear();
-                        tChart.Header.Text = "";
+                        
 
-                        List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+                     
+                        if (mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name)))
+                            tChart.Refresh();
 
-                        foreach (LineBean checkedLb in checkedNodes)
-                        {
-                            Steema.TeeChart.Styles.Line ln = new Steema.TeeChart.Styles.Line();
-                            ln.Title = checkedLb.OBSLINENAME;
-                            ln.YValues.DataMember = "obvvalue";
-                            ln.LabelMember = "obvdate";
-                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-                            ln.DataSource = dt;
-                            tChart.Series.Add(ln);
-                        }
                       }
                     break;
                 case "btnLineAttri"://测线属性
@@ -364,6 +352,34 @@ namespace xxkUI
                 siteAttriFrm.Focus();
             }
            
+        }
+
+        /// <summary>
+        /// 打开数据窗体
+        /// </summary>
+        private void GetObsDataForm()
+        {
+            if (obsfrm != null)
+            {
+                if (obsfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    obsfrm = new ObsData();
+                    obsfrm.Show();
+                    obsfrm.Focus();
+                }
+                else
+                {
+                    obsfrm.Show();
+                    obsfrm.Focus();
+                }
+            }
+            else
+            {
+                obsfrm = new ObsData();
+                obsfrm.Show();
+                obsfrm.Focus();
+            }
+
         }
 
         #region Teechart鼠标交互操作
@@ -451,23 +467,29 @@ namespace xxkUI
 
         private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)
         {
+            DataTable obsdata = s.DataSource as DataTable;
 
+            GetObsDataForm();
 
+            obsfrm.LoadDataSource(obsdata);
+            obsfrm.Show();
         }
 
-        private void chartTabPage_SizeChanged(object sender, EventArgs e)
+        private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
-            int i = 0;
-            foreach (Control cl in chartTabPage.Controls)
-            {
-                cl.Width = chartTabPage.Width;
-                cl.Height = chartTabPage.Height / chartTabPage.Controls.Count;
-                cl.Location = new Point(0, cl.Height * i);
-                i++;
-            }
-            chartTabPage.Refresh();
+            int n = 0;
 
-          
+            for (int i = 0; i < tChart.Series.Count; i++)
+            {
+                if (tChart.Series[i].Visible)
+                {
+                    n++;
+                }
+            }
+            if (n > 0)
+            {
+                mtc.AddCustomAxis(n);
+            }
         }
     }
 }

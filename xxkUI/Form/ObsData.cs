@@ -25,7 +25,9 @@ namespace xxkUI.Form
 
         public void LoadDataSource(DataTable dt)
         {
+            this.gridControl.DataSource = null;
             this.gridControl.DataSource = dt;
+            this.gridControl.Refresh();
         }
 
     }

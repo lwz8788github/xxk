@@ -35,7 +35,7 @@
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnChartWp = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
@@ -102,16 +102,16 @@
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
@@ -122,7 +122,9 @@
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
             this.popSiteTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.btnSaveToWp = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -138,19 +140,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelWorkSpace.SuspendLayout();
-            this.dockPanel1_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             this.dockPanelOriData.SuspendLayout();
             this.dockPanel3_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
+            this.dockPanelWorkSpace.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -184,7 +186,7 @@
             this.ribbon.ExpandCollapseItem,
             this.btnLogin,
             this.barButtonItem3,
-            this.barButtonItem2,
+            this.btnChartWp,
             this.barButtonItem4,
             this.barButtonItem5,
             this.barHeaderItem1,
@@ -213,10 +215,12 @@
             this.btnSiteAttri,
             this.btnSaveToWorkspace,
             this.btnChart,
-            this.btnLineAttri});
+            this.btnLineAttri,
+            this.btnSaveToWp,
+            this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 75;
+            this.ribbon.MaxItemId = 77;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -254,12 +258,12 @@
             this.barButtonItem3.Name = "barButtonItem3";
             this.barButtonItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
-            // barButtonItem2
+            // btnChartWp
             // 
-            this.barButtonItem2.Caption = "修改密码";
-            this.barButtonItem2.Id = 4;
-            this.barButtonItem2.Name = "barButtonItem2";
-            this.barButtonItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnChartWp.Caption = "修改密码";
+            this.btnChartWp.Id = 4;
+            this.btnChartWp.Name = "btnChartWp";
+            this.btnChartWp.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
             // barButtonItem4
             // 
@@ -542,7 +546,7 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnChartWp);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem4);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem5);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
@@ -741,56 +745,6 @@
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
             // 
-            // dockPanelWorkSpace
-            // 
-            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
-            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(182, 403);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(276, 403);
-            this.dockPanelWorkSpace.Text = "工作区";
-            this.dockPanelWorkSpace.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(276, 403);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // treeListWorkSpace
-            // 
-            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn4,
-            this.treeListColumn5});
-            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
-            this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(276, 403);
-            this.treeListWorkSpace.TabIndex = 16;
-            // 
-            // treeListColumn4
-            // 
-            this.treeListColumn4.Caption = "场地";
-            this.treeListColumn4.FieldName = "Caption";
-            this.treeListColumn4.Name = "treeListColumn4";
-            this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 0;
-            this.treeListColumn4.Width = 202;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "类型";
-            this.treeListColumn5.FieldName = "SiteType";
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 1;
-            this.treeListColumn5.Width = 56;
-            // 
             // dockPanelOriData
             // 
             this.dockPanelOriData.Controls.Add(this.dockPanel3_Container);
@@ -877,6 +831,8 @@
             // 
             this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.treeListColumn4,
+            this.treeListColumn5,
+            this.treeListColumn4,
             this.treeListColumn5});
             this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -893,7 +849,7 @@
             this.treeListColumn4.FieldName = "Caption";
             this.treeListColumn4.Name = "treeListColumn4";
             this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 0;
+            this.treeListColumn4.VisibleIndex = 1;
             this.treeListColumn4.Width = 202;
             // 
             // treeListColumn5
@@ -902,7 +858,7 @@
             this.treeListColumn5.FieldName = "SiteType";
             this.treeListColumn5.Name = "treeListColumn5";
             this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 1;
+            this.treeListColumn5.VisibleIndex = 3;
             this.treeListColumn5.Width = 56;
             // 
             // xtraTabControl1
@@ -982,6 +938,7 @@
             // 
             this.tChart.Axes.Bottom.Grid.DrawEvery = 2;
             this.tChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dot;
+            this.tChart.Axes.Bottom.Grid.Visible = false;
             // 
             // 
             // 
@@ -1019,6 +976,10 @@
             // 
             // 
             // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.AxisPen.Visible = false;
             // 
             // 
             // 
@@ -1203,10 +1164,24 @@
             this.popLineTree.Name = "popLineTree";
             this.popLineTree.Ribbon = this.ribbon;
             // 
-            // popupMenu1
+            // popLineTreeWork
             // 
-            this.popupMenu1.Name = "popupMenu1";
-            this.popupMenu1.Ribbon = this.ribbon;
+            this.popLineTreeWork.ItemLinks.Add(this.btnSaveToWp);
+            this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
+            this.popLineTreeWork.Name = "popLineTreeWork";
+            this.popLineTreeWork.Ribbon = this.ribbon;
+            // 
+            // btnSaveToWp
+            // 
+            this.btnSaveToWp.Caption = "保存数据";
+            this.btnSaveToWp.Id = 75;
+            this.btnSaveToWp.Name = "btnSaveToWp";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "查看趋势图";
+            this.barButtonItem1.Id = 76;
+            this.barButtonItem1.Name = "barButtonItem1";
             // 
             // RibbonForm
             // 
@@ -1237,19 +1212,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelWorkSpace.ResumeLayout(false);
-            this.dockPanel1_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             this.dockPanelOriData.ResumeLayout(false);
             this.dockPanel3_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
+            this.dockPanelWorkSpace.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1261,7 +1236,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem btnChartWp;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
@@ -1351,6 +1326,8 @@
         private DevExpress.XtraBars.PopupMenu popLineTree;
         private DevExpress.XtraTab.XtraTabPage chartTabPage;
         private Steema.TeeChart.TChart tChart;
-        private DevExpress.XtraBars.PopupMenu popupMenu1;
+        private DevExpress.XtraBars.PopupMenu popLineTreeWork;
+        private DevExpress.XtraBars.BarButtonItem btnSaveToWp;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
     }
 }

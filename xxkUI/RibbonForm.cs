@@ -252,7 +252,7 @@ namespace xxkUI
 
                         List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
 
-                        List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+                     
 
                         foreach (LineBean checkedLb in checkedNodes)
                         {
@@ -271,10 +271,11 @@ namespace xxkUI
                             tb.ParentFieldName = checkedLb.SITECODE;
                             tb.Caption = checkedLb.OBSLINENAME;
 
-                            treelistOriData.Add(tb);
+                            
                         }
+                        xtl.RefreshWorkspace();
 
-                        this.treeListWorkSpace.DataSource = treelistOriData;
+                      
 
                     }
                     break;
@@ -459,6 +460,10 @@ namespace xxkUI
         private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
         {
            
+        }
+        private void treeListWorkSpace_AfterCheckNode(object sender, NodeEventArgs e)
+        {
+
         }
 
         private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)

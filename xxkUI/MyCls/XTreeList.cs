@@ -10,6 +10,7 @@ using xxkUI.BLL;
 using xxkUI.Model;
 using xxkUI.Form;
 using DevExpress.XtraTreeList.Nodes;
+using System.IO;
 
 namespace xxkUI.MyCls
 {
@@ -121,6 +122,19 @@ namespace xxkUI.MyCls
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.Editable = false;
 
+                List<String> excelList = new List<string>();
+                string excelPath = Application.StartupPath + "/myworkspace";
+                excelList = getFile(excelPath);
+                foreach (string lineCode in excelList)
+                {
+                    string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = subLineCode;
+                    tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
+                    tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
+                    treelistWorkSpace.Add(tb);
+                }
+
                 //工作区树列表显示
                 this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                 this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
@@ -137,6 +151,37 @@ namespace xxkUI.MyCls
             }
 
         }
+
+
+        public void RefreshWorkspace()
+        {
+            try
+            {
+                List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+
+                string excelPath = Application.StartupPath + "/myworkspace";
+                List<String> excelList = new List<string>();
+
+                excelList = getFile(excelPath);
+                foreach (string lineCode in excelList)
+                {
+                    string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = subLineCode;
+                    tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
+                    tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
+                    if (treelistOriData.Find(n => n.KeyFieldName == subLineCode) == null)
+                        treelistOriData.Add(tb);
+
+                }
+
+                this.treeListWorkSpace.RefreshDataSource();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private void GetObsDataByUser(string username)
         {
             //1.根据username查询权限，并放入list中
@@ -147,6 +192,34 @@ namespace xxkUI.MyCls
 
 
         }
+
+       ///<summary>
+       ///遍历获取文件夹下的文件名
+       ///<\summary>
+       ///
+        private List<string> getFile(string SourcePath)
+        {
+            List<String> list = new List<string>();
+            //遍历文件夹
+            DirectoryInfo theFolder = new DirectoryInfo(SourcePath);
+            FileInfo[] thefileInfo = theFolder.GetFiles("*.*", SearchOption.TopDirectoryOnly);
+            foreach (FileInfo NextFile in thefileInfo)  //遍历文件
+                //list.Add(NextFile.FullName);
+                list.Add(NextFile.Name);
+                
+            //遍历子文件夹
+            DirectoryInfo[] dirInfo = theFolder.GetDirectories();
+            foreach (DirectoryInfo NextFolder in dirInfo)
+            {
+                //list.Add(NextFolder.ToString());
+                FileInfo[] fileInfo = NextFolder.GetFiles("*.*", SearchOption.AllDirectories);
+                foreach (FileInfo NextFile in fileInfo)  //遍历文件
+                    list.Add(NextFile.Name);
+                    //list.Add(NextFile.FullName);
+            }
+            return list;
+        }
+
         //private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
         //{
         //    if (e.Column == treeListColumn1)

@@ -252,7 +252,7 @@ namespace xxkUI
 
                         List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
 
-                        List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+                     
 
                         foreach (LineBean checkedLb in checkedNodes)
                         {
@@ -271,10 +271,11 @@ namespace xxkUI
                             tb.ParentFieldName = checkedLb.SITECODE;
                             tb.Caption = checkedLb.OBSLINENAME;
 
-                            treelistOriData.Add(tb);
+                            
                         }
+                        xtl.RefreshWorkspace();
 
-                        this.treeListWorkSpace.DataSource = treelistOriData;
+                      
 
                     }
                     break;
@@ -490,6 +491,22 @@ namespace xxkUI
             {
                 mtc.AddCustomAxis(n);
             }
+        }
+
+        private void btnShowNote_Click(object sender, EventArgs e)
+        {
+            mtc.ShowNoteGraphic();
+        }
+
+        private void btnShowTitle_Click(object sender, EventArgs e)
+        {
+            this.tChart.Header.Visible = !this.tChart.Header.Visible;
+
+        }
+
+        private void btnMouseCur_Click(object sender, EventArgs e)
+        {
+            this.cursorTool1.Active = !this.cursorTool1.Active;
         }
     }
 }

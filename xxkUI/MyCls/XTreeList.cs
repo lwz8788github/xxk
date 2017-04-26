@@ -151,6 +151,37 @@ namespace xxkUI.MyCls
             }
 
         }
+
+
+        public void RefreshWorkspace()
+        {
+            try
+            {
+                List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+
+                string excelPath = Application.StartupPath + "/myworkspace";
+                List<String> excelList = new List<string>();
+
+                excelList = getFile(excelPath);
+                foreach (string lineCode in excelList)
+                {
+                    string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = subLineCode;
+                    tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
+                    tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
+                    if (treelistOriData.Find(n => n.KeyFieldName == subLineCode) == null)
+                        treelistOriData.Add(tb);
+
+                }
+
+                this.treeListWorkSpace.RefreshDataSource();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private void GetObsDataByUser(string username)
         {
             //1.根据username查询权限，并放入list中

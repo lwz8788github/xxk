@@ -118,6 +118,7 @@
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
+
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton8 = new DevExpress.XtraEditors.SimpleButton();
@@ -127,14 +128,31 @@
             this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
             this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+
+            this.simpleButton8 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton7 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
+            this.tChart = new Steema.TeeChart.TChart();
+            this.cursorTool1 = new Steema.TeeChart.Tools.CursorTool();
+            this.annotation1 = new Steema.TeeChart.Tools.Annotation();
+
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
             this.popSiteTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
+
             this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.chartGroupBox = new System.Windows.Forms.GroupBox();
+
+            this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
+
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -163,7 +181,9 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
+
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
+
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             this.SuspendLayout();
             // 
@@ -855,8 +875,10 @@
             // 
             this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.treeListColumn3,
+
             this.treeListColumn4,
             this.treeListColumn3,
+
             this.treeListColumn4});
             this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -873,7 +895,10 @@
             this.treeListColumn3.FieldName = "Caption";
             this.treeListColumn3.Name = "treeListColumn3";
             this.treeListColumn3.Visible = true;
+
             this.treeListColumn3.VisibleIndex = 1;
+ this.treeListColumn3.VisibleIndex = 0;
+
             this.treeListColumn3.Width = 190;
             // 
             // treeListColumn4
@@ -882,7 +907,11 @@
             this.treeListColumn4.FieldName = "SiteType";
             this.treeListColumn4.Name = "treeListColumn4";
             this.treeListColumn4.Visible = true;
+
             this.treeListColumn4.VisibleIndex = 3;
+
+            this.treeListColumn4.VisibleIndex = 1;
+
             this.treeListColumn4.Width = 60;
             // 
             // xtraTabControl1
@@ -938,12 +967,25 @@
             // 
             // chartTabPage
             // 
+
             this.chartTabPage.Controls.Add(this.chartGroupBox);
             this.chartTabPage.Controls.Add(this.groupBox2);
+
+            this.chartTabPage.Controls.Add(this.simpleButton8);
+            this.chartTabPage.Controls.Add(this.simpleButton7);
+            this.chartTabPage.Controls.Add(this.btnMouseCur);
+            this.chartTabPage.Controls.Add(this.simpleButton5);
+            this.chartTabPage.Controls.Add(this.btnShowTitle);
+            this.chartTabPage.Controls.Add(this.simpleButton3);
+            this.chartTabPage.Controls.Add(this.simpleButton2);
+            this.chartTabPage.Controls.Add(this.btnShowNote);
+            this.chartTabPage.Controls.Add(this.tChart);
+
             this.chartTabPage.Name = "chartTabPage";
             this.chartTabPage.Size = new System.Drawing.Size(971, 429);
             this.chartTabPage.Text = "趋势图";
             // 
+
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnShowNote);
@@ -975,11 +1017,18 @@
             // 
             this.simpleButton8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.simpleButton8.Location = new System.Drawing.Point(573, 9);
+
+            // simpleButton8
+            // 
+            this.simpleButton8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton8.Location = new System.Drawing.Point(570, 403);
+
             this.simpleButton8.Name = "simpleButton8";
             this.simpleButton8.Size = new System.Drawing.Size(75, 23);
             this.simpleButton8.TabIndex = 9;
             this.simpleButton8.Text = "箭头";
             // 
+
             // simpleButton2
             // 
             this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -993,11 +1042,17 @@
             // 
             this.simpleButton7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.simpleButton7.Location = new System.Drawing.Point(492, 9);
+  // simpleButton7
+            // 
+            this.simpleButton7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton7.Location = new System.Drawing.Point(489, 403);
+
             this.simpleButton7.Name = "simpleButton7";
             this.simpleButton7.Size = new System.Drawing.Size(75, 23);
             this.simpleButton7.TabIndex = 8;
             this.simpleButton7.Text = "最大最小值";
             // 
+
             // simpleButton3
             // 
             this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1011,6 +1066,12 @@
             // 
             this.btnMouseCur.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnMouseCur.Location = new System.Drawing.Point(411, 9);
+
+            // btnMouseCur
+            // 
+            this.btnMouseCur.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMouseCur.Location = new System.Drawing.Point(408, 403);
+
             this.btnMouseCur.Name = "btnMouseCur";
             this.btnMouseCur.Size = new System.Drawing.Size(75, 23);
             this.btnMouseCur.TabIndex = 7;
@@ -1021,12 +1082,28 @@
             // 
             this.btnShowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnShowTitle.Location = new System.Drawing.Point(249, 9);
+
+            // simpleButton5
+            // 
+            this.simpleButton5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton5.Location = new System.Drawing.Point(327, 403);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton5.TabIndex = 6;
+            this.simpleButton5.Text = "标尺";
+            // 
+            // btnShowTitle
+            // 
+            this.btnShowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowTitle.Location = new System.Drawing.Point(246, 403);
+
             this.btnShowTitle.Name = "btnShowTitle";
             this.btnShowTitle.Size = new System.Drawing.Size(75, 23);
             this.btnShowTitle.TabIndex = 5;
             this.btnShowTitle.Text = "标题";
             this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
+
             // simpleButton5
             // 
             this.simpleButton5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1035,6 +1112,285 @@
             this.simpleButton5.Size = new System.Drawing.Size(75, 23);
             this.simpleButton5.TabIndex = 6;
             this.simpleButton5.Text = "标尺";
+
+            // simpleButton3
+            // 
+            this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton3.Location = new System.Drawing.Point(165, 403);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.TabIndex = 4;
+            this.simpleButton3.Text = "历史地震";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton2.Location = new System.Drawing.Point(84, 403);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton2.TabIndex = 3;
+            this.simpleButton2.Text = "框选";
+            // 
+            // btnShowNote
+            // 
+            this.btnShowNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowNote.Location = new System.Drawing.Point(3, 403);
+            this.btnShowNote.Name = "btnShowNote";
+            this.btnShowNote.Size = new System.Drawing.Size(75, 23);
+            this.btnShowNote.TabIndex = 2;
+            this.btnShowNote.Text = "显示备注";
+            this.btnShowNote.Click += new System.EventHandler(this.btnShowNote_Click);
+            // 
+            // tChart
+            // 
+            this.tChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
+            this.tChart.Aspect.ColorPaletteIndex = 20;
+            this.tChart.Aspect.View3D = false;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Automatic = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Bottom.Grid.DrawEvery = 2;
+            this.tChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dot;
+            this.tChart.Axes.Bottom.Grid.Visible = false;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Bottom.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.tChart.Axes.Bottom.Labels.Font.Size = 9;
+            this.tChart.Axes.Bottom.Labels.Font.SizeFloat = 9F;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Bottom.MinorTicks.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Bottom.TicksInner.Length = 2;
+            this.tChart.Axes.Bottom.TicksInner.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+            this.tChart.Axes.Bottom.TicksInner.Visible = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Bottom.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart.Axes.Bottom.Title.Font.Size = 11;
+            this.tChart.Axes.Bottom.Title.Font.SizeFloat = 11F;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.Grid.DrawEvery = 2;
+            this.tChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dot;
+            this.tChart.Axes.Left.Grid.Transparency = 60;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.Labels.Font.Brush.Color = System.Drawing.Color.Gray;
+            this.tChart.Axes.Left.Labels.Font.Size = 9;
+            this.tChart.Axes.Left.Labels.Font.SizeFloat = 9F;
+            this.tChart.Axes.Left.MinorTickCount = 12;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.MinorTicks.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.Ticks.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.TicksInner.Length = 2;
+            this.tChart.Axes.Left.TicksInner.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+            this.tChart.Axes.Left.TicksInner.Visible = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Left.Title.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart.Axes.Left.Title.Font.Size = 11;
+            this.tChart.Axes.Left.Title.Font.SizeFloat = 11F;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Right.AxisPen.Visible = false;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Right.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart.Axes.Right.Labels.Font.Size = 9;
+            this.tChart.Axes.Right.Labels.Font.SizeFloat = 9F;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Axes.Top.Labels.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart.Axes.Top.Labels.Font.Size = 9;
+            this.tChart.Axes.Top.Labels.Font.SizeFloat = 9F;
+            this.tChart.CurrentTheme = Steema.TeeChart.ThemeType.Report;
+            this.tChart.Cursor = System.Windows.Forms.Cursors.Default;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Header.Font.Brush.Color = System.Drawing.Color.Gray;
+            this.tChart.Header.Font.Size = 12;
+            this.tChart.Header.Font.SizeFloat = 12F;
+            // 
+            // 
+            // 
+            this.tChart.Legend.CheckBoxes = true;
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Legend.Font.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tChart.Legend.Font.Size = 9;
+            this.tChart.Legend.Font.SizeFloat = 9F;
+            this.tChart.Legend.LegendStyle = Steema.TeeChart.LegendStyles.Series;
+            // 
+            // 
+            // 
+            this.tChart.Legend.Pen.Visible = false;
+            // 
+            // 
+            // 
+            this.tChart.Legend.Shadow.Visible = false;
+            this.tChart.Legend.Transparent = true;
+            this.tChart.Location = new System.Drawing.Point(0, 0);
+            this.tChart.Name = "tChart";
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            // 
+            // 
+            // 
+            this.tChart.Panel.Brush.Gradient.Visible = false;
+            this.tChart.Size = new System.Drawing.Size(971, 402);
+            this.tChart.TabIndex = 1;
+            this.tChart.Tools.Add(this.cursorTool1);
+            this.tChart.Tools.Add(this.annotation1);
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.tChart.Walls.Back.Brush.Visible = false;
+            this.tChart.Walls.Back.Transparent = true;
+            this.tChart.Walls.Back.Visible = false;
+            this.tChart.ClickLegend += new System.Windows.Forms.MouseEventHandler(this.tChart_ClickLegend);
+            this.tChart.ClickSeries += new Steema.TeeChart.SeriesEventHandler(this.tChart_ClickSeries);
+            // 
+            // cursorTool1
+            // 
+            this.cursorTool1.Active = false;
+            this.cursorTool1.FollowMouse = true;
+            this.cursorTool1.Snap = true;
+            this.cursorTool1.SnapStyle = Steema.TeeChart.Tools.SnapStyle.Horizontal;
+            this.cursorTool1.Style = Steema.TeeChart.Tools.CursorToolStyles.Vertical;
+            this.cursorTool1.UseChartRect = true;
+            this.cursorTool1.UseSeriesZ = true;
+            // 
+            // annotation1
+            // 
+            this.annotation1.Active = false;
+            this.annotation1.AutoSize = true;
+            // 
+            // 
+            // 
+            this.annotation1.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+            this.annotation1.Callout.ArrowHeadDirection = Steema.TeeChart.Styles.ArrowHeadDirection.FromPoint;
+            this.annotation1.Callout.ArrowHeadSize = 8;
+            // 
+            // 
+            // 
+            this.annotation1.Callout.Brush.Color = System.Drawing.Color.Black;
+            this.annotation1.Callout.Distance = 0;
+            this.annotation1.Callout.Draw3D = false;
+            this.annotation1.Callout.SizeDouble = 0D;
+            this.annotation1.Callout.SizeUnits = Steema.TeeChart.Styles.PointerSizeUnits.Pixels;
+            this.annotation1.Callout.XPosition = 0;
+            this.annotation1.Callout.YPosition = 0;
+            this.annotation1.Callout.ZPosition = 0;
+            this.annotation1.Cursor = System.Windows.Forms.Cursors.Default;
+            // 
+            // 
+            // 
+            this.annotation1.Shape.Lines = new string[] {
+        "testtesttest"};
+            this.annotation1.Text = "testtesttest";
             // 
             // barEditItemCounty
             // 
@@ -1073,16 +1429,19 @@
             this.popLineTree.Name = "popLineTree";
             this.popLineTree.Ribbon = this.ribbon;
             // 
-            // popupMenu1
+            // popLineTreeWork
             // 
             this.popupMenu1.Name = "popupMenu1";
             // 
             // popLineTreeWork
             // 
+
+
             this.popLineTreeWork.ItemLinks.Add(this.btnSaveToWp);
             this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
+
             // 
             // chartGroupBox
             // 
@@ -1092,6 +1451,7 @@
             this.chartGroupBox.Size = new System.Drawing.Size(971, 391);
             this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
+
             // 
             // RibbonForm
             // 
@@ -1135,7 +1495,9 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
+
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
+
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1236,13 +1598,21 @@
         private DevExpress.XtraBars.PopupMenu popLineTree;
         private DevExpress.XtraTab.XtraTabPage chartTabPage;
 
-        private DevExpress.XtraBars.PopupMenu popupMenu1;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
 
         private DevExpress.XtraBars.PopupMenu popLineTreeWork;
         private DevExpress.XtraBars.BarButtonItem btnSaveToWp;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+
+
+        private DevExpress.XtraBars.PopupMenu popupMenu1;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
+
+
+        private DevExpress.XtraBars.PopupMenu popLineTreeWork;
+        private DevExpress.XtraBars.BarButtonItem btnSaveToWp;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+
 
 
         private DevExpress.XtraEditors.SimpleButton simpleButton8;
@@ -1253,7 +1623,12 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton3;
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
         private DevExpress.XtraEditors.SimpleButton btnShowNote;
+
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox chartGroupBox;
+
+        private Steema.TeeChart.Tools.CursorTool cursorTool1;
+        private Steema.TeeChart.Tools.Annotation annotation1;
+
     }
 }

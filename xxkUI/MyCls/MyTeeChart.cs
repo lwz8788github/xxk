@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using xxkUI.Bll;
+
 using Steema.TeeChart.Drawing;
+
 using System.Drawing;
 
 namespace xxkUI.MyCls
 {
-    public class MyTeeChart
+    public class MyTeeChart:TChart
     {
         private TChart tChart;
+
 
         private int space = 2;
 
@@ -29,6 +32,14 @@ namespace xxkUI.MyCls
         public MyTeeChart(GroupBox gb)
         {
             this.tChart = new TChart();
+
+
+        private int space = 3;
+
+        private bool isShowNote = false;
+        public MyTeeChart(TChart _tchart)
+        {
+            this.tChart = _tchart;
 
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
@@ -49,6 +60,12 @@ namespace xxkUI.MyCls
         }
 
   
+
+
+
+            this.tChart.Axes.Bottom.Minimum = 12 * Utils.GetDateTimeStep(DateTimeSteps.OneSecond);
+            this.tChart.Axes.Bottom.Minimum = 60 * Utils.GetDateTimeStep(DateTimeSteps.OneSecond);
+        }
 
 
         /// <summary>
@@ -74,6 +91,12 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
+
+                    //DateTime[] dts =dt.AsEnumerable().Select(d => d.Field<DateTime>("观测时间")).ToArray();
+                    //double[] vs = dt.AsEnumerable().Select(d => d.Field<double>("观测值")).ToArray();
+                    this.tChart.Header.Text = line.Title;
+                }
+
 
                  }
 
@@ -177,6 +200,15 @@ namespace xxkUI.MyCls
             }
 
 
+
+            double single = (100 - space * (count + 2)) / (count+1);//单个坐标轴的百分比
+      
+            tChart.Axes.Left.StartPosition = space;
+            tChart.Axes.Left.EndPosition = tChart.Axes.Left.StartPosition + single;
+            tChart.Axes.Left.StartEndPositionUnits = PositionUnits.Percent;
+            listBaseLine[0].CustomVertAxis = tChart.Axes.Left;
+
+
             return visibleSeries;
 
 
@@ -261,7 +293,7 @@ namespace xxkUI.MyCls
             }
         }
 
-}
+
         /// <summary>
         /// 光标移动事件
         /// </summary>

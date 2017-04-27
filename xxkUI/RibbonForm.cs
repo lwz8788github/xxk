@@ -507,5 +507,22 @@ namespace xxkUI
             //this.cursorTool1.Active = !this.cursorTool1.Active;
             //this.annotation1.Active = this.cursorTool1.Active; 
         }
+
+        private void btnShowNote_Click(object sender, EventArgs e)
+        {
+            mtc.ShowNoteGraphic();
+        }
+
+        private void btnShowTitle_Click(object sender, EventArgs e)
+        {
+            this.tChart.Header.Visible = !this.tChart.Header.Visible;
+
+        }
+
+        private void btnMouseCur_Click(object sender, EventArgs e)
+        {
+            this.cursorTool1.Active = !this.cursorTool1.Active;
+            this.annotation1.Active = this.cursorTool1.Active; 
+        }
     }
 }

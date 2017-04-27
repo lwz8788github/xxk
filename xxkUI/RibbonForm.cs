@@ -46,7 +46,7 @@ namespace xxkUI
         {
             InitializeComponent();
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
-            mtc = new MyTeeChart(this.tChart);
+            mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
@@ -285,11 +285,8 @@ namespace xxkUI
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                        
-
-                     
-                        if (mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name)))
-                            tChart.Refresh();
+                        mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
+                       
 
                       }
                     break;
@@ -478,36 +475,37 @@ namespace xxkUI
 
         private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
-            int n = 0;
+            //int n = 0;
 
-            for (int i = 0; i < tChart.Series.Count; i++)
-            {
-                if (tChart.Series[i].Visible)
-                {
-                    n++;
-                }
-            }
-            if (n > 0)
-            {
-                mtc.AddCustomAxis(n);
-            }
+            //for (int i = 0; i < tChart.Series.Count; i++)
+            //{
+            //    if (tChart.Series[i].Visible)
+            //    {
+            //        n++;
+            //    }
+            //}
+            //if (n > 0)
+            //{
+            //    mtc.AddCustomAxis(n);
+            //}
         }
 
         private void btnShowNote_Click(object sender, EventArgs e)
         {
-            mtc.ShowNoteGraphic();
+           //mtc.ShowNoteGraphic();
         }
 
         private void btnShowTitle_Click(object sender, EventArgs e)
         {
-            this.tChart.Header.Visible = !this.tChart.Header.Visible;
+            mtc.btnShowTitle();
 
         }
 
         private void btnMouseCur_Click(object sender, EventArgs e)
         {
-            this.cursorTool1.Active = !this.cursorTool1.Active;
-            this.annotation1.Active = this.cursorTool1.Active; 
+            mtc.btnMouseCur();
         }
+
+    
     }
 }

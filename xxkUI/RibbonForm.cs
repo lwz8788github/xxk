@@ -481,15 +481,31 @@ namespace xxkUI
             mtc.AddVisibleLineVerticalAxis();
         }
 
-        private void simpleButton1_Click(object sender, EventArgs e)
-        {
-            mtc.IsShowNote = true;
-            mtc.ShowNotes();
-        }
+ 
 
         private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
         {
             mtc.ShowNotes();
+        }
+
+        private void btnShowNote_Click(object sender, EventArgs e)
+        {
+            mtc.IsShowNote = true;
+            mtc.ShowNotes();
+                 }
+
+        private void btnShowTitle_Click(object sender, EventArgs e)
+        {
+            //ribbonform中tchart已经移除，将该功能卸载myTeechart类中
+            //this.tChart.Header.Visible = !this.tChart.Header.Visible;
+
+        }
+
+        private void btnMouseCur_Click(object sender, EventArgs e)
+        {
+            //ribbonform中tchart已经移除，将该功能卸载myTeechart类中
+            //this.cursorTool1.Active = !this.cursorTool1.Active;
+            //this.annotation1.Active = this.cursorTool1.Active; 
         }
     }
 }

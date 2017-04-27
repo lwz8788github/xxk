@@ -35,7 +35,7 @@
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnChartWp = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
@@ -73,6 +73,8 @@
             this.btnSaveToWorkspace = new DevExpress.XtraBars.BarButtonItem();
             this.btnChart = new DevExpress.XtraBars.BarButtonItem();
             this.btnLineAttri = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSaveToWp = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -116,14 +118,22 @@
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton8 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton7 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
+            this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
             this.popSiteTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.chartGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
@@ -150,10 +160,11 @@
             this.xtraTabControl1.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -187,7 +198,7 @@
             this.ribbon.ExpandCollapseItem,
             this.btnLogin,
             this.barButtonItem3,
-            this.barButtonItem2,
+            this.btnChartWp,
             this.barButtonItem4,
             this.barButtonItem5,
             this.barHeaderItem1,
@@ -216,10 +227,12 @@
             this.btnSiteAttri,
             this.btnSaveToWorkspace,
             this.btnChart,
-            this.btnLineAttri});
+            this.btnLineAttri,
+            this.btnSaveToWp,
+            this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 75;
+            this.ribbon.MaxItemId = 77;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -257,12 +270,12 @@
             this.barButtonItem3.Name = "barButtonItem3";
             this.barButtonItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
-            // barButtonItem2
+            // btnChartWp
             // 
-            this.barButtonItem2.Caption = "修改密码";
-            this.barButtonItem2.Id = 4;
-            this.barButtonItem2.Name = "barButtonItem2";
-            this.barButtonItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnChartWp.Caption = "修改密码";
+            this.btnChartWp.Id = 4;
+            this.btnChartWp.Name = "btnChartWp";
+            this.btnChartWp.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
             // barButtonItem4
             // 
@@ -530,6 +543,18 @@
             this.btnLineAttri.Name = "btnLineAttri";
             this.btnLineAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
             // 
+            // btnSaveToWp
+            // 
+            this.btnSaveToWp.Caption = "保存数据";
+            this.btnSaveToWp.Id = 75;
+            this.btnSaveToWp.Name = "btnSaveToWp";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "查看趋势图";
+            this.barButtonItem1.Id = 76;
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -545,7 +570,7 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnChartWp);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem4);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem5);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
@@ -804,7 +829,7 @@
             this.treeListColumn2.OptionsColumn.FixedWidth = true;
             this.treeListColumn2.Visible = true;
             this.treeListColumn2.VisibleIndex = 1;
-            this.treeListColumn2.Width = 60;
+            this.treeListColumn2.Width = 67;
             // 
             // dockPanelWorkSpace
             // 
@@ -830,6 +855,8 @@
             // 
             this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.treeListColumn3,
+            this.treeListColumn4,
+            this.treeListColumn3,
             this.treeListColumn4});
             this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -846,7 +873,7 @@
             this.treeListColumn3.FieldName = "Caption";
             this.treeListColumn3.Name = "treeListColumn3";
             this.treeListColumn3.Visible = true;
-            this.treeListColumn3.VisibleIndex = 0;
+            this.treeListColumn3.VisibleIndex = 1;
             this.treeListColumn3.Width = 190;
             // 
             // treeListColumn4
@@ -855,7 +882,7 @@
             this.treeListColumn4.FieldName = "SiteType";
             this.treeListColumn4.Name = "treeListColumn4";
             this.treeListColumn4.Visible = true;
-            this.treeListColumn4.VisibleIndex = 1;
+            this.treeListColumn4.VisibleIndex = 3;
             this.treeListColumn4.Width = 60;
             // 
             // xtraTabControl1
@@ -917,15 +944,97 @@
             this.chartTabPage.Size = new System.Drawing.Size(971, 429);
             this.chartTabPage.Text = "趋势图";
             // 
-            // simpleButton1
+            // groupBox2
             // 
-            this.simpleButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.simpleButton1.Location = new System.Drawing.Point(6, 10);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton1.TabIndex = 2;
-            this.simpleButton1.Text = "显示备注lwl";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            this.groupBox2.Controls.Add(this.btnShowNote);
+            this.groupBox2.Controls.Add(this.simpleButton8);
+            this.groupBox2.Controls.Add(this.simpleButton2);
+            this.groupBox2.Controls.Add(this.simpleButton7);
+            this.groupBox2.Controls.Add(this.simpleButton3);
+            this.groupBox2.Controls.Add(this.btnMouseCur);
+            this.groupBox2.Controls.Add(this.btnShowTitle);
+            this.groupBox2.Controls.Add(this.simpleButton5);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox2.Location = new System.Drawing.Point(0, 391);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(971, 38);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            // 
+            // btnShowNote
+            // 
+            this.btnShowNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowNote.Location = new System.Drawing.Point(6, 9);
+            this.btnShowNote.Name = "btnShowNote";
+            this.btnShowNote.Size = new System.Drawing.Size(75, 23);
+            this.btnShowNote.TabIndex = 2;
+            this.btnShowNote.Text = "显示备注";
+            this.btnShowNote.Click += new System.EventHandler(this.btnShowNote_Click);
+            // 
+            // simpleButton8
+            // 
+            this.simpleButton8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton8.Location = new System.Drawing.Point(573, 9);
+            this.simpleButton8.Name = "simpleButton8";
+            this.simpleButton8.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton8.TabIndex = 9;
+            this.simpleButton8.Text = "箭头";
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton2.Location = new System.Drawing.Point(87, 9);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton2.TabIndex = 3;
+            this.simpleButton2.Text = "框选";
+            // 
+            // simpleButton7
+            // 
+            this.simpleButton7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton7.Location = new System.Drawing.Point(492, 9);
+            this.simpleButton7.Name = "simpleButton7";
+            this.simpleButton7.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton7.TabIndex = 8;
+            this.simpleButton7.Text = "最大最小值";
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton3.Location = new System.Drawing.Point(168, 9);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.TabIndex = 4;
+            this.simpleButton3.Text = "历史地震";
+            // 
+            // btnMouseCur
+            // 
+            this.btnMouseCur.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMouseCur.Location = new System.Drawing.Point(411, 9);
+            this.btnMouseCur.Name = "btnMouseCur";
+            this.btnMouseCur.Size = new System.Drawing.Size(75, 23);
+            this.btnMouseCur.TabIndex = 7;
+            this.btnMouseCur.Text = "鼠标热线";
+            this.btnMouseCur.Click += new System.EventHandler(this.btnMouseCur_Click);
+            // 
+            // btnShowTitle
+            // 
+            this.btnShowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowTitle.Location = new System.Drawing.Point(249, 9);
+            this.btnShowTitle.Name = "btnShowTitle";
+            this.btnShowTitle.Size = new System.Drawing.Size(75, 23);
+            this.btnShowTitle.TabIndex = 5;
+            this.btnShowTitle.Text = "标题";
+            this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
+            // 
+            // simpleButton5
+            // 
+            this.simpleButton5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton5.Location = new System.Drawing.Point(330, 9);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton5.TabIndex = 6;
+            this.simpleButton5.Text = "标尺";
             // 
             // barEditItemCounty
             // 
@@ -967,17 +1076,13 @@
             // popupMenu1
             // 
             this.popupMenu1.Name = "popupMenu1";
-            this.popupMenu1.Ribbon = this.ribbon;
             // 
-            // groupBox2
+            // popLineTreeWork
             // 
-            this.groupBox2.Controls.Add(this.simpleButton1);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox2.Location = new System.Drawing.Point(0, 391);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(971, 38);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
+            this.popLineTreeWork.ItemLinks.Add(this.btnSaveToWp);
+            this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
+            this.popLineTreeWork.Name = "popLineTreeWork";
+            this.popLineTreeWork.Ribbon = this.ribbon;
             // 
             // chartGroupBox
             // 
@@ -985,7 +1090,7 @@
             this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
             this.chartGroupBox.Name = "chartGroupBox";
             this.chartGroupBox.Size = new System.Drawing.Size(971, 391);
-            this.chartGroupBox.TabIndex = 5;
+            this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
             // 
             // RibbonForm
@@ -1027,10 +1132,11 @@
             this.xtraTabControl1.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1042,7 +1148,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem btnChartWp;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
@@ -1129,11 +1235,25 @@
         private DevExpress.XtraBars.BarButtonItem btnLineAttri;
         private DevExpress.XtraBars.PopupMenu popLineTree;
         private DevExpress.XtraTab.XtraTabPage chartTabPage;
+
         private DevExpress.XtraBars.PopupMenu popupMenu1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private System.Windows.Forms.GroupBox chartGroupBox;
+
+        private DevExpress.XtraBars.PopupMenu popLineTreeWork;
+        private DevExpress.XtraBars.BarButtonItem btnSaveToWp;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+
+
+        private DevExpress.XtraEditors.SimpleButton simpleButton8;
+        private DevExpress.XtraEditors.SimpleButton simpleButton7;
+        private DevExpress.XtraEditors.SimpleButton btnMouseCur;
+        private DevExpress.XtraEditors.SimpleButton simpleButton5;
+        private DevExpress.XtraEditors.SimpleButton btnShowTitle;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton btnShowNote;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox chartGroupBox;
     }
 }

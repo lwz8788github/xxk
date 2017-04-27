@@ -16,6 +16,7 @@ namespace xxkUI.MyCls
     public class MyTeeChart
     {
         private TChart tChart;
+
         private int space = 2;
 
 
@@ -23,11 +24,12 @@ namespace xxkUI.MyCls
         /// 是否显示备注
         /// </summary>
         public bool IsShowNote{get;set;}
+    
 
         public MyTeeChart(GroupBox gb)
         {
             this.tChart = new TChart();
-            this.tChart.Dock = DockStyle.Fill;
+
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
             this.tChart.Header.Text = "";
@@ -36,6 +38,7 @@ namespace xxkUI.MyCls
             this.tChart.Legend.LegendStyle = LegendStyles.Series;
             this.tChart.Axes.Bottom.Labels.DateTimeFormat = "yyyy-MM-dd";
             this.tChart.Axes.Bottom.Labels.ExactDateTime = true;
+
             this.tChart.Axes.Bottom.Grid.Visible = true;
             
             this.tChart.Axes.Bottom.Increment = Utils.GetDateTimeStep(DateTimeSteps.OneMonth);
@@ -44,6 +47,9 @@ namespace xxkUI.MyCls
             gb.Controls.Add(this.tChart);
             IsShowNote = false;
         }
+
+  
+
 
         /// <summary>
         /// 添加一条曲线
@@ -68,14 +74,8 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                 }
 
-                int n = 0;
-                for (int i = 0; i < tChart.Series.Count; i++)
-                    if (tChart.Series[i].Visible)
-                        n++;
-                //if (n > 0)
-                //    AddCustomAxis(n);
+                 }
 
                AddVisibleLineVerticalAxis();
             }
@@ -86,7 +86,44 @@ namespace xxkUI.MyCls
             return isok;
         }
 
-        
+        /// <summary>
+        /// 添加备注图形
+        /// </summary>
+        public void ShowNoteGraphic()
+        {
+            for (int i = 0; i < tChart.Series.Count; i++)
+            {
+                if (tChart.Series[i].Visible)
+                {
+                    DataTable dtsourec = tChart.Series[i].DataSource as DataTable;
+
+
+                    Steema.TeeChart.Styles.Line ln = tChart.Series[i] as Steema.TeeChart.Styles.Line;
+                    DataTable datasource = ln.DataSource as DataTable;
+
+
+
+                    for (int j = 0; j < ln.Count; j++)
+                    {
+                        int screenX = tChart.Series[i].CalcXPosValue(ln[j].X);
+                        int screenY = tChart.Series[i].CalcYPosValue(ln[j].Y);
+
+                        if (datasource.Rows[j]["备注"] != "")
+                        {
+                          
+                        
+                            Graphics g = tChart.CreateGraphics();
+                            Brush bs = new SolidBrush(Color.Green);
+                            Rectangle r = new Rectangle(screenX - 4, screenY - 4, 5, 5);//标识圆的大
+                            g.DrawEllipse(new Pen(Color.Red), r);
+                            g.FillRectangle(bs, r);
+                        }
+                    }
+
+
+                }
+            }
+        }
         public TChart CreateTChartCtrol(int width,int height, System.Drawing.Point location)
         {
             this.tChart.Width = width;
@@ -139,7 +176,9 @@ namespace xxkUI.MyCls
                 }
             }
 
+
             return visibleSeries;
+
 
         }
 
@@ -222,8 +261,16 @@ namespace xxkUI.MyCls
             }
         }
 
+}
+        /// <summary>
+        /// 光标移动事件
+        /// </summary>
+        /// <param name="CursorTool"></param>
+        //public void CursorChange()
+        //{
+        //}
 
-    }
+    
 
 
 }

@@ -172,7 +172,6 @@
     <EmbeddedResource Include="Form\SiteAttri.resx">
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -185,6 +184,7 @@
     </Compile>
     <EmbeddedResource Include="RibbonForm.resx">
       <DependentUpon>RibbonForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -46,7 +46,7 @@ namespace xxkUI
         {
             InitializeComponent();
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
-            mtc = new MyTeeChart(this.tChart);
+            mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
@@ -285,11 +285,11 @@ namespace xxkUI
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                        
 
-                     
-                        if (mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name)))
-                            tChart.Refresh();
+
+
+                        mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
+                           
 
                       }
                     break;
@@ -478,19 +478,18 @@ namespace xxkUI
 
         private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
-            int n = 0;
+            mtc.AddVisibleLineVerticalAxis();
+        }
 
-            for (int i = 0; i < tChart.Series.Count; i++)
-            {
-                if (tChart.Series[i].Visible)
-                {
-                    n++;
-                }
-            }
-            if (n > 0)
-            {
-                mtc.AddCustomAxis(n);
-            }
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            mtc.IsShowNote = true;
+            mtc.ShowNotes();
+        }
+
+        private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
+        {
+            mtc.ShowNotes();
         }
     }
 }

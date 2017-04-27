@@ -507,6 +507,7 @@ namespace xxkUI
         private void btnMouseCur_Click(object sender, EventArgs e)
         {
             this.cursorTool1.Active = !this.cursorTool1.Active;
+            this.annotation1.Active = this.cursorTool1.Active; 
         }
     }
 }

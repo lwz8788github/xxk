@@ -152,6 +152,13 @@ namespace xxkUI.MyCls
             }
         }
 
+        /// <summary>
+        /// 光标移动事件
+        /// </summary>
+        /// <param name="CursorTool"></param>
+        //public void CursorChange()
+        //{
+        //}
 
 
 

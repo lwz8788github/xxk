@@ -16,8 +16,7 @@ namespace xxkUI.MyCls
     public class MyTeeChart
     {
         private TChart tChart;
-        private int space = 2;
-
+      
 
         /// <summary>
         /// 是否显示备注

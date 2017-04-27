@@ -180,8 +180,8 @@ namespace xxkUI.MyCls
                     axis.Automatic = true;
                   
                     axis.EndPosition = singleAxisLengthPercent;
-                    axis.Horizontal = false;
-                    axis.OtherSide = false;
+                
+                 
                 }
                 else
                 {
@@ -198,11 +198,11 @@ namespace xxkUI.MyCls
                 //设置纵轴的结束位置
                 axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
                 //设置纵轴刻度的颜色
-                // axis.Labels.Font.Color = dicColor[s.Tag.ToString()];
+                axis.Labels.Font.Color = Color.Red;
 
                 //设置网格的可见性以及颜色
                 axis.Grid.Visible = true;// VisibleSettings.Default.Grid;
-                //axis.Grid.Color = ColorSettings.Default.Grid;
+                axis.Grid.Color = Color.Red;
                 if (i == 0)
                 {
                     //曲线本身的纵轴，无需额外处理

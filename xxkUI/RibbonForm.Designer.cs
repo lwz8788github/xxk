@@ -128,6 +128,7 @@
             this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
             this.tChart = new Steema.TeeChart.TChart();
             this.cursorTool1 = new Steema.TeeChart.Tools.CursorTool();
+            this.annotation1 = new Steema.TeeChart.Tools.Annotation();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
@@ -1217,6 +1218,7 @@
             this.tChart.Size = new System.Drawing.Size(971, 402);
             this.tChart.TabIndex = 1;
             this.tChart.Tools.Add(this.cursorTool1);
+            this.tChart.Tools.Add(this.annotation1);
             // 
             // 
             // 
@@ -1236,9 +1238,40 @@
             // 
             this.cursorTool1.Active = false;
             this.cursorTool1.FollowMouse = true;
+            this.cursorTool1.Snap = true;
+            this.cursorTool1.SnapStyle = Steema.TeeChart.Tools.SnapStyle.Horizontal;
             this.cursorTool1.Style = Steema.TeeChart.Tools.CursorToolStyles.Vertical;
             this.cursorTool1.UseChartRect = true;
             this.cursorTool1.UseSeriesZ = true;
+            // 
+            // annotation1
+            // 
+            this.annotation1.Active = false;
+            this.annotation1.AutoSize = true;
+            // 
+            // 
+            // 
+            this.annotation1.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+            this.annotation1.Callout.ArrowHeadDirection = Steema.TeeChart.Styles.ArrowHeadDirection.FromPoint;
+            this.annotation1.Callout.ArrowHeadSize = 8;
+            // 
+            // 
+            // 
+            this.annotation1.Callout.Brush.Color = System.Drawing.Color.Black;
+            this.annotation1.Callout.Distance = 0;
+            this.annotation1.Callout.Draw3D = false;
+            this.annotation1.Callout.SizeDouble = 0D;
+            this.annotation1.Callout.SizeUnits = Steema.TeeChart.Styles.PointerSizeUnits.Pixels;
+            this.annotation1.Callout.XPosition = 0;
+            this.annotation1.Callout.YPosition = 0;
+            this.annotation1.Callout.ZPosition = 0;
+            this.annotation1.Cursor = System.Windows.Forms.Cursors.Default;
+            // 
+            // 
+            // 
+            this.annotation1.Shape.Lines = new string[] {
+        "testtesttest"};
+            this.annotation1.Text = "testtesttest";
             // 
             // barEditItemCounty
             // 
@@ -1442,5 +1475,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
         private DevExpress.XtraEditors.SimpleButton btnShowNote;
         private Steema.TeeChart.Tools.CursorTool cursorTool1;
+        private Steema.TeeChart.Tools.Annotation annotation1;
     }
 }

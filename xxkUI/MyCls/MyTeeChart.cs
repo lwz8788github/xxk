@@ -10,13 +10,14 @@ using System.Data;
 using xxkUI.Bll;
 using Steema.TeeChart.Drawing;
 using System.Drawing;
+using xxkUI.Form;
 
 namespace xxkUI.MyCls
 {
     public class MyTeeChart
     {
         private TChart tChart;
-      
+        private ObsData obsfrm = new ObsData();
 
         /// <summary>
         /// 是否显示备注
@@ -29,21 +30,92 @@ namespace xxkUI.MyCls
             this.tChart.Dock = DockStyle.Fill;
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
-            this.tChart.Header.Text = "";
-            //this.tChart.Axes.Left.
-            this.tChart.Axes.Bottom.Labels.Angle = 90;
-            this.tChart.Legend.LegendStyle = LegendStyles.Series;
-            this.tChart.Axes.Bottom.Labels.DateTimeFormat = "yyyy-MM-dd";
-            this.tChart.Axes.Bottom.Labels.ExactDateTime = true;
-            this.tChart.Axes.Bottom.Grid.Visible = true;
-            
-            this.tChart.Axes.Bottom.Increment = Utils.GetDateTimeStep(DateTimeSteps.OneMonth);
-            //this.tChart.Axes.Bottom.Minimum = 60 * Utils.GetDateTimeStep(DateTimeSteps.OneSecond);
+
+            SetTitle("");
+            SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
+            SetAxesBottomStyle(this.tChart.Axes.Bottom);
+            SetAxesLeftStyle(this.tChart.Axes.Left);
 
             gb.Controls.Add(this.tChart);
+
+            this.tChart.ClickSeries += TChart_ClickSeries;
+            this.tChart.ClickLegend += TChart_ClickLegend;
+         
             IsShowNote = false;
         }
 
+        private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
+        {
+            DataTable obsdata = s.DataSource as DataTable;
+
+            if (this.tChart.Series.Count > 1)
+                AddSeries(obsdata);
+
+            GetObsDataForm();
+            obsfrm.LoadDataSource(obsdata);
+            obsfrm.Show();
+        }
+   
+        private void TChart_ClickLegend(object sender, MouseEventArgs e)
+        {
+      
+            AddVisibleLineVerticalAxis();
+        }
+
+        /// <summary>
+        /// 设置标题
+        /// </summary>
+        /// <param name="titlename">标题名</param>
+        private void SetTitle(string titlename)
+        {
+            this.tChart.Header.Text = titlename;
+        }
+        /// <summary>
+        /// 设置图例样式
+        /// </summary>
+        /// <param name="lg">图例</param>
+        /// <param name="ls">样式</param>
+        private void SetLegendStyle(Legend lg, LegendStyles ls)
+        {
+            lg.LegendStyle = ls;
+            lg.CheckBoxes = false;
+
+        }
+        /// <summary>
+        /// 设置AxesBottom样式
+        /// </summary>
+        /// <param name="ax"></param>
+        private void SetAxesBottomStyle(Axis ax)
+        {
+            ax.Labels.Angle = 90;
+            
+            ax.Labels.DateTimeFormat = "yyyy-MM-dd";
+            ax.Labels.ExactDateTime = true;
+            ax.Labels.Font.Brush.Color = Color.Black;
+            ax.Grid.Visible = true;
+            ax.Increment = Utils.GetDateTimeStep(DateTimeSteps.OneMonth);
+        }
+        /// <summary>
+        /// 设置AxesLeft样式
+        /// </summary>
+        /// <param name="ax"></param>
+        private void SetAxesLeftStyle(Axis ax)
+        {
+            ax.AxisPen.Visible = true;
+            ax.Grid.DrawEvery = 1;
+            ax.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dot;
+            ax.Grid.Transparency = 0;
+            ax.Grid.Visible = true;
+            ax.Labels.Font.Brush.Color = Color.Black;
+            ax.Labels.Font.Size = 8;
+            ax.Labels.Font.SizeFloat = 8F;
+            ax.MinorTickCount = 4;
+            ax.MinorTicks.Visible = true;
+            ax.Ticks.Visible = true;
+            ax.TicksInner.Length = 1;
+            ax.TicksInner.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+            ax.TicksInner.Visible = true;
+        }
         /// <summary>
         /// 添加一条曲线
         /// </summary>
@@ -59,7 +131,6 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -69,13 +140,7 @@ namespace xxkUI.MyCls
                     line.DataSource = dt;
                  }
 
-                int n = 0;
-                for (int i = 0; i < tChart.Series.Count; i++)
-                    if (tChart.Series[i].Visible)
-                        n++;
-                //if (n > 0)
-                //    AddCustomAxis(n);
-
+            
                AddVisibleLineVerticalAxis();
             }
             catch (Exception ex)
@@ -85,7 +150,31 @@ namespace xxkUI.MyCls
             return isok;
         }
 
-        
+
+        public bool AddSeries(DataTable dt)
+        {
+
+            bool isok = false;
+            try
+            {
+                this.tChart.Series.Clear();
+                Line line = new Line();
+                tChart.Series.Add(line);
+                line.Title = dt.TableName;
+                line.XValues.DataMember = "观测时间";
+                line.YValues.DataMember = "观测值";
+                line.XValues.DateTime = true;
+                line.DataSource = dt;
+
+                AddVisibleLineVerticalAxis();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return isok;
+        }
+
         public TChart CreateTChartCtrol(int width,int height, System.Drawing.Point location)
         {
             this.tChart.Width = width;
@@ -151,7 +240,7 @@ namespace xxkUI.MyCls
             int verticalAxisSpace = 3;
 
             List<BaseLine> visibleSeries = GetVisibleLine();
-            tChart.Axes.Custom.Clear(); //清除所有自定义的坐标轴
+            //tChart.Axes.Custom.Clear(); //清除所有自定义的坐标轴
             double singleAxisLengthPercent;//单个纵轴占据的百分比
 
             //计算每个坐标轴占据的百分比
@@ -194,14 +283,10 @@ namespace xxkUI.MyCls
                         axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
                     }
                 }
-                //设置纵轴的结束位置
+             
                 axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
-                //设置纵轴刻度的颜色
-                // axis.Labels.Font.Color = dicColor[s.Tag.ToString()];
 
-                //设置网格的可见性以及颜色
-                axis.Grid.Visible = true;// VisibleSettings.Default.Grid;
-                //axis.Grid.Color = ColorSettings.Default.Grid;
+                SetAxesLeftStyle(axis);
                 if (i == 0)
                 {
                     //曲线本身的纵轴，无需额外处理
@@ -220,6 +305,37 @@ namespace xxkUI.MyCls
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// 打开数据窗体
+        /// </summary>
+        private void GetObsDataForm()
+        {
+            if (obsfrm != null)
+            {
+                if (obsfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    obsfrm = new ObsData();
+                    obsfrm.Show();
+                    obsfrm.Focus();
+                }
+                else
+                {
+                    obsfrm.Show();
+                    obsfrm.Focus();
+                }
+            }
+            else
+            {
+                obsfrm = new ObsData();
+                obsfrm.Show();
+                obsfrm.Focus();
+            }
+
+        }
+
 
 
     }

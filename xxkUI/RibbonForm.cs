@@ -40,7 +40,7 @@ namespace xxkUI
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
         private SiteAttri siteAttriFrm = new SiteAttri();
-        private ObsData obsfrm = new ObsData();
+    
         private MyTeeChart mtc = null;
         public RibbonForm()
         {
@@ -248,15 +248,9 @@ namespace xxkUI
             {
                 case "btnSaveToWorkspace"://保存到工作区
                     {
-
-
                         List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
-
-                     
-
                         foreach (LineBean checkedLb in checkedNodes)
                         {
-
                             DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
 
                             NpoiCreator npcreator = new NpoiCreator();
@@ -264,18 +258,14 @@ namespace xxkUI
                             npcreator.TemplateFile = savefile;
                             npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
 
-
                             TreeBean tb = new TreeBean();
 
                             tb.KeyFieldName = checkedLb.OBSLINECODE;
                             tb.ParentFieldName = checkedLb.SITECODE;
                             tb.Caption = checkedLb.OBSLINENAME;
-
-                            
                         }
                         xtl.RefreshWorkspace();
 
-                      
 
                     }
                     break;
@@ -284,9 +274,6 @@ namespace xxkUI
 
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-
-
-
 
                         mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
                            
@@ -355,34 +342,7 @@ namespace xxkUI
            
         }
 
-        /// <summary>
-        /// 打开数据窗体
-        /// </summary>
-        private void GetObsDataForm()
-        {
-            if (obsfrm != null)
-            {
-                if (obsfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
-                {
-                    obsfrm = new ObsData();
-                    obsfrm.Show();
-                    obsfrm.Focus();
-                }
-                else
-                {
-                    obsfrm.Show();
-                    obsfrm.Focus();
-                }
-            }
-            else
-            {
-                obsfrm = new ObsData();
-                obsfrm.Show();
-                obsfrm.Focus();
-            }
-
-        }
-
+    
         #region Teechart鼠标交互操作
 
         //private Point start = new Point();//矩形起点
@@ -466,15 +426,7 @@ namespace xxkUI
 
         }
 
-        private void tChart_ClickSeries(object sender, Steema.TeeChart.Styles.Series s, int valueIndex, MouseEventArgs e)
-        {
-            DataTable obsdata = s.DataSource as DataTable;
 
-            GetObsDataForm();
-
-            obsfrm.LoadDataSource(obsdata);
-            obsfrm.Show();
-        }
 
         private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
@@ -485,7 +437,12 @@ namespace xxkUI
 
         private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
         {
+
+            mtc.IsShowNote = true;
+            
+
             mtc.ShowNotes();
+
         }
 
         private void btnShowNote_Click(object sender, EventArgs e)

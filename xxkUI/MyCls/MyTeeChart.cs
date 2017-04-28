@@ -22,26 +22,15 @@ namespace xxkUI.MyCls
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
         private CursorTool cursorTool;
+        Steema.TeeChart.Tools.Annotation annotation;
+        Steema.TeeChart.Tools.Annotation annotation_max;
+        Steema.TeeChart.Tools.Annotation annotation_min;
 
         /// <summary>
         /// 是否显示备注
         /// </summary>
         public bool IsShowNote { get; set; }
 
-
-
-        public void btnShowTitle()
-        {
-            this.tChart.Header.Visible = !this.tChart.Header.Visible;
-        }
-        public void btnMouseCur()
-        {
-            this.cursorTool.Active = !this.cursorTool.Active;
-        }
-            //this.annotation.Active = this.cursorTool.Active; 
-      
-     
-    
 
         public MyTeeChart(GroupBox gb)
         {
@@ -67,15 +56,91 @@ namespace xxkUI.MyCls
             this.cursorTool.Style = CursorToolStyles.Vertical;
             this.cursorTool.UseChartRect = true;
 
-
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-         
+            this.tChart.CursorChanged += tChart_CursorChanged;
+            this.tChart.MouseMove += tChart_MouseMove;
+
+            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation.Active = false;
+            annotation.Shape.CustomPosition = true;
+            annotation.Shape.Gradient.Visible = true;
+            annotation.Shape.Transparency = 30;
+
             IsShowNote = false;
        
-
         }
+        /// <summary>
+        /// 标签随光标移动显示事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tChart_CursorChanged(object sender, EventArgs e)
+        {
+            //double x = cursorTool.XValue;
+            List<BaseLine> visibleSeries = GetVisibleLine();
+            Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+            Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
 
+            Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(int.Parse(cursorTool.XValue.ToString()), int.Parse(cursorTool.YValue.ToString()));
+            if (this.cursorTool.Active)
+            {
+                int minIndex = 0;
+                double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+
+                for (int i = 1; i < listXValue.Count; i++)
+                {
+                    deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+                    if (deltX > deltX1)
+                    {
+                        minIndex = i;
+                        deltX = deltX1;
+                    }
+                    else break;
+                }
+                System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+                string showTxt = listYValue[minIndex].ToString();
+                annotation.Top = int.Parse(poToScr.Y.ToString());
+                annotation.Left = int.Parse(poToScr.X.ToString());
+                annotation.Text = showTxt;
+                annotation.Active = this.cursorTool.Active;
+            }
+        }
+        /// <summary>
+        /// 标注随鼠标移动显示事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void tChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            List<BaseLine> visibleSeries = GetVisibleLine();
+            Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+            Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
+
+            Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
+            if (this.cursorTool.Active)
+            {
+                int minIndex = 0;
+                double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+
+                for (int i = 1; i < listXValue.Count; i++)
+                {
+                    deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+                    if (deltX > deltX1)
+                    {
+                        minIndex = i;
+                        deltX = deltX1;
+                    }
+                    else break;
+                }
+                System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+                string showTxt = listYValue[minIndex].ToString();
+                annotation.Top = int.Parse(poToScr.Y.ToString());
+                annotation.Left = int.Parse(poToScr.X.ToString());
+                annotation.Text = showTxt;
+                annotation.Active = this.cursorTool.Active;
+            }
+        }
 
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
@@ -375,7 +440,64 @@ namespace xxkUI.MyCls
             }
 
         }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public void btnShowTitle()
+        {
+            this.tChart.Header.Visible = !this.tChart.Header.Visible;
+        }
+        /// <summary>
+        /// 鼠标热线
+        /// </summary>
+        public void btnMouseCur()
+        {
+            this.cursorTool.Active = !this.cursorTool.Active;
+        }
+        /// <summary>
+        /// 格网
+        /// </summary>
+        public void btnGrid()
+        {
+            this.tChart.Axes.Left.Grid.Visible = !this.tChart.Axes.Left.Grid.Visible;
+            this.tChart.Axes.Bottom.Grid.Visible = !this.tChart.Axes.Bottom.Grid.Visible;
+        }
+        /// <summary>
+        /// 最大最小值
+        /// </summary>
+        public void btnMaxMinValue()
+        {
+            List<BaseLine> visibleSeries = GetVisibleLine();
+            foreach (BaseLine vSeri in visibleSeries)
+            {
+                Steema.TeeChart.Styles.ValueList listXValue = vSeri.XValues;
+                Steema.TeeChart.Styles.ValueList listYValue = vSeri.YValues;
 
+                double maxY = vSeri.YValues.Maximum;
+                double minY = vSeri.YValues.Minimum;
+                int indexMax = vSeri.YValues.IndexOf(maxY);
+                int indexMin = vSeri.YValues.IndexOf(minY);
 
+                annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+                annotation_max.Shape.CustomPosition = true;
+                annotation_max.Shape.Gradient.Visible = true;
+                annotation_max.Shape.Transparency = 15;
+                System.Drawing.Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
+                string showTxtMax = maxY.ToString();
+                annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
+                annotation_max.Left = int.Parse(poToScrMax.X.ToString());
+                annotation_max.Text = showTxtMax;
+
+                annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+                annotation_min.Shape.CustomPosition = true;
+                annotation_min.Shape.Gradient.Visible = true;
+                annotation_min.Shape.Transparency = 15;
+                System.Drawing.Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
+                string showTxtMin = minY.ToString();
+                annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
+                annotation_min.Left = int.Parse(poToScrMin.X.ToString());
+                annotation_min.Text = showTxtMin;
+            }
+        }
     }
 }

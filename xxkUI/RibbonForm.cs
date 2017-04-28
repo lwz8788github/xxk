@@ -461,6 +461,16 @@ namespace xxkUI
             mtc.btnMouseCur();
         }
 
+        private void btnShowGrid_Click(object sender, EventArgs e)
+        {
+            mtc.btnGrid();
+        }
+
+        private void btnMaxMinValue_Click(object sender, EventArgs e)
+        {
+            mtc.btnMaxMinValue();
+        }
+
     
     }
 }

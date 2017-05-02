@@ -58,9 +58,13 @@ namespace xxkUI.MyCls
 
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-            this.tChart.CursorChanged += tChart_CursorChanged;
+            //this.tChart.CursorChanged += tChart_CursorChanged;
             this.tChart.MouseMove += tChart_MouseMove;
 
+            annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_min.Active = false;
+            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_max.Active = false;
             annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
             annotation.Active = false;
             annotation.Shape.CustomPosition = true;
@@ -75,37 +79,37 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tChart_CursorChanged(object sender, EventArgs e)
-        {
-            //double x = cursorTool.XValue;
-            List<BaseLine> visibleSeries = GetVisibleLine();
-            Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
-            Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
+        //private void tChart_CursorChanged(object sender, EventArgs e)
+        //{
+        //    //double x = cursorTool.XValue;
+        //    List<BaseLine> visibleSeries = GetVisibleLine();
+        //    Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+        //    Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
 
-            Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(int.Parse(cursorTool.XValue.ToString()), int.Parse(cursorTool.YValue.ToString()));
-            if (this.cursorTool.Active)
-            {
-                int minIndex = 0;
-                double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+        //    Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(int.Parse(cursorTool.XValue.ToString()), int.Parse(cursorTool.YValue.ToString()));
+        //    if (this.cursorTool.Active)
+        //    {
+        //        int minIndex = 0;
+        //        double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
 
-                for (int i = 1; i < listXValue.Count; i++)
-                {
-                    deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
-                    if (deltX > deltX1)
-                    {
-                        minIndex = i;
-                        deltX = deltX1;
-                    }
-                    else break;
-                }
-                System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
-                string showTxt = listYValue[minIndex].ToString();
-                annotation.Top = int.Parse(poToScr.Y.ToString());
-                annotation.Left = int.Parse(poToScr.X.ToString());
-                annotation.Text = showTxt;
-                annotation.Active = this.cursorTool.Active;
-            }
-        }
+        //        for (int i = 1; i < listXValue.Count; i++)
+        //        {
+        //            deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+        //            if (deltX > deltX1)
+        //            {
+        //                minIndex = i;
+        //                deltX = deltX1;
+        //            }
+        //            else break;
+        //        }
+        //        System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+        //        string showTxt = listYValue[minIndex].ToString();
+        //        annotation.Top = int.Parse(poToScr.Y.ToString());
+        //        annotation.Left = int.Parse(poToScr.X.ToString());
+        //        annotation.Text = showTxt;
+        //        annotation.Active = this.cursorTool.Active;
+        //    }
+        //}
         /// <summary>
         /// 标注随鼠标移动显示事件
         /// </summary>
@@ -113,13 +117,20 @@ namespace xxkUI.MyCls
         /// <param name="e"></param>
         void tChart_MouseMove(object sender, MouseEventArgs e)
         {
-            List<BaseLine> visibleSeries = GetVisibleLine();
-            Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
-            Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
-
-            Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
-            if (this.cursorTool.Active)
+            if (!this.cursorTool.Active)
+                return;
+            int maxX = tChart.Chart.ChartRect.X + tChart.Chart.ChartRect.Width;
+            int minX = tChart.Chart.ChartRect.X;
+            int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
+            int minY = tChart.Chart.ChartRect.Y;
+            if (e.X < maxX && e.X > minX && e.Y < maxY && e.Y > minY)
             {
+                List<BaseLine> visibleSeries = GetVisibleLine();
+                Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+                Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
+
+                Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
+
                 int minIndex = 0;
                 double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
 
@@ -134,13 +145,15 @@ namespace xxkUI.MyCls
                     else break;
                 }
                 System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
-                string showTxt = listYValue[minIndex].ToString();
+                DateTime showTime =  DateTime.FromOADate(listXValue[minIndex]);
+                string showTxt = "观测时间:" + showTime.ToShortDateString() + "\r\n" + "观测值:" + listYValue[minIndex].ToString();
+                
                 annotation.Top = int.Parse(poToScr.Y.ToString());
                 annotation.Left = int.Parse(poToScr.X.ToString());
                 annotation.Text = showTxt;
-                annotation.Active = this.cursorTool.Active;
             }
         }
+        
 
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
@@ -452,7 +465,9 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMouseCur()
         {
+            if (this.tChart.Series.Count > 1) return;
             this.cursorTool.Active = !this.cursorTool.Active;
+            annotation.Active = this.cursorTool.Active;
         }
         /// <summary>
         /// 格网
@@ -467,6 +482,10 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMaxMinValue()
         {
+            if (this.tChart.Series.Count > 1) return;
+            annotation_max.Active = !annotation_max.Active;
+            annotation_min.Active = !annotation_min.Active;
+            if (!(annotation_max.Active && annotation_min.Active)) return;
             List<BaseLine> visibleSeries = GetVisibleLine();
             foreach (BaseLine vSeri in visibleSeries)
             {
@@ -478,7 +497,7 @@ namespace xxkUI.MyCls
                 int indexMax = vSeri.YValues.IndexOf(maxY);
                 int indexMin = vSeri.YValues.IndexOf(minY);
 
-                annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+                
                 annotation_max.Shape.CustomPosition = true;
                 annotation_max.Shape.Gradient.Visible = true;
                 annotation_max.Shape.Transparency = 15;
@@ -488,7 +507,6 @@ namespace xxkUI.MyCls
                 annotation_max.Left = int.Parse(poToScrMax.X.ToString());
                 annotation_max.Text = showTxtMax;
 
-                annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
                 annotation_min.Shape.CustomPosition = true;
                 annotation_min.Shape.Gradient.Visible = true;
                 annotation_min.Shape.Transparency = 15;

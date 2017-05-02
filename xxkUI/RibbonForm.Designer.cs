@@ -135,6 +135,7 @@
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnGrid = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -952,6 +953,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnGrid);
             this.groupBox1.Controls.Add(this.simpleButton2);
             this.groupBox1.Controls.Add(this.simpleButton8);
             this.groupBox1.Controls.Add(this.btnShowNote);
@@ -1086,6 +1088,16 @@
             this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
+            // 
+            // btnGrid
+            // 
+            this.btnGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnGrid.Location = new System.Drawing.Point(660, 11);
+            this.btnGrid.Name = "btnGrid";
+            this.btnGrid.Size = new System.Drawing.Size(75, 23);
+            this.btnGrid.TabIndex = 7;
+            this.btnGrid.Text = "网格";
+            this.btnGrid.Click += new System.EventHandler(this.btnGrid_Click);
             // 
             // RibbonForm
             // 
@@ -1247,5 +1259,6 @@
         private System.Windows.Forms.GroupBox chartGroupBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private DevExpress.XtraEditors.SimpleButton btnGrid;
     }
 }

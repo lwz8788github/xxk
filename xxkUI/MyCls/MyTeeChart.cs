@@ -24,15 +24,15 @@ namespace xxkUI.MyCls
         /// 是否显示备注
         /// </summary>
         public bool IsShowNote{get;set;}
-    
+
 
         public MyTeeChart(GroupBox gb)
         {
             this.tChart = new TChart();
 
-  this.tChart.Aspect.View3D = false;
+            this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
-
+            this.tChart.Dock = DockStyle.Fill;
 
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
@@ -43,9 +43,9 @@ namespace xxkUI.MyCls
 
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-         
+
             IsShowNote = false;
-       
+
 
         }
 
@@ -151,7 +151,7 @@ namespace xxkUI.MyCls
                 }
 
 
-                 }
+                 
 
 
                AddVisibleLineVerticalAxis();
@@ -240,6 +240,7 @@ namespace xxkUI.MyCls
         public void ShowNotes()
         {
             Graphics3D g = this.tChart.Graphics3D;
+           
             if (IsShowNote)
             {
                 for (int i = 0; i < this.tChart.Series.Count; i++)
@@ -279,16 +280,6 @@ namespace xxkUI.MyCls
                     visibleSeries.Add((BaseLine)tChart.Series[i]);
                 }
             }
-
-
-
-            double single = (100 - space * (count + 2)) / (count+1);//单个坐标轴的百分比
-      
-            tChart.Axes.Left.StartPosition = space;
-            tChart.Axes.Left.EndPosition = tChart.Axes.Left.StartPosition + single;
-            tChart.Axes.Left.StartEndPositionUnits = PositionUnits.Percent;
-            listBaseLine[0].CustomVertAxis = tChart.Axes.Left;
-
 
             return visibleSeries;
 

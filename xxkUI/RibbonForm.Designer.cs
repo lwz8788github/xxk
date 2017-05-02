@@ -1021,7 +1021,6 @@
             this.btnMouseCur.Size = new System.Drawing.Size(75, 23);
             this.btnMouseCur.TabIndex = 7;
             this.btnMouseCur.Text = "鼠标热线";
-            this.btnMouseCur.Click += new System.EventHandler(this.btnMouseCur_Click);
             // 
             // btnShowTitle
             // 
@@ -1031,7 +1030,6 @@
             this.btnShowTitle.Size = new System.Drawing.Size(75, 23);
             this.btnShowTitle.TabIndex = 5;
             this.btnShowTitle.Text = "标题";
-            this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
             // simpleButton5
             // 

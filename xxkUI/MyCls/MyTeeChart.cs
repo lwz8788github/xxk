@@ -12,43 +12,122 @@ using xxkUI.Bll;
 using Steema.TeeChart.Drawing;
 
 using System.Drawing;
+using Steema.TeeChart.Tools;
 using xxkUI.Form;
 
 namespace xxkUI.MyCls
 {
-    public class MyTeeChart:TChart
+    public class MyTeeChart : TChart
     {
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
+        private CursorTool cursorTool;
+        Steema.TeeChart.Tools.Annotation annotation;
+        Steema.TeeChart.Tools.Annotation annotation_max;
+        Steema.TeeChart.Tools.Annotation annotation_min;
+
         /// <summary>
         /// 是否显示备注
         /// </summary>
         public bool IsShowNote{get;set;}
 
-
         public MyTeeChart(GroupBox gb)
         {
             this.tChart = new TChart();
-
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
             this.tChart.Dock = DockStyle.Fill;
-
+			
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
             SetAxesBottomStyle(this.tChart.Axes.Bottom);
             SetAxesLeftStyle(this.tChart.Axes.Left);
-
             gb.Controls.Add(this.tChart);
-
+           
+		   InitCursorTool();
+		   InitAnnotations();
+		   
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-
+            this.tChart.MouseMove += tChart_MouseMove;
+          
             IsShowNote = false;
-
-
         }
+		
+		
+        //    //double x = cursorTool.XValue;
+        //    List<BaseLine> visibleSeries = GetVisibleLine();
+        //    Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+        //    Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
 
+        //    Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(int.Parse(cursorTool.XValue.ToString()), int.Parse(cursorTool.YValue.ToString()));
+        //    if (this.cursorTool.Active)
+        //    {
+        //        int minIndex = 0;
+        //        double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+
+        //        for (int i = 1; i < listXValue.Count; i++)
+        //        {
+        //            deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+        //            if (deltX > deltX1)
+        //            {
+        //                minIndex = i;
+        //                deltX = deltX1;
+        //            }
+        //            else break;
+        //        }
+        //        System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+        //        string showTxt = listYValue[minIndex].ToString();
+        //        annotation.Top = int.Parse(poToScr.Y.ToString());
+        //        annotation.Left = int.Parse(poToScr.X.ToString());
+        //        annotation.Text = showTxt;
+        //        annotation.Active = this.cursorTool.Active;
+        //    }
+        //}
+        /// <summary>
+        /// 标注随鼠标移动显示事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void tChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!this.cursorTool.Active)
+                return;
+            int maxX = tChart.Chart.ChartRect.X + tChart.Chart.ChartRect.Width;
+            int minX = tChart.Chart.ChartRect.X;
+            int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
+            int minY = tChart.Chart.ChartRect.Y;
+            if (e.X < maxX && e.X > minX && e.Y < maxY && e.Y > minY)
+            {
+                List<BaseLine> visibleSeries = GetVisibleLine();
+                Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
+                Steema.TeeChart.Styles.ValueList listYValue = visibleSeries[0].YValues;
+
+                Steema.TeeChart.Drawing.PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
+
+                int minIndex = 0;
+                double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+
+                for (int i = 1; i < listXValue.Count; i++)
+                {
+                    deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+                    if (deltX > deltX1)
+                    {
+                        minIndex = i;
+                        deltX = deltX1;
+                    }
+                    else break;
+                }
+                System.Drawing.Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+                DateTime showTime =  DateTime.FromOADate(listXValue[minIndex]);
+                string showTxt = "观测时间:" + showTime.ToShortDateString() + "\r\n" + "观测值:" + listYValue[minIndex].ToString();
+                
+                annotation.Top = int.Parse(poToScr.Y.ToString());
+                annotation.Left = int.Parse(poToScr.X.ToString());
+                annotation.Text = showTxt;
+            }
+        }
+        
 
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
@@ -68,6 +147,37 @@ namespace xxkUI.MyCls
             AddVisibleLineVerticalAxis();
         }
 
+		
+		 /// <summary>
+        /// 初始化CursorTool
+        /// </summary>
+		private void InitCursorTool()
+		{
+			 this.cursorTool = new CursorTool();
+            this.cursorTool.Chart = this.tChart.Chart;
+            this.cursorTool.Active = false;
+            this.cursorTool.FollowMouse = true;
+            Points pointSeries = new Points(tChart.Chart);
+            this.cursorTool.Series = pointSeries;
+            this.cursorTool.Style = CursorToolStyles.Vertical;
+            this.cursorTool.UseChartRect = true;
+		}
+		
+		/// <summary>
+        /// 初始化Annotations
+        /// </summary>
+		private void InitAnnotations()
+		{
+			  annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_min.Active = false;
+            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_max.Active = false;
+            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation.Active = false;
+            annotation.Shape.CustomPosition = true;
+            annotation.Shape.Gradient.Visible = true;
+            annotation.Shape.Transparency = 30;
+		}
         /// <summary>
         /// 设置标题
         /// </summary>
@@ -132,6 +242,7 @@ namespace xxkUI.MyCls
         {
 
             bool isok = false;
+            this.tChart.Header.Text = "";
             try
             {
                 this.tChart.Series.Clear();
@@ -146,15 +257,12 @@ namespace xxkUI.MyCls
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
 
-
-                    this.tChart.Header.Text = line.Title;
+                    if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
+                    this.tChart.Header.Text += line.Title;
                 }
 
-
-                 
-
-
                AddVisibleLineVerticalAxis();
+
             }
             catch (Exception ex)
             {
@@ -163,45 +271,6 @@ namespace xxkUI.MyCls
             return isok;
         }
 
-
-        /// <summary>
-        /// 添加备注图形
-        /// </summary>
-        public void ShowNoteGraphic()
-        {
-            for (int i = 0; i < tChart.Series.Count; i++)
-            {
-                if (tChart.Series[i].Visible)
-                {
-                    DataTable dtsourec = tChart.Series[i].DataSource as DataTable;
-
-
-                    Steema.TeeChart.Styles.Line ln = tChart.Series[i] as Steema.TeeChart.Styles.Line;
-                    DataTable datasource = ln.DataSource as DataTable;
-
-
-
-                    for (int j = 0; j < ln.Count; j++)
-                    {
-                        int screenX = tChart.Series[i].CalcXPosValue(ln[j].X);
-                        int screenY = tChart.Series[i].CalcYPosValue(ln[j].Y);
-
-                        if (datasource.Rows[j]["备注"] != "")
-                        {
-                          
-                        
-                            Graphics g = tChart.CreateGraphics();
-                            Brush bs = new SolidBrush(Color.Green);
-                            Rectangle r = new Rectangle(screenX - 4, screenY - 4, 5, 5);//标识圆的大
-                            g.DrawEllipse(new Pen(Color.Red), r);
-                            g.FillRectangle(bs, r);
-                        }
-                    }
-
-
-                }
-            }
-        }
 
         public bool AddSeries(DataTable dt)
         {
@@ -228,14 +297,6 @@ namespace xxkUI.MyCls
         }
 
 
-        public TChart CreateTChartCtrol(int width,int height, System.Drawing.Point location)
-        {
-            this.tChart.Width = width;
-            this.tChart.Height = height;
-            this.tChart.Location = location;
-            return this.tChart;
-        }
-
 
         public void ShowNotes()
         {
@@ -254,7 +315,6 @@ namespace xxkUI.MyCls
                             int screenX = ln.CalcXPosValue(ln[j].X);
                             int screenY = ln.CalcYPosValue(ln[j].Y);
                             Rectangle r = new Rectangle(screenX - 4, screenY - 4, 5, 5);//标识圆的大小
-                            
                             g.Cube(r, 0, 20, true);
                         }
                         j++;
@@ -280,10 +340,7 @@ namespace xxkUI.MyCls
                     visibleSeries.Add((BaseLine)tChart.Series[i]);
                 }
             }
-
             return visibleSeries;
-
-
         }
 
         /// <summary>
@@ -312,19 +369,17 @@ namespace xxkUI.MyCls
             for (int i = 0; i < visibleSeries.Count; i++)
             {
                 Series s = visibleSeries[i];
-                
+
                 Axis axis;
-               
                 //设置纵轴的起始位置
                 if (i == 0)
                 {
                     axis = tChart.Axes.Left; ;
                     axis.StartPosition = verticalAxisSpace;
                     axis.Automatic = true;
-                  
+
                     axis.EndPosition = singleAxisLengthPercent;
-                
-                 
+
                 }
                 else
                 {
@@ -338,19 +393,10 @@ namespace xxkUI.MyCls
                         axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
                     }
                 }
-             
+                //设置纵轴的结束位置
                 axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
 
-                //设置纵轴刻度的颜色
-                axis.Labels.Font.Color = Color.Red;
-
-                //设置网格的可见性以及颜色
-                axis.Grid.Visible = true;// VisibleSettings.Default.Grid;
-                axis.Grid.Color = Color.Red;
-
-
                 SetAxesLeftStyle(axis);
-
                 if (i == 0)
                 {
                     //曲线本身的纵轴，无需额外处理
@@ -361,26 +407,12 @@ namespace xxkUI.MyCls
                 else
                 {
                     //将自定义纵轴加入图表
-                   
-                 
                     tChart.Axes.Custom.Add(axis);
                     //将纵轴和对应的曲线关联
                     s.CustomVertAxis = axis;
                 }
             }
         }
-
-
-
-        /// <summary>
-        /// 光标移动事件
-        /// </summary>
-        /// <param name="CursorTool"></param>
-        //public void CursorChange()
-        //{
-        //}
-
-    
 
         /// <summary>
         /// 打开数据窗体
@@ -409,11 +441,68 @@ namespace xxkUI.MyCls
             }
 
         }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public void btnShowTitle()
+        {
+            this.tChart.Header.Visible = !this.tChart.Header.Visible;
+        }
+        /// <summary>
+        /// 鼠标热线
+        /// </summary>
+        public void btnMouseCur()
+        {
+            if (this.tChart.Series.Count > 1) return;
+            this.cursorTool.Active = !this.cursorTool.Active;
+            annotation.Active = this.cursorTool.Active;
+        }
+        /// <summary>
+        /// 格网
+        /// </summary>
+        public void btnGrid()
+        {
+            this.tChart.Axes.Left.Grid.Visible = !this.tChart.Axes.Left.Grid.Visible;
+            this.tChart.Axes.Bottom.Grid.Visible = !this.tChart.Axes.Bottom.Grid.Visible;
+        }
+        /// <summary>
+        /// 最大最小值
+        /// </summary>
+        public void btnMaxMinValue()
+        {
+            if (this.tChart.Series.Count > 1) return;
+            annotation_max.Active = !annotation_max.Active;
+            annotation_min.Active = !annotation_min.Active;
+            if (!(annotation_max.Active && annotation_min.Active)) return;
+            List<BaseLine> visibleSeries = GetVisibleLine();
+            foreach (BaseLine vSeri in visibleSeries)
+            {
+                Steema.TeeChart.Styles.ValueList listXValue = vSeri.XValues;
+                Steema.TeeChart.Styles.ValueList listYValue = vSeri.YValues;
 
+                double maxY = vSeri.YValues.Maximum;
+                double minY = vSeri.YValues.Minimum;
+                int indexMax = vSeri.YValues.IndexOf(maxY);
+                int indexMin = vSeri.YValues.IndexOf(minY);
 
+                annotation_max.Shape.CustomPosition = true;
+                annotation_max.Shape.Gradient.Visible = true;
+                annotation_max.Shape.Transparency = 15;
+                System.Drawing.Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
+                string showTxtMax = maxY.ToString();
+                annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
+                annotation_max.Left = int.Parse(poToScrMax.X.ToString());
+                annotation_max.Text = showTxtMax;
 
+                annotation_min.Shape.CustomPosition = true;
+                annotation_min.Shape.Gradient.Visible = true;
+                annotation_min.Shape.Transparency = 15;
+                System.Drawing.Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
+                string showTxtMin = minY.ToString();
+                annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
+                annotation_min.Left = int.Parse(poToScrMin.X.ToString());
+                annotation_min.Text = showTxtMin;
+            }
+        }
     }
-
-
-
 }

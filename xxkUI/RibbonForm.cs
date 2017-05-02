@@ -276,7 +276,6 @@ namespace xxkUI
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
                         mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
-                           
 
                       }
                     break;
@@ -449,24 +448,30 @@ namespace xxkUI
         {
             mtc.IsShowNote = true;
             mtc.ShowNotes();
-                 }
+        }
 
         private void btnShowTitle_Click(object sender, EventArgs e)
         {
-            //ribbonform中tchart已经移除，将该功能卸载myTeechart类中
-            //this.tChart.Header.Visible = !this.tChart.Header.Visible;
+            mtc.btnShowTitle();
 
         }
 
         private void btnMouseCur_Click(object sender, EventArgs e)
         {
-            //ribbonform中tchart已经移除，将该功能卸载myTeechart类中
-            //this.cursorTool1.Active = !this.cursorTool1.Active;
-            //this.annotation1.Active = this.cursorTool1.Active; 
+            mtc.btnMouseCur();
         }
 
 
+        private void btnMaxMinValue_Click(object sender, EventArgs e)
+        {
+            mtc.btnMaxMinValue();
+        }
 
-  
+        private void btnGrid_Click(object sender, EventArgs e)
+        {
+            mtc.btnGrid();
+        }
+
+
     }
 }

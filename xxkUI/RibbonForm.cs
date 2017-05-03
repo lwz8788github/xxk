@@ -472,6 +472,11 @@ namespace xxkUI
             mtc.btnGrid();
         }
 
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            mtc.GetEqkShowForm();
+        }
+
 
     }
 }

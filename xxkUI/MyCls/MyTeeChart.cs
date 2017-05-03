@@ -17,7 +17,7 @@ using xxkUI.Form;
 
 namespace xxkUI.MyCls
 {
-    public class MyTeeChart : TChart
+    public class MyTeeChart
     {
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
@@ -248,7 +248,7 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -256,6 +256,7 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
+               
 
                     if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
                     this.tChart.Header.Text += line.Title;

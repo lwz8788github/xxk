@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonForm));
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.currentUserBar = new DevExpress.XtraBars.BarStaticItem();
             this.currentLocation = new DevExpress.XtraBars.BarStaticItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnChartWp = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
@@ -53,6 +52,29 @@
             this.repositoryItemCheckedComboBoxEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
             this.barEditItem3 = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemCheckedComboBoxEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+            this.barFault = new DevExpress.XtraBars.BarEditItem();
+            this.faultChckCbbxEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+            this.barEditItem6 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem7 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemCalcEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
+            this.barEditItem8 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
+            this.barEditItem9 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem10 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barEditItem11 = new DevExpress.XtraBars.BarEditItem();
+            this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSiteLocation = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSiteAttri = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSaveToWorkspace = new DevExpress.XtraBars.BarButtonItem();
+            this.btnChart = new DevExpress.XtraBars.BarButtonItem();
+            this.btnLineAttri = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSaveToWp = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -76,7 +98,9 @@
             this.ribbonPageGroup18 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup19 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup21 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup20 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
@@ -85,72 +109,44 @@
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn4 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn5 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListColumn6 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.dockPanel2 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel2_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
-            this.vGridControlSiteInfo = new DevExpress.XtraVerticalGrid.VGridControl();
-            this.siteMapPic = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
-            this.row18 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row4 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row5 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row6 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row7 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row16 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row17 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row19 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row20 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row8 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row9 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row10 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row11 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row12 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row13 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row14 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row15 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
-            this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
+            this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
-            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
+            this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
+            this.chartGroupBox = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnGrid = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
+            this.btnMaxMinValue = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
+            this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
-            this.barFault = new DevExpress.XtraBars.BarEditItem();
-            this.faultChckCbbxEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
-            this.ribbonPageGroup20 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
-            this.barEditItem6 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem7 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemCalcEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem8 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem9 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem10 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem11 = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+            this.popSiteTree = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
             this.dockPanelOriData.SuspendLayout();
@@ -159,24 +155,14 @@
             this.dockPanelWorkSpace.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
-            this.dockPanel2.SuspendLayout();
-            this.dockPanel2_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
-            this.xtraTabControl2.SuspendLayout();
-            this.xtraTabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
-            this.xtraTabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
+            this.mapTabPage.SuspendLayout();
+            this.chartTabPage.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -210,7 +196,7 @@
             this.ribbon.ExpandCollapseItem,
             this.btnLogin,
             this.barButtonItem3,
-            this.barButtonItem2,
+            this.btnChartWp,
             this.barButtonItem4,
             this.barButtonItem5,
             this.barHeaderItem1,
@@ -234,10 +220,17 @@
             this.barEditItem10,
             this.barEditItem11,
             this.barButtonItem6,
-            this.barButtonItem7});
+            this.barButtonItem7,
+            this.btnSiteLocation,
+            this.btnSiteAttri,
+            this.btnSaveToWorkspace,
+            this.btnChart,
+            this.btnLineAttri,
+            this.btnSaveToWp,
+            this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ribbon.MaxItemId = 70;
+            this.ribbon.MaxItemId = 77;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -275,12 +268,12 @@
             this.barButtonItem3.Name = "barButtonItem3";
             this.barButtonItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
-            // barButtonItem2
+            // btnChartWp
             // 
-            this.barButtonItem2.Caption = "修改密码";
-            this.barButtonItem2.Id = 4;
-            this.barButtonItem2.Name = "barButtonItem2";
-            this.barButtonItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnChartWp.Caption = "修改密码";
+            this.btnChartWp.Id = 4;
+            this.btnChartWp.Name = "btnChartWp";
+            this.btnChartWp.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
             // barButtonItem4
             // 
@@ -400,6 +393,166 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCheckedComboBoxEdit3.Name = "repositoryItemCheckedComboBoxEdit3";
             // 
+            // barFault
+            // 
+            this.barFault.Caption = "断层数据：";
+            this.barFault.Edit = this.faultChckCbbxEdit;
+            this.barFault.EditWidth = 120;
+            this.barFault.Id = 51;
+            this.barFault.Name = "barFault";
+            // 
+            // faultChckCbbxEdit
+            // 
+            this.faultChckCbbxEdit.AllowMultiSelect = true;
+            this.faultChckCbbxEdit.AutoHeight = false;
+            this.faultChckCbbxEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.faultChckCbbxEdit.DropDownRows = 11;
+            this.faultChckCbbxEdit.Name = "faultChckCbbxEdit";
+            // 
+            // barEditItem6
+            // 
+            this.barEditItem6.Caption = "震级大于：";
+            this.barEditItem6.Edit = this.repositoryItemTextEdit1;
+            this.barEditItem6.EditWidth = 120;
+            this.barEditItem6.Id = 61;
+            this.barEditItem6.Name = "barEditItem6";
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            // 
+            // barEditItem7
+            // 
+            this.barEditItem7.Caption = "起始时间：";
+            this.barEditItem7.Edit = this.repositoryItemCalcEdit1;
+            this.barEditItem7.EditWidth = 120;
+            this.barEditItem7.Id = 63;
+            this.barEditItem7.Name = "barEditItem7";
+            // 
+            // repositoryItemCalcEdit1
+            // 
+            this.repositoryItemCalcEdit1.AutoHeight = false;
+            this.repositoryItemCalcEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemCalcEdit1.Name = "repositoryItemCalcEdit1";
+            // 
+            // barEditItem8
+            // 
+            this.barEditItem8.Caption = "终止时间：";
+            this.barEditItem8.Edit = this.repositoryItemCalcEdit2;
+            this.barEditItem8.EditWidth = 120;
+            this.barEditItem8.Id = 64;
+            this.barEditItem8.Name = "barEditItem8";
+            // 
+            // repositoryItemCalcEdit2
+            // 
+            this.repositoryItemCalcEdit2.AutoHeight = false;
+            this.repositoryItemCalcEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemCalcEdit2.Name = "repositoryItemCalcEdit2";
+            // 
+            // barEditItem9
+            // 
+            this.barEditItem9.Caption = "震级小于：";
+            this.barEditItem9.Edit = this.repositoryItemTextEdit3;
+            this.barEditItem9.EditWidth = 120;
+            this.barEditItem9.Id = 65;
+            this.barEditItem9.Name = "barEditItem9";
+            // 
+            // repositoryItemTextEdit3
+            // 
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            // 
+            // barEditItem10
+            // 
+            this.barEditItem10.Caption = "深度大于：";
+            this.barEditItem10.Edit = this.repositoryItemTextEdit4;
+            this.barEditItem10.EditWidth = 120;
+            this.barEditItem10.Id = 66;
+            this.barEditItem10.Name = "barEditItem10";
+            // 
+            // repositoryItemTextEdit4
+            // 
+            this.repositoryItemTextEdit4.AutoHeight = false;
+            this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
+            // 
+            // barEditItem11
+            // 
+            this.barEditItem11.Caption = "深度小于：";
+            this.barEditItem11.Edit = this.repositoryItemTextEdit5;
+            this.barEditItem11.EditWidth = 120;
+            this.barEditItem11.Id = 67;
+            this.barEditItem11.Name = "barEditItem11";
+            // 
+            // repositoryItemTextEdit5
+            // 
+            this.repositoryItemTextEdit5.AutoHeight = false;
+            this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Caption = "查询";
+            this.barButtonItem6.Id = 68;
+            this.barButtonItem6.Name = "barButtonItem6";
+            this.barButtonItem6.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Caption = "查询";
+            this.barButtonItem7.Id = 69;
+            this.barButtonItem7.Name = "barButtonItem7";
+            this.barButtonItem7.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            // 
+            // btnSiteLocation
+            // 
+            this.btnSiteLocation.Caption = "定位到地图";
+            this.btnSiteLocation.Id = 70;
+            this.btnSiteLocation.Name = "btnSiteLocation";
+            this.btnSiteLocation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            // 
+            // btnSiteAttri
+            // 
+            this.btnSiteAttri.Caption = "查看场地属性";
+            this.btnSiteAttri.Id = 71;
+            this.btnSiteAttri.Name = "btnSiteAttri";
+            this.btnSiteAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            // 
+            // btnSaveToWorkspace
+            // 
+            this.btnSaveToWorkspace.Caption = "保存到工作区";
+            this.btnSaveToWorkspace.Id = 72;
+            this.btnSaveToWorkspace.Name = "btnSaveToWorkspace";
+            this.btnSaveToWorkspace.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            // 
+            // btnChart
+            // 
+            this.btnChart.Caption = "查看趋势图";
+            this.btnChart.Id = 73;
+            this.btnChart.Name = "btnChart";
+            this.btnChart.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            // 
+            // btnLineAttri
+            // 
+            this.btnLineAttri.Caption = "查看测线属性";
+            this.btnLineAttri.Id = 74;
+            this.btnLineAttri.Name = "btnLineAttri";
+            this.btnLineAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            // 
+            // btnSaveToWp
+            // 
+            this.btnSaveToWp.Caption = "保存数据";
+            this.btnSaveToWp.Id = 75;
+            this.btnSaveToWp.Name = "btnSaveToWp";
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "查看趋势图";
+            this.barButtonItem1.Id = 76;
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -415,7 +568,7 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem2);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnChartWp);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem4);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem5);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
@@ -556,10 +709,27 @@
             this.ribbonPageGroup21.Name = "ribbonPageGroup21";
             this.ribbonPageGroup21.Text = "分类数据";
             // 
+            // ribbonPageGroup20
+            // 
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem6);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem9);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem7);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem8);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem10);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem11);
+            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem7);
+            this.ribbonPageGroup20.Name = "ribbonPageGroup20";
+            this.ribbonPageGroup20.Text = "历史地震";
+            // 
             // repositoryItemCheckEdit1
             // 
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // ribbonPageGroup6
             // 
@@ -570,8 +740,7 @@
             // 
             this.dockManager.Form = this;
             this.dockManager.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.panelContainer1,
-            this.dockPanel2});
+            this.panelContainer1});
             this.dockManager.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -593,8 +762,8 @@
             this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
             this.panelContainer1.Location = new System.Drawing.Point(0, 147);
             this.panelContainer1.Name = "panelContainer1";
-            this.panelContainer1.OriginalSize = new System.Drawing.Size(261, 200);
-            this.panelContainer1.Size = new System.Drawing.Size(261, 458);
+            this.panelContainer1.OriginalSize = new System.Drawing.Size(285, 200);
+            this.panelContainer1.Size = new System.Drawing.Size(285, 458);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
             // 
@@ -605,8 +774,8 @@
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
             this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
             this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(191, 403);
-            this.dockPanelOriData.Size = new System.Drawing.Size(252, 403);
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(182, 403);
+            this.dockPanelOriData.Size = new System.Drawing.Size(276, 403);
             this.dockPanelOriData.Text = "原始数据";
             // 
             // dockPanel3_Container
@@ -614,7 +783,7 @@
             this.dockPanel3_Container.Controls.Add(this.treeListOriData);
             this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
             this.dockPanel3_Container.Name = "dockPanel3_Container";
-            this.dockPanel3_Container.Size = new System.Drawing.Size(252, 403);
+            this.dockPanel3_Container.Size = new System.Drawing.Size(276, 403);
             this.dockPanel3_Container.TabIndex = 0;
             // 
             // treeListOriData
@@ -623,18 +792,19 @@
             this.treeListOriData.AppearancePrint.OddRow.Options.UseBackColor = true;
             this.treeListOriData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.treeListColumn1,
-            this.treeListColumn2,
-            this.treeListColumn3});
+            this.treeListColumn2});
             this.treeListOriData.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListOriData.KeyFieldName = "";
             this.treeListOriData.Location = new System.Drawing.Point(0, 0);
             this.treeListOriData.Name = "treeListOriData";
-            this.treeListOriData.OptionsBehavior.Editable = false;
             this.treeListOriData.OptionsSelection.MultiSelect = true;
+            this.treeListOriData.OptionsSelection.MultiSelectMode = DevExpress.XtraTreeList.TreeListMultiSelectMode.CellSelect;
             this.treeListOriData.ParentFieldName = "";
-            this.treeListOriData.Size = new System.Drawing.Size(252, 403);
+            this.treeListOriData.Size = new System.Drawing.Size(276, 403);
             this.treeListOriData.TabIndex = 0;
+            this.treeListOriData.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListOriData_AfterCheckNode);
+            this.treeListOriData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn1
             // 
@@ -645,7 +815,7 @@
             this.treeListColumn1.OptionsColumn.FixedWidth = true;
             this.treeListColumn1.Visible = true;
             this.treeListColumn1.VisibleIndex = 0;
-            this.treeListColumn1.Width = 120;
+            this.treeListColumn1.Width = 190;
             // 
             // treeListColumn2
             // 
@@ -657,18 +827,7 @@
             this.treeListColumn2.OptionsColumn.FixedWidth = true;
             this.treeListColumn2.Visible = true;
             this.treeListColumn2.VisibleIndex = 1;
-            this.treeListColumn2.Width = 35;
-            // 
-            // treeListColumn3
-            // 
-            this.treeListColumn3.Caption = "状态";
-            this.treeListColumn3.FieldName = "LineStatus";
-            this.treeListColumn3.Name = "treeListColumn3";
-            this.treeListColumn3.OptionsColumn.AllowEdit = false;
-            this.treeListColumn3.OptionsColumn.FixedWidth = true;
-            this.treeListColumn3.Visible = true;
-            this.treeListColumn3.VisibleIndex = 2;
-            this.treeListColumn3.Width = 35;
+            this.treeListColumn2.Width = 67;
             // 
             // dockPanelWorkSpace
             // 
@@ -677,448 +836,71 @@
             this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
             this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
             this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(191, 403);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(252, 403);
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(182, 403);
+            this.dockPanelWorkSpace.Size = new System.Drawing.Size(276, 403);
             this.dockPanelWorkSpace.Text = "工作区";
+            this.dockPanelWorkSpace.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
             // 
             // dockPanel1_Container
             // 
             this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
             this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(252, 403);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(276, 403);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // treeListWorkSpace
             // 
             this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn4,
-            this.treeListColumn5,
-            this.treeListColumn6,
-            this.treeListColumn4,
-            this.treeListColumn5,
-            this.treeListColumn6});
+            this.treeListColumn3,
+            this.treeListColumn4});
             this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
             this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(252, 403);
+            this.treeListWorkSpace.Size = new System.Drawing.Size(276, 403);
             this.treeListWorkSpace.TabIndex = 16;
-            this.treeListWorkSpace.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListWorkSpace_BeforeCheckNode);
+            this.treeListWorkSpace.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListWorkSpace_AfterCheckNode);
+            this.treeListWorkSpace.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
+            // 
+            // treeListColumn3
+            // 
+            this.treeListColumn3.Caption = "场地";
+            this.treeListColumn3.FieldName = "Caption";
+            this.treeListColumn3.Name = "treeListColumn3";
+            this.treeListColumn3.Visible = true;
+            this.treeListColumn3.VisibleIndex = 0;
+            this.treeListColumn3.Width = 190;
             // 
             // treeListColumn4
             // 
-            this.treeListColumn4.Caption = "场地";
-            this.treeListColumn4.FieldName = "Caption";
+            this.treeListColumn4.Caption = "类型";
+            this.treeListColumn4.FieldName = "SiteType";
             this.treeListColumn4.Name = "treeListColumn4";
-            this.treeListColumn4.OptionsColumn.AllowEdit = false;
-            this.treeListColumn4.OptionsColumn.FixedWidth = true;
             this.treeListColumn4.Visible = true;
             this.treeListColumn4.VisibleIndex = 1;
-            this.treeListColumn4.Width = 134;
-            // 
-            // treeListColumn5
-            // 
-            this.treeListColumn5.Caption = "类型";
-            this.treeListColumn5.FieldName = "SiteType";
-            this.treeListColumn5.Name = "treeListColumn5";
-            this.treeListColumn5.OptionsColumn.AllowEdit = false;
-            this.treeListColumn5.OptionsColumn.FixedWidth = true;
-            this.treeListColumn5.Visible = true;
-            this.treeListColumn5.VisibleIndex = 3;
-            this.treeListColumn5.Width = 49;
-            // 
-            // treeListColumn6
-            // 
-            this.treeListColumn6.Caption = "状态";
-            this.treeListColumn6.FieldName = "LineStatus";
-            this.treeListColumn6.Name = "treeListColumn6";
-            this.treeListColumn6.OptionsColumn.AllowEdit = false;
-            this.treeListColumn6.OptionsColumn.FixedWidth = true;
-            this.treeListColumn6.Visible = true;
-            this.treeListColumn6.VisibleIndex = 5;
-            this.treeListColumn6.Width = 51;
-            // 
-            // dockPanel2
-            // 
-            this.dockPanel2.Controls.Add(this.dockPanel2_Container);
-            this.dockPanel2.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
-            this.dockPanel2.ID = new System.Guid("49e93dec-f66c-46cb-8053-1cfec0a03c09");
-            this.dockPanel2.Location = new System.Drawing.Point(998, 147);
-            this.dockPanel2.Name = "dockPanel2";
-            this.dockPanel2.OriginalSize = new System.Drawing.Size(264, 200);
-            this.dockPanel2.Size = new System.Drawing.Size(264, 458);
-            this.dockPanel2.Text = "数据表";
-            this.dockPanel2.SizeChanged += new System.EventHandler(this.dockPanel2_SizeChanged);
-            // 
-            // dockPanel2_Container
-            // 
-            this.dockPanel2_Container.Controls.Add(this.xtraTabControl2);
-            this.dockPanel2_Container.Location = new System.Drawing.Point(5, 23);
-            this.dockPanel2_Container.Name = "dockPanel2_Container";
-            this.dockPanel2_Container.Size = new System.Drawing.Size(255, 431);
-            this.dockPanel2_Container.TabIndex = 0;
-            // 
-            // xtraTabControl2
-            // 
-            this.xtraTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl2.Location = new System.Drawing.Point(0, 0);
-            this.xtraTabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabControl2.Name = "xtraTabControl2";
-            this.xtraTabControl2.SelectedTabPage = this.xtraTabPage3;
-            this.xtraTabControl2.Size = new System.Drawing.Size(255, 431);
-            this.xtraTabControl2.TabIndex = 12;
-            this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage3,
-            this.xtraTabPage4,
-            this.xtraTabPage5});
-            // 
-            // xtraTabPage3
-            // 
-            this.xtraTabPage3.Controls.Add(this.vGridControlSiteInfo);
-            this.xtraTabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(249, 402);
-            this.xtraTabPage3.Text = "场地属性";
-            // 
-            // vGridControlSiteInfo
-            // 
-            this.vGridControlSiteInfo.Appearance.BandBorder.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.BandBorder.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.BandBorder.Options.UseTextOptions = true;
-            this.vGridControlSiteInfo.Appearance.BandBorder.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.vGridControlSiteInfo.Appearance.BandBorder.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.vGridControlSiteInfo.Appearance.Category.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.Category.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.CategoryExpandButton.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.CategoryExpandButton.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.DisabledRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.DisabledRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.Empty.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.Empty.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.ExpandButton.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.ExpandButton.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.FixedLine.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.FixedLine.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.FocusedCell.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.FocusedRecord.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.FocusedRecord.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.FocusedRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.HideSelectionRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.ModifiedRecordValue.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.ModifiedRecordValue.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.ModifiedRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.ModifiedRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.PressedRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.PressedRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.ReadOnlyRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.ReadOnlyRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.RecordValue.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.RecordValue.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.Options.UseTextOptions = true;
-            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-            this.vGridControlSiteInfo.Appearance.RowHeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.vGridControlSiteInfo.Appearance.SelectedRecord.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.SelectedRecord.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.SelectedRow.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Appearance.VertLine.ForeColor = System.Drawing.Color.Black;
-            this.vGridControlSiteInfo.Appearance.VertLine.Options.UseForeColor = true;
-            this.vGridControlSiteInfo.Cursor = System.Windows.Forms.Cursors.SizeNS;
-            this.vGridControlSiteInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vGridControlSiteInfo.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.vGridControlSiteInfo.Location = new System.Drawing.Point(0, 0);
-            this.vGridControlSiteInfo.Margin = new System.Windows.Forms.Padding(1, 3, 1, 3);
-            this.vGridControlSiteInfo.Name = "vGridControlSiteInfo";
-            this.vGridControlSiteInfo.OptionsView.MaxRowAutoHeight = 100;
-            this.vGridControlSiteInfo.OptionsView.MinRowAutoHeight = 25;
-            this.vGridControlSiteInfo.RecordWidth = 121;
-            this.vGridControlSiteInfo.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.siteMapPic});
-            this.vGridControlSiteInfo.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.row18,
-            this.row1,
-            this.row2,
-            this.row3,
-            this.row4,
-            this.row5,
-            this.row6,
-            this.row7,
-            this.row16,
-            this.row,
-            this.row17,
-            this.row19,
-            this.row20,
-            this.row8});
-            this.vGridControlSiteInfo.Size = new System.Drawing.Size(249, 402);
-            this.vGridControlSiteInfo.TabIndex = 2;
-            this.vGridControlSiteInfo.CustomDrawRowValueCell += new DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventHandler(this.vGridControlSiteInfo_CustomDrawRowValueCell);
-            // 
-            // siteMapPic
-            // 
-            this.siteMapPic.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("siteMapPic.Appearance.Image")));
-            this.siteMapPic.Appearance.Options.UseImage = true;
-            this.siteMapPic.Name = "siteMapPic";
-            this.siteMapPic.ZoomAccelerationFactor = 1D;
-            // 
-            // row18
-            // 
-            this.row18.Appearance.Options.UseTextOptions = true;
-            this.row18.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row18.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row18.Name = "row18";
-            this.row18.Properties.Caption = "场地布设图";
-            this.row18.Properties.FieldName = "SiteMapFile";
-            this.row18.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row1
-            // 
-            this.row1.Appearance.Options.UseTextOptions = true;
-            this.row1.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row1.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row1.Name = "row1";
-            this.row1.Properties.Caption = "场地名称";
-            this.row1.Properties.FieldName = "SiteName";
-            this.row1.Properties.Padding = new System.Windows.Forms.Padding(0);
-            this.row1.Properties.ReadOnly = true;
-            // 
-            // row2
-            // 
-            this.row2.Appearance.Options.UseTextOptions = true;
-            this.row2.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row2.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row2.Height = 25;
-            this.row2.Name = "row2";
-            this.row2.Properties.Caption = "场地类型";
-            this.row2.Properties.FieldName = "SiteType";
-            this.row2.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row3
-            // 
-            this.row3.Appearance.Options.UseTextOptions = true;
-            this.row3.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row3.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row3.Name = "row3";
-            this.row3.Properties.Caption = "观测类型";
-            this.row3.Properties.FieldName = "Type";
-            this.row3.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row4
-            // 
-            this.row4.Appearance.Options.UseTextOptions = true;
-            this.row4.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row4.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row4.Name = "row4";
-            this.row4.Properties.Caption = "经度";
-            this.row4.Properties.FieldName = "Longtitude";
-            this.row4.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row5
-            // 
-            this.row5.Appearance.Options.UseTextOptions = true;
-            this.row5.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row5.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row5.Height = 25;
-            this.row5.Name = "row5";
-            this.row5.Properties.Caption = "纬度";
-            this.row5.Properties.FieldName = "Latitude";
-            this.row5.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row6
-            // 
-            this.row6.Appearance.Options.UseTextOptions = true;
-            this.row6.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row6.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row6.Name = "row6";
-            this.row6.Properties.Caption = "高程";
-            this.row6.Properties.FieldName = "Altitude";
-            this.row6.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row7
-            // 
-            this.row7.Appearance.Options.UseTextOptions = true;
-            this.row7.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row7.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row7.Name = "row7";
-            this.row7.Properties.Caption = "所在地";
-            this.row7.Properties.FieldName = "Place";
-            this.row7.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row16
-            // 
-            this.row16.Appearance.Options.UseTextOptions = true;
-            this.row16.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row16.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row16.Name = "row16";
-            this.row16.Properties.Caption = "起测时间";
-            this.row16.Properties.FieldName = "StartDate";
-            this.row16.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row
-            // 
-            this.row.Appearance.Options.UseTextOptions = true;
-            this.row.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row.Name = "row";
-            this.row.Properties.Caption = "行政区";
-            this.row.Properties.FieldName = "XzCode";
-            this.row.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row17
-            // 
-            this.row17.Appearance.Options.UseTextOptions = true;
-            this.row17.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row17.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row17.Name = "row17";
-            this.row17.Properties.Caption = "所属单位";
-            this.row17.Properties.FieldName = "UnitCode";
-            this.row17.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row19
-            // 
-            this.row19.Appearance.Options.UseTextOptions = true;
-            this.row19.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row19.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row19.Name = "row19";
-            this.row19.Properties.Caption = "历史迁移";
-            this.row19.Properties.FieldName = "Historysite";
-            this.row19.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row20
-            // 
-            this.row20.Appearance.Options.UseTextOptions = true;
-            this.row20.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row20.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row20.Name = "row20";
-            this.row20.Properties.Caption = "运行状况";
-            this.row20.Properties.FieldName = "SiteStatus";
-            this.row20.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row8
-            // 
-            this.row8.Appearance.Options.UseTextOptions = true;
-            this.row8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row8.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row8.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.row9,
-            this.row10,
-            this.row11,
-            this.row12,
-            this.row13,
-            this.row14,
-            this.row15});
-            this.row8.Name = "row8";
-            this.row8.Properties.Caption = "所跨断层名";
-            this.row8.Properties.FieldName = "FaultName";
-            this.row8.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row9
-            // 
-            this.row9.Appearance.Options.UseTextOptions = true;
-            this.row9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row9.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row9.Name = "row9";
-            this.row9.Properties.Caption = "所属断裂带";
-            this.row9.Properties.FieldName = "FaultZone";
-            this.row9.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row10
-            // 
-            this.row10.Appearance.Options.UseTextOptions = true;
-            this.row10.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row10.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row10.Name = "row10";
-            this.row10.Properties.Caption = "断层性质";
-            this.row10.Properties.FieldName = "FaultProperty";
-            this.row10.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row11
-            // 
-            this.row11.Appearance.Options.UseTextOptions = true;
-            this.row11.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row11.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row11.Name = "row11";
-            this.row11.Properties.Caption = "断层走向";
-            this.row11.Properties.FieldName = "FaultStrike";
-            this.row11.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row12
-            // 
-            this.row12.Appearance.Options.UseTextOptions = true;
-            this.row12.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row12.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row12.Name = "row12";
-            this.row12.Properties.Caption = "断层倾向";
-            this.row12.Properties.FieldName = "FaultTendency";
-            this.row12.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row13
-            // 
-            this.row13.Appearance.Options.UseTextOptions = true;
-            this.row13.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row13.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row13.Name = "row13";
-            this.row13.Properties.Caption = "断层倾角";
-            this.row13.Properties.FieldName = "FaultDip";
-            this.row13.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row14
-            // 
-            this.row14.Appearance.Options.UseTextOptions = true;
-            this.row14.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row14.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row14.Name = "row14";
-            this.row14.Properties.Caption = "断层上盘岩性";
-            this.row14.Properties.FieldName = "UpRock";
-            this.row14.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // row15
-            // 
-            this.row15.Appearance.Options.UseTextOptions = true;
-            this.row15.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.row15.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.row15.Name = "row15";
-            this.row15.Properties.Caption = "断层下盘岩性";
-            this.row15.Properties.FieldName = "BottomRock";
-            this.row15.Properties.Padding = new System.Windows.Forms.Padding(0);
-            // 
-            // xtraTabPage4
-            // 
-            this.xtraTabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(249, 402);
-            this.xtraTabPage4.Text = "监测数据";
-            // 
-            // xtraTabPage5
-            // 
-            this.xtraTabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage5.Name = "xtraTabPage5";
-            this.xtraTabPage5.Size = new System.Drawing.Size(249, 402);
-            this.xtraTabPage5.Text = "历史地震";
+            this.treeListColumn4.Width = 60;
             // 
             // xtraTabControl1
             // 
             this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(261, 147);
+            this.xtraTabControl1.Location = new System.Drawing.Point(285, 147);
             this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.xtraTabControl1.Name = "xtraTabControl1";
-            this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.xtraTabControl1.Size = new System.Drawing.Size(737, 458);
+            this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+            this.xtraTabControl1.Size = new System.Drawing.Size(977, 458);
             this.xtraTabControl1.TabIndex = 10;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage1,
-            this.xtraTabPage2});
+            this.mapTabPage,
+            this.chartTabPage});
             // 
-            // xtraTabPage1
+            // mapTabPage
             // 
-            this.xtraTabPage1.Controls.Add(this.gMapCtrl);
-            this.xtraTabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(731, 429);
-            this.xtraTabPage1.Text = "场地分布";
+            this.mapTabPage.Controls.Add(this.gMapCtrl);
+            this.mapTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mapTabPage.Name = "mapTabPage";
+            this.mapTabPage.Size = new System.Drawing.Size(971, 429);
+            this.mapTabPage.Text = "场地分布";
             // 
             // gMapCtrl
             // 
@@ -1142,7 +924,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(731, 429);
+            this.gMapCtrl.Size = new System.Drawing.Size(971, 429);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -1150,49 +932,112 @@
             this.gMapCtrl.DoubleClick += new System.EventHandler(this.gMapCtrl_DoubleClick);
             this.gMapCtrl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gMapCtrl_MouseMove);
             // 
-            // xtraTabPage2
+            // chartTabPage
             // 
-            this.xtraTabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(731, 429);
-            this.xtraTabPage2.Text = "监测数据";
+            this.chartTabPage.Controls.Add(this.chartGroupBox);
+            this.chartTabPage.Controls.Add(this.groupBox1);
+            this.chartTabPage.Name = "chartTabPage";
+            this.chartTabPage.Size = new System.Drawing.Size(971, 429);
+            this.chartTabPage.Text = "趋势图";
+            // 
+            // chartGroupBox
+            // 
+            this.chartGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.chartGroupBox.Name = "chartGroupBox";
+            this.chartGroupBox.Size = new System.Drawing.Size(971, 386);
+            this.chartGroupBox.TabIndex = 11;
+            this.chartGroupBox.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnGrid);
+            this.groupBox1.Controls.Add(this.simpleButton2);
+            this.groupBox1.Controls.Add(this.btnShowNote);
+            this.groupBox1.Controls.Add(this.btnMaxMinValue);
+            this.groupBox1.Controls.Add(this.simpleButton3);
+            this.groupBox1.Controls.Add(this.btnMouseCur);
+            this.groupBox1.Controls.Add(this.btnShowTitle);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 386);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(971, 43);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            // 
+            // btnGrid
+            // 
+            this.btnGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnGrid.Location = new System.Drawing.Point(336, 11);
+            this.btnGrid.Name = "btnGrid";
+            this.btnGrid.Size = new System.Drawing.Size(75, 23);
+            this.btnGrid.TabIndex = 7;
+            this.btnGrid.Text = "网格";
+            this.btnGrid.Click += new System.EventHandler(this.btnGrid_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton2.Location = new System.Drawing.Point(93, 11);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton2.TabIndex = 3;
+            this.simpleButton2.Text = "框选";
+            // 
+            // btnShowNote
+            // 
+            this.btnShowNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowNote.Location = new System.Drawing.Point(12, 11);
+            this.btnShowNote.Name = "btnShowNote";
+            this.btnShowNote.Size = new System.Drawing.Size(75, 23);
+            this.btnShowNote.TabIndex = 2;
+            this.btnShowNote.Text = "显示备注";
+            this.btnShowNote.Click += new System.EventHandler(this.btnShowNote_Click);
+            // 
+            // btnMaxMinValue
+            // 
+            this.btnMaxMinValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMaxMinValue.Location = new System.Drawing.Point(498, 11);
+            this.btnMaxMinValue.Name = "btnMaxMinValue";
+            this.btnMaxMinValue.Size = new System.Drawing.Size(75, 23);
+            this.btnMaxMinValue.TabIndex = 8;
+            this.btnMaxMinValue.Text = "最大最小值";
+            this.btnMaxMinValue.Click += new System.EventHandler(this.btnMaxMinValue_Click);
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.simpleButton3.Location = new System.Drawing.Point(174, 11);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.TabIndex = 4;
+            this.simpleButton3.Text = "历史地震";
+            // 
+            // btnMouseCur
+            // 
+            this.btnMouseCur.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMouseCur.Location = new System.Drawing.Point(417, 11);
+            this.btnMouseCur.Name = "btnMouseCur";
+            this.btnMouseCur.Size = new System.Drawing.Size(75, 23);
+            this.btnMouseCur.TabIndex = 7;
+            this.btnMouseCur.Text = "鼠标热线";
+            this.btnMouseCur.Click += new System.EventHandler(this.btnMouseCur_Click);
+            // 
+            // btnShowTitle
+            // 
+            this.btnShowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowTitle.Location = new System.Drawing.Point(255, 11);
+            this.btnShowTitle.Name = "btnShowTitle";
+            this.btnShowTitle.Size = new System.Drawing.Size(75, 23);
+            this.btnShowTitle.TabIndex = 5;
+            this.btnShowTitle.Text = "标题";
+            this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
             // barEditItemCounty
             // 
-            this.barEditItemCounty.Caption = "区      县：";
             this.barEditItemCounty.Edit = null;
-            this.barEditItemCounty.EditWidth = 120;
-            this.barEditItemCounty.Id = 31;
+            this.barEditItemCounty.Id = -1;
             this.barEditItemCounty.Name = "barEditItemCounty";
-            // 
-            // barFault
-            // 
-            this.barFault.Caption = "断层数据：";
-            this.barFault.Edit = this.faultChckCbbxEdit;
-            this.barFault.EditWidth = 120;
-            this.barFault.Id = 51;
-            this.barFault.Name = "barFault";
-            // 
-            // faultChckCbbxEdit
-            // 
-            this.faultChckCbbxEdit.AllowMultiSelect = true;
-            this.faultChckCbbxEdit.AutoHeight = false;
-            this.faultChckCbbxEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.faultChckCbbxEdit.DropDownRows = 11;
-            this.faultChckCbbxEdit.Name = "faultChckCbbxEdit";
-            // 
-            // ribbonPageGroup20
-            // 
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem6);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem9);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem7);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem8);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem10);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem11);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem7);
-            this.ribbonPageGroup20.Name = "ribbonPageGroup20";
-            this.ribbonPageGroup20.Text = "历史地震";
             // 
             // barEditItem4
             // 
@@ -1210,106 +1055,27 @@
             this.barEditItem5.Id = 50;
             this.barEditItem5.Name = "barEditItem5";
             // 
-            // barEditItem6
+            // popSiteTree
             // 
-            this.barEditItem6.Caption = "震级大于：";
-            this.barEditItem6.Edit = this.repositoryItemTextEdit1;
-            this.barEditItem6.EditWidth = 120;
-            this.barEditItem6.Id = 61;
-            this.barEditItem6.Name = "barEditItem6";
+            this.popSiteTree.ItemLinks.Add(this.btnSiteLocation);
+            this.popSiteTree.ItemLinks.Add(this.btnSiteAttri);
+            this.popSiteTree.Name = "popSiteTree";
+            this.popSiteTree.Ribbon = this.ribbon;
             // 
-            // repositoryItemTextEdit1
+            // popLineTree
             // 
-            this.repositoryItemTextEdit1.AutoHeight = false;
-            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+            this.popLineTree.ItemLinks.Add(this.btnSaveToWorkspace);
+            this.popLineTree.ItemLinks.Add(this.btnChart);
+            this.popLineTree.ItemLinks.Add(this.btnLineAttri);
+            this.popLineTree.Name = "popLineTree";
+            this.popLineTree.Ribbon = this.ribbon;
             // 
-            // repositoryItemTextEdit2
+            // popLineTreeWork
             // 
-            this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
-            // 
-            // barEditItem7
-            // 
-            this.barEditItem7.Caption = "起始时间：";
-            this.barEditItem7.Edit = this.repositoryItemCalcEdit1;
-            this.barEditItem7.EditWidth = 120;
-            this.barEditItem7.Id = 63;
-            this.barEditItem7.Name = "barEditItem7";
-            // 
-            // repositoryItemCalcEdit1
-            // 
-            this.repositoryItemCalcEdit1.AutoHeight = false;
-            this.repositoryItemCalcEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemCalcEdit1.Name = "repositoryItemCalcEdit1";
-            // 
-            // barEditItem8
-            // 
-            this.barEditItem8.Caption = "终止时间：";
-            this.barEditItem8.Edit = this.repositoryItemCalcEdit2;
-            this.barEditItem8.EditWidth = 120;
-            this.barEditItem8.Id = 64;
-            this.barEditItem8.Name = "barEditItem8";
-            // 
-            // repositoryItemCalcEdit2
-            // 
-            this.repositoryItemCalcEdit2.AutoHeight = false;
-            this.repositoryItemCalcEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemCalcEdit2.Name = "repositoryItemCalcEdit2";
-            // 
-            // barEditItem9
-            // 
-            this.barEditItem9.Caption = "震级小于：";
-            this.barEditItem9.Edit = this.repositoryItemTextEdit3;
-            this.barEditItem9.EditWidth = 120;
-            this.barEditItem9.Id = 65;
-            this.barEditItem9.Name = "barEditItem9";
-            // 
-            // repositoryItemTextEdit3
-            // 
-            this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
-            // 
-            // barEditItem10
-            // 
-            this.barEditItem10.Caption = "深度大于：";
-            this.barEditItem10.Edit = this.repositoryItemTextEdit4;
-            this.barEditItem10.EditWidth = 120;
-            this.barEditItem10.Id = 66;
-            this.barEditItem10.Name = "barEditItem10";
-            // 
-            // repositoryItemTextEdit4
-            // 
-            this.repositoryItemTextEdit4.AutoHeight = false;
-            this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
-            // 
-            // barEditItem11
-            // 
-            this.barEditItem11.Caption = "深度小于：";
-            this.barEditItem11.Edit = this.repositoryItemTextEdit5;
-            this.barEditItem11.EditWidth = 120;
-            this.barEditItem11.Id = 67;
-            this.barEditItem11.Name = "barEditItem11";
-            // 
-            // repositoryItemTextEdit5
-            // 
-            this.repositoryItemTextEdit5.AutoHeight = false;
-            this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
-            // 
-            // barButtonItem6
-            // 
-            this.barButtonItem6.Caption = "查询";
-            this.barButtonItem6.Id = 68;
-            this.barButtonItem6.Name = "barButtonItem6";
-            this.barButtonItem6.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // barButtonItem7
-            // 
-            this.barButtonItem7.Caption = "查询";
-            this.barButtonItem7.Id = 69;
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.popLineTreeWork.ItemLinks.Add(this.btnSaveToWp);
+            this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
+            this.popLineTreeWork.Name = "popLineTreeWork";
+            this.popLineTreeWork.Ribbon = this.ribbon;
             // 
             // RibbonForm
             // 
@@ -1317,7 +1083,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 636);
             this.Controls.Add(this.xtraTabControl1);
-            this.Controls.Add(this.dockPanel2);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
@@ -1330,7 +1095,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
             this.dockPanelOriData.ResumeLayout(false);
@@ -1339,24 +1112,14 @@
             this.dockPanelWorkSpace.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
-            this.dockPanel2.ResumeLayout(false);
-            this.dockPanel2_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
-            this.xtraTabControl2.ResumeLayout(false);
-            this.xtraTabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.vGridControlSiteInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.siteMapPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
-            this.xtraTabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.faultChckCbbxEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
+            this.mapTabPage.ResumeLayout(false);
+            this.chartTabPage.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.popSiteTree)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTree)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1368,11 +1131,11 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraBars.BarButtonItem btnChartWp;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
-     
+
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
@@ -1397,24 +1160,16 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup19;
         private DevExpress.XtraBars.Docking.DockManager dockManager;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
-    
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
-        private DevExpress.XtraBars.Docking.DockPanel dockPanel2;
-        private DevExpress.XtraBars.Docking.ControlContainer dockPanel2_Container;
+        private DevExpress.XtraTab.XtraTabPage mapTabPage;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelOriData;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel3_Container;
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl2;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage5;
         private DevExpress.XtraBars.Docking.DockPanel panelContainer1;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelWorkSpace;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
         private DevExpress.XtraTreeList.TreeList treeListWorkSpace;
         private DevExpress.XtraTreeList.TreeList treeListOriData;
         private GMap.NET.WindowsForms.GMapControl gMapCtrl;
-     
+
         private DevExpress.XtraBars.BarButtonItem btnZoomin;
         private DevExpress.XtraBars.BarButtonItem btnZoomout;
         private DevExpress.XtraBars.BarButtonItem btnReloadMap;
@@ -1425,34 +1180,6 @@
         private DevExpress.XtraBars.BarStaticItem currentLocation;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
-
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn5;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn6;
-        private DevExpress.XtraVerticalGrid.VGridControl vGridControlSiteInfo;
-        private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit siteMapPic;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row18;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row1;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row2;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row3;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row4;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row5;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row6;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row7;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row16;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row17;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row19;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row20;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row8;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row9;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row10;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row11;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row12;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row13;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row14;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row15;
         private DevExpress.XtraBars.BarButtonItem btnFull;
         private DevExpress.XtraBars.BarEditItem barEditItem2;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit repositoryItemCheckedComboBoxEdit1;
@@ -1483,5 +1210,31 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
         private DevExpress.XtraBars.BarEditItem barEditItem4;
         private DevExpress.XtraBars.BarEditItem barEditItem5;
+        private DevExpress.XtraBars.BarButtonItem btnSiteLocation;
+        private DevExpress.XtraBars.BarButtonItem btnSiteAttri;
+        private DevExpress.XtraBars.PopupMenu popSiteTree;
+        private DevExpress.XtraBars.BarButtonItem btnSaveToWorkspace;
+        private DevExpress.XtraBars.BarButtonItem btnChart;
+        private DevExpress.XtraBars.BarButtonItem btnLineAttri;
+        private DevExpress.XtraBars.PopupMenu popLineTree;
+        private DevExpress.XtraTab.XtraTabPage chartTabPage;
+
+        private DevExpress.XtraBars.PopupMenu popLineTreeWork;
+        private DevExpress.XtraBars.BarButtonItem btnSaveToWp;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+
+        private DevExpress.XtraBars.PopupMenu popupMenu1;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn4;
+        private DevExpress.XtraEditors.SimpleButton btnMaxMinValue;
+        private DevExpress.XtraEditors.SimpleButton btnMouseCur;
+        private DevExpress.XtraEditors.SimpleButton btnShowTitle;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton btnShowNote;
+        private System.Windows.Forms.GroupBox chartGroupBox;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private DevExpress.XtraEditors.SimpleButton btnGrid;
     }
 }

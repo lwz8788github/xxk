@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Common.Provider;
 using xxkUI.Dal;
+using xxkUI.BLL;
 
 namespace xxkUI.Bll
 {
@@ -51,5 +52,16 @@ namespace xxkUI.Bll
         {
             return SiteDal.Instance.GetWhere(where);
         }
+        public string GeSiteCodeByUnitCode<SiteBean>(string UnitCode)
+        {
+            string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "UNITCODE", UnitCode).ToString();
+            return siteCodestr;
+        }
+
+        public IEnumerable<SiteBean> GetSitesByAuth(string auths)
+        {
+            return SiteDal.Instance.GetList("select * from t_siteinfodb where UNITCODE in " + auths);
+        }
+
     }
 }

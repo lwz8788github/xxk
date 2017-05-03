@@ -395,6 +395,29 @@ namespace Common.Data
             }
         }
 
+        public static IEnumerable<T> GetList<T>(string sql) where T : new()
+        {
+            using (var conn = new MySqlConnection(cs))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql;
+                    conn.Open();
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var o = new T();
+                            o.InjectFrom<ReaderInjection>(dr);
+                            yield return o;
+                        }
+                    }
+                }
+            }
+        }
+
         public static DataTable GetPageWithSp(ProcCustomPage pcp,out int recordCount)
         {
             using (var conn = new MySqlConnection(cs))
@@ -476,6 +499,28 @@ namespace Common.Data
             return default(T);
         }
 
+        public static IEnumerable<T> Get<T>(string keyid) where T : new()
+        {
+            using (var conn = new MySqlConnection(cs))
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "select * from " + TableConvention.Resolve(typeof(T)) + " where keyid = " + keyid;
+                conn.Open();
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        var o = new T();
+                        o.InjectFrom<ReaderInjection>(dr);
+                        yield return o;
+                    }
+                }
+            }
+           
+        }
+
 
         /// <summary>
         /// 读取流字段
@@ -512,7 +557,7 @@ namespace Common.Data
             return ms;
         }
 
-    
+
         /// <summary>
         /// 根据id获取字段值
         /// </summary>
@@ -548,5 +593,67 @@ namespace Common.Data
         }
 
 
-    }
+
+        //public static DataTable GetDataTable(string sql)
+        //{
+        //    using (var conn = new MySqlConnection(cs))
+        //    {
+        //        using (var cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandType = CommandType.Text;
+        //            cmd.CommandText = sql;
+        //            conn.Open();
+
+
+        //            using (var da = new MySqlDataAdapter(cmd))
+        //            {
+        //                DataSet ds = new DataSet();
+        //                da.Fill(ds);
+        //                cmd.Parameters.Clear();
+        //                conn.Close();
+        //                return ds.Tables[0];
+        //            }
+        //        }
+        //    }
+        //}
+
+
+        public static DataTable GetDataTable(string sql)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            MySqlConnection conn = new MySqlConnection(cs);//connectionString))
+            {
+                MySqlDataAdapter SqlDA = new MySqlDataAdapter();
+                try
+                {
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Connection = conn;
+                    cmd.CommandText = sql;
+                    SqlDA.SelectCommand = cmd;
+                    SqlDA.Fill(dt);
+                    conn.Close();
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    cmd = null;
+                    SqlDA.Dispose();
+                    SqlDA = null;
+                }
+                return dt;
+            }
+
+
+        }
+
+
+        }
 }

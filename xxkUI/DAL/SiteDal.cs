@@ -17,6 +17,5 @@ namespace xxkUI.Dal
         {
             get { return SingletonProvider<SiteDal>.Instance; }
         }
-             
     }
 }

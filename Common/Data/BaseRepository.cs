@@ -15,6 +15,11 @@ namespace Common.Data
             return DbUtils.Get<T>(id);
         }
 
+        public IEnumerable<T> Get(string id)
+        {
+            return DbUtils.Get<T>(id);
+        }
+
         public IEnumerable<T> GetAll()
         {
             return DbUtils.GetAll<T>();
@@ -40,6 +45,19 @@ namespace Common.Data
             return list;
         }
 
+        public IEnumerable<T> GetList(string sql)
+        {
+            IEnumerable<T> list;
+            try
+            {
+                list = DbUtils.GetList<T>(sql);
+            }
+            catch (Exception ex)
+            {
+                list = null;
+            }
+            return list;
+        }
         public virtual int Insert(T o)
         {
             return DbUtils.Insert(o);
@@ -118,5 +136,11 @@ namespace Common.Data
         {
             return DbUtils.GetByID<T>(getwhat, idname, idvalue);
         }
+
+        public DataTable GetDataTable(string sql)
+        {
+            return DbUtils.GetDataTable(sql);
+        }
+        
     }
 }

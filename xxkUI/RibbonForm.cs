@@ -26,17 +26,31 @@ using DevExpress.XtraTreeList;
 using xxkUI.BLL;
 using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
+using xxkUI.MyCls;
+using DevExpress.XtraTab;
+using Steema.TeeChart;
+using DevExpress.XtraGrid;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-
+        private XTreeList xtl;
+        private GMapMarkerKdcSite gmmkks;
         private List<string> userAut = new List<string>();
+        private TreeBean currentClickNodeInfo;//当前点击的树节点信息
+        private SiteAttri siteAttriFrm = new SiteAttri();
+    
+        private MyTeeChart mtc = null;
         public RibbonForm()
         {
             InitializeComponent();
+            this.chartTabPage.PageVisible = false;//曲线图页面不可见
+            mtc = new MyTeeChart(this.chartGroupBox);
+            xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
+            gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
+
         }
 
         /// <summary>
@@ -55,167 +69,12 @@ namespace xxkUI
 
                 //获取用户权限，放入userAut
                 List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                //List<string> siteCodeList = new List<string>();
-                //foreach (string u_list in userAhtList)
-                //{
-                //    ;
-                //}
-                InitOriDataTree(userAhtList);
+                xtl.InitOriDataTree(userAhtList,this.gmmkks);
             }
             else
             {
                 return;
             }
-        }
-
-
-
-
-        /// <summary>
-        /// 添加场地标记
-        /// </summary>
-        private void LoadSiteMarker()
-        {
-            IEnumerable<SiteBean> sblist = SiteBll.Instance.GetAll();
-
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
-            GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
-
-            foreach (SiteBean sb in sblist)
-            {
-                GMapMarker marker = null;
-                if (sb.SiteCode.Substring(0, 1) == "L")
-                {
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.green_small);
-                }
-                else
-                    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
-
-                marker.Tag = sb;
-                SiteOverlay.Markers.Add(marker);
-
-                //if (sb.SiteCode.Substring(0, 1) == "D")
-                //{
-                //    GMapMarker marker = null;
-                //    marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
-                //    marker.Tag = sb;
-                //    SiteOverlay.Markers.Add(marker);
-                //}
-
-            }
-            gMapCtrl.Overlays.Add(SiteOverlay);
-        }
-
-
-
-        private void InitOriDataTree(List<string> userAhtList)
-        {
-            try
-            {
-                List<TreeBean> treelist = new List<TreeBean>();
-                IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
-
-                foreach (UnitInfoBean sb in ubEnumt)
-                {
-                    TreeBean tb = new TreeBean();
-                    if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
-                        || sb.UnitCode == "152006" || sb.UnitCode == "152008"
-                        || sb.UnitCode == "152009" || sb.UnitCode == "152010"
-                        || sb.UnitCode == "152012" || sb.UnitCode == "152015"
-                        || sb.UnitCode == "152022" || sb.UnitCode == "152023"
-                        || sb.UnitCode == "152026" || sb.UnitCode == "152029"
-                        || sb.UnitCode == "152032" || sb.UnitCode == "152034"
-                        || sb.UnitCode == "152035" || sb.UnitCode == "152036"
-                        || sb.UnitCode == "152039" || sb.UnitCode == "152040"
-                        || sb.UnitCode == "152041" || sb.UnitCode == "152042"
-                        || sb.UnitCode == "152043" || sb.UnitCode == "152044"
-                        || sb.UnitCode == "152045" || sb.UnitCode == "152046"
-                        || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
-                    if (userAhtList.Contains(sb.UnitCode))
-                    {
-                        tb.KeyFieldName = sb.UnitCode;
-                        tb.ParentFieldName = "0";
-                        tb.Caption = sb.UnitName;
-                        tb.SiteType = "";
-                        tb.LineStatus = "";
-                        treelist.Add(tb);
-                    }
-                }
-
-                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
-                foreach (SiteBean sb in sbEnumt)
-                {
-                    if (userAhtList.Contains(sb.UnitCode))
-                    {
-                        TreeBean tb = new TreeBean();
-                        tb.KeyFieldName = sb.SiteCode;
-                        tb.ParentFieldName = sb.UnitCode;
-                        tb.Caption = sb.SiteName;
-                        tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-
-                        treelist.Add(tb);
-                    }
-                }
-
-                //测线列表显示
-                IEnumerable<LineBean> olEnumt = LineBll.Instance.GetAll();
-
-                foreach (LineBean ol in olEnumt)
-                {
-                    if (userAhtList.Contains(ol.SITECODE))
-                    {
-                        TreeBean tb = new TreeBean();
-                        tb.KeyFieldName = ol.OBSLINECODE;
-                        tb.ParentFieldName = ol.SITECODE;
-                        tb.Caption = ol.OBSLINENAME;
-                        tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
-                        treelist.Add(tb);
-                    }
-                }
-
-                //原始数据树列表显示
-
-                this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-
-                this.treeListOriData.DataSource = treelist;　　//绑定数据源
-                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
-                this.treeListOriData.OptionsView.ShowCheckBoxes = true;
-                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListOriData.OptionsBehavior.Editable = false;
-                this.treeListOriData.CustomDrawNodeCell += treeListOriData_CustomDrawNodeCell;
-                this.treeListOriData.BeforeCheckNode += treeListOriData_BeforeCheckNode_1;
-
-                //工作区树列表显示
-                this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-
-                this.treeListWorkSpace.DataSource = treelist;　　//绑定数据源
-                //this.treeListOriData.ExpandAll();　　　　　 //默认展开所有节点
-                this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
-                //this.treeListWorkSpace.Enabled = false;
-                this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListWorkSpace.OptionsBehavior.Editable = false;
-                this.treeListWorkSpace.CustomDrawNodeCell += treeListWorkSpace_CustomDrawNodeCell;
-                this.treeListWorkSpace.BeforeCheckNode += treeListWorkSpace_BeforeCheckNode;
-
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-
-        }
-        private void GetObsDataByUser(string username)
-        {
-            //1.根据username查询权限，并放入list中
-            List<string> userlist = new List<string>();
-            // userlist = ;
-            //2.遍历list下载数据
-
-
-
         }
 
         #region 地图事件 刘文龙
@@ -227,33 +86,18 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            this.gMapCtrl.BackColor = Color.Red;
-            //设置控件的管理模式  
-            this.gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
-            //设置控件显示的地图来源  
-            this.gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
-            //设置控件显示的当前中心位置  
-            //31.7543, 121.6281  
-            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
-            //设置控件最大的缩放比例  
-            this.gMapCtrl.MaxZoom = 50;
-            //设置控件最小的缩放比例  
-            this.gMapCtrl.MinZoom = 2;
-            //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 4;
-
-            LoadSiteMarker();
-
+            gmmkks.InitMap();
         }
+             
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
-            this.gMapCtrl.Zoom += 1;
+            gmmkks.Zoom(1);
 
         }
 
         private void gMapCtrl_MouseMove(object sender, MouseEventArgs e)
         {
-            PointLatLng latLng = this.gMapCtrl.FromLocalToLatLng(e.X, e.Y);
+            PointLatLng latLng = gmmkks.FromLocalToLatLng(e.X, e.Y);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
 
@@ -264,161 +108,37 @@ namespace xxkUI
             sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
             sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
 
-            this.vGridControlSiteInfo.DataSource = new List<SiteBean>() { sb };
-            SetBaseinfoVGridControl();
+            GetSiteAttriForm();
+            this.siteAttriFrm.SetDataSource(new List<SiteBean>() { sb });
         }
 
         private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Position = new PointLatLng(35, 107.5);
-                    //设置控件当前的缩放比例  
-            this.gMapCtrl.Zoom = 4;
+            gmmkks.Full();
         }
 
         private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Zoom += 1;
+            gmmkks.Zoom(1);
         }
 
         private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.Zoom -= 1;
+            gmmkks.Zoom(-1);
+
         }
 
         private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.gMapCtrl.ReloadMap();
+            gmmkks.ReloadMap();
         }
 
 
         #endregion
 
         /// <summary>
-        /// 设置是VGridControl行列样式
-        /// </summary>
-        private void SetBaseinfoVGridControl()
-        {
-            try
-            {
-                int cHeight = vGridControlSiteInfo.Height;
 
-                DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
-                memoEdit.LinesCount = 1;
-                DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
-                imgEdit.ShowIcon = true;
-
-
-                for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
-                {
-                    vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
-                    vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-
-                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-
-                    if (i != 0)
-                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
-                    else
-                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
-
-                    vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
-                }
-
-                vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
-                vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 10;
-                //vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-        }
-
-
-        public DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
-        {
-            DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit rEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-
-            DataTable dtTmp = new DataTable();
-            dtTmp.Columns.Add("请选择");
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                DataRow drTmp1 = dtTmp.NewRow();
-                drTmp1[0] = values[i];
-                dtTmp.Rows.Add(drTmp1);
-            }
-
-            rEdit.DataSource = dtTmp;
-
-            rEdit.ValueMember = "请选择";
-            rEdit.DisplayMember = "请选择";
-            rEdit.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
-            rEdit.ShowFooter = false;
-            rEdit.ShowHeader = false;
-            return rEdit;
-        }
-
-
-        private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn1)
-            {
-                if (e.CellValue.ToString() != "")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
-
-        private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
-        {
-            if (e.Column == treeListColumn4)
-            {
-
-                if (e.CellValue.ToString() != "")
-                {
-                    e.Appearance.BackColor = Color.LightGray;
-                    e.Appearance.Options.UseBackColor = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 禁止操作节点CheckBox
-        /// 说明
-        /// 在BeforeCheckNode事件中使用
-        /// </summary>
-        /// <param name="tree">TreeListNode</param>
-        /// <param name="conditionHanlder">委托</param>
-        /// <param name="e">CheckNodeEventArgs</param>
-        private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
-        {
-            e.CanCheck = false;
-            //if ((bool)sender)
-            //{
-            //    e.CanCheck = true;
-            //}
-
-        }
-
-        private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
-        {
-            e.CanCheck = false;
-            //if ((bool) sender)
-            //{
-            //    e.CanCheck = true;
-            //}
-        }
-
-
-        public TreeListNode a { get; set; }
-        private void dockPanel2_SizeChanged(object sender, EventArgs e)
-        {
-            SetBaseinfoVGridControl();
-
-        }
+  
 
         private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
         {
@@ -477,6 +197,279 @@ namespace xxkUI
 
                 XtraMessageBox.Show("初始化断层数据发生错误：" + ex.Message, "错误");
             }
+        }
+
+        private void dockPanelWorkSpace_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 树列表右击菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tree_MouseUp(object sender, MouseEventArgs e)
+        {
+            TreeList tree = sender as TreeList;
+            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None)&& (tree.State == TreeListState.Regular))
+            {
+                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
+                TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                if (hitInfo.HitInfoType == HitInfoType.Cell)
+                {
+                    tree.SetFocusedNode(hitInfo.Node);
+
+                    currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
+                    if (currentClickNodeInfo == null)
+                    {
+                        return;
+                    }
+                    if (hitInfo.Node.Level == 1)
+                    {
+                        popSiteTree.ShowPopup(p);
+                    }
+                    else if (hitInfo.Node.Level == 2)
+                    {
+                        popLineTree.ShowPopup(p);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 菜单项点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void popMenu_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            switch (e.Item.Name)
+            {
+                case "btnSaveToWorkspace"://保存到工作区
+                    {
+                        List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+                        foreach (LineBean checkedLb in checkedNodes)
+                        {
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+
+                            NpoiCreator npcreator = new NpoiCreator();
+                            string savefile = Application.StartupPath + "/myworkspace";
+                            npcreator.TemplateFile = savefile;
+                            npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
+
+                            TreeBean tb = new TreeBean();
+
+                            tb.KeyFieldName = checkedLb.OBSLINECODE;
+                            tb.ParentFieldName = checkedLb.SITECODE;
+                            tb.Caption = checkedLb.OBSLINENAME;
+                        }
+                        xtl.RefreshWorkspace();
+
+
+                    }
+                    break;
+                case "btnChart"://趋势图
+                    {
+
+                        this.chartTabPage.PageVisible = true;//曲线图页面可见
+                        this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
+
+                        mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
+
+                      }
+                    break;
+                case "btnLineAttri"://测线属性
+                    break;
+                case "btnSiteLocation"://定位到地图
+                    this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                    gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
+                    break;
+                case "btnSiteAttri"://场地属性
+                    {
+                        GetSiteAttriForm();
+                        this.siteAttriFrm.SetDataSource(new List<SiteBean>() { (SiteBean)currentClickNodeInfo.Tag });
+                    }
+                    break;
+
+            }
+        }
+
+        /////<summary>
+        /////数据下载
+        /////</summary>
+        /////
+        //private string Download(DownLoadInfoBean dlb)
+        //{
+        //    try
+        //    {
+        //        string targetPath = dlb.DownloadPath;
+
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return downLoadName;
+        //}
+
+        /// <summary>
+        /// 打开SiteAttri窗体
+        /// </summary>
+        private void GetSiteAttriForm()
+        {
+            if (siteAttriFrm != null)
+            {
+                if (siteAttriFrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    siteAttriFrm = new  SiteAttri();//此为你双击打开的FORM
+                    siteAttriFrm.Show();
+                    siteAttriFrm.Focus();
+                }
+                else
+                {
+                    siteAttriFrm.Show();
+                    siteAttriFrm.Focus();
+                }
+            }
+            else
+            {
+                siteAttriFrm = new SiteAttri();
+                siteAttriFrm.Show();
+                siteAttriFrm.Focus();
+            }
+           
+        }
+
+    
+        #region Teechart鼠标交互操作
+
+        //private Point start = new Point();//矩形起点
+        //private Point end = new Point();//矩形终点
+        //private bool blnDraw = false;//是否开始画矩形
+        //Graphics g;
+
+        //private void chartControl1_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    g = this.tChart1.CreateGraphics();
+        //    start.X = e.X;
+        //    start.Y = e.Y;
+        //    end.X = e.X;
+        //    end.Y = e.Y;
+        //    blnDraw = true;
+
+
+        //}
+
+        //private void chartControl1_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (blnDraw)
+        //    {
+        //        //先擦除
+        //        g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
+        //        end.X = e.X;
+        //        end.Y = e.Y;
+        //        //再画
+        //        g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
+        //    }
+        //}
+        //private void chartControl1_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, e.X - start.X, e.Y - start.Y);
+        //    blnDraw = false;
+
+
+        //    int minX = Math.Min(start.X, e.X);
+        //    int minY = Math.Min(start.Y, e.Y);
+        //    int maxX = Math.Max(start.X, e.X);
+        //    int maxY = Math.Max(start.Y, e.Y);
+
+        //    try
+        //    {
+        //        if (tChart1 != null)
+        //        {
+        //            if (tChart1.Series.Count > 0)
+        //            {
+
+        //                Steema.TeeChart.Styles.Series series = tChart1.Series[0];
+        //               Steema.TeeChart.Styles.Line  ln = series as Steema.TeeChart.Styles.Line;
+        //                this.tChart1.Refresh();
+        //                for (int i = 0; i < ln.Count; i++)
+        //                {
+        //                    int screenX = series.CalcXPosValue(ln[i].X);
+        //                    int screenY = series.CalcYPosValue(ln[i].Y);
+        //                    if (screenX >= minX && screenX <= maxX && screenY >= minY && screenY <= maxY)
+        //                    {
+        //                        Rectangle r = new Rectangle(screenX - 4, screenY - 4, 10, 10);//标识圆的大小
+        //                        g.DrawEllipse(new Pen(Color.Red), r);
+        //                    }
+        //                }
+
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        #endregion
+
+
+        private void treeListOriData_AfterCheckNode(object sender, NodeEventArgs e)
+        {
+           
+        }
+        private void treeListWorkSpace_AfterCheckNode(object sender, NodeEventArgs e)
+        {
+
+        }
+
+
+
+        private void tChart_ClickLegend(object sender, MouseEventArgs e)
+        {
+            mtc.AddVisibleLineVerticalAxis();
+        }
+
+ 
+
+        private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
+        {
+
+            mtc.IsShowNote = true;
+            
+
+            mtc.ShowNotes();
+
+        }
+
+        private void btnShowNote_Click(object sender, EventArgs e)
+        {
+            mtc.IsShowNote = true;
+            mtc.ShowNotes();
+        }
+
+        private void btnShowTitle_Click(object sender, EventArgs e)
+        {
+            mtc.btnShowTitle();
+
+        }
+
+        private void btnMouseCur_Click(object sender, EventArgs e)
+        {
+            mtc.btnMouseCur();
+        }
+
+
+        private void btnMaxMinValue_Click(object sender, EventArgs e)
+        {
+            mtc.btnMaxMinValue();
+        }
+
+        private void btnGrid_Click(object sender, EventArgs e)
+        {
+            mtc.btnGrid();
         }
 
 

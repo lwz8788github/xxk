@@ -37,5 +37,21 @@ namespace xxkUI.Bll
             return LineObsDal.Instance.Get(id);
         }
 
+        public DataTable GetDataTable(string sql)
+        {
+            return LineObsDal.Instance.GetDataTable(sql);
+        }
+
+
+        public IEnumerable<LineObsBean> GetAll()
+        {
+            return LineObsDal.Instance.GetAll();
+        }
+
+
+        internal List<string> GetNameByID(string p1, string p2, string lineCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

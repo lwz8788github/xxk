@@ -14,7 +14,9 @@ namespace xxkUI.Form
     public partial class ObsData : DevExpress.XtraEditors.XtraForm
     {
       
-    
+    /// <summary>
+    /// ggg
+    /// </summary>
         public ObsData()
         {
             InitializeComponent();

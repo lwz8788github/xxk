@@ -461,6 +461,7 @@ namespace xxkUI
             mtc.btnMouseCur();
         }
 
+
         private void btnMaxMinValue_Click(object sender, EventArgs e)
         {
             mtc.btnMaxMinValue();
@@ -471,6 +472,11 @@ namespace xxkUI
             mtc.btnGrid();
         }
 
-    
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            mtc.GetEqkShowForm();
+        }
+
+
     }
 }

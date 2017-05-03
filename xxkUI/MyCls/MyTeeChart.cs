@@ -17,70 +17,50 @@ using xxkUI.Form;
 
 namespace xxkUI.MyCls
 {
+    public class LineTag
+    {
+        public string Sitecode { get; set; }
+        public string Linecode { get; set; }
+    }
     public class MyTeeChart : TChart
     {
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
+        private EqkShow eqkfrm = new EqkShow();
         private CursorTool cursorTool;
         Steema.TeeChart.Tools.Annotation annotation;
         Steema.TeeChart.Tools.Annotation annotation_max;
         Steema.TeeChart.Tools.Annotation annotation_min;
-
+    
         /// <summary>
         /// 是否显示备注
         /// </summary>
-        public bool IsShowNote { get; set; }
-
+        public bool IsShowNote{get;set;}
 
         public MyTeeChart(GroupBox gb)
         {
             this.tChart = new TChart();
-
-			this.tChart.Aspect.View3D = false;
+            this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
             this.tChart.Dock = DockStyle.Fill;
-
+			
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
             SetAxesBottomStyle(this.tChart.Axes.Bottom);
             SetAxesLeftStyle(this.tChart.Axes.Left);
-
             gb.Controls.Add(this.tChart);
-
-            this.cursorTool = new CursorTool();
-            this.cursorTool.Chart = this.tChart.Chart;
-            this.cursorTool.Active = false;
-            this.cursorTool.FollowMouse = true;
-            Points pointSeries = new Points(tChart.Chart);
-            this.cursorTool.Series = pointSeries;
-            this.cursorTool.Style = CursorToolStyles.Vertical;
-            this.cursorTool.UseChartRect = true;
-
+           
+		   InitCursorTool();
+		   InitAnnotations();
+		   
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-            //this.tChart.CursorChanged += tChart_CursorChanged;
             this.tChart.MouseMove += tChart_MouseMove;
-
-            annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
-            annotation_min.Active = false;
-            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
-            annotation_max.Active = false;
-            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
-            annotation.Active = false;
-            annotation.Shape.CustomPosition = true;
-            annotation.Shape.Gradient.Visible = true;
-            annotation.Shape.Transparency = 30;
-
+          
             IsShowNote = false;
-       
         }
-        /// <summary>
-        /// 标签随光标移动显示事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void tChart_CursorChanged(object sender, EventArgs e)
-        //{
+		
+		
         //    //double x = cursorTool.XValue;
         //    List<BaseLine> visibleSeries = GetVisibleLine();
         //    Steema.TeeChart.Styles.ValueList listXValue = visibleSeries[0].XValues;
@@ -154,9 +134,11 @@ namespace xxkUI.MyCls
             }
         }
         
-
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
+           
+           
+
             DataTable obsdata = s.DataSource as DataTable;
 
             if (this.tChart.Series.Count > 1)
@@ -173,6 +155,37 @@ namespace xxkUI.MyCls
             AddVisibleLineVerticalAxis();
         }
 
+		
+		 /// <summary>
+        /// 初始化CursorTool
+        /// </summary>
+		private void InitCursorTool()
+		{
+			 this.cursorTool = new CursorTool();
+            this.cursorTool.Chart = this.tChart.Chart;
+            this.cursorTool.Active = false;
+            this.cursorTool.FollowMouse = true;
+            Points pointSeries = new Points(tChart.Chart);
+            this.cursorTool.Series = pointSeries;
+            this.cursorTool.Style = CursorToolStyles.Vertical;
+            this.cursorTool.UseChartRect = true;
+		}
+		
+		/// <summary>
+        /// 初始化Annotations
+        /// </summary>
+		private void InitAnnotations()
+		{
+			  annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_min.Active = false;
+            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_max.Active = false;
+            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation.Active = false;
+            annotation.Shape.CustomPosition = true;
+            annotation.Shape.Gradient.Visible = true;
+            annotation.Shape.Transparency = 30;
+		}
         /// <summary>
         /// 设置标题
         /// </summary>
@@ -244,6 +257,7 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                   string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -252,10 +266,17 @@ namespace xxkUI.MyCls
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
 
+                    //LineTag lt = new LineTag();
+                    //lt.Sitecode = currentSitecode;
+                    //lt.Linecode = checkedLb.OBSLINECODE;
+                    line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
+
                     if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
                     this.tChart.Header.Text += line.Title;
                 }
-                AddVisibleLineVerticalAxis();
+
+               AddVisibleLineVerticalAxis();
+
             }
             catch (Exception ex)
             {
@@ -290,18 +311,11 @@ namespace xxkUI.MyCls
         }
 
 
-        public TChart CreateTChartCtrol(int width,int height, System.Drawing.Point location)
-        {
-            this.tChart.Width = width;
-            this.tChart.Height = height;
-            this.tChart.Location = location;
-            return this.tChart;
-        }
-
 
         public void ShowNotes()
         {
             Graphics3D g = this.tChart.Graphics3D;
+           
             if (IsShowNote)
             {
                 for (int i = 0; i < this.tChart.Series.Count; i++)
@@ -341,7 +355,6 @@ namespace xxkUI.MyCls
                 }
             }
             return visibleSeries;
-
         }
 
         /// <summary>
@@ -415,17 +428,6 @@ namespace xxkUI.MyCls
             }
         }
 
-
-        /// <summary>
-        /// 光标移动事件
-        /// </summary>
-        /// <param name="CursorTool"></param>
-        //public void CursorChange()
-        //{
-        //}
-
-    
-
         /// <summary>
         /// 打开数据窗体
         /// </summary>
@@ -450,6 +452,33 @@ namespace xxkUI.MyCls
                 obsfrm = new ObsData();
                 obsfrm.Show();
                 obsfrm.Focus();
+            }
+
+        }
+        /// <summary>
+        /// 打开历史震例窗体
+        /// </summary>
+        public void GetEqkShowForm()
+        {
+            if (eqkfrm != null)
+            {
+                if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    eqkfrm = new EqkShow();
+                    eqkfrm.Show();
+                    eqkfrm.Focus();
+                }
+                else
+                {
+                    eqkfrm.Show();
+                    eqkfrm.Focus();
+                }
+            }
+            else
+            {
+                eqkfrm = new EqkShow();
+                eqkfrm.Show();
+                eqkfrm.Focus();
             }
 
         }
@@ -497,7 +526,6 @@ namespace xxkUI.MyCls
                 int indexMax = vSeri.YValues.IndexOf(maxY);
                 int indexMin = vSeri.YValues.IndexOf(minY);
 
-                
                 annotation_max.Shape.CustomPosition = true;
                 annotation_max.Shape.Gradient.Visible = true;
                 annotation_max.Shape.Transparency = 15;

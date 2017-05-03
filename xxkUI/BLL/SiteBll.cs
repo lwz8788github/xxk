@@ -52,9 +52,9 @@ namespace xxkUI.Bll
         {
             return SiteDal.Instance.GetWhere(where);
         }
-        public string GeSiteCodeByUnitCode<SiteBean>(string UnitCode)
+        public string GeSiteCodeByLineCode(string obsLineCode)
         {
-            string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "UNITCODE", UnitCode).ToString();
+            string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "OBSLINECODE", obsLineCode).ToString();
             return siteCodestr;
         }
 
@@ -63,5 +63,7 @@ namespace xxkUI.Bll
             return SiteDal.Instance.GetList("select * from t_siteinfodb where UNITCODE in " + auths);
         }
 
+
+     
     }
 }

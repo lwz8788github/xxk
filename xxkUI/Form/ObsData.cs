@@ -12,9 +12,9 @@ using xxkUI.Bll;
 
 namespace xxkUI.Form
 {
-    public partial class ObsData : DevExpress.XtraEditors.XtraForm
+    public partial class ObsData :XtraForm
     {
-
+        private string linecode = string.Empty;
         private DataTable datasource = null;
 
         public ObsData()

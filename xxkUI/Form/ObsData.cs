@@ -128,21 +128,27 @@ namespace xxkUI.Form
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        //新增
+                        /*
+                         * 新增
+                         */
                         if (dr.RowState == DataRowState.Added)
                         {
                             LineObsBean lobean = new LineObsBean();
 
                         }
-                        //修改
+                      
+                        /*
+                         * 修改
+                         */
                         else if (dr.RowState == DataRowState.Modified)
                         {
 
                         }
                     }
                 }
-
-                //删除
+                /*
+                 * 删除
+                 */
                 DataView dv = new DataView(this.datasource, string.Empty, string.Empty, DataViewRowState.Deleted);
                 if (dv != null)
                 {

@@ -17,15 +17,22 @@ using xxkUI.Form;
 
 namespace xxkUI.MyCls
 {
-    public class MyTeeChart
+
+    public class LineTag
+    {
+        public string Sitecode { get; set; }
+        public string Linecode { get; set; }
+    }
+    public class MyTeeChart 
     {
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
+        private EqkShow eqkfrm = new EqkShow();
         private CursorTool cursorTool;
         Steema.TeeChart.Tools.Annotation annotation;
         Steema.TeeChart.Tools.Annotation annotation_max;
         Steema.TeeChart.Tools.Annotation annotation_min;
-
+    
         /// <summary>
         /// 是否显示备注
         /// </summary>
@@ -128,9 +135,11 @@ namespace xxkUI.MyCls
             }
         }
         
-
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
+           
+           
+
             DataTable obsdata = s.DataSource as DataTable;
 
             if (this.tChart.Series.Count > 1)
@@ -248,7 +257,10 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
+
+                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                   string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
+
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -256,6 +268,11 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
+
+                    //LineTag lt = new LineTag();
+                    //lt.Sitecode = currentSitecode;
+                    //lt.Linecode = checkedLb.OBSLINECODE;
+                    line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
 
                     if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
                     this.tChart.Header.Text += line.Title;
@@ -438,6 +455,33 @@ namespace xxkUI.MyCls
                 obsfrm = new ObsData();
                 obsfrm.Show();
                 obsfrm.Focus();
+            }
+
+        }
+        /// <summary>
+        /// 打开历史震例窗体
+        /// </summary>
+        public void GetEqkShowForm()
+        {
+            if (eqkfrm != null)
+            {
+                if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    eqkfrm = new EqkShow();
+                    eqkfrm.Show();
+                    eqkfrm.Focus();
+                }
+                else
+                {
+                    eqkfrm.Show();
+                    eqkfrm.Focus();
+                }
+            }
+            else
+            {
+                eqkfrm = new EqkShow();
+                eqkfrm.Show();
+                eqkfrm.Focus();
             }
 
         }

@@ -34,6 +34,15 @@ namespace xxkUI.BLL
             return EqkDal.Instance.Get(id);
         }
 
+        public string GetNameByID(string getwhat, string idname, string idvalue)
+        {
+            return EqkDal.Instance.GetByID(getwhat, idname, idvalue).ToString();
+        }
+
+        public IEnumerable<EqkBean> GetList(string sql)
+        {
+            return EqkDal.Instance.GetList(sql);
+        }
 
     }
 }

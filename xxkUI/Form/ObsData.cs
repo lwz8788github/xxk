@@ -15,12 +15,7 @@ namespace xxkUI.Form
 {
     public partial class ObsData : DevExpress.XtraEditors.XtraForm
     {
-		  private DataTable datasource = null;
-        public ObsData()
-        {
-            InitializeComponent();
-}
-      
+        private DataTable datasource = null;
 
         public ObsData()
         {
@@ -33,8 +28,6 @@ namespace xxkUI.Form
             this.gridControl.DataSource = obslist;
 
         }
-
-
 
         /// <summary>
         /// 加载数据
@@ -110,7 +103,7 @@ namespace xxkUI.Form
                         {
 
                             LineObsBean lobean = new LineObsBean();
-                            
+
                         }
                         //修改
                         else if (dr.RowState == DataRowState.Modified)

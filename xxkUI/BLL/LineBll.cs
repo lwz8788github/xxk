@@ -46,5 +46,10 @@ namespace xxkUI.Bll
             return LineDal.Instance.GetAll();
         }
 
+
+        internal DataTable GetNameByID()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -152,10 +152,8 @@ namespace xxkUI.MyCls
    
         private void TChart_ClickLegend(object sender, MouseEventArgs e)
         {
-      
             AddVisibleLineVerticalAxis();
         }
-
 		
 		 /// <summary>
         /// 初始化CursorTool
@@ -177,11 +175,11 @@ namespace xxkUI.MyCls
         /// </summary>
 		private void InitAnnotations()
 		{
-			  annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_min = new Annotation(tChart.Chart);
             annotation_min.Active = false;
-            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_max = new Annotation(tChart.Chart);
             annotation_max.Active = false;
-            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation = new Annotation(tChart.Chart);
             annotation.Active = false;
             annotation.Shape.CustomPosition = true;
             annotation.Shape.Gradient.Visible = true;
@@ -291,7 +289,6 @@ namespace xxkUI.MyCls
 
         public bool AddSeries(DataTable dt)
         {
-
             bool isok = false;
             try
             {

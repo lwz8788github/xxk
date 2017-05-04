@@ -15,12 +15,33 @@ using Steema.TeeChart.Drawing;
 
 namespace xxkUI.Form
 {
+    public enum ActionType
+    {
+        /// <summary>
+        /// 新增
+        /// </summary>
+        Add = 0,
+        /// <summary>
+        /// 删除
+        /// </summary>
+        Delete = 1,
+        /// <summary>
+        /// 修改
+        /// </summary>
+        Modify = 2,
+        /// <summary>
+        /// 无动做
+        /// </summary>
+        NoAction = 3
+    }
+
     public partial class ObsData : XtraForm
     {
+       
         private string linecode = string.Empty;
         private DataTable datasource = null;
         private TChart tChart;
-
+        private ActionType actiontype = ActionType.NoAction;
         public ObsData()
         {
             InitializeComponent();
@@ -54,17 +75,10 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void btnInsertData_Click(object sender, EventArgs e)
         {
+            actiontype = ActionType.Add;
             this.gridView.OptionsBehavior.Editable = true;//可编辑
             int focusedRow = this.gridView.FocusedRowHandle;
-
-            DataRow dr = datasource.NewRow();
-            dr["观测时间"] = DateTime.Now;
-            dr["观测值"] = double.NaN;
-            dr["备注"] = "";
-            datasource.Rows.InsertAt(dr, focusedRow + 1);
-            this.gridControl.DataSource = datasource;
-
-
+            this.gridView.AddNewRow();
         }
 
         /// <summary>
@@ -74,18 +88,35 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void btnDeleteData_Click(object sender, EventArgs e)
         {
+            actiontype = ActionType.Delete;
+            int focusedRow = this.gridView.FocusedRowHandle;
+
             try
             {
-                int focusedRow = this.gridView.FocusedRowHandle;
-                gridView.DeleteRow(focusedRow);
-                gridView.UpdateCurrentRow();
-                this.tChart.Series[0].Delete(focusedRow);
+                DataRowView drv = (DataRowView)this.gridView.GetRow(focusedRow);
+                DateTime obsdate = new DateTime();
+                DateTime.TryParse(drv["观测时间"].ToString(), out obsdate);
+                double obsv = double.NaN;
+                double.TryParse(drv["观测值"].ToString(), out obsv);
+
+                Line ln = this.tChart.Series[0] as Line;
+                for (int i = 0; i < this.tChart.Series[0].Count; i++)
+                {
+                    if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
+                        ln.Delete(i);
+                }
                 this.tChart.Refresh();
+
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show("错误", "删除失败:" + ex.Message);
+                actiontype = ActionType.NoAction;
+                //XtraMessageBox.Show("错误", "删除失败:" + ex.Message);
             }
+
+
+            gridView.DeleteRow(focusedRow);
+            gridView.UpdateCurrentRow();
         }
 
 
@@ -97,19 +128,57 @@ namespace xxkUI.Form
         private void btnEditData_Click(object sender, EventArgs e)
         {
             this.gridView.OptionsBehavior.Editable = true;//可编辑
+            actiontype = ActionType.Modify;
         }
         private void gridView_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
-            int focusedRow = e.RowHandle;
-            DataRowView drv = (DataRowView)this.gridView.GetRow(focusedRow);
-            DateTime obsdate = DateTime.Parse(drv["观测时间"].ToString());
-            double obdv = double.Parse(drv["观测值"].ToString());
-          
-            this.tChart.Series[0].XValues[focusedRow] = obsdate.ToOADate();
-            this.tChart.Series[0].YValues[focusedRow] = obdv;
-            this.tChart.Refresh();
+            try
+            {
+                int focusedRow = e.RowHandle;
+                DataRowView drv = (DataRowView)this.gridView.GetRow(focusedRow);
 
-            gridView.UpdateCurrentRow();
+
+                switch (actiontype)
+                {
+                    case ActionType.Modify:
+                        {
+                            DateTime obsdate = DateTime.Parse(drv["观测时间"].ToString());
+                            double obdv = double.Parse(drv["观测值"].ToString());
+                            this.tChart.Series[0].XValues[focusedRow] = obsdate.ToOADate();
+                            this.tChart.Series[0].YValues[focusedRow] = obdv;
+                            this.tChart.Refresh();
+                            gridView.UpdateCurrentRow();
+                        }
+                        break;
+                    case ActionType.Add:
+                        {
+
+                            if (drv["观测时间"].ToString() == "" || drv["观测值"].ToString() == "")
+                                return;
+
+                            DateTime obsdate = new DateTime();
+                            DateTime.TryParse(drv["观测时间"].ToString(), out obsdate);
+
+                            double obdv = double.NaN;
+                            double.TryParse(drv["观测值"].ToString(), out obdv);
+
+                            this.tChart.Series[0].Add(obsdate, obdv);
+
+                            this.tChart.Refresh();
+                            gridView.UpdateCurrentRow();
+                        }
+                        break;
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("错误", ex.Message);
+            }
+           
         }
 
         /// <summary>
@@ -174,27 +243,49 @@ namespace xxkUI.Form
                 //判断光标是否在行范围内 
                 if (hInfo.InRow)
                 {
-                    Line ln = this.tChart.Series[0] as Line;
-                    //int screenX = ln.CalcXPosValue(ln[hInfo.RowHandle].X);
-                    //int screenY = ln.CalcYPosValue(ln[hInfo.RowHandle].Y);
-                    //Rectangle r = new Rectangle(screenX - 4, screenY - 4, 7, 7);//标识圆的大小
-                    //Graphics3D grafics = tChart.Graphics3D;
-                    //grafics.Ellipse(r);
-                    if (this.tChart.Series.Count > 1)
+                    try
                     {
-                        this.tChart.Series.RemoveAt(1);
-                    }
-                   
+                        Line ln = this.tChart.Series[0] as Line;
 
-                    Points pts = new Points(this.tChart.Chart);
-                    pts.Add(DateTime.FromOADate(ln[hInfo.RowHandle].X), ln[hInfo.RowHandle].Y);
-                    pts.Marks.ShapeStyle = TextShapeStyle.RoundRectangle;
-                    pts.Legend.Visible = false;
-                    pts.Color = Color.Red;
+                        if (this.tChart.Series.Count > 1)
+                        {
+                            this.tChart.Series.RemoveAt(1);
+                        }
+
+                        Points pts = new Points(this.tChart.Chart);
+                        pts.Add(DateTime.FromOADate(ln[hInfo.RowHandle].X), ln[hInfo.RowHandle].Y);
+                        pts.Marks.ShapeStyle = TextShapeStyle.RoundRectangle;
+                        pts.Legend.Visible = false;
+                        pts.Color = Color.Red;
+                    }
+                    catch (Exception ex)
+                    { }
                 }
             }
         }
 
-      
+   
+        
+
+        private void gridView_ShowingEditor(object sender, CancelEventArgs e)
+        {
+            if (actiontype == ActionType.Modify)
+                e.Cancel = false;
+            else if (actiontype == ActionType.Add)
+            {
+              
+                DataRowView drv = (DataRowView)this.gridView.GetRow(this.gridView.FocusedRowHandle);
+
+                if (drv["观测值"].ToString() == "" || drv["观测时间"].ToString() == "")
+                {
+                    e.Cancel = false;
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+                  
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ using Steema.TeeChart.Drawing;
 using System.Drawing;
 using Steema.TeeChart.Tools;
 using xxkUI.Form;
+using DevExpress.DXCore.Controls.XtraEditors;
 
 namespace xxkUI.MyCls
 {
@@ -134,17 +135,25 @@ namespace xxkUI.MyCls
                 annotation.Text = showTxt;
             }
         }
-        
+
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
-            DataTable obsdata = s.DataSource as DataTable;
+            try
+            {
+                Line ln = s as Line;
 
-            if (this.tChart.Series.Count > 1)
-                AddSeries(obsdata);
+                DataTable obsdata = ln.DataSource as DataTable;
+                if (this.tChart.Series.Count > 1)
+                    AddSeries(obsdata);
 
-            GetObsDataForm();
-            obsfrm.LoadDataSource(obsdata,this.tChart);
-            obsfrm.Show();
+                GetObsDataForm();
+                obsfrm.LoadDataSource(obsdata, this.tChart);
+                obsfrm.Show();
+            }
+            catch (Exception ex)
+            {
+               // XtraMessageBox.Show("错误", ex.Message);
+            }
         }
    
         private void TChart_ClickLegend(object sender, MouseEventArgs e)
@@ -253,7 +262,7 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
 
-                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
+                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
                    string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
 
                     Line line = new Line();

@@ -137,16 +137,13 @@ namespace xxkUI.MyCls
         
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
-           
-           
-
             DataTable obsdata = s.DataSource as DataTable;
 
             if (this.tChart.Series.Count > 1)
                 AddSeries(obsdata);
 
             GetObsDataForm();
-            obsfrm.LoadDataSource(obsdata);
+            obsfrm.LoadDataSource(obsdata,this.tChart);
             obsfrm.Show();
         }
    
@@ -266,10 +263,7 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-
-                    //LineTag lt = new LineTag();
-                    //lt.Sitecode = currentSitecode;
-                    //lt.Linecode = checkedLb.OBSLINECODE;
+                    line.Legend.Visible = true;
                     line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
 
                     if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
@@ -300,6 +294,7 @@ namespace xxkUI.MyCls
                 line.YValues.DataMember = "观测值";
                 line.XValues.DateTime = true;
                 line.DataSource = dt;
+                line.Legend.Visible = true;
 
                 AddVisibleLineVerticalAxis();
             }

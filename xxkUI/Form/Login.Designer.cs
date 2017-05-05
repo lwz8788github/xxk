@@ -39,12 +39,12 @@
             this.barDockControl3 = new DevExpress.XtraBars.BarDockControl();
             this.barDockControl4 = new DevExpress.XtraBars.BarDockControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.txtUsername = new DevExpress.XtraEditors.TextEdit();
-            this.txtPsd = new DevExpress.XtraEditors.TextEdit();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnLogin = new DevExpress.XtraEditors.SimpleButton();
+            this.txtUsername = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.txtPsd = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.tabFormDefaultManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabFormDefaultManager2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -140,41 +140,6 @@
             this.panelControl1.Size = new System.Drawing.Size(303, 97);
             this.panelControl1.TabIndex = 8;
             // 
-            // labelControl1
-            // 
-            this.labelControl1.Location = new System.Drawing.Point(51, 11);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(48, 14);
-            this.labelControl1.TabIndex = 0;
-            this.labelControl1.Text = "用户名：";
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(51, 40);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(48, 14);
-            this.labelControl2.TabIndex = 1;
-            this.labelControl2.Text = "密   码：";
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Location = new System.Drawing.Point(105, 8);
-            this.txtUsername.MenuManager = this.tabFormDefaultManager1;
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(140, 20);
-            this.txtUsername.TabIndex = 2;
-            // 
-            // txtPsd
-            // 
-            this.txtPsd.Location = new System.Drawing.Point(105, 37);
-            this.txtPsd.MenuManager = this.tabFormDefaultManager1;
-            this.txtPsd.Name = "txtPsd";
-            this.txtPsd.Properties.AutoHeight = false;
-            this.txtPsd.Properties.PasswordChar = '*';
-            this.txtPsd.Properties.UseSystemPasswordChar = true;
-            this.txtPsd.Size = new System.Drawing.Size(140, 20);
-            this.txtPsd.TabIndex = 3;
-            // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -193,6 +158,43 @@
             this.btnLogin.TabIndex = 11;
             this.btnLogin.Text = "登录";
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.EditValue = "superadmin";
+            this.txtUsername.Location = new System.Drawing.Point(105, 8);
+            this.txtUsername.MenuManager = this.tabFormDefaultManager1;
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(140, 20);
+            this.txtUsername.TabIndex = 2;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(51, 40);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(48, 14);
+            this.labelControl2.TabIndex = 1;
+            this.labelControl2.Text = "密   码：";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(51, 11);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(48, 14);
+            this.labelControl1.TabIndex = 0;
+            this.labelControl1.Text = "用户名：";
+            // 
+            // txtPsd
+            // 
+            this.txtPsd.EditValue = "jced";
+            this.txtPsd.Location = new System.Drawing.Point(105, 37);
+            this.txtPsd.MenuManager = this.tabFormDefaultManager1;
+            this.txtPsd.Name = "txtPsd";
+            this.txtPsd.Properties.AutoHeight = false;
+            this.txtPsd.Properties.PasswordChar = '*';
+            this.txtPsd.Properties.UseSystemPasswordChar = true;
+            this.txtPsd.Size = new System.Drawing.Size(140, 20);
+            this.txtPsd.TabIndex = 3;
             // 
             // Login
             // 

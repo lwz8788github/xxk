@@ -14,9 +14,11 @@ using Steema.TeeChart.Drawing;
 using System.Drawing;
 using Steema.TeeChart.Tools;
 using xxkUI.Form;
+using DevExpress.DXCore.Controls.XtraEditors;
 
 namespace xxkUI.MyCls
 {
+
     public class LineTag
     {
         public string Sitecode { get; set; }
@@ -136,25 +138,28 @@ namespace xxkUI.MyCls
 
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
-           
-           
+            try
+            {
+                Line ln = s as Line;
 
-            DataTable obsdata = s.DataSource as DataTable;
+                DataTable obsdata = ln.DataSource as DataTable;
+                if (this.tChart.Series.Count > 1)
+                    AddSeries(obsdata);
 
-            if (this.tChart.Series.Count > 1)
-                AddSeries(obsdata);
-
-            GetObsDataForm();
-            obsfrm.LoadDataSource(obsdata);
-            obsfrm.Show();
+                GetObsDataForm();
+                obsfrm.LoadDataSource(obsdata, this.tChart);
+                obsfrm.Show();
+            }
+            catch (Exception ex)
+            {
+               // XtraMessageBox.Show("错误", ex.Message);
+            }
         }
    
         private void TChart_ClickLegend(object sender, MouseEventArgs e)
         {
-      
             AddVisibleLineVerticalAxis();
         }
-
 		
 		 /// <summary>
         /// 初始化CursorTool
@@ -176,11 +181,11 @@ namespace xxkUI.MyCls
         /// </summary>
 		private void InitAnnotations()
 		{
-			  annotation_min = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_min = new Annotation(tChart.Chart);
             annotation_min.Active = false;
-            annotation_max = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation_max = new Annotation(tChart.Chart);
             annotation_max.Active = false;
-            annotation = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+            annotation = new Annotation(tChart.Chart);
             annotation.Active = false;
             annotation.Shape.CustomPosition = true;
             annotation.Shape.Gradient.Visible = true;
@@ -256,8 +261,9 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-                    string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
+
+                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
+                   string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -265,10 +271,8 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                    
-                    //LineTag lt = new LineTag();
-                    //lt.Sitecode = currentSitecode;
-                    //lt.Linecode = checkedLb.OBSLINECODE;
+
+                    line.Legend.Visible = true;
                     line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
 
                     if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
@@ -288,7 +292,6 @@ namespace xxkUI.MyCls
 
         public bool AddSeries(DataTable dt)
         {
-
             bool isok = false;
             try
             {
@@ -300,6 +303,7 @@ namespace xxkUI.MyCls
                 line.YValues.DataMember = "观测值";
                 line.XValues.DateTime = true;
                 line.DataSource = dt;
+                line.Legend.Visible = true;
 
                 AddVisibleLineVerticalAxis();
             }

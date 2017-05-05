@@ -14,7 +14,6 @@ using Steema.TeeChart.Drawing;
 using System.Drawing;
 using Steema.TeeChart.Tools;
 using xxkUI.Form;
-using DevExpress.DXCore.Controls.XtraEditors;
 
 namespace xxkUI.MyCls
 {
@@ -253,7 +252,7 @@ namespace xxkUI.MyCls
         /// <returns>是否添加成功</returns>
         public bool AddSeries(List<LineBean> obsdatalist)
         {
-
+            this.tChart.Tools.Clear();
             bool isok = false;
             this.tChart.Header.Text = "";
             try

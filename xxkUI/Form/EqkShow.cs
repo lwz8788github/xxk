@@ -45,7 +45,7 @@ namespace xxkUI.Form
             float eqkMlMax = float.Parse(this.textEdit2.Text);
             if (eqkMlMin > eqkMlMax)
             {
-                XtraMessageBox.Show("提示","最大震级应大于最小震级，重新输入！");
+                XtraMessageBox.Show("最大震级应大于最小震级，重新输入！","提示");
                 textEdit1.Text = "";
                 textEdit2.Text = "";
                 return;
@@ -54,7 +54,7 @@ namespace xxkUI.Form
             float eqkDepthMax = float.Parse(this.textEdit3.Text);
             if (eqkDepthMin > eqkDepthMax)
             {
-                XtraMessageBox.Show("提示", "最大深度应大于最小深度，重新输入！");
+                XtraMessageBox.Show( "最大深度应大于最小深度，重新输入！","提示");
                 textEdit4.Text = "";
                 textEdit3.Text = "";
                 return;
@@ -67,7 +67,7 @@ namespace xxkUI.Form
             DateTime timeEd = Convert.ToDateTime(timeEdc).Date; 
             if(DateTime.Compare(timeSt,timeEd)>0)
             {
-                XtraMessageBox.Show("提示", "结束时间应在开始时间之后！");
+                XtraMessageBox.Show( "结束时间应在开始时间之后！","提示");
                 textEdit6.Text = "";
                 textEdit5.Text = "";
                 return;
@@ -184,7 +184,8 @@ namespace xxkUI.Form
             string eakText = "";
             string value = "";
             string eqkTimeStr = "";
-            int eqkNum = 0;
+            int eqkSelectNum = 0;
+            Boolean isEqkInTimeSpan = false;
             this.tChart.Tools.Clear();
             for (int i = 0; i < this.gridView.RowCount; i++)
             {
@@ -207,14 +208,16 @@ namespace xxkUI.Form
                         double eqkX;
                         eqkX = spanT.Days + minX;
                         poToScr = tChart.Series[0].ValuePointToScreenPoint(eqkX, 0);
-                        poToScr.Y = minY + i * 50;
+                        poToScr.Y = minY + eqkSelectNum * 50;
                         eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "/" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
                         eqkAnnotation(poToScr, eakText);
+                        isEqkInTimeSpan = true;
                     }
-                    eqkNum++;
+                    eqkSelectNum++;
                 }
             }
-            if (eqkNum == 0) XtraMessageBox.Show("提示", "未选中任何震例！");
+            if (eqkSelectNum == 0) XtraMessageBox.Show("未选中任何震例！","提示");
+            if (!isEqkInTimeSpan) XtraMessageBox.Show("所选地震未在观测时间段内！","提示" );
         }
         /// <summary>
         /// 地震事件标注

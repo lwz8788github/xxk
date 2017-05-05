@@ -446,8 +446,10 @@ namespace xxkUI
 
         private void btnShowNote_Click(object sender, EventArgs e)
         {
+
             mtc.IsShowNote = true;
             mtc.ShowNotes();
+
         }
 
         private void btnShowTitle_Click(object sender, EventArgs e)

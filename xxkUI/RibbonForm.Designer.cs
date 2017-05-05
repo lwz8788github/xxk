@@ -134,6 +134,7 @@
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnExportChart = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -951,6 +952,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnExportChart);
             this.groupBox1.Controls.Add(this.btnGrid);
             this.groupBox1.Controls.Add(this.simpleButton2);
             this.groupBox1.Controls.Add(this.btnShowNote);
@@ -1077,6 +1079,15 @@
             this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
+            // 
+            // btnExportChart
+            // 
+            this.btnExportChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportChart.Location = new System.Drawing.Point(579, 11);
+            this.btnExportChart.Name = "btnExportChart";
+            this.btnExportChart.Size = new System.Drawing.Size(75, 23);
+            this.btnExportChart.TabIndex = 9;
+            this.btnExportChart.Text = "导出图像";
             // 
             // RibbonForm
             // 
@@ -1237,5 +1248,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private DevExpress.XtraEditors.SimpleButton btnGrid;
+        private DevExpress.XtraEditors.SimpleButton btnExportChart;
     }
 }

@@ -22,11 +22,11 @@ namespace xxkUI.MyCls
         public string Sitecode { get; set; }
         public string Linecode { get; set; }
     }
-    public class MyTeeChart : TChart
+    public class MyTeeChart 
     {
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
-        private EqkShow eqkfrm = new EqkShow();
+        private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         Steema.TeeChart.Tools.Annotation annotation;
         Steema.TeeChart.Tools.Annotation annotation_max;
@@ -95,7 +95,7 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void tChart_MouseMove(object sender, MouseEventArgs e)
+        private void tChart_MouseMove(object sender, MouseEventArgs e)
         {
             if (!this.cursorTool.Active)
                 return;
@@ -133,7 +133,7 @@ namespace xxkUI.MyCls
                 annotation.Text = showTxt;
             }
         }
-        
+
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {
            
@@ -257,7 +257,7 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-                   string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
+                    string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -265,7 +265,7 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-
+                    
                     //LineTag lt = new LineTag();
                     //lt.Sitecode = currentSitecode;
                     //lt.Linecode = checkedLb.OBSLINECODE;
@@ -460,11 +460,13 @@ namespace xxkUI.MyCls
         /// </summary>
         public void GetEqkShowForm()
         {
+            LineTag lt = this.tChart.Series[0].Tag as LineTag;
+          
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow();
+                    eqkfrm = new EqkShow(lt, tChart);
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -476,7 +478,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow();
+                eqkfrm = new EqkShow(lt, tChart);
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }

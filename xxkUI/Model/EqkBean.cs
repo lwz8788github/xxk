@@ -23,8 +23,8 @@ public class EqkBean
         set { _Latitude = value; }
     }
     [Description("发生时间")]
-    private string _EakDate;
-    public string EakDate
+    private DateTime _EakDate;
+    public DateTime EakDate
     {
         get { return _EakDate; }
         set { _EakDate = value; }
@@ -49,6 +49,14 @@ public class EqkBean
     {
         get { return _Depth; }
         set { _Depth = value; }
+    }
+
+    [Description("距离")]
+    private double _Dist;
+    public double Dist
+    {
+        get { return _Dist; }
+        set { _Dist = value; }
     }
 
 }

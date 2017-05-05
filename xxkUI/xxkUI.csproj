@@ -155,9 +155,7 @@
     <Compile Include="Model\SiteBean.cs" />
     <Compile Include="Model\UnitInfoBean.cs" />
     <Compile Include="Model\UserInfoBean.cs" />
-    <Compile Include="MyCls\MyTeeChart.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="MyCls\MyTeeChart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RibbonForm.cs">

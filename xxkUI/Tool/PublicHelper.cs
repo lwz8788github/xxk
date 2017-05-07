@@ -111,4 +111,14 @@ namespace xxkUI.Tool
         /// </summary>
         UnknownSeris = 3
     }
+
+    /// <summary>
+    /// 导出的图片格式分类
+    /// </summary>
+    public enum ChartToImgType
+    {
+        jpg = 0,
+        bmp = 1,
+        png = 2
+    }
 }

@@ -120,6 +120,7 @@
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.chartGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnExportChart = new DevExpress.XtraEditors.SimpleButton();
             this.btnGrid = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             this.btnShowNote = new DevExpress.XtraEditors.SimpleButton();
@@ -134,7 +135,6 @@
             this.popLineTree = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnExportChart = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -967,6 +967,16 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
+            // btnExportChart
+            // 
+            this.btnExportChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportChart.Location = new System.Drawing.Point(579, 11);
+            this.btnExportChart.Name = "btnExportChart";
+            this.btnExportChart.Size = new System.Drawing.Size(75, 23);
+            this.btnExportChart.TabIndex = 9;
+            this.btnExportChart.Text = "导出图像";
+            this.btnExportChart.Click += new System.EventHandler(this.btnExportChart_Click);
+            // 
             // btnGrid
             // 
             this.btnGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1079,15 +1089,6 @@
             this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
-            // 
-            // btnExportChart
-            // 
-            this.btnExportChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportChart.Location = new System.Drawing.Point(579, 11);
-            this.btnExportChart.Name = "btnExportChart";
-            this.btnExportChart.Size = new System.Drawing.Size(75, 23);
-            this.btnExportChart.TabIndex = 9;
-            this.btnExportChart.Text = "导出图像";
             // 
             // RibbonForm
             // 

@@ -49,7 +49,14 @@
             this.textEdit5 = new DevExpress.XtraEditors.DateEdit();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.colTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colMgd = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colDph = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colPlc = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colDis = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.cekbox = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit8.Properties)).BeginInit();
@@ -64,7 +71,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl2
@@ -117,6 +125,7 @@
             this.btnEqkAnnotation.Size = new System.Drawing.Size(100, 20);
             this.btnEqkAnnotation.TabIndex = 22;
             this.btnEqkAnnotation.Text = "标注";
+            this.btnEqkAnnotation.Click += new System.EventHandler(this.btnEqkAnnotation_Click);
             // 
             // label7
             // 
@@ -129,7 +138,7 @@
             // 
             // textEdit8
             // 
-            this.textEdit8.EditValue = "";
+            this.textEdit8.EditValue = "1000";
             this.textEdit8.Location = new System.Drawing.Point(66, 102);
             this.textEdit8.Name = "textEdit8";
             this.textEdit8.Properties.Mask.BeepOnError = true;
@@ -175,7 +184,7 @@
             // 
             // textEdit3
             // 
-            this.textEdit3.EditValue = "";
+            this.textEdit3.EditValue = "50";
             this.textEdit3.Location = new System.Drawing.Point(189, 50);
             this.textEdit3.Name = "textEdit3";
             this.textEdit3.Properties.Mask.BeepOnError = true;
@@ -185,7 +194,7 @@
             // 
             // textEdit4
             // 
-            this.textEdit4.EditValue = "";
+            this.textEdit4.EditValue = "10";
             this.textEdit4.Location = new System.Drawing.Point(66, 50);
             this.textEdit4.Name = "textEdit4";
             this.textEdit4.Properties.Mask.BeepOnError = true;
@@ -222,7 +231,7 @@
             // 
             // textEdit2
             // 
-            this.textEdit2.EditValue = "";
+            this.textEdit2.EditValue = "5.0";
             this.textEdit2.Location = new System.Drawing.Point(189, 24);
             this.textEdit2.Name = "textEdit2";
             this.textEdit2.Properties.Mask.BeepOnError = true;
@@ -234,7 +243,7 @@
             // 
             // textEdit1
             // 
-            this.textEdit1.EditValue = "";
+            this.textEdit1.EditValue = "4.0";
             this.textEdit1.Location = new System.Drawing.Point(66, 24);
             this.textEdit1.Name = "textEdit1";
             this.textEdit1.Properties.Mask.BeepOnError = true;
@@ -247,7 +256,7 @@
             // 
             // textEdit6
             // 
-            this.textEdit6.EditValue = "";
+            this.textEdit6.EditValue = new System.DateTime(2010, 1, 3, 0, 0, 0, 0);
             this.textEdit6.Location = new System.Drawing.Point(66, 76);
             this.textEdit6.Name = "textEdit6";
             this.textEdit6.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -265,7 +274,7 @@
             // 
             // textEdit5
             // 
-            this.textEdit5.EditValue = "";
+            this.textEdit5.EditValue = new System.DateTime(2017, 5, 3, 0, 0, 0, 0);
             this.textEdit5.Location = new System.Drawing.Point(189, 76);
             this.textEdit5.Name = "textEdit5";
             this.textEdit5.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -295,18 +304,88 @@
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControl1.Location = new System.Drawing.Point(2, 21);
-            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.MainView = this.gridView;
             this.gridControl1.Name = "gridControl1";
+            this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemCheckEdit1});
             this.gridControl1.Size = new System.Drawing.Size(406, 293);
             this.gridControl1.TabIndex = 5;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridView});
             // 
-            // gridView1
+            // gridView
             // 
-            this.gridView1.GridControl = this.gridControl1;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.colTime,
+            this.colMgd,
+            this.colDph,
+            this.colPlc,
+            this.colDis,
+            this.cekbox});
+            this.gridView.GridControl = this.gridControl1;
+            this.gridView.Name = "gridView";
+            this.gridView.OptionsSelection.MultiSelect = true;
+            this.gridView.OptionsView.ShowGroupPanel = false;
+            // 
+            // colTime
+            // 
+            this.colTime.Caption = "时间";
+            this.colTime.FieldName = "EakDate";
+            this.colTime.Name = "colTime";
+            this.colTime.OptionsColumn.AllowEdit = false;
+            this.colTime.Visible = true;
+            this.colTime.VisibleIndex = 0;
+            // 
+            // colMgd
+            // 
+            this.colMgd.Caption = "震级(ML)";
+            this.colMgd.FieldName = "Magntd";
+            this.colMgd.Name = "colMgd";
+            this.colMgd.OptionsColumn.AllowEdit = false;
+            this.colMgd.Visible = true;
+            this.colMgd.VisibleIndex = 1;
+            // 
+            // colDph
+            // 
+            this.colDph.Caption = "震源深度(KM)";
+            this.colDph.FieldName = "Depth";
+            this.colDph.MinWidth = 40;
+            this.colDph.Name = "colDph";
+            this.colDph.OptionsColumn.AllowEdit = false;
+            this.colDph.Visible = true;
+            this.colDph.VisibleIndex = 2;
+            // 
+            // colPlc
+            // 
+            this.colPlc.Caption = "地点";
+            this.colPlc.FieldName = "Place";
+            this.colPlc.Name = "colPlc";
+            this.colPlc.OptionsColumn.AllowEdit = false;
+            this.colPlc.Visible = true;
+            this.colPlc.VisibleIndex = 4;
+            // 
+            // colDis
+            // 
+            this.colDis.Caption = "距离(KM)";
+            this.colDis.FieldName = "Dist";
+            this.colDis.Name = "colDis";
+            this.colDis.OptionsColumn.AllowEdit = false;
+            this.colDis.Visible = true;
+            this.colDis.VisibleIndex = 3;
+            // 
+            // cekbox
+            // 
+            this.cekbox.Caption = "选择";
+            this.cekbox.ColumnEdit = this.repositoryItemCheckEdit1;
+            this.cekbox.FieldName = "check";
+            this.cekbox.Name = "cekbox";
+            this.cekbox.Visible = true;
+            this.cekbox.VisibleIndex = 5;
+            // 
+            // repositoryItemCheckEdit1
+            // 
+            this.repositoryItemCheckEdit1.AutoHeight = false;
+            this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
             // EqkShow
             // 
@@ -332,7 +411,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -360,7 +440,14 @@
         private DevExpress.XtraEditors.DateEdit textEdit5;
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView;
+        private DevExpress.XtraGrid.Columns.GridColumn colTime;
+        private DevExpress.XtraGrid.Columns.GridColumn colMgd;
+        private DevExpress.XtraGrid.Columns.GridColumn colDph;
+        private DevExpress.XtraGrid.Columns.GridColumn colDis;
+        private DevExpress.XtraGrid.Columns.GridColumn colPlc;
+        private DevExpress.XtraGrid.Columns.GridColumn cekbox;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
 
     }
 }

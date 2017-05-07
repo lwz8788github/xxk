@@ -52,10 +52,10 @@ namespace xxkUI.Bll
         {
             return SiteDal.Instance.GetWhere(where);
         }
-        public string GeSiteCodeByLineCode(string obsLineCode)
+        public string GetNameByID(string name, string ID, string Value)
         {
-            string siteCodestr = SiteDal.Instance.GetByID("SITECODE", "OBSLINECODE", obsLineCode).ToString();
-            return siteCodestr;
+            string nameStr = SiteDal.Instance.GetByID(name, ID, Value).ToString();
+            return nameStr;
         }
 
         public IEnumerable<SiteBean> GetSitesByAuth(string auths)

@@ -15,7 +15,7 @@ using Steema.TeeChart.Styles;
 
 namespace xxkUI.Form
 {
-    public partial class EqkShow : DevExpress.XtraEditors.XtraForm
+    public partial class EqkShow :XtraForm
     {
        private List<EqkBean> eqkDataList = new List<EqkBean>();
        private LineTag lineTag = new LineTag();

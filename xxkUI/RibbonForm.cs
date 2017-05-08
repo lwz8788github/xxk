@@ -45,6 +45,7 @@ namespace xxkUI
         public RibbonForm()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;//默认最大化窗体
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
@@ -136,9 +137,6 @@ namespace xxkUI
 
         #endregion
 
-        /// <summary>
-
-  
 
         private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
         {
@@ -159,7 +157,6 @@ namespace xxkUI
         {
             try
             {
-
                 List<string> districtlist = new List<string>() {
                     "前第四纪活动断裂(隐伏)",
                     "全新世活动断裂(非隐伏)",
@@ -201,7 +198,6 @@ namespace xxkUI
 
         private void dockPanelWorkSpace_Click(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
@@ -266,12 +262,10 @@ namespace xxkUI
                         }
                         xtl.RefreshWorkspace();
 
-
                     }
                     break;
                 case "btnChart"://趋势图
                     {
-
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
@@ -425,28 +419,13 @@ namespace xxkUI
 
         }
 
-
-
         private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
             mtc.AddVisibleLineVerticalAxis();
         }
 
- 
-
-        private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
+         private void btnShowNote_Click(object sender, EventArgs e)
         {
-
-            mtc.IsShowNote = true;
-            
-
-            mtc.ShowNotes();
-
-        }
-
-        private void btnShowNote_Click(object sender, EventArgs e)
-        {
-            mtc.IsShowNote = true;
             mtc.ShowNotes();
         }
 
@@ -477,6 +456,19 @@ namespace xxkUI
             mtc.GetEqkShowForm();
         }
 
+        /// <summary>
+        /// 导出曲线图
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExportChart_Click(object sender, EventArgs e)
+        {
+            mtc.ExportChart();
+        }
 
+        private void dockPanelOriData_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

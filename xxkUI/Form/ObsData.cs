@@ -3,45 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using Common.Data;
 using xxkUI.Bll;
 using Steema.TeeChart;
 using Steema.TeeChart.Styles;
-using Steema.TeeChart.Drawing;
+using xxkUI.Tool;
 
 namespace xxkUI.Form
 {
-    public enum ActionType
-    {
-        /// <summary>
-        /// 新增
-        /// </summary>
-        Add = 0,
-        /// <summary>
-        /// 删除
-        /// </summary>
-        Delete = 1,
-        /// <summary>
-        /// 修改
-        /// </summary>
-        Modify = 2,
-        /// <summary>
-        /// 无动做
-        /// </summary>
-        NoAction = 3
-    }
-
     public partial class ObsData : XtraForm
     {
-       
         private string linecode = string.Empty;
         private DataTable datasource = null;
         private TChart tChart;
         private ActionType actiontype = ActionType.NoAction;
+
         public ObsData()
         {
             InitializeComponent();
@@ -66,7 +43,6 @@ namespace xxkUI.Form
             this.gridControl.DataSource = datasource;
             this.gridControl.Refresh();
         }
-
 
         /// <summary>
         /// 插入
@@ -114,7 +90,6 @@ namespace xxkUI.Form
                 //XtraMessageBox.Show("错误", "删除失败:" + ex.Message);
             }
 
-
             gridView.DeleteRow(focusedRow);
             gridView.UpdateCurrentRow();
         }
@@ -127,8 +102,18 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void btnEditData_Click(object sender, EventArgs e)
         {
-            this.gridView.OptionsBehavior.Editable = true;//可编辑
-            actiontype = ActionType.Modify;
+            if (btnEditData.Text == "取消编辑")
+            {
+                this.gridView.OptionsBehavior.Editable = false;
+                btnEditData.Text = "编辑数据";
+                actiontype = ActionType.NoAction;
+            }
+            else if (btnEditData.Text == "编辑数据")
+            {
+                this.gridView.OptionsBehavior.Editable = true;//可编辑
+                btnEditData.Text = "取消编辑";
+                actiontype = ActionType.Modify;
+            }
         }
         private void gridView_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
@@ -136,7 +121,6 @@ namespace xxkUI.Form
             {
                 int focusedRow = e.RowHandle;
                 DataRowView drv = (DataRowView)this.gridView.GetRow(focusedRow);
-
 
                 switch (actiontype)
                 {
@@ -152,7 +136,6 @@ namespace xxkUI.Form
                         break;
                     case ActionType.Add:
                         {
-
                             if (drv["观测时间"].ToString() == "" || drv["观测值"].ToString() == "")
                                 return;
 
@@ -162,25 +145,48 @@ namespace xxkUI.Form
                             double obdv = double.NaN;
                             double.TryParse(drv["观测值"].ToString(), out obdv);
 
-                            this.tChart.Series[0].Add(obsdate, obdv);
+                            if (!IsExisted(this.tChart.Series[0], obsdate, obdv))
+                                this.tChart.Series[0].Add(obsdate, obdv);
+                            else
+                            {
+                                XtraMessageBox.Show("已存在相同数据", "提示");
+                                //drv["观测时间"] = new DateTime();
+                                //drv["观测值"] = double.NaN;
+
+                                this.gridView.SetRowCellValue(focusedRow, gridView.Columns["观测时间"], null);
+                                this.gridView.SetRowCellValue(focusedRow, gridView.Columns["观测值"], null);
+                            }
 
                             this.tChart.Refresh();
                             gridView.UpdateCurrentRow();
                         }
                         break;
-
-
-
-
                 }
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show("错误", ex.Message);
+                XtraMessageBox.Show(ex.Message,"错误");
             }
            
         }
 
+
+        /// <summary>
+        /// 是否存在相同的记录
+        /// </summary>
+        /// <param name="obsdate"></param>
+        /// <param name="obsv"></param>
+        /// <returns></returns>
+        private bool IsExisted(Series s,DateTime obsdate, double obsv)
+        {
+            bool isExist = false;
+
+            for (int i = 0; i < s.Count; i++)
+                if (DateTime.FromOADate(s[i].X) == obsdate && obsv == s[i].Y)
+                    isExist = true;
+            
+            return isExist;
+        }
         /// <summary>
         /// 保存数据
         /// </summary>
@@ -227,14 +233,13 @@ namespace xxkUI.Form
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show("错误", "保存失败:"+ex.Message);
+                XtraMessageBox.Show( "保存失败:"+ex.Message, "错误");
             }
         }
 
         private void gridView_MouseDown(object sender, MouseEventArgs e)
         {
             DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo hInfo = gridView.CalcHitInfo(new Point(e.X, e.Y));
-
             /*
              * 行双击事件
              */
@@ -245,37 +250,95 @@ namespace xxkUI.Form
                 {
                     try
                     {
-                        Line ln = this.tChart.Series[0] as Line;
-
-                        if (this.tChart.Series.Count > 1)
+                        /*
+                         * 保留第一个Series，其他删除
+                         */
+                        int sc = this.tChart.Series.Count;
+                        if (sc > 1)
                         {
-                            this.tChart.Series.RemoveAt(1);
+                            for (int i = 1; i < sc; i++)
+                                this.tChart.Series.RemoveAt(i);
                         }
 
-                        Points pts = new Points(this.tChart.Chart);
-                        pts.Add(DateTime.FromOADate(ln[hInfo.RowHandle].X), ln[hInfo.RowHandle].Y);
-                        pts.Marks.ShapeStyle = TextShapeStyle.RoundRectangle;
-                        pts.Legend.Visible = false;
-                        pts.Color = Color.Red;
+                        DataRowView drv = (DataRowView)this.gridView.GetRow(hInfo.RowHandle);
+                        DateTime obsdate = new DateTime();
+                        DateTime.TryParse(drv["观测时间"].ToString(), out obsdate);
+                        double obsv = double.NaN;
+                        double.TryParse(drv["观测值"].ToString(), out obsv);
+
+                        Line ln = tChart.Series[0] as Line;
+
+                        for (int i = 0; i < ln.Count; i++)
+                        {
+                            if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
+                            {
+                                Points pts = new Points(this.tChart.Chart);
+                                pts.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
+
+                                pts.Pointer.Style = PointerStyles.Circle;
+
+                                pts.Legend.Visible = false;
+                                pts.Color = Color.DeepSkyBlue;
+                            }
+                        }
+                        this.tChart.Refresh();
                     }
                     catch (Exception ex)
-                    { }
+                    {
+                        XtraMessageBox.Show(ex.Message, "错误");
+                    }
+
                 }
             }
         }
 
-   
-        
+        /// <summary>
+        /// 获取Series类型
+        /// </summary>
+        /// <param name="s">Series</param>
+        /// <returns>SereisType</returns>
+        private SereisType GetSeriesType(Series s)
+        {
+           
+            SereisType st = SereisType.UnknownSeris;
+            try
+            {
+                Line ln = s as Line;
+                if (ln != null)
+                {
+                    st = SereisType.LineSeries;
+                }
+                else
+                {
+                    Points pt = s as Points;
+                    if (pt != null)
+                    {
+                        st = SereisType.PointsSeries;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Points pt = s as Points;
+                if (pt != null)
+                {
+                    st = SereisType.PointsSeries;
+                }
+            }
 
+            return st;
+        }
+        
         private void gridView_ShowingEditor(object sender, CancelEventArgs e)
         {
             if (actiontype == ActionType.Modify)
                 e.Cancel = false;
             else if (actiontype == ActionType.Add)
             {
-              
+                /*
+                 * 新增状态下只有新增行可以编辑
+                 */
                 DataRowView drv = (DataRowView)this.gridView.GetRow(this.gridView.FocusedRowHandle);
-
                 if (drv["观测值"].ToString() == "" || drv["观测时间"].ToString() == "")
                 {
                     e.Cancel = false;

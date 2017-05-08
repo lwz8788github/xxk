@@ -6,7 +6,7 @@ using System.Text;
 
 namespace xxkUI.Tool
 {
-  public  class PublicHelper
+    public class PublicHelper
     {
         /// <summary>
         /// 数据树结点信息
@@ -68,5 +68,57 @@ namespace xxkUI.Tool
             return rEdit;
         }
 
+    }
+
+    /// <summary>
+    /// 数据操作分类
+    /// </summary>
+    public enum ActionType
+    {
+        /// <summary>
+        /// 新增
+        /// </summary>
+        Add = 0,
+        /// <summary>
+        /// 删除
+        /// </summary>
+        Delete = 1,
+        /// <summary>
+        /// 修改
+        /// </summary>
+        Modify = 2,
+        /// <summary>
+        /// 无动做
+        /// </summary>
+        NoAction = 3
+    }
+
+    /// <summary>
+    /// Series类型分类
+    /// </summary>
+    public enum SereisType
+    {
+        /// <summary>
+        /// 曲线类型
+        /// </summary>
+        LineSeries = 0,
+        /// <summary>
+        /// 散点类型
+        /// </summary>
+        PointsSeries = 1,
+        /// <summary>
+        /// 未知类型
+        /// </summary>
+        UnknownSeris = 3
+    }
+
+    /// <summary>
+    /// 导出的图片格式分类
+    /// </summary>
+    public enum ChartToImgType
+    {
+        jpg = 0,
+        bmp = 1,
+        png = 2
     }
 }

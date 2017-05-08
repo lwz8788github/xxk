@@ -11,6 +11,7 @@ using xxkUI.MyCls;
 using System.Reflection;
 using System.Collections;
 using Steema.TeeChart;
+using Steema.TeeChart.Styles;
 
 namespace xxkUI.Form
 {
@@ -180,11 +181,11 @@ namespace xxkUI.Form
 
         private void btnEqkAnnotation_Click(object sender, EventArgs e)
         {
-            System.Drawing.Point poToScr;
             string eakText = "";
             string value = "";
             string eqkTimeStr = "";
             int eqkSelectNum = 0;
+            double scale = 1.0;
             Boolean isEqkInTimeSpan = false;
             this.tChart.Tools.Clear();
             for (int i = 0; i < this.gridView.RowCount; i++)
@@ -200,17 +201,16 @@ namespace xxkUI.Form
                     DateTime minEqkT = DateTime.FromOADate(minX);
                     TimeSpan spanT = eqkTime.Subtract(minEqkT);
 
-                    int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
-                    int minY = tChart.Chart.ChartRect.Y;
+                    double maxY = tChart.Chart.Series[0].MaxYValue();
+                    double minY = tChart.Chart.Series[0].MinYValue();
+                    scale = maxY - minY;
 
                     if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
                     {
                         double eqkX;
                         eqkX = spanT.Days + minX;
-                        poToScr = tChart.Series[0].ValuePointToScreenPoint(eqkX, 0);
-                        poToScr.Y = minY + eqkSelectNum * 50;
-                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "/" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(poToScr, eakText);
+                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
+                        eqkAnnotation(scale,eqkTime, (maxY + minY) / 2.0, eakText);
                         isEqkInTimeSpan = true;
                     }
                     eqkSelectNum++;
@@ -224,18 +224,70 @@ namespace xxkUI.Form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void eqkAnnotation(System.Drawing.Point poToScr, string eakText)
+        private void eqkAnnotation(double scale,DateTime date,double value, string eakText)//
         {
-            Steema.TeeChart.Tools.Annotation eakAnn;
-            eakAnn = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
-            eakAnn.Active = true;
-            eakAnn.Shape.CustomPosition = true;
-            eakAnn.Shape.Gradient.Visible = true;
-            eakAnn.Shape.Transparency = 30;
-            eakAnn.Shape.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.RoundRectangle;
-            eakAnn.Top = int.Parse(poToScr.Y.ToString());
-            eakAnn.Left = int.Parse(poToScr.X.ToString());
-            eakAnn.Text = eakText;
+            //Steema.TeeChart.Tools.Annotation eakAnn;
+            //eakAnn = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
+
+            //eakAnn.Active = true;
+            //eakAnn.Shape.CustomPosition = false;
+            //eakAnn.Shape.Gradient.Visible = false;
+            //eakAnn.Shape.Transparency = 30;
+            ////eakAnn.Shape.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.RoundRectangle;
+            //eakAnn.Shape.BorderRound = -1;
+            //eakAnn.Top = int.Parse(poToScr.Y.ToString());
+            //eakAnn.Left = int.Parse(poToScr.X.ToString());
+            //eakAnn.Text = eakText;
+
+
+            //Color colr = Color.Red;
+            //this.tChart.Chart.Series[0].Legend.Visible = false;
+            //Points pts = new Points(this.tChart.Chart);
+
+            //pts.Active = true;
+            //pts.Visible = true;
+            //pts.Legend.Visible = false;
+            //pts.Pointer.Style = PointerStyles.Arrow;
+            //pts.Add(date, value, colr);
+            //pts.Pointer.Tag = eakText;
+            //pts.Pointer.Color = Color.Red;
+            //pts.YValues[0] = value - 5;
+            //pts.YValues[1] = value + 5;
+            //pts.Marks.Text = eakText;
+            //pts.Marks.ArrowLength = 20;
+            //pts.Marks.TextWidth(20);
+            //pts.Marks.TextFormat = new Steema.TeeChart.Drawing.TextFormat();
+            //pts.Marks.Tag = eakText;
+
+
+            this.tChart.Chart.Series[0].Legend.Visible = false;
+            Arrow arw = new Arrow(this.tChart.Chart);
+            arw.Active = true;
+            arw.Visible = true;
+            arw.Legend.Visible = false;
+
+            arw.Add(date, value);
+            arw.Color = Color.Red;
+
+            arw.Tag = eakText;
+            arw.Visible = true;
+
+            arw.Marks.Visible = true;
+            arw.Marks.TextAlign = StringAlignment.Center;
+            arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
+            arw.GetSeriesMark += arw_GetSeriesMark;
+
+            arw.StartYValues.Value[0] = value + scale*0.1;
+            arw.EndYValues.Value[0] = value - scale*0.1;
+            arw.StartXValues.Value[0] = arw.XValues.First;
+            arw.EndXValues.Value[0] = arw.XValues.Last;
+
+        }
+
+        void arw_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
+        {
+            //throw new NotImplementedException();
+            e.MarkText = series.Tag.ToString();
         }
     }
 }

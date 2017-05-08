@@ -21,8 +21,17 @@ namespace xxkUI.MyCls
 
          public XTreeList(DevExpress.XtraTreeList.TreeList _treeListOriData,DevExpress.XtraTreeList.TreeList _treeListWorkSpace)
          {
-             treeListOriData = _treeListOriData;
+
+            _treeListOriData.LookAndFeel.UseDefaultLookAndFeel = false;
+            _treeListOriData.LookAndFeel.UseWindowsXPTheme = true;
+
+            _treeListWorkSpace.LookAndFeel.UseDefaultLookAndFeel = false;
+            _treeListWorkSpace.LookAndFeel.UseWindowsXPTheme = true;
+
+            treeListOriData = _treeListOriData;
             treeListWorkSpace = _treeListWorkSpace;
+
+
          }
         
         /// <summary>
@@ -144,8 +153,9 @@ namespace xxkUI.MyCls
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
 
-                InitNodeImg(this.treeListOriData.Nodes);
-                InitNodeImg(this.treeListWorkSpace.Nodes);
+                //InitNodeImg(this.treeListOriData.Nodes);
+                //SetImageIndex(this.treeListOriData, null, 1, 0);
+
 
             }
             catch (Exception ex)
@@ -155,6 +165,46 @@ namespace xxkUI.MyCls
 
         }
 
+        /// <summary> 
+        /// 设置TreeList显示的图标 
+        /// </summary> 
+        /// <param name="tl">TreeList组件</param> 
+        /// <param name="node">当前结点，从根结构递归时此值必须=null</param> 
+        /// <param name="nodeIndex">根结点图标(无子结点)</param> 
+        /// <param name="parentIndex">有子结点的图标</param> 
+        private  void SetImageIndex(TreeList tl, TreeListNode node, int nodeIndex, int parentIndex)
+        {
+            if (node == null)
+            {
+                foreach (TreeListNode N in tl.Nodes)
+                    SetImageIndex(tl, N, nodeIndex, parentIndex);
+            }
+            else
+            {
+                if (node.HasChildren || node.ParentNode == null)
+                {
+                    //node.SelectImageIndex = parentIndex; 
+                    node.StateImageIndex = parentIndex;
+                    node.ImageIndex = parentIndex;
+                }
+                else
+                {
+                    //node.SelectImageIndex = nodeIndex; 
+                    node.StateImageIndex = nodeIndex;
+                    node.ImageIndex = nodeIndex;
+                }
+
+                foreach (TreeListNode N in node.Nodes)
+                {
+                    SetImageIndex(tl, N, nodeIndex, parentIndex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 太慢了，暂时不用
+        /// /// </summary>
+        /// <param name="nodes"></param>
         private void InitNodeImg(TreeListNodes nodes)
         {
             foreach (TreeListNode node in nodes)

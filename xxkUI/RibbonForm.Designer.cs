@@ -105,14 +105,14 @@
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelOriData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListOriData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.dockPanelWorkSpace = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListWorkSpace = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -150,12 +150,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelWorkSpace.SuspendLayout();
-            this.dockPanel1_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             this.dockPanelOriData.SuspendLayout();
             this.dockPanel3_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).BeginInit();
+            this.dockPanelWorkSpace.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.mapTabPage.SuspendLayout();
@@ -170,11 +170,10 @@
             // 
             this.ribbonStatusBar.ItemLinks.Add(this.currentUserBar);
             this.ribbonStatusBar.ItemLinks.Add(this.currentLocation);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 605);
-            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 778);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1262, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1442, 40);
             // 
             // currentUserBar
             // 
@@ -230,7 +229,6 @@
             this.btnSaveToWp,
             this.barButtonItem1});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ribbon.MaxItemId = 77;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -251,13 +249,14 @@
             this.repositoryItemTextEdit3,
             this.repositoryItemTextEdit4,
             this.repositoryItemTextEdit5});
-            this.ribbon.Size = new System.Drawing.Size(1262, 147);
+            this.ribbon.Size = new System.Drawing.Size(1442, 184);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // btnLogin
             // 
             this.btnLogin.Caption = "登录";
             this.btnLogin.Id = 1;
+            this.btnLogin.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnLogin.LargeGlyph")));
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnLogin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLogin_ItemClick);
@@ -287,6 +286,7 @@
             // 
             this.barButtonItem5.Caption = "用户管理";
             this.barButtonItem5.Id = 8;
+            this.barButtonItem5.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.LargeGlyph")));
             this.barButtonItem5.Name = "barButtonItem5";
             this.barButtonItem5.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
@@ -300,6 +300,7 @@
             // 
             this.btnZoomin.Caption = "缩小";
             this.btnZoomin.Id = 19;
+            this.btnZoomin.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnZoomin.LargeGlyph")));
             this.btnZoomin.Name = "btnZoomin";
             this.btnZoomin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnZoomin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnZoomin_ItemClick);
@@ -308,6 +309,8 @@
             // 
             this.btnZoomout.Caption = "放大";
             this.btnZoomout.Id = 20;
+            this.btnZoomout.ImageUri.Uri = "ZoomIn";
+            this.btnZoomout.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnZoomout.LargeGlyph")));
             this.btnZoomout.Name = "btnZoomout";
             this.btnZoomout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnZoomout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnZoomout_ItemClick);
@@ -315,6 +318,7 @@
             // btnReloadMap
             // 
             this.btnReloadMap.Caption = "重载";
+            this.btnReloadMap.Glyph = ((System.Drawing.Image)(resources.GetObject("btnReloadMap.Glyph")));
             this.btnReloadMap.Id = 21;
             this.btnReloadMap.Name = "btnReloadMap";
             this.btnReloadMap.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -324,6 +328,7 @@
             // 
             this.btnSysAbout.Caption = "关于";
             this.btnSysAbout.Id = 24;
+            this.btnSysAbout.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnSysAbout.LargeGlyph")));
             this.btnSysAbout.Name = "btnSysAbout";
             this.btnSysAbout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
@@ -331,6 +336,7 @@
             // 
             this.btnHelper.Caption = "帮助";
             this.btnHelper.Id = 25;
+            this.btnHelper.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnHelper.LargeGlyph")));
             this.btnHelper.Name = "btnHelper";
             this.btnHelper.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
@@ -338,6 +344,7 @@
             // 
             this.btnExit.Caption = "退出";
             this.btnExit.Id = 26;
+            this.btnExit.ImageUri.Uri = "Delete";
             this.btnExit.Name = "btnExit";
             this.btnExit.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
@@ -345,6 +352,7 @@
             // 
             this.btnFull.Caption = "全图";
             this.btnFull.Id = 42;
+            this.btnFull.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnFull.LargeGlyph")));
             this.btnFull.Name = "btnFull";
             this.btnFull.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnFull.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnFull_ItemClick);
@@ -761,65 +769,24 @@
             this.panelContainer1.Controls.Add(this.dockPanelWorkSpace);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
             this.panelContainer1.ID = new System.Guid("bbf79070-870a-4c77-830f-cdc8750f219e");
-            this.panelContainer1.Location = new System.Drawing.Point(0, 147);
+            this.panelContainer1.Location = new System.Drawing.Point(0, 184);
+            this.panelContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelContainer1.Name = "panelContainer1";
             this.panelContainer1.OriginalSize = new System.Drawing.Size(225, 200);
-            this.panelContainer1.Size = new System.Drawing.Size(225, 458);
+            this.panelContainer1.Size = new System.Drawing.Size(225, 594);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
-            // 
-            // dockPanelWorkSpace
-            // 
-            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
-            this.dockPanelWorkSpace.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
-            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(179, 403);
-            this.dockPanelWorkSpace.Size = new System.Drawing.Size(216, 403);
-            this.dockPanelWorkSpace.Text = "工作区";
-            this.dockPanelWorkSpace.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(216, 403);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // treeListWorkSpace
-            // 
-            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn3});
-            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
-            this.treeListWorkSpace.Name = "treeListWorkSpace";
-            this.treeListWorkSpace.Size = new System.Drawing.Size(216, 403);
-            this.treeListWorkSpace.TabIndex = 16;
-            this.treeListWorkSpace.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListWorkSpace_AfterCheckNode);
-            this.treeListWorkSpace.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
-            // 
-            // treeListColumn3
-            // 
-            this.treeListColumn3.Caption = "场地";
-            this.treeListColumn3.FieldName = "Caption";
-            this.treeListColumn3.MinWidth = 34;
-            this.treeListColumn3.Name = "treeListColumn3";
-            this.treeListColumn3.Visible = true;
-            this.treeListColumn3.VisibleIndex = 0;
-            this.treeListColumn3.Width = 190;
             // 
             // dockPanelOriData
             // 
             this.dockPanelOriData.Controls.Add(this.dockPanel3_Container);
             this.dockPanelOriData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
             this.dockPanelOriData.ID = new System.Guid("6d8cc307-9d82-4b00-9b33-6ed41ae18cea");
-            this.dockPanelOriData.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelOriData.Location = new System.Drawing.Point(5, 28);
+            this.dockPanelOriData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dockPanelOriData.Name = "dockPanelOriData";
-            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(179, 403);
-            this.dockPanelOriData.Size = new System.Drawing.Size(216, 403);
+            this.dockPanelOriData.OriginalSize = new System.Drawing.Size(247, 518);
+            this.dockPanelOriData.Size = new System.Drawing.Size(213, 527);
             this.dockPanelOriData.Text = "原始数据";
             this.dockPanelOriData.Click += new System.EventHandler(this.dockPanelOriData_Click);
             // 
@@ -827,8 +794,9 @@
             // 
             this.dockPanel3_Container.Controls.Add(this.treeListOriData);
             this.dockPanel3_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel3_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dockPanel3_Container.Name = "dockPanel3_Container";
-            this.dockPanel3_Container.Size = new System.Drawing.Size(216, 403);
+            this.dockPanel3_Container.Size = new System.Drawing.Size(213, 527);
             this.dockPanel3_Container.TabIndex = 0;
             // 
             // treeListOriData
@@ -841,14 +809,16 @@
             this.treeListOriData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListOriData.KeyFieldName = "";
             this.treeListOriData.Location = new System.Drawing.Point(0, 0);
+            this.treeListOriData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.treeListOriData.Name = "treeListOriData";
             this.treeListOriData.OptionsSelection.MultiSelect = true;
             this.treeListOriData.OptionsSelection.MultiSelectMode = DevExpress.XtraTreeList.TreeListMultiSelectMode.CellSelect;
+            this.treeListOriData.OptionsView.ShowHorzLines = false;
             this.treeListOriData.ParentFieldName = "";
-            this.treeListOriData.Size = new System.Drawing.Size(216, 403);
-            this.treeListOriData.StateImageList = this.imageList1;
+            this.treeListOriData.Size = new System.Drawing.Size(213, 527);
             this.treeListOriData.TabIndex = 0;
             this.treeListOriData.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListOriData_AfterCheckNode);
+            this.treeListOriData.CustomDrawNodeImages += new DevExpress.XtraTreeList.CustomDrawNodeImagesEventHandler(this.treeListOriData_CustomDrawNodeImages);
             this.treeListOriData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn1
@@ -863,6 +833,54 @@
             this.treeListColumn1.VisibleIndex = 0;
             this.treeListColumn1.Width = 190;
             // 
+            // dockPanelWorkSpace
+            // 
+            this.dockPanelWorkSpace.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelWorkSpace.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelWorkSpace.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
+            this.dockPanelWorkSpace.Location = new System.Drawing.Point(5, 28);
+            this.dockPanelWorkSpace.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanelWorkSpace.Name = "dockPanelWorkSpace";
+            this.dockPanelWorkSpace.OriginalSize = new System.Drawing.Size(247, 518);
+            this.dockPanelWorkSpace.Size = new System.Drawing.Size(213, 527);
+            this.dockPanelWorkSpace.Text = "工作区";
+            this.dockPanelWorkSpace.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
+            // 
+            // dockPanel1_Container
+            // 
+            this.dockPanel1_Container.Controls.Add(this.treeListWorkSpace);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(213, 527);
+            this.dockPanel1_Container.TabIndex = 0;
+            // 
+            // treeListWorkSpace
+            // 
+            this.treeListWorkSpace.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn3});
+            this.treeListWorkSpace.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListWorkSpace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListWorkSpace.Location = new System.Drawing.Point(0, 0);
+            this.treeListWorkSpace.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeListWorkSpace.Name = "treeListWorkSpace";
+            this.treeListWorkSpace.OptionsView.ShowHorzLines = false;
+            this.treeListWorkSpace.Size = new System.Drawing.Size(213, 527);
+            this.treeListWorkSpace.TabIndex = 16;
+            this.treeListWorkSpace.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListWorkSpace_AfterCheckNode);
+            this.treeListWorkSpace.CustomDrawNodeImages += new DevExpress.XtraTreeList.CustomDrawNodeImagesEventHandler(this.treeListOriData_CustomDrawNodeImages);
+            this.treeListWorkSpace.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
+            // 
+            // treeListColumn3
+            // 
+            this.treeListColumn3.Caption = "场地";
+            this.treeListColumn3.FieldName = "Caption";
+            this.treeListColumn3.MinWidth = 52;
+            this.treeListColumn3.Name = "treeListColumn3";
+            this.treeListColumn3.Visible = true;
+            this.treeListColumn3.VisibleIndex = 0;
+            this.treeListColumn3.Width = 190;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -873,11 +891,10 @@
             // xtraTabControl1
             // 
             this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(225, 147);
-            this.xtraTabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xtraTabControl1.Location = new System.Drawing.Point(225, 184);
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-            this.xtraTabControl1.Size = new System.Drawing.Size(1037, 458);
+            this.xtraTabControl1.Size = new System.Drawing.Size(1217, 594);
             this.xtraTabControl1.TabIndex = 10;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.mapTabPage,
@@ -886,9 +903,8 @@
             // mapTabPage
             // 
             this.mapTabPage.Controls.Add(this.gMapCtrl);
-            this.mapTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.mapTabPage.Name = "mapTabPage";
-            this.mapTabPage.Size = new System.Drawing.Size(1031, 429);
+            this.mapTabPage.Size = new System.Drawing.Size(1210, 558);
             this.mapTabPage.Text = "场地分布";
             // 
             // gMapCtrl
@@ -901,6 +917,7 @@
             this.gMapCtrl.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapCtrl.LevelsKeepInMemmory = 5;
             this.gMapCtrl.Location = new System.Drawing.Point(0, 0);
+            this.gMapCtrl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gMapCtrl.MarkersEnabled = true;
             this.gMapCtrl.MaxZoom = 2;
             this.gMapCtrl.MinZoom = 2;
@@ -913,7 +930,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(1031, 429);
+            this.gMapCtrl.Size = new System.Drawing.Size(1210, 558);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -925,16 +942,19 @@
             // 
             this.chartTabPage.Controls.Add(this.chartGroupBox);
             this.chartTabPage.Controls.Add(this.groupBox1);
+            this.chartTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartTabPage.Name = "chartTabPage";
-            this.chartTabPage.Size = new System.Drawing.Size(1031, 429);
+            this.chartTabPage.Size = new System.Drawing.Size(1210, 558);
             this.chartTabPage.Text = "趋势图";
             // 
             // chartGroupBox
             // 
             this.chartGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.chartGroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartGroupBox.Name = "chartGroupBox";
-            this.chartGroupBox.Size = new System.Drawing.Size(1031, 386);
+            this.chartGroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chartGroupBox.Size = new System.Drawing.Size(1210, 503);
             this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
             // 
@@ -949,18 +969,21 @@
             this.groupBox1.Controls.Add(this.btnMouseCur);
             this.groupBox1.Controls.Add(this.btnShowTitle);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 386);
+            this.groupBox1.Location = new System.Drawing.Point(0, 503);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1031, 43);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(1210, 55);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
             // btnExportChart
             // 
             this.btnExportChart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportChart.Location = new System.Drawing.Point(579, 11);
+            this.btnExportChart.Location = new System.Drawing.Point(662, 14);
+            this.btnExportChart.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExportChart.Name = "btnExportChart";
-            this.btnExportChart.Size = new System.Drawing.Size(75, 23);
+            this.btnExportChart.Size = new System.Drawing.Size(86, 30);
             this.btnExportChart.TabIndex = 9;
             this.btnExportChart.Text = "导出图像";
             this.btnExportChart.Click += new System.EventHandler(this.btnExportChart_Click);
@@ -968,9 +991,10 @@
             // btnGrid
             // 
             this.btnGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGrid.Location = new System.Drawing.Point(336, 11);
+            this.btnGrid.Location = new System.Drawing.Point(384, 14);
+            this.btnGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGrid.Name = "btnGrid";
-            this.btnGrid.Size = new System.Drawing.Size(75, 23);
+            this.btnGrid.Size = new System.Drawing.Size(86, 30);
             this.btnGrid.TabIndex = 7;
             this.btnGrid.Text = "网格";
             this.btnGrid.Click += new System.EventHandler(this.btnGrid_Click);
@@ -978,18 +1002,20 @@
             // simpleButton2
             // 
             this.simpleButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.simpleButton2.Location = new System.Drawing.Point(93, 11);
+            this.simpleButton2.Location = new System.Drawing.Point(106, 14);
+            this.simpleButton2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton2.Size = new System.Drawing.Size(86, 30);
             this.simpleButton2.TabIndex = 3;
             this.simpleButton2.Text = "框选";
             // 
             // btnShowNote
             // 
             this.btnShowNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnShowNote.Location = new System.Drawing.Point(12, 11);
+            this.btnShowNote.Location = new System.Drawing.Point(14, 14);
+            this.btnShowNote.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnShowNote.Name = "btnShowNote";
-            this.btnShowNote.Size = new System.Drawing.Size(75, 23);
+            this.btnShowNote.Size = new System.Drawing.Size(86, 30);
             this.btnShowNote.TabIndex = 2;
             this.btnShowNote.Text = "显示备注";
             this.btnShowNote.Click += new System.EventHandler(this.btnShowNote_Click);
@@ -997,9 +1023,10 @@
             // btnMaxMinValue
             // 
             this.btnMaxMinValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMaxMinValue.Location = new System.Drawing.Point(498, 11);
+            this.btnMaxMinValue.Location = new System.Drawing.Point(569, 14);
+            this.btnMaxMinValue.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMaxMinValue.Name = "btnMaxMinValue";
-            this.btnMaxMinValue.Size = new System.Drawing.Size(75, 23);
+            this.btnMaxMinValue.Size = new System.Drawing.Size(86, 30);
             this.btnMaxMinValue.TabIndex = 8;
             this.btnMaxMinValue.Text = "最大最小值";
             this.btnMaxMinValue.Click += new System.EventHandler(this.btnMaxMinValue_Click);
@@ -1007,9 +1034,10 @@
             // simpleButton3
             // 
             this.simpleButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.simpleButton3.Location = new System.Drawing.Point(174, 11);
+            this.simpleButton3.Location = new System.Drawing.Point(199, 14);
+            this.simpleButton3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton3.Size = new System.Drawing.Size(86, 30);
             this.simpleButton3.TabIndex = 4;
             this.simpleButton3.Text = "历史地震";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
@@ -1017,9 +1045,10 @@
             // btnMouseCur
             // 
             this.btnMouseCur.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMouseCur.Location = new System.Drawing.Point(417, 11);
+            this.btnMouseCur.Location = new System.Drawing.Point(477, 14);
+            this.btnMouseCur.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMouseCur.Name = "btnMouseCur";
-            this.btnMouseCur.Size = new System.Drawing.Size(75, 23);
+            this.btnMouseCur.Size = new System.Drawing.Size(86, 30);
             this.btnMouseCur.TabIndex = 7;
             this.btnMouseCur.Text = "鼠标热线";
             this.btnMouseCur.Click += new System.EventHandler(this.btnMouseCur_Click);
@@ -1027,9 +1056,10 @@
             // btnShowTitle
             // 
             this.btnShowTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnShowTitle.Location = new System.Drawing.Point(255, 11);
+            this.btnShowTitle.Location = new System.Drawing.Point(291, 14);
+            this.btnShowTitle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnShowTitle.Name = "btnShowTitle";
-            this.btnShowTitle.Size = new System.Drawing.Size(75, 23);
+            this.btnShowTitle.Size = new System.Drawing.Size(86, 30);
             this.btnShowTitle.TabIndex = 5;
             this.btnShowTitle.Text = "标题";
             this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
@@ -1080,14 +1110,13 @@
             // 
             // RibbonForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1262, 636);
+            this.ClientSize = new System.Drawing.Size(1442, 818);
             this.Controls.Add(this.xtraTabControl1);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "RibbonForm";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
@@ -1107,12 +1136,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelWorkSpace.ResumeLayout(false);
-            this.dockPanel1_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             this.dockPanelOriData.ResumeLayout(false);
             this.dockPanel3_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListOriData)).EndInit();
+            this.dockPanelWorkSpace.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListWorkSpace)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);

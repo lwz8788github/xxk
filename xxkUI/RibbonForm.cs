@@ -470,5 +470,59 @@ namespace xxkUI
         {
 
         }
+
+        private void treeListOriData_CustomDrawNodeImages(object sender, CustomDrawNodeImagesEventArgs e)
+        {
+            //try
+            //{
+            //    if (e.Node.Nodes.Count > 0)
+            //    {
+
+                    //if (e.Node.Level == 1)
+                    //{
+                    //    TreeBean tb = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
+                    //    if (tb != null)
+                    //    {
+                    //        SiteBean sb = tb.Tag as SiteBean;
+                    //        if (sb.SiteCode.Substring(0, 1) == "L")
+                    //        {
+                    //            e.Node.StateImageIndex = 1;
+                    //            e.Node.ImageIndex = 1;
+                    //            return;
+                    //        }
+                    //        else
+                    //        {
+                    //            e.Node.StateImageIndex = 0;
+                    //            e.Node.ImageIndex = 0;
+                    //            return;
+                    //        }
+
+                    //    }
+                    //    else
+                    //    {
+                    //        e.Node.StateImageIndex = -1;
+                    //        e.Node.ImageIndex = -1;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    e.Node.StateImageIndex = -1;
+                    //    e.Node.ImageIndex = -1;
+                    //    return;
+                    //}
+            //    }
+            //    else
+            //    {
+            //        e.StateImageIndex = -1;
+            //        e.SelectImageIndex = -1;
+            //        return;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    XtraMessageBox.Show(ex.Message, "错误");
+            //}
+
+        }
     }
 }

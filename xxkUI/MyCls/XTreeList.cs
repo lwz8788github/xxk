@@ -74,7 +74,7 @@ namespace xxkUI.MyCls
                 string userahths = "(";
                 foreach (string str in userAhtList)
                 {
-                    userahths +="'"+ str + "',";
+                    userahths += "'" + str + "',";
                 }
                 userahths = userahths.Substring(0, userahths.Length - 1) + ")";
                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetSitesByAuth(userahths);
@@ -144,12 +144,50 @@ namespace xxkUI.MyCls
                 this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListWorkSpace.OptionsBehavior.Editable = false;
 
+                InitNodeImg(this.treeListOriData.Nodes);
+                InitNodeImg(this.treeListWorkSpace.Nodes);
+
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show(ex.Message, "错误");
             }
 
+        }
+
+        private void InitNodeImg(TreeListNodes nodes)
+        {
+            foreach (TreeListNode node in nodes)
+            {
+                if (node.Level == 1)
+                {
+                    TreeBean tb = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+                    if (tb != null)
+                    {
+                        SiteBean sb = tb.Tag as SiteBean;
+                        if (sb.SiteCode.Substring(0, 1) == "L")
+                        {
+                            node.StateImageIndex = 1;
+                            node.ImageIndex = 1;
+                        }
+                        else
+                        {
+                            node.StateImageIndex = 0;
+                            node.ImageIndex = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    node.StateImageIndex = -1;
+                    node.ImageIndex = -1;
+                }
+                
+                if (node.HasChildren)
+                {
+                    InitNodeImg(node.Nodes);
+                }
+            }
         }
 
 

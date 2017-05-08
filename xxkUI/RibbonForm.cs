@@ -137,9 +137,6 @@ namespace xxkUI
 
         #endregion
 
-        /// <summary>
-
-  
 
         private void vGridControlSiteInfo_CustomDrawRowValueCell(object sender, DevExpress.XtraVerticalGrid.Events.CustomDrawRowValueCellEventArgs e)
         {
@@ -160,7 +157,6 @@ namespace xxkUI
         {
             try
             {
-
                 List<string> districtlist = new List<string>() {
                     "前第四纪活动断裂(隐伏)",
                     "全新世活动断裂(非隐伏)",
@@ -202,7 +198,6 @@ namespace xxkUI
 
         private void dockPanelWorkSpace_Click(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
@@ -267,12 +262,10 @@ namespace xxkUI
                         }
                         xtl.RefreshWorkspace();
 
-
                     }
                     break;
                 case "btnChart"://趋势图
                     {
-
                         this.chartTabPage.PageVisible = true;//曲线图页面可见
                         this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
@@ -426,27 +419,14 @@ namespace xxkUI
 
         }
 
-
-
         private void tChart_ClickLegend(object sender, MouseEventArgs e)
         {
             mtc.AddVisibleLineVerticalAxis();
         }
 
- 
-
-        private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g)
+         private void btnShowNote_Click(object sender, EventArgs e)
         {
-            mtc.IsShowNote = true;
             mtc.ShowNotes();
-        }
-
-        private void btnShowNote_Click(object sender, EventArgs e)
-        {
-
-            mtc.IsShowNote = true;
-            mtc.ShowNotes();
-
         }
 
         private void btnShowTitle_Click(object sender, EventArgs e)
@@ -484,6 +464,11 @@ namespace xxkUI
         private void btnExportChart_Click(object sender, EventArgs e)
         {
             mtc.ExportChart();
+        }
+
+        private void dockPanelOriData_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

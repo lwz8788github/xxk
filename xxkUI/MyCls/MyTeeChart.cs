@@ -30,11 +30,6 @@ namespace xxkUI.MyCls
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
-    
-        /// <summary>
-        /// 是否显示备注
-        /// </summary>
-        public bool IsShowNote{get;set;}
         #endregion
 
         #region 初始化（MyTeeChart、CursorTool、Annotation）
@@ -45,8 +40,7 @@ namespace xxkUI.MyCls
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
             this.tChart.Dock = DockStyle.Fill;
-            this.tChart.Panel.Brush.Color = Color.LightGray;
-
+           
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
             SetAxesBottomStyle(this.tChart.Axes.Bottom, null);
@@ -59,15 +53,11 @@ namespace xxkUI.MyCls
 
             this.tChart.ClickSeries += TChart_ClickSeries;
             this.tChart.ClickLegend += TChart_ClickLegend;
-            this.tChart.MouseDown += TChart_MouseDown;
             this.tChart.MouseMove += tChart_MouseMove;
-            this.tChart.MouseUp += TChart_MouseUp;
 
-            IsShowNote = false;
         }
-
-    
-
+        
+        
         /// <summary>
         /// 初始化CursorTool
         /// </summary>
@@ -89,15 +79,10 @@ namespace xxkUI.MyCls
         private void InitDragMarks()
         {
             this.dragMarks = new DragMarks();
-           
             this.tChart.Tools.Add(this.dragMarks);
             this.dragMarks.Active = false;
-
-            this.dragMarks.Dragging += DragMarks_Dragging;
-            this.dragMarks.Dragged += DragMarks_Dragged;
         }
 
-     
 
         /// <summary>
         /// 初始化Annotations
@@ -210,17 +195,18 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                    line.Legend.Visible = true;
+                    /*只有一条曲线时不显示图例*/
+                    line.Legend.Visible = true ? obsdatalist.Count > 1 :obsdatalist.Count<=1;
                     line.Marks.Visible = false;
                     line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
                     line.MouseEnter += Line_MouseEnter;
                     line.MouseLeave += Line_MouseLeave;
                     line.GetSeriesMark += Line_GetSeriesMark;
-                    if (this.tChart.Header.Text != "") this.tChart.Header.Text += "/";
+                    if (this.tChart.Header.Text != "")
+                        this.tChart.Header.Text += "/";
                     this.tChart.Header.Text += line.Title;
                 }
-
-               AddVisibleLineVerticalAxis();
+                AddVisibleLineVerticalAxis();
 
             }
             catch (Exception ex)
@@ -231,7 +217,6 @@ namespace xxkUI.MyCls
         }
 
       
-
         /// <summary>
         /// 添加单个Series
         /// </summary>
@@ -252,7 +237,7 @@ namespace xxkUI.MyCls
                 line.YValues.DataMember = "观测值";
                 line.XValues.DateTime = true;
                 line.DataSource = dt;
-                line.Legend.Visible = true;
+                line.Legend.Visible = false;
                 line.Marks.Visible = false;
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
@@ -276,60 +261,64 @@ namespace xxkUI.MyCls
                 return;
 
             this.dragMarks.Active = !this.dragMarks.Active;
-            //if (this.dragMarks.Active)
-            //{
-            //    this.dragMarks.Series = this.tChart.Series[0];
-            //}
-          
 
-            //for (int i = 0; i < this.tChart.Series.Count; i++)
-            //{
-            //    this.tChart.Series[i].Marks.TailStyle = MarksTail.None;
-             
-            //    this.tChart.Series[i].Marks.ShapeStyle = TextShapeStyle.Rectangle;
-            //    this.tChart.Series[i].Marks.Visible = this.dragMarks.Active;
-            //}
             try
             {
-
                 if (this.dragMarks.Active)
                 {
-
                     Line ln = this.tChart.Series[0] as Line;
                     int j = 0;
 
-                   
+                    if (this.tChart.Series.Count > 1)
+                    {
+                        this.tChart.Series.RemoveAt(1);
+                    }
                     Points pts = new Points(this.tChart.Chart);
                     pts.Pointer.Style = PointerStyles.Circle;
                     pts.Legend.Visible = false;
-                   // pts.Color = Color.Orange;
-
+                    pts.Color = Color.Orange;
                     foreach (DataRow dr in ((DataTable)ln.DataSource).Rows)
                     {
                         if (dr["备注"].ToString() != "")
                         {
                             pts.Add(DateTime.FromOADate(ln[j].X), ln[j].Y);
-                           
                         }
                         j++;
                     }
 
-
+                    this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
+                    this.tChart.Series[0].Marks.Arrow.Width = 2;          //标签与单元之间连线的宽度
+                    this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.Dot;       //标签与单元之间连线样式
+                    //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
+                    //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
+                    //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
+                   //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
+                     //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
+                     //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
+                    this.tChart.Series[0].Marks.MultiLine = true;               //是否允许标签多行显示(当标签太长时)
+                  
                     this.tChart.Series[0].Marks.TailStyle = MarksTail.None;
                     this.tChart.Series[0].Marks.ShapeStyle = TextShapeStyle.Rectangle;
                     this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
-
                     this.dragMarks.Series = this.tChart.Series[0];
                 }
+                else
+                {
+                    this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
+                    if (this.tChart.Series.Count > 1)
+                    {
+                        this.tChart.Series.RemoveAt(1);
+                    }
+                }
+               
             }
 
             catch (Exception ex)
             { }
 
         }
-
-  
-
+        
+        
         /// <summary>
         /// 获取可见series
         /// </summary>
@@ -487,77 +476,13 @@ namespace xxkUI.MyCls
 
         #region 事件
 
-        /// <summary>
-        /// DragMarks拖拽完成
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DragMarks_Dragged(object sender, DragMarkEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// DragMarks拖拽中
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DragMarks_Dragging(object sender, DragMarkEventArgs e)
-        {
-       
-        }
-
         private void Line_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
         {
             Line line1 = series as Line;
             DataTable ds = (DataTable)line1.DataSource;
             e.MarkText = ds.Rows[e.ValueIndex]["备注"].ToString();
-
-
-            //    if (ds.Rows[e.ValueIndex]["备注"].ToString() == "")
-
-            //        return;
-
-            //    e.MarkText = ds.Rows[e.ValueIndex]["备注"].ToString();
-            //    //foreach (DataRow dr in ().Rows)
-            //{
-
-            //        if (DateTime.FromOADate([i].X) == obsdate && obsv == s[i].Y)
-
-            //    if (dr["备注"].ToString() != "")
-            //    {
-
-            //        e.MarkText = dr["备注"].ToString();
-            //    }
-
-            //}
-
-
-
-
-
-            //if (e.ValueIndex > 0)
-            //{
-            //    if (line1.YValues[e.ValueIndex] > line1.YValues[e.ValueIndex - 1])
-            //    {
-            //        e.MarkText = e.MarkText + " (Up)";
-            //    }
-            //    else if (line1.YValues[e.ValueIndex] < line1.YValues[e.ValueIndex - 1])
-            //    {
-            //        e.MarkText = e.MarkText + " (Down)";
-            //    }
-            //    else
-            //    {
-            //        e.MarkText = e.MarkText + " (No Change)";dscore
-            //    }
-            //}
         }
-
-        private void TChart_MouseUp(object sender, MouseEventArgs e)
-        {
-
-        }
-
+   
         /// <summary>
         /// 标注随鼠标移动显示事件
         /// </summary>
@@ -604,17 +529,9 @@ namespace xxkUI.MyCls
                     annotation.Top = int.Parse(poToScr.Y.ToString());
                     annotation.Left = int.Parse(poToScr.X.ToString());
                     annotation.Text = showTxt;
-
                 }
             }
         }
-
-        private void TChart_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
-
-       
 
         private void TChart_ClickSeries(object sender, Series s, int valueIndex, MouseEventArgs e)
         {

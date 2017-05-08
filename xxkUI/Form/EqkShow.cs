@@ -10,7 +10,7 @@ using DevExpress.XtraEditors;
 
 namespace xxkUI.Form
 {
-    public partial class EqkShow : DevExpress.XtraEditors.XtraForm
+    public partial class EqkShow :XtraForm
     {
         private string Sitecode = "";
         public EqkShow()

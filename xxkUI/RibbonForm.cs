@@ -30,6 +30,7 @@ using xxkUI.MyCls;
 using DevExpress.XtraTab;
 using Steema.TeeChart;
 using DevExpress.XtraGrid;
+using DevExpress.DXCore.Controls.LookAndFeel;
 
 namespace xxkUI
 {
@@ -47,6 +48,7 @@ namespace xxkUI
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;//默认最大化窗体
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
+            this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
@@ -285,6 +287,22 @@ namespace xxkUI
                         this.siteAttriFrm.SetDataSource(new List<SiteBean>() { (SiteBean)currentClickNodeInfo.Tag });
                     }
                     break;
+                case "btnSiteInfo"://信息库
+                    {
+                        SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
+
+                        string filename = SiteBll.Instance.DownloadDoc("SiteCode", sb.SiteCode, "BASEINFO");
+                        if (filename == string.Empty)
+                        {
+                            XtraMessageBox.Show( "该场地没有信息库数据！", "提示");
+                            return;
+                        }
+                        this.siteInfoTabPage.PageVisible = true;
+                        this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
+
+                        this.siteInfoDocCtrl.LoadDocument(filename);
+                    }
+                    break; 
 
             }
         }
@@ -523,6 +541,16 @@ namespace xxkUI
             //    XtraMessageBox.Show(ex.Message, "错误");
             //}
 
+        }
+
+        private void btnSilveryStyle_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            defaultLookAndFeel.LookAndFeel.SkinName = "DevExpress Style";
+        }
+
+        private void btnBlueStyle_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";
         }
     }
 }

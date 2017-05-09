@@ -141,6 +141,12 @@ namespace Common.Data
         {
             return DbUtils.GetDataTable(sql);
         }
-        
+
+        public int Writeblob(string sql,string blobname,object blob)
+        {
+            return DbUtils.WriteBlob(sql, blobname, blob);
+        }
+
+
     }
 }

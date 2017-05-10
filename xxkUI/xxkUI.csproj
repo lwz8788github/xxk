@@ -155,6 +155,12 @@
     <Compile Include="Form\EqkShow.Designer.cs">
       <DependentUpon>EqkShow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\WaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\WaitForm.Designer.cs">
+      <DependentUpon>WaitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,8 +200,14 @@
     <Compile Include="RibbonForm.Designer.cs">
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tool\BackgroundWorkerHelper.cs" />
+    <Compile Include="Tool\LogManager.cs" />
     <Compile Include="Tool\ModelHandler.cs" />
     <Compile Include="MyCls\XTreeList.cs" />
+    <Compile Include="Tool\MyBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
     <EmbeddedResource Include="Controls\SiteInfoDocCtrl.resx">
@@ -203,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\EqkShow.resx">
       <DependentUpon>EqkShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\WaitForm.resx">
+      <DependentUpon>WaitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Model\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

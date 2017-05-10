@@ -499,6 +499,8 @@ namespace xxkUI.MyCls
             int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
             int minY = tChart.Chart.ChartRect.Y;
             List<BaseLine> visibleSeries = GetVisibleLine();
+            if (visibleSeries.Count == 0)
+                return;
             PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
 
             if (e.X < maxX && e.X > minX && e.Y < maxY && e.Y > minY)

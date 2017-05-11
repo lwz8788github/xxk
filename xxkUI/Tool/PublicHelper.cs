@@ -121,4 +121,9 @@ namespace xxkUI.Tool
         bmp = 1,
         png = 2
     }
+
+    public enum LogType
+    {
+        Common, Right, Warning, Error
+    }
 }

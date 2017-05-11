@@ -8,6 +8,7 @@ using Omu.ValueInjecter;
 using System.Configuration;
 using Common.Data.MySql;
 using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace Common.Data
 {
@@ -30,7 +31,7 @@ namespace Common.Data
                         where);
                     cmd.InjectFrom<SetParamsValues>(where);
                     conn.Open();
-                    
+
                     using (var dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())
@@ -43,7 +44,7 @@ namespace Common.Data
                 }
             }
 
-     
+
         }
 
 
@@ -77,7 +78,7 @@ namespace Common.Data
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "delete from " + TableConvention.Resolve(typeof(T)) + " where KeyID=@KeyID";
 
-                cmd.InjectFrom<SetParamsValues>(new { KeyID = id});
+                cmd.InjectFrom<SetParamsValues>(new { KeyID = id });
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
@@ -103,14 +104,14 @@ namespace Common.Data
         }
 
         public static int Delete<T>(string ids)
-        { 
+        {
             using (var conn = new MySqlConnection(cs))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "delete from " + TableConvention.Resolve(typeof(T)) + " where charindex(',' + cast(keyid AS varchar(50)) + ',',','  + @KeyID + ',') > 0";
 
-                cmd.InjectFrom<SetParamsValues>(new { KeyID = ids});
+                cmd.InjectFrom<SetParamsValues>(new { KeyID = ids });
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
@@ -137,7 +138,7 @@ namespace Common.Data
 
         public static int Insert(object o, string IgnoreFields)
         {
-            string[] strarr = {};
+            string[] strarr = { };
             if (!string.IsNullOrEmpty(IgnoreFields))
                 strarr = IgnoreFields.Split(',');
             using (var conn = new MySqlConnection(cs))
@@ -174,7 +175,7 @@ namespace Common.Data
             }
         }
 
-        public static int Update(object o,params string[] fields)
+        public static int Update(object o, params string[] fields)
         {
             using (var conn = new MySqlConnection(cs))
             using (var cmd = conn.CreateCommand())
@@ -214,7 +215,7 @@ namespace Common.Data
             }
         }
 
-       
+
         public static int InsertNoIdentity(object o)
         {
             using (var conn = new MySqlConnection(cs))
@@ -418,7 +419,7 @@ namespace Common.Data
             }
         }
 
-        public static DataTable GetPageWithSp(ProcCustomPage pcp,out int recordCount)
+        public static DataTable GetPageWithSp(ProcCustomPage pcp, out int recordCount)
         {
             using (var conn = new MySqlConnection(cs))
             {
@@ -431,7 +432,7 @@ namespace Common.Data
                     SqlParameter outputPara = new SqlParameter("@RecordCount", SqlDbType.Int);
                     outputPara.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(outputPara);
-                    
+
                     conn.Open();
 
                     using (var da = new MySqlDataAdapter(cmd))
@@ -518,7 +519,7 @@ namespace Common.Data
                     }
                 }
             }
-           
+
         }
 
 
@@ -550,7 +551,7 @@ namespace Common.Data
                         }
                         else
                             ms = new byte[0];
-                    
+
                     }
                 }
             }
@@ -566,7 +567,7 @@ namespace Common.Data
         /// <param name="idname">id字段名</param>
         /// <param name="idvalue">id字段值</param>
         /// <returns></returns>
-        public static object GetByID<T>(string getwhat, string idname,string idvalue)
+        public static object GetByID<T>(string getwhat, string idname, string idvalue)
         {
             object o;
             using (var conn = new MySqlConnection(cs))
@@ -654,6 +655,35 @@ namespace Common.Data
 
         }
 
+        /// <summary>   
+        /// 执行SQL语句，返回影响的记录数   
+        /// </summary>   
+        /// <param name="SQLString">SQL语句</param>   
+        /// <returns>影响的记录数</returns>   
+        public static int WriteBlob(string SQLString, string blobname, object blob)
+        {
+            using (MySqlConnection connection = new MySqlConnection(cs))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(SQLString, connection))
+                {
+                    try
+                    {
+                        MySqlParameter param = new MySqlParameter("@" + blobname, MySqlDbType.Blob);
 
+                        param.Value = blob;
+                        cmd.Parameters.Add(param);
+                        connection.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        return rows;
+                    }
+                    catch (MySqlException e)
+                    {
+                        connection.Close();
+                        throw e;
+                    }
+                }
+            }
         }
+
+    }
 }

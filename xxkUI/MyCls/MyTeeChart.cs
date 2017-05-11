@@ -24,7 +24,7 @@ namespace xxkUI.MyCls
         #region 变量
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
-        private EqkShow eqkfrm = new EqkShow();
+        private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
         private Annotation annotation;
@@ -186,12 +186,6 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
-
-                    DataRow dr = dt.NewRow();
-                  
-                    dr["观测时间"] =DateTime.Parse("2006-07-24");
-                    dr["观测值"] = double.NaN;
-                    dt.Rows.Add(dr);
                    
                     string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
 
@@ -202,9 +196,7 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                 
-                
+                                 
                     /*只有一条曲线时不显示图例*/
                     line.Legend.Visible = true ? obsdatalist.Count > 1 :obsdatalist.Count<=1;
                     line.Marks.Visible = false;

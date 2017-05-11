@@ -27,6 +27,7 @@ namespace xxkUI.MyCls
         private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
+        private DragPoint dragPoint;//节点可拖拽标签工具
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -49,6 +50,7 @@ namespace xxkUI.MyCls
 
             InitCursorTool();
             InitDragMarks();
+            InitDragPoint();
             InitAnnotations();
 
             this.tChart.ClickSeries += TChart_ClickSeries;
@@ -82,7 +84,16 @@ namespace xxkUI.MyCls
             this.tChart.Tools.Add(this.dragMarks);
             this.dragMarks.Active = false;
         }
-
+        /// <summary>
+        /// 初始化DragPoint
+        /// </summary>
+        private void InitDragPoint()
+        {
+            this.dragPoint = new DragPoint();
+            this.tChart.Tools.Add(this.dragPoint);
+            this.dragPoint.Active = true;
+            
+        }
 
         /// <summary>
         /// 初始化Annotations
@@ -177,7 +188,7 @@ namespace xxkUI.MyCls
         /// <returns>是否添加成功</returns>
         public bool AddSeries(List<LineBean> obsdatalist)
         {
-
+            this.tChart.Tools.Clear();
             bool isok = false;
             this.tChart.Header.Text = "";
             try
@@ -186,6 +197,12 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
+
+                    DataRow dr = dt.NewRow();
+                  
+                    dr["观测时间"] =DateTime.Parse("2006-07-24");
+                    dr["观测值"] = double.NaN;
+                    dt.Rows.Add(dr);
                    
                     string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
 
@@ -196,9 +213,12 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                                 
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                 
+                
                     /*只有一条曲线时不显示图例*/
                     line.Legend.Visible = true ? obsdatalist.Count > 1 :obsdatalist.Count<=1;
+
                     line.Marks.Visible = false;
                     line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
                     line.MouseEnter += Line_MouseEnter;
@@ -225,7 +245,7 @@ namespace xxkUI.MyCls
         /// <param name="dt"></param>
         /// <param name="linename"></param>
         /// <returns></returns>
-        public bool AddSingleSeries(DataTable dt,string linename)
+        public bool AddSingleSeries(DataTable dt,string linename,LineTag lt)
         {
             bool isok = false;
             try
@@ -241,6 +261,7 @@ namespace xxkUI.MyCls
                 line.DataSource = dt;
                 line.Legend.Visible = false;
                 line.Marks.Visible = false;
+                line.Tag = lt;
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
                 line.GetSeriesMark += Line_GetSeriesMark;
@@ -254,6 +275,7 @@ namespace xxkUI.MyCls
             }
             return isok;
         }
+
 
         /// <summary>
         /// 显示备注
@@ -455,11 +477,13 @@ namespace xxkUI.MyCls
         /// </summary>
         public void GetEqkShowForm()
         {
+            LineTag lt = this.tChart.Series[0].Tag as LineTag;
+          
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow();
+                    eqkfrm = new EqkShow(lt, tChart,this.dragPoint);
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -471,7 +495,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow();
+                eqkfrm = new EqkShow(lt, tChart, this.dragPoint);
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }
@@ -548,7 +572,7 @@ namespace xxkUI.MyCls
 
                 DataTable obsdata = ln.DataSource as DataTable;
                 if (this.tChart.Series.Count > 1)
-                    AddSingleSeries(obsdata, ln.Title);
+                    AddSingleSeries(obsdata, ln.Title, ln.Tag as LineTag);
 
                 GetObsDataForm();
                 obsfrm.LoadDataSource(obsdata, this.tChart);
@@ -577,7 +601,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMouseCur()
         {
-            if (this.tChart.Series.Count > 1) return;
+           // if (this.tChart.Series.Count > 1) return;
             this.cursorTool.Active = !this.cursorTool.Active;
             annotation.Active = this.cursorTool.Active;
         }

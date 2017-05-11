@@ -22,10 +22,7 @@ namespace xxkUI.Form
        private LineTag lineTag = new LineTag();
        private TChart tChart;
        private DragPoint DragPtTool;
-        public EqkShow()
-        {
-            InitializeComponent();
-        }
+      
         public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool)
         {
             InitializeComponent();
@@ -270,7 +267,7 @@ namespace xxkUI.Form
             arw.EndXValues.Value[0] = arw.XValues.Last;
 
 
-            this.DragPtTool.Series = arw;
+            //this.DragPtTool.Series = arw;
 
         }
 

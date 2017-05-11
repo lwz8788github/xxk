@@ -27,7 +27,7 @@ namespace xxkUI.MyCls
         private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
-
+        private DragPoint dragPoints;//可拖拽节点工具
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -471,11 +471,12 @@ namespace xxkUI.MyCls
         /// </summary>
         public void GetEqkShowForm()
         {
+           
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow();
+                    eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag,this.tChart,this.dragPoints);
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -487,7 +488,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow();
+                eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints);
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }

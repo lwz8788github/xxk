@@ -244,6 +244,7 @@ namespace xxkUI.MyCls
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
                 line.GetSeriesMark += Line_GetSeriesMark;
+          
                 this.tChart.Header.Text = linename;
                 AddVisibleLineVerticalAxis();
             }
@@ -341,13 +342,13 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 添加多个纵坐标轴
         /// </summary>
+        /// <param name="isOneLine">是否合并纵轴</param>
         public void AddVisibleLineVerticalAxis()
         {
 
             int verticalAxisSpace = 3;
-
             List<BaseLine> visibleSeries = GetVisibleLine();
-            //tChart.Axes.Custom.Clear(); //清除所有自定义的坐标轴
+          
             double singleAxisLengthPercent;//单个纵轴占据的百分比
 
             //计算每个坐标轴占据的百分比
@@ -361,51 +362,53 @@ namespace xxkUI.MyCls
             }
 
             //给可见的曲线加上纵轴
-            for (int i = 0; i < visibleSeries.Count; i++)
-            {
-                Series s = visibleSeries[i];
+                for (int i = 0; i < visibleSeries.Count; i++)
+                {
+                    Series s = visibleSeries[i];
 
-                Axis axis;
-                //设置纵轴的起始位置
-                if (i == 0)
-                {
-                    axis = tChart.Axes.Left; ;
-                    axis.StartPosition = verticalAxisSpace;
-                    axis.Automatic = true;
-                    axis.EndPosition = singleAxisLengthPercent;
-                }
-                else
-                {
-                    axis = new Axis(false, false, tChart.Chart);
-                    if (i == 1)
+                    Axis axis;
+                    //设置纵轴的起始位置
+                    if (i == 0)
                     {
-                        axis.StartPosition = tChart.Axes.Left.EndPosition + verticalAxisSpace;
+                        axis = tChart.Axes.Left; ;
+                        axis.StartPosition = verticalAxisSpace;
+                        axis.Automatic = true;
+                        axis.EndPosition = singleAxisLengthPercent;
                     }
                     else
                     {
-                        axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
+                        axis = new Axis(false, false, tChart.Chart);
+                        if (i == 1)
+                        {
+                            axis.StartPosition = tChart.Axes.Left.EndPosition + verticalAxisSpace;
+                        }
+                        else
+                        {
+                            axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
+                        }
+                    }
+                    //设置纵轴的结束位置
+                    axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
+
+                    SetAxesLeftStyle(axis);
+                    SetAxesBottomStyle(tChart.Axes.Bottom, s);
+                    if (i == 0)
+                    {
+                        //曲线本身的纵轴，无需额外处理
+                        //tChart.Axes.Custom.Add(axis);
+                        ////将纵轴和对应的曲线关联
+                        //s.CustomVertAxis = axis;
+                    }
+                    else
+                    {
+                        //将自定义纵轴加入图表
+                        tChart.Axes.Custom.Add(axis);
+                        //将纵轴和对应的曲线关联
+                        s.CustomVertAxis = axis;
                     }
                 }
-                //设置纵轴的结束位置
-                axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
-
-                SetAxesLeftStyle(axis);
-                SetAxesBottomStyle(tChart.Axes.Bottom, s);
-                if (i == 0)
-                {
-                    //曲线本身的纵轴，无需额外处理
-                    //tChart.Axes.Custom.Add(axis);
-                    ////将纵轴和对应的曲线关联
-                    //s.CustomVertAxis = axis;
-                }
-                else
-                {
-                    //将自定义纵轴加入图表
-                    tChart.Axes.Custom.Add(axis);
-                    //将纵轴和对应的曲线关联
-                    s.CustomVertAxis = axis;
-                }
-            }
+           
+           
         }
 
       /// <summary>

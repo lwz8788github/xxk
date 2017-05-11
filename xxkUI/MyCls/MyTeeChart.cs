@@ -19,7 +19,7 @@ namespace xxkUI.MyCls
         public string Sitecode { get; set; }
         public string Linecode { get; set; }
     }
-    public class MyTeeChart 
+    public class MyTeeChart
     {
         #region 变量
         private TChart tChart;
@@ -27,7 +27,7 @@ namespace xxkUI.MyCls
         private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
-        private DragPoint dragPoint;//节点可拖拽标签工具
+
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -41,7 +41,7 @@ namespace xxkUI.MyCls
             this.tChart.Aspect.View3D = false;
             this.tChart.Series.Clear();
             this.tChart.Dock = DockStyle.Fill;
-           
+
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
             SetAxesBottomStyle(this.tChart.Axes.Bottom, null);
@@ -50,7 +50,7 @@ namespace xxkUI.MyCls
 
             InitCursorTool();
             InitDragMarks();
-            InitDragPoint();
+
             InitAnnotations();
 
             this.tChart.ClickSeries += TChart_ClickSeries;
@@ -58,8 +58,8 @@ namespace xxkUI.MyCls
             this.tChart.MouseMove += tChart_MouseMove;
 
         }
-        
-        
+
+
         /// <summary>
         /// 初始化CursorTool
         /// </summary>
@@ -84,22 +84,23 @@ namespace xxkUI.MyCls
             this.tChart.Tools.Add(this.dragMarks);
             this.dragMarks.Active = false;
         }
-        /// <summary>
-        /// 初始化DragPoint
-        /// </summary>
-        private void InitDragPoint()
-        {
-            this.dragPoint = new DragPoint();
-            this.tChart.Tools.Add(this.dragPoint);
-            this.dragPoint.Active = true;
-            
-        }
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// 初始化Annotations
         /// </summary>
         private void InitAnnotations()
-		{
+        {
             annotation_min = new Annotation(tChart.Chart);
             annotation_min.Active = false;
             annotation_max = new Annotation(tChart.Chart);
@@ -109,7 +110,7 @@ namespace xxkUI.MyCls
             annotation.Shape.CustomPosition = true;
             annotation.Shape.Gradient.Visible = true;
             annotation.Shape.Transparency = 30;
-		}
+        }
 
         #endregion
 
@@ -138,21 +139,21 @@ namespace xxkUI.MyCls
         /// 设置AxesBottom样式
         /// </summary>
         /// <param name="ax"></param>
-        private void SetAxesBottomStyle(Axis ax,Series ss)
+        private void SetAxesBottomStyle(Axis ax, Series ss)
         {
             ax.Labels.Angle = 90;
             ax.Labels.DateTimeFormat = "yyyy-MM-dd";
             ax.Labels.ExactDateTime = true;
             ax.Labels.Font.Brush.Color = Color.Black;
             ax.Grid.Visible = true;
-           
+
             //ax.Increment = Utils.AnimationTypesCount;//(DateTimeSteps.OneMonth);
             if (ss != null)
             {
                 //if (ss.Count < 20)
                 //    ax.Increment = (ax.MaxXValue - ax.MinXValue) / ss.Count;
                 //else
-                    ax.Increment = (ax.MaxXValue - ax.MinXValue) / 20;
+                ax.Increment = (ax.MaxXValue - ax.MinXValue) / 20;
             }
         }
         /// <summary>
@@ -180,7 +181,7 @@ namespace xxkUI.MyCls
         #endregion
 
         #region 方法（添加数据、显示备注、获取可见Series、添加多个坐标轴）
-       
+
         /// <summary>
         /// 添加一条曲线
         /// </summary>
@@ -188,7 +189,8 @@ namespace xxkUI.MyCls
         /// <returns>是否添加成功</returns>
         public bool AddSeries(List<LineBean> obsdatalist)
         {
-            this.tChart.Tools.Clear();
+
+
             bool isok = false;
             this.tChart.Header.Text = "";
             try
@@ -198,12 +200,6 @@ namespace xxkUI.MyCls
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
 
-                    DataRow dr = dt.NewRow();
-                  
-                    dr["观测时间"] =DateTime.Parse("2006-07-24");
-                    dr["观测值"] = double.NaN;
-                    dt.Rows.Add(dr);
-                   
                     string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
 
                     Line line = new Line();
@@ -213,11 +209,9 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "观测值";
                     line.XValues.DateTime = true;
                     line.DataSource = dt;
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                 
-                
+
                     /*只有一条曲线时不显示图例*/
-                    line.Legend.Visible = true ? obsdatalist.Count > 1 :obsdatalist.Count<=1;
+                    line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
 
                     line.Marks.Visible = false;
                     line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
@@ -238,14 +232,14 @@ namespace xxkUI.MyCls
             return isok;
         }
 
-      
+
         /// <summary>
         /// 添加单个Series
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="linename"></param>
         /// <returns></returns>
-        public bool AddSingleSeries(DataTable dt,string linename,LineTag lt)
+        public bool AddSingleSeries(DataTable dt, string linename)
         {
             bool isok = false;
             try
@@ -261,11 +255,11 @@ namespace xxkUI.MyCls
                 line.DataSource = dt;
                 line.Legend.Visible = false;
                 line.Marks.Visible = false;
-                line.Tag = lt;
+
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
                 line.GetSeriesMark += Line_GetSeriesMark;
-          
+
                 this.tChart.Header.Text = linename;
                 AddVisibleLineVerticalAxis();
             }
@@ -314,14 +308,14 @@ namespace xxkUI.MyCls
                     this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
                     this.tChart.Series[0].Marks.Arrow.Width = 2;          //标签与单元之间连线的宽度
                     this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.Dot;       //标签与单元之间连线样式
-                    //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
-                    //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
-                    //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
-                   //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
+                   //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
+                     //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
+                     //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
+                     //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
                      //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
-                     //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
+                    //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
                     this.tChart.Series[0].Marks.MultiLine = true;               //是否允许标签多行显示(当标签太长时)
-                  
+
                     this.tChart.Series[0].Marks.TailStyle = MarksTail.None;
                     this.tChart.Series[0].Marks.ShapeStyle = TextShapeStyle.Rectangle;
                     this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
@@ -335,15 +329,15 @@ namespace xxkUI.MyCls
                         this.tChart.Series.RemoveAt(1);
                     }
                 }
-               
+
             }
 
             catch (Exception ex)
             { }
 
         }
-        
-        
+
+
         /// <summary>
         /// 获取可见series
         /// </summary>
@@ -370,7 +364,7 @@ namespace xxkUI.MyCls
 
             int verticalAxisSpace = 3;
             List<BaseLine> visibleSeries = GetVisibleLine();
-          
+
             double singleAxisLengthPercent;//单个纵轴占据的百分比
 
             //计算每个坐标轴占据的百分比
@@ -384,58 +378,58 @@ namespace xxkUI.MyCls
             }
 
             //给可见的曲线加上纵轴
-                for (int i = 0; i < visibleSeries.Count; i++)
+            for (int i = 0; i < visibleSeries.Count; i++)
+            {
+                Series s = visibleSeries[i];
+
+                Axis axis;
+                //设置纵轴的起始位置
+                if (i == 0)
                 {
-                    Series s = visibleSeries[i];
-
-                    Axis axis;
-                    //设置纵轴的起始位置
-                    if (i == 0)
+                    axis = tChart.Axes.Left; ;
+                    axis.StartPosition = verticalAxisSpace;
+                    axis.Automatic = true;
+                    axis.EndPosition = singleAxisLengthPercent;
+                }
+                else
+                {
+                    axis = new Axis(false, false, tChart.Chart);
+                    if (i == 1)
                     {
-                        axis = tChart.Axes.Left; ;
-                        axis.StartPosition = verticalAxisSpace;
-                        axis.Automatic = true;
-                        axis.EndPosition = singleAxisLengthPercent;
+                        axis.StartPosition = tChart.Axes.Left.EndPosition + verticalAxisSpace;
                     }
                     else
                     {
-                        axis = new Axis(false, false, tChart.Chart);
-                        if (i == 1)
-                        {
-                            axis.StartPosition = tChart.Axes.Left.EndPosition + verticalAxisSpace;
-                        }
-                        else
-                        {
-                            axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
-                        }
-                    }
-                    //设置纵轴的结束位置
-                    axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
-
-                    SetAxesLeftStyle(axis);
-                    SetAxesBottomStyle(tChart.Axes.Bottom, s);
-                    if (i == 0)
-                    {
-                        //曲线本身的纵轴，无需额外处理
-                        //tChart.Axes.Custom.Add(axis);
-                        ////将纵轴和对应的曲线关联
-                        //s.CustomVertAxis = axis;
-                    }
-                    else
-                    {
-                        //将自定义纵轴加入图表
-                        tChart.Axes.Custom.Add(axis);
-                        //将纵轴和对应的曲线关联
-                        s.CustomVertAxis = axis;
+                        axis.StartPosition = visibleSeries[i - 1].CustomVertAxis.EndPosition + verticalAxisSpace;
                     }
                 }
-           
-           
+                //设置纵轴的结束位置
+                axis.EndPosition = axis.StartPosition + singleAxisLengthPercent;
+
+                SetAxesLeftStyle(axis);
+                SetAxesBottomStyle(tChart.Axes.Bottom, s);
+                if (i == 0)
+                {
+                    //曲线本身的纵轴，无需额外处理
+                    //tChart.Axes.Custom.Add(axis);
+                    ////将纵轴和对应的曲线关联
+                    //s.CustomVertAxis = axis;
+                }
+                else
+                {
+                    //将自定义纵轴加入图表
+                    tChart.Axes.Custom.Add(axis);
+                    //将纵轴和对应的曲线关联
+                    s.CustomVertAxis = axis;
+                }
+            }
+
+
         }
 
-      /// <summary>
-      /// 导出曲线图
-      /// </summary>
+        /// <summary>
+        /// 导出曲线图
+        /// </summary>
         public void ExportChart()
         {
             this.tChart.Export.ShowExportDialog();
@@ -477,13 +471,11 @@ namespace xxkUI.MyCls
         /// </summary>
         public void GetEqkShowForm()
         {
-            LineTag lt = this.tChart.Series[0].Tag as LineTag;
-          
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow(lt, tChart,this.dragPoint);
+                    eqkfrm = new EqkShow();
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -495,7 +487,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow(lt, tChart, this.dragPoint);
+                eqkfrm = new EqkShow();
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }
@@ -511,7 +503,7 @@ namespace xxkUI.MyCls
             DataTable ds = (DataTable)line1.DataSource;
             e.MarkText = ds.Rows[e.ValueIndex]["备注"].ToString();
         }
-   
+
         /// <summary>
         /// 标注随鼠标移动显示事件
         /// </summary>
@@ -572,7 +564,7 @@ namespace xxkUI.MyCls
 
                 DataTable obsdata = ln.DataSource as DataTable;
                 if (this.tChart.Series.Count > 1)
-                    AddSingleSeries(obsdata, ln.Title, ln.Tag as LineTag);
+                    AddSingleSeries(obsdata, ln.Title);
 
                 GetObsDataForm();
                 obsfrm.LoadDataSource(obsdata, this.tChart);
@@ -601,7 +593,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMouseCur()
         {
-           // if (this.tChart.Series.Count > 1) return;
+            if (this.tChart.Series.Count > 1) return;
             this.cursorTool.Active = !this.cursorTool.Active;
             annotation.Active = this.cursorTool.Active;
         }

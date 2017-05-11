@@ -1,5 +1,5 @@
-﻿using DevExpress.DXCore.Controls.XtraEditors;
-using DevExpress.DXCore.Controls.XtraSplashForm;
+﻿
+using DevExpress.XtraSplashForm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

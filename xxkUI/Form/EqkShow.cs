@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Collections;
 using Steema.TeeChart;
 using Steema.TeeChart.Styles;
+using Steema.TeeChart.Tools;
 
 namespace xxkUI.Form
 {
@@ -20,16 +21,17 @@ namespace xxkUI.Form
        private List<EqkBean> eqkDataList = new List<EqkBean>();
        private LineTag lineTag = new LineTag();
        private TChart tChart;
-
+       private DragPoint DragPtTool;
         public EqkShow()
         {
             InitializeComponent();
         }
-        public EqkShow(LineTag _lineTag,TChart _tChart)
+        public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool)
         {
             InitializeComponent();
             this.lineTag = _lineTag;
             tChart = _tChart;
+            DragPtTool = _dragptTool;
         }
         public void LoadEqkData(DataTable dt)
         {
@@ -200,17 +202,36 @@ namespace xxkUI.Form
                     DateTime maxEqkT = DateTime.FromOADate(maxX);
                     DateTime minEqkT = DateTime.FromOADate(minX);
                     TimeSpan spanT = eqkTime.Subtract(minEqkT);
+                    double eqkT = spanT.Days + minX;
 
                     double maxY = tChart.Chart.Series[0].MaxYValue();
                     double minY = tChart.Chart.Series[0].MinYValue();
                     scale = maxY - minY;
 
+                    int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
+                    int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
+                    int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX+maxX)/2.0);
+
+                    //观测时间距离地震时间最近索引
+                    int minIndex = 0;
+                    double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
+
+                    for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
+                    {
+                        deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
+                        if (deltX > deltX1)
+                        {
+                            minIndex = j;
+                            deltX = deltX1;
+                        }
+                        else break;
+                    }
+                    
+                    //标注地震事件
                     if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
                     {
-                        double eqkX;
-                        eqkX = spanT.Days + minX;
-                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(scale,eqkTime, (maxY + minY) / 2.0, eakText);
+                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" +"ML="+ this.gridView.GetRowCellValue(i, "Magntd").ToString();
+                        eqkAnnotation(scale,eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
                         isEqkInTimeSpan = true;
                     }
                     eqkSelectNum++;
@@ -226,43 +247,9 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void eqkAnnotation(double scale,DateTime date,double value, string eakText)//
         {
-            //Steema.TeeChart.Tools.Annotation eakAnn;
-            //eakAnn = new Steema.TeeChart.Tools.Annotation(tChart.Chart);
-
-            //eakAnn.Active = true;
-            //eakAnn.Shape.CustomPosition = false;
-            //eakAnn.Shape.Gradient.Visible = false;
-            //eakAnn.Shape.Transparency = 30;
-            ////eakAnn.Shape.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.RoundRectangle;
-            //eakAnn.Shape.BorderRound = -1;
-            //eakAnn.Top = int.Parse(poToScr.Y.ToString());
-            //eakAnn.Left = int.Parse(poToScr.X.ToString());
-            //eakAnn.Text = eakText;
-
-
-            //Color colr = Color.Red;
             //this.tChart.Chart.Series[0].Legend.Visible = false;
-            //Points pts = new Points(this.tChart.Chart);
-
-            //pts.Active = true;
-            //pts.Visible = true;
-            //pts.Legend.Visible = false;
-            //pts.Pointer.Style = PointerStyles.Arrow;
-            //pts.Add(date, value, colr);
-            //pts.Pointer.Tag = eakText;
-            //pts.Pointer.Color = Color.Red;
-            //pts.YValues[0] = value - 5;
-            //pts.YValues[1] = value + 5;
-            //pts.Marks.Text = eakText;
-            //pts.Marks.ArrowLength = 20;
-            //pts.Marks.TextWidth(20);
-            //pts.Marks.TextFormat = new Steema.TeeChart.Drawing.TextFormat();
-            //pts.Marks.Tag = eakText;
-
-
-            this.tChart.Chart.Series[0].Legend.Visible = false;
             Arrow arw = new Arrow(this.tChart.Chart);
-            arw.Active = true;
+            //arw.Active = true;
             arw.Visible = true;
             arw.Legend.Visible = false;
 
@@ -277,10 +264,13 @@ namespace xxkUI.Form
             arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
             arw.GetSeriesMark += arw_GetSeriesMark;
 
-            arw.StartYValues.Value[0] = value + scale*0.1;
-            arw.EndYValues.Value[0] = value - scale*0.1;
+            arw.StartYValues.Value[0] = value + scale*0.15;
+            arw.EndYValues.Value[0] = value + scale * 0.1;
             arw.StartXValues.Value[0] = arw.XValues.First;
             arw.EndXValues.Value[0] = arw.XValues.Last;
+
+
+            this.DragPtTool.Series = arw;
 
         }
 

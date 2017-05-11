@@ -8,8 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using DevExpress.XtraRichEdit.API.Native;
-using DevExpress.DXCore.Controls.XtraEditors;
 using xxkUI.Bll;
+using DevExpress.XtraEditors;
 
 namespace xxkUI.Controls
 {

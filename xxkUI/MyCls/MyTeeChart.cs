@@ -27,6 +27,7 @@ namespace xxkUI.MyCls
         private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
+        private DragPoint dragPoint;//节点可拖拽标签工具
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -49,6 +50,7 @@ namespace xxkUI.MyCls
 
             InitCursorTool();
             InitDragMarks();
+            InitDragPoint();
             InitAnnotations();
 
             this.tChart.ClickSeries += TChart_ClickSeries;
@@ -82,7 +84,16 @@ namespace xxkUI.MyCls
             this.tChart.Tools.Add(this.dragMarks);
             this.dragMarks.Active = false;
         }
-
+        /// <summary>
+        /// 初始化DragPoint
+        /// </summary>
+        private void InitDragPoint()
+        {
+            this.dragPoint = new DragPoint();
+            this.tChart.Tools.Add(this.dragPoint);
+            this.dragPoint.Active = true;
+            
+        }
 
         /// <summary>
         /// 初始化Annotations
@@ -225,7 +236,7 @@ namespace xxkUI.MyCls
         /// <param name="dt"></param>
         /// <param name="linename"></param>
         /// <returns></returns>
-        public bool AddSingleSeries(DataTable dt,string linename)
+        public bool AddSingleSeries(DataTable dt,string linename,LineTag lt)
         {
             bool isok = false;
             try
@@ -241,6 +252,7 @@ namespace xxkUI.MyCls
                 line.DataSource = dt;
                 line.Legend.Visible = false;
                 line.Marks.Visible = false;
+                line.Tag = lt;
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
                 line.GetSeriesMark += Line_GetSeriesMark;
@@ -253,6 +265,7 @@ namespace xxkUI.MyCls
             }
             return isok;
         }
+
 
         /// <summary>
         /// 显示备注
@@ -458,7 +471,7 @@ namespace xxkUI.MyCls
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow(lt, tChart);
+                    eqkfrm = new EqkShow(lt, tChart,this.dragPoint);
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -470,7 +483,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow(lt, tChart);
+                eqkfrm = new EqkShow(lt, tChart, this.dragPoint);
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }
@@ -547,7 +560,7 @@ namespace xxkUI.MyCls
 
                 DataTable obsdata = ln.DataSource as DataTable;
                 if (this.tChart.Series.Count > 1)
-                    AddSingleSeries(obsdata, ln.Title);
+                    AddSingleSeries(obsdata, ln.Title, ln.Tag as LineTag);
 
                 GetObsDataForm();
                 obsfrm.LoadDataSource(obsdata, this.tChart);
@@ -576,7 +589,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMouseCur()
         {
-            if (this.tChart.Series.Count > 1) return;
+           // if (this.tChart.Series.Count > 1) return;
             this.cursorTool.Active = !this.cursorTool.Active;
             annotation.Active = this.cursorTool.Active;
         }

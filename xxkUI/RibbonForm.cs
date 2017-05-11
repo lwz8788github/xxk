@@ -30,7 +30,6 @@ using xxkUI.MyCls;
 using DevExpress.XtraTab;
 using Steema.TeeChart;
 using DevExpress.XtraGrid;
-using DevExpress.DXCore.Controls.LookAndFeel;
 
 namespace xxkUI
 {

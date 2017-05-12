@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
+    <Compile Include="MyCls\DataManipulations.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
     <Compile Include="Model\EqkBean.cs" />
     <Compile Include="Model\LineBean.cs" />

@@ -251,24 +251,9 @@ namespace xxkUI
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
-
-                            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
-                            foreach (LineBean checkedLb in checkedNodes)
-                            {
-                                DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-
-                                NpoiCreator npcreator = new NpoiCreator();
-                                string savefile = Application.StartupPath + "/myworkspace";
-                                npcreator.TemplateFile = savefile;
-                                npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
-
-                                TreeBean tb = new TreeBean();
-
-                                tb.KeyFieldName = checkedLb.OBSLINECODE;
-                                tb.ParentFieldName = checkedLb.SITECODE;
-                                tb.Caption = checkedLb.OBSLINENAME;
-                            }
-                            xtl.RefreshWorkspace();
+                            DataManipulations dmp = new DataManipulations();
+                            if (dmp.SaveToWorkspace(xtl.GetCheckedLine(this.treeListOriData.Name)))
+                                xtl.RefreshWorkspace();
                         }
 
                     }
@@ -315,7 +300,26 @@ namespace xxkUI
                         }
 
                     }
-                    break; 
+                    break;
+                case "btnImportObsline"://导入观测数据
+                    {
+                        try
+                        {
+                            OpenFileDialog ofd = new OpenFileDialog();
+                            ofd.Multiselect = true;//可多选
+                            ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                            if (ofd.ShowDialog() == DialogResult.OK)
+                            {
+                                DataManipulations dmp = new DataManipulations();
+                                dmp.ImportObslineFromExcel(ofd.FileNames.ToList(), ((SiteBean)currentClickNodeInfo.Tag).SiteCode);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                        }
+                    }
+                    break;
 
             }
         }

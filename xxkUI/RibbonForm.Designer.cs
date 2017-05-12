@@ -142,6 +142,7 @@
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.btnImportObsline = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -242,9 +243,10 @@
             this.barButtonItem1,
             this.btnBlueStyle,
             this.btnSilveryStyle,
-            this.btnSiteInfo});
+            this.btnSiteInfo,
+            this.btnImportObsline});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 80;
+            this.ribbon.MaxItemId = 81;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -1130,6 +1132,7 @@
             this.popSiteTree.ItemLinks.Add(this.btnSiteLocation);
             this.popSiteTree.ItemLinks.Add(this.btnSiteAttri);
             this.popSiteTree.ItemLinks.Add(this.btnSiteInfo);
+            this.popSiteTree.ItemLinks.Add(this.btnImportObsline);
             this.popSiteTree.Name = "popSiteTree";
             this.popSiteTree.Ribbon = this.ribbon;
             // 
@@ -1147,6 +1150,13 @@
             this.popLineTreeWork.ItemLinks.Add(this.barButtonItem1);
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
+            // 
+            // btnImportObsline
+            // 
+            this.btnImportObsline.Caption = "导入观测数据";
+            this.btnImportObsline.Id = 80;
+            this.btnImportObsline.Name = "btnImportObsline";
+            this.btnImportObsline.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
             // 
             // RibbonForm
             // 
@@ -1313,5 +1323,6 @@
         private DevExpress.XtraTab.XtraTabPage siteInfoTabPage;
         private Controls.SiteInfoDocCtrl siteInfoDocCtrl;
         private DevExpress.XtraBars.BarButtonItem btnSiteInfo;
+        private DevExpress.XtraBars.BarButtonItem btnImportObsline;
     }
 }

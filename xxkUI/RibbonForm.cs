@@ -365,7 +365,7 @@ namespace xxkUI
                     if (LineBll.Instance.IsExist(linename))
                     {
                         linecode = LineBll.Instance.GetIdByName(linename);
-                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "    测线已存在,将执行观测数据入库操作！");
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "    测线已存在！");
                     }
                     else
                     {
@@ -377,7 +377,7 @@ namespace xxkUI
                         lb.OBSLINECODE = LineBll.Instance.GenerateLineCode(sitecode);
                         LineBll.Instance.Add(lb);
                         linecode = lb.OBSLINECODE;
-                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     测线信息已入库,将执行观测数据入库操作！");
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    测线信息入库成功！");
                     }
 
                     if (linecode != string.Empty)

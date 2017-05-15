@@ -240,7 +240,17 @@ namespace xxkUI.MyCls
             }
         }
 
+        /// <summary>
+        /// 刷新原始数据树，未完待续
+        /// </summary>
+        public void RefreshOrigData()
+        {
 
+        }
+
+        /// <summary>
+        /// 刷新工作区
+        /// </summary>
         public void RefreshWorkspace()
         {
             try

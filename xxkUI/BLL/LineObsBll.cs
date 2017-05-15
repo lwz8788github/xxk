@@ -17,9 +17,7 @@ namespace xxkUI.Bll
 
         public int Add(LineObsBean model)
         {
-            model = new LineObsBean();
-           
-            return LineObsDal.Instance.Insert(model);
+           return LineObsDal.Instance.Insert(model);
         }
 
         public int Update(LineObsBean model)

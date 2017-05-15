@@ -15,11 +15,8 @@ namespace Common.Data.MySql
         private static string connString;
         public static string ConnectionString
         {
-            get
-            {
-                string connStr = ConfigurationManager.ConnectionStrings["MyConnnect"].ConnectionString;
-                return connStr;
-            }
+            get { return connString; }
+            set { connString = value; }
         }
 
         public static int ExecuteNonQuery(string SQLString)

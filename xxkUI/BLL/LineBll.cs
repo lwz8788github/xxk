@@ -46,6 +46,22 @@ namespace xxkUI.Bll
         }
 
         /// <summary>
+        /// 测线是否存在
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        public bool IsExist(string id)
+        {
+            bool existed = false;
+
+            if (LineDal.Instance.CountWhere(new { OBSLINENAME = id }) > 0)
+                existed = true;
+            else
+                existed = false;
+
+            return existed;
+        }
+        /// <summary>
         /// 计算场地测线数目
         /// </summary>
         /// <param name="sitecode">场地编码</param>
@@ -54,6 +70,16 @@ namespace xxkUI.Bll
         {
             object where = new { SiteCode = sitecode };
             return LineDal.Instance.CountWhere(where);
+        }
+
+        /// <summary>
+        /// 通过测线名称获取测线编码
+        /// </summary>
+        /// <param name="linename">测线名称</param>
+        /// <returns>测线编码</returns>
+        public string GetIdByName(string linename)
+        {
+            return LineDal.Instance.GetWhere(new { OBSLINENAME = linename }).ToList()[0].OBSLINECODE;
         }
 
         /// <summary>

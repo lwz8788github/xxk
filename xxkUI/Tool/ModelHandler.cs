@@ -30,6 +30,9 @@ namespace xxkUI.Tool
             }
         }
 
+
+    
+
         /// <summary>  
         /// 填充对象列表：用DataSet的第index个表填充实体类
         /// </summary>  
@@ -61,9 +64,116 @@ namespace xxkUI.Tool
                 T model = new T();
                 for (int i = 0; i < dr.Table.Columns.Count; i++)
                 {
-                    PropertyInfo propertyInfo = model.GetType().GetProperty(dr.Table.Columns[i].ColumnName);
-                    if (propertyInfo != null && dr[i] != DBNull.Value)
-                        propertyInfo.SetValue(model, dr[i], null);
+                    foreach (System.Reflection.PropertyInfo field1 in model.GetType().GetProperties())
+                    {
+                        object[] objAttrs = field1.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                        if (objAttrs.Length > 0)
+                        {
+                            DescriptionAttribute attr = objAttrs[0] as DescriptionAttribute;
+                            if (attr != null)
+                            {
+                                if (attr.Description == dr.Table.Columns[i].ColumnName)
+                                    if(dr[i] != DBNull.Value)
+                                    {
+                                        if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("DateTime"))
+                                        {
+                                            DateTime v = DateTime.Parse(dr[i].ToString());
+                                               field1.SetValue(model, v, null);
+                                        }
+                                        if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("String"))
+                                        {
+                                            field1.SetValue(model, dr[i].ToString(), null);
+                                        }
+                                        if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Double"))
+                                        {
+                                            double v = double.Parse(dr[i].ToString());
+                                            field1.SetValue(model, v, null);
+                                        }
+                                        if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Int"))
+                                        {
+                                            int v = int.Parse(dr[i].ToString());
+                                            field1.SetValue(model, v, null);
+                                        }
+
+                                    }
+                            }
+                        }
+
+                    }
+                    
+                }
+
+                modelList.Add(model);
+            }
+            return modelList;
+        }
+
+        /// <summary>
+        /// 填充观测数据对象列表 刘文龙
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public List<T> FillObsLineModel(DataTable dt)
+        {
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                return null;
+            }
+            List<T> modelList = new List<T>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                //T model = (T)Activator.CreateInstance(typeof(T));  
+                T model = new T();
+                for (int i = 0; i < dr.Table.Columns.Count; i++)
+                {
+                    foreach (System.Reflection.PropertyInfo field1 in model.GetType().GetProperties())
+                    {
+                        object[] objAttrs = field1.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                        if (objAttrs.Length > 0)
+                        {
+                            DescriptionAttribute attr = objAttrs[0] as DescriptionAttribute;
+                            if (attr != null)
+                            {
+                                if (attr.Description == dr.Table.Columns[i].ColumnName)
+                                    if (dr[i] != DBNull.Value)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("DateTime"))
+                                            {
+                                                DateTime v = DateTime.Parse(dr[i].ToString());
+                                                field1.SetValue(model, v, null);
+                                            }
+
+                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("String"))
+                                            {
+                                                DateTime v = DateTime.Parse(dr[i].ToString());
+                                                field1.SetValue(model, dr[i].ToString(), null);
+                                            }
+                                        }
+                                        if (i == 1)
+                                        {
+                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Double"))
+                                            {
+                                                double v = double.Parse(dr[i].ToString());
+                                                field1.SetValue(model, v, null);
+                                            }
+                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Int"))
+                                            {
+                                                int v = int.Parse(dr[i].ToString());
+                                                field1.SetValue(model, v, null);
+                                            }
+                                        }
+                                       
+                                      
+                                        
+
+                                    }
+                            }
+                        }
+
+                    }
+
                 }
 
                 modelList.Add(model);
@@ -86,6 +196,7 @@ namespace xxkUI.Tool
 
             for (int i = 0; i < dr.Table.Columns.Count; i++)
             {
+                 
                 PropertyInfo propertyInfo = model.GetType().GetProperty(dr.Table.Columns[i].ColumnName);
                 if (propertyInfo != null && dr[i] != DBNull.Value)
                     propertyInfo.SetValue(model, dr[i], null);

@@ -9,12 +9,15 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using xxkUI.Dal;
 using xxkUI.Bll;
+using Common.Data.MySql;
+using System.Configuration;
 
 namespace xxkUI.Form
 {
     public partial class Login : DevExpress.XtraEditors.XtraForm
     {
         public string Username{get;set;}
+        public string CurrentDb { get; set; }
         public Login()
         {
             InitializeComponent();
@@ -36,13 +39,21 @@ namespace xxkUI.Form
             }
             try
             {
+                if (rbOrigDb.Checked)
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                else if (rbImprDb.Checked)
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["NewInfoConnnect"].ConnectionString;
+
                 var userName = txtUsername.Text;
                 var password = txtPsd.Text;
+              
                 UserInfoBean u = UserInfoBll.Instance.GetUserBy(userName);
                 if (u != null)
                 {
                     if (UserInfoBll.Instance.GetLogin(u))
+                    {
                         this.Username = txtUsername.Text;
+                    }
                     else
                     {
                         XtraMessageBox.Show("用户名或密码错误!", "提示");

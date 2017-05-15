@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using xxkUI.Bll;
+using xxkUI.Form;
 using xxkUI.Model;
 using xxkUI.Tool;
 
@@ -17,13 +18,15 @@ namespace xxkUI.MyCls
     //---编码人员：刘文龙
     //---单    位：一测中心
     /***********************************************************/
-    public class DataManipulations
+    public static class DataManipulations
     {
+
+   
         /// <summary>
         /// 保存到工作区
         /// </summary>
         /// <param name="checkedNodes">选中的节点</param>
-        public bool SaveToWorkspace(List<LineBean> checkedNodes)
+        public static bool SaveToWorkspace(List<LineBean> checkedNodes)
         {
             bool isScud = false;
             try
@@ -55,42 +58,11 @@ namespace xxkUI.MyCls
 
         }
 
-      /// <summary>
-      ///导入观测数据
-      /// </summary>
-      /// <param name="files">文件路径</param>
-      /// <param name="sitecode">场地编码</param>
-        public void ImportObslineFromExcel(List<string> files,string sitecode)
-        {
-            try
-            {
-                NpoiCreator npcreator = new NpoiCreator();
-                ModelHandler<LineObsBean> mhd = new ModelHandler<LineObsBean>();
-
-                foreach (string file in files)
-                {
-                    /*1、提取测线信息入库*/
-                    LineBean lb = new LineBean();
-                    lb.SITECODE = sitecode;
-                    lb.OBSLINENAME = System.IO.Path.GetFileNameWithoutExtension(file);
-                    lb.OBSLINECODE = LineBll.Instance.GenerateLineCode(sitecode);
-
-                    LineBll.Instance.Add(lb);
-
-                    /*2、提取测线观测信息入库*/
-                    List<LineObsBean> lineobslist = mhd.FillModel(npcreator.ExcelToDataTable(file, true).DataSet);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+ 
         /// <summary>
         /// 导出测线
         /// </summary>
-        public void ExportObslineToExcel()
+        public static void ExportObslineToExcel()
         {
 
         }

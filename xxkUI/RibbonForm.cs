@@ -40,7 +40,8 @@ namespace xxkUI
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
         private SiteAttri siteAttriFrm = new SiteAttri();
-    
+        private List<string> importDataFiles = new List<string>();//导入数据的文件路径集
+
         private MyTeeChart mtc = null;
         public RibbonForm()
         {
@@ -250,8 +251,7 @@ namespace xxkUI
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
-                            DataManipulations dmp = new DataManipulations();
-                            if (dmp.SaveToWorkspace(xtl.GetCheckedLine(this.treeListOriData.Name)))
+                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListOriData.Name)))
                                 xtl.RefreshWorkspace();
                         }
 
@@ -309,8 +309,15 @@ namespace xxkUI
                             ofd.Filter = "Excel文件|*.xls;*.xlsx;";
                             if (ofd.ShowDialog() == DialogResult.OK)
                             {
-                                DataManipulations dmp = new DataManipulations();
-                                dmp.ImportObslineFromExcel(ofd.FileNames.ToList(), ((SiteBean)currentClickNodeInfo.Tag).SiteCode);
+                                importDataFiles = ofd.FileNames.ToList();
+                                ProgressForm ptPro = new ProgressForm();
+                                ptPro.Show(this);
+                                ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                ptPro.beginWorking();
+                                ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+
+                               
+                               
                             }
                         }
                         catch (Exception ex)
@@ -322,6 +329,96 @@ namespace xxkUI
 
             }
         }
+
+
+
+        private void ImportData_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string sitecode = ((SiteBean)currentClickNodeInfo.Tag).SiteCode;
+
+            if (importDataFiles.Count == 0 || sitecode == string.Empty)
+                return;
+
+            MyBackgroundWorker worker = (MyBackgroundWorker)sender;
+            e.Cancel = false;
+
+            if (worker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+            NpoiCreator npcreator = new NpoiCreator();
+            ModelHandler<LineObsBean> mhd = new ModelHandler<LineObsBean>();
+
+            int succedCount = 0;//入库的数量
+            int faildCount = 0;//失败的数量
+            foreach (string file in importDataFiles)
+            {
+                try
+                {
+                    string linename = Path.GetFileNameWithoutExtension(file);
+                    string linecode = string.Empty;
+
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【导入开始提示】正在处理" + linename + "数据...");
+
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 1.正在从数据库中获取测线信息...");
+                    if (LineBll.Instance.IsExist(linename))
+                    {
+                        linecode = LineBll.Instance.GetIdByName(linename);
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "    测线已存在,将执行观测数据入库操作！");
+                    }
+                    else
+                    {
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "    测线不存在,正在添加测线信息...");
+                        /*提取测线信息入库*/
+                        LineBean lb = new LineBean();
+                        lb.SITECODE = sitecode;
+                        lb.OBSLINENAME = linename;
+                        lb.OBSLINECODE = LineBll.Instance.GenerateLineCode(sitecode);
+                        LineBll.Instance.Add(lb);
+                        linecode = lb.OBSLINECODE;
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     测线信息已入库,将执行观测数据入库操作！");
+                    }
+
+                    if (linecode != string.Empty)
+                    {
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 2.正在提取测线观测数据...");
+                        /*提取测线观测信息入库*/
+                        List<LineObsBean> lineobslist = mhd.FillObsLineModel(npcreator.ExcelToDataTable_LineObs(file, true));
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    测线观测数据提取成功！");
+                        foreach (LineObsBean lob in lineobslist)
+                        {
+                            LineObsBll.Instance.Add(new LineObsBean() { obslinecode = linecode, obvdate = lob.obvdate, obvvalue = lob.obvvalue });
+                            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     观测时间："+lob.obvdate + "  观测值："+ lob.obvvalue+" 已入库！");
+                            succedCount++;
+                        }
+                    }
+                    else
+                    {
+                        /*获取测线编码失败*/
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "   获取测线编码失败！");
+                        faildCount++;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "处理中发生错误:" + ex.Message);
+                }
+            }
+
+            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【导入完成提示】此任务处理了" + (succedCount + faildCount).ToString() + "条观测记录，其中成功入库" + succedCount.ToString() + "条，失败" + faildCount.ToString() + "条！");
+        }
+
+
+
+        private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            /*原始树刷新，方法未写*/
+            xtl.RefreshOrigData();
+        }
+
+       
 
         /////<summary>
         /////数据下载

@@ -27,6 +27,7 @@ namespace xxkUI.MyCls
         private EqkShow eqkfrm = null;
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
+        private DragPoint dragPoints;//可拖拽节点工具
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -83,6 +84,15 @@ namespace xxkUI.MyCls
             this.dragMarks.Active = false;
         }
 
+        /// <summary>
+        /// 初始化DragPoints
+        /// </summary>
+        private void InitDragPoints()
+        {
+            this.dragPoints = new DragPoint();
+            this.tChart.Tools.Add(this.dragPoints);
+            this.dragPoints.Active = false;
+        }
 
         /// <summary>
         /// 初始化Annotations
@@ -290,8 +300,8 @@ namespace xxkUI.MyCls
                     }
 
                     this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
-                    this.tChart.Series[0].Marks.Arrow.Width = 2;          //标签与单元之间连线的宽度
-                    this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.Dot;       //标签与单元之间连线样式
+                    this.tChart.Series[0].Marks.Arrow.Width = 1;          //标签与单元之间连线的宽度
+                    this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.DashDot;       //标签与单元之间连线样式
                     //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
                     //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
                     //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色

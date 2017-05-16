@@ -85,6 +85,15 @@ namespace xxkUI.MyCls
             this.dragMarks.Active = false;
         }
 
+        /// <summary>
+        /// 初始化DragPoints
+        /// </summary>
+        private void InitDragPoints()
+        {
+            this.dragPoints = new DragPoint();
+            this.tChart.Tools.Add(this.dragPoints);
+            this.dragPoints.Active = false;
+        }
 
 
 
@@ -306,12 +315,14 @@ namespace xxkUI.MyCls
                     }
 
                     this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
-                    this.tChart.Series[0].Marks.Arrow.Width = 2;          //标签与单元之间连线的宽度
-                    this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.Dot;       //标签与单元之间连线样式
-                   //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
-                     //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
-                     //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
-                     //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
+
+
+                    this.tChart.Series[0].Marks.Arrow.Width = 1;          //标签与单元之间连线的宽度
+                    this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.DashDot;       //标签与单元之间连线样式
+                    //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
+                    //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
+                    //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
+                   //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
                      //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
                     //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
                     this.tChart.Series[0].Marks.MultiLine = true;               //是否允许标签多行显示(当标签太长时)

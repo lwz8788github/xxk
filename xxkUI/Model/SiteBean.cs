@@ -75,62 +75,6 @@ public class SiteBean
         set { _FaultName = value; }
     }
 
-    [Description("所属断层带")]
-    private string _FaultZone;
-    public string FaultZone
-    {
-        get { return _FaultZone; }
-        set { _FaultZone = value; }
-    }
-
-    [Description("断层性质")]
-    private string _FaultProperty;
-    public string FaultProperty
-    {
-        get { return _FaultProperty; }
-        set { _FaultProperty = value; }
-    }
-
-    [Description("断层走向")]
-    private string _FaultStrike;
-    public string FaultStrike
-    {
-        get { return _FaultStrike; }
-        set { _FaultStrike = value; }
-    }
-
-    [Description("断层倾向")]
-    private string _FaultTendency;
-    public string FaultTendency
-    {
-        get { return _FaultTendency; }
-        set { _FaultTendency = value; }
-    }
-
-    [Description("断层倾角")]
-    private string _FaultDip;
-    public string FaultDip
-    {
-        get { return _FaultDip; }
-        set { _FaultDip = value; }
-    }
-
-    [Description("断层上盘岩性")]
-    private string _UpRock;
-    public string UpRock
-    {
-        get { return _UpRock; }
-        set { _UpRock = value; }
-    }
-
-    [Description("断层下盘岩性")]
-    private string _BottomRock;
-    public string BottomRock
-    {
-        get { return _BottomRock; }
-        set { _BottomRock = value; }
-    }
-
     [Description("起测试间")]
     private string _StartDate;
     public string StartDate
@@ -139,28 +83,12 @@ public class SiteBean
         set { _StartDate = value; }
     }
 
-    [Description("行政区代码")]
-    private string _XzCode;
-    public string XzCode
-    {
-        get { return _XzCode; }
-        set { _XzCode = value; }
-    }
-
     [Description("单位代码")]
     private string _UnitCode;
     public string UnitCode
     {
         get { return _UnitCode; }
         set { _UnitCode = value; }
-    }
-
-    [Description("场地布设图路径")]
-    private byte[] _SiteMapFile;
-    public byte[] SiteMapFile
-    {
-        get { return _SiteMapFile; }
-        set { _SiteMapFile = value; }
     }
 
     [Description("历史迁移")]
@@ -177,5 +105,93 @@ public class SiteBean
     {
         get { return _SiteStatus; }
         set { _SiteStatus = value; }
+    }
+
+    [Description("标石类型")]
+    private string _MarkStoneType;
+    public string MarkStoneType
+    {
+        get { return _MarkStoneType; }
+        set { _MarkStoneType = value; }
+    }
+
+    [Description("建设单位")]
+    private string _BuildUnit;
+    public string BuildUnit
+    {
+        get { return _BuildUnit; }
+        set { _BuildUnit = value; }
+    }
+
+    [Description("监测单位")]
+    private string _ObsUnit;
+    public string ObsUnit
+    {
+        get { return _ObsUnit; }
+        set { _ObsUnit = value; }
+    }
+
+    [Description("场地概况")]
+    private string _SiteSituation;
+    public string SiteSituation
+    {
+        get { return _SiteSituation; }
+        set { _SiteSituation = value; }
+    }
+
+    [Description("地质概况")]
+    private string _GeoSituation;
+    public string GeoSituation
+    {
+        get { return _GeoSituation; }
+        set { _GeoSituation = value; }
+    }
+
+    [Description("资料变更")]
+    private string _Datachg;
+    public string Datachg
+    {
+        get { return _Datachg; }
+        set { _Datachg = value; }
+    }
+
+    [Description("备注")]
+    private string _Note;
+    public string Note
+    {
+        get { return _Note; }
+        set { _Note = value; }
+    }
+
+    [Description("卫星图")]
+    private string _RemoteMap;
+    public string RemoteMap
+    {
+        get { return _RemoteMap; }
+        set { _RemoteMap = value; }
+    }
+
+    [Description("布设图")]
+    private string _LayoutMap;
+    public string LayoutMap
+    {
+        get { return _LayoutMap; }
+        set { _LayoutMap = value; }
+    }
+
+    [Description("坐标集")]
+    private string _Locations;
+    public string Locations
+    {
+        get { return _Locations; }
+        set { _Locations = value; }
+    }
+
+    [Description("其他情况")]
+    private string _OtherSituation;
+    public string OtherSituation
+    {
+        get { return _OtherSituation; }
+        set { _OtherSituation = value; }
     }
 }

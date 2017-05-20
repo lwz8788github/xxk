@@ -62,8 +62,8 @@ namespace xxkUI.Bll
         public IEnumerable<SiteBean> GetSitesByAuth(string auths)
         {
             return SiteDal.Instance.GetList(@"select UNITCODE,SITECODE,SITENAME,TYPE,HISTORYSITE,LONGTITUDE,
-                                                LATITUDE, ALTITUDE,PLACE,FAULTNAME,FAULTPROPERTY,FAULTSTRIKE,
-                                                FAULTTENDENCY,FAULTDIP,UPROCK,BOTTOMROCK,STARTDATE,XZCODE
+                                                LATITUDE, ALTITUDE,PLACE,STARTDATE,SITESTATUS,MARKSTONETYPE,DATACHG,FAULTNAME,
+                                                BUILDUNIT,OBSUNIT,SITESITUATION,GEOSITUATION,NOTE,LOCATIONS,OTHERSITUATION
                                                  from t_siteinfodb where UNITCODE in " + auths);
         }
 
@@ -79,7 +79,41 @@ namespace xxkUI.Bll
             string filename = string.Empty;
             try
             {
-                filename = System.Windows.Forms.Application.StartupPath + "/tempDoc/" + idvalue + ".doc";
+                filename = System.Windows.Forms.Application.StartupPath + "/ÎÄµµ»º´æ/" + idvalue + ".doc";
+                if (!File.Exists(filename))
+                {
+                    byte[] blob = GetBlob<SiteBean>(idname, idvalue, blobfield);
+                    if (blob == null)
+                        return string.Empty;
+                    if (blob.Length == 0)
+                        return string.Empty;
+
+                    File.WriteAllBytes(filename, blob);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                filename = string.Empty;
+                throw new Exception(ex.Message);
+            }
+
+            return filename;
+        }
+
+        /// <summary>
+        /// ÏÂÔØÍ¼Æ¬
+        /// </summary>
+        /// <param name="idname"></param>
+        /// <param name="idvalue"></param>
+        /// <param name="blobfield"></param>
+        /// <returns></returns>
+        public string DownloadPic(string idname, string idvalue, string blobfield)
+        {
+            string filename = string.Empty;
+            try
+            {
+                filename = System.Windows.Forms.Application.StartupPath + "/Í¼Æ¬»º´æ/" + idvalue + ".jpg";
                 if (!File.Exists(filename))
                 {
                     byte[] blob = GetBlob<SiteBean>(idname, idvalue, blobfield);

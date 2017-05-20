@@ -72,7 +72,6 @@ namespace xxkUI.MyCls
                         tb.SiteType = "";
                         tb.LineStatus = "";
                         tb.Tag = sb;//lwl
-
                         treelistOriData.Add(tb);
                         treelistWorkSpace.Add(tb);
 
@@ -127,7 +126,6 @@ namespace xxkUI.MyCls
                 this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
                 this.treeListOriData.DataSource = treelistOriData;　　//绑定数据源
                 this.treeListOriData.OptionsView.ShowCheckBoxes = true;
-                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                 this.treeListOriData.OptionsBehavior.Editable = false;
 
@@ -475,5 +473,10 @@ namespace xxkUI.MyCls
         }
 
 
+        public void ClearTreelistNodes()
+        {
+            this.treeListOriData.ClearNodes();
+            this.treeListWorkSpace.ClearNodes();
+        }
     }
 }

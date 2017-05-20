@@ -5,31 +5,24 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraBars;
 using xxkUI.Form;
-using System.Configuration;
-using GMap.NET.MapProviders;
 using GMap.NET;
 using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using System.Collections;
 using xxkUI.Bll;
-using DevExpress.XtraTreeList.Nodes;
 using xxkUI.Model;
-using System.Reflection;
 using xxkUI.Tool;
 using System.IO;
 using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList;
 using xxkUI.BLL;
-using DevExpress.XtraVerticalGrid;
 using DevExpress.XtraEditors.Controls;
 using xxkUI.MyCls;
 using DevExpress.XtraTab;
 using Steema.TeeChart;
 using DevExpress.XtraGrid;
+
 
 namespace xxkUI
 {
@@ -83,6 +76,25 @@ namespace xxkUI
             }
         }
 
+        /// <summary>
+        /// 注销登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogout_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            try
+            {
+                xtl.ClearTreelistNodes();
+                gmmkks.ClearAllSiteMarker();
+                currentUserBar.Caption = "当前用户:";
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("注销登录过程发生错误：" + ex.Message, "错误");
+            }
+        }
+
         #region 地图事件 刘文龙
 
         /// <summary>
@@ -111,7 +123,7 @@ namespace xxkUI
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             SiteBean sb = (SiteBean)item.Tag;
-            sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
+            //sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
             sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
 
             GetSiteAttriForm();
@@ -266,7 +278,6 @@ namespace xxkUI
 
                             mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
                         }
-
                       }
                     break;
                 case "btnLineAttri"://测线属性
@@ -286,14 +297,10 @@ namespace xxkUI
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
                             SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-                            string filename = SiteBll.Instance.DownloadDoc("SiteCode", sb.SiteCode, "BASEINFO");
-                            if (filename == string.Empty)
-                            {
-                                XtraMessageBox.Show("该场地没有信息库数据！", "提示");
-                                
-                                return;
-                            }
-                            this.siteInfoDocCtrl.LoadDocument(filename);
+                           
+                            this.siteInfoDocCtrl.LoadDocument(Application.StartupPath + "/tempDoc/信息库模板.doc");
+                            this.siteInfoDocCtrl.FillBookMarkText(sb);
+                        
                             this.siteInfoTabPage.PageVisible = true;
                             this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
                         }
@@ -315,9 +322,6 @@ namespace xxkUI
                                 ptPro.progressWorker.DoWork += ImportData_DoWork;
                                 ptPro.beginWorking();
                                 ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
-
-                               
-                               
                             }
                         }
                         catch (Exception ex)
@@ -331,7 +335,8 @@ namespace xxkUI
         }
 
 
-
+        #region 导入观测数据
+        
         private void ImportData_DoWork(object sender, DoWorkEventArgs e)
         {
             string sitecode = ((SiteBean)currentClickNodeInfo.Tag).SiteCode;
@@ -410,15 +415,14 @@ namespace xxkUI
             BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【导入完成提示】此任务处理了" + (succedCount + faildCount).ToString() + "条观测记录，其中成功入库" + succedCount.ToString() + "条，失败" + faildCount.ToString() + "条！");
         }
 
-
-
         private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             /*原始树刷新，方法未写*/
             xtl.RefreshOrigData();
         }
 
-       
+        #endregion
+
 
         /////<summary>
         /////数据下载
@@ -667,203 +671,5 @@ namespace xxkUI
         }
 
 
-        #region MyBackgroundWorker用法示例
-        //void AddBatchLevPt(object sender, DoWorkEventArgs e)
-        //{
-        //    MyBackgroundWorker worker = (MyBackgroundWorker)sender;
-        //    e.Cancel = false;
-        //    BackgroundWorkerHelper.outputWorkerLog(worker, "1 打开Excel点之记文件");
-        //    if (worker.CancellationPending)
-        //    {
-        //        e.Cancel = true;
-        //        return;
-        //    }
-        //    //点之记标石断面图和点位详细图所在路径
-        //    string picfilename = levFileName.Substring(0, levFileName.LastIndexOf("\\") + 1) + "pic\\";
-        //    //点之记电子文档所在路径
-        //    string docfilename = levFileName.Substring(0, levFileName.LastIndexOf("\\") + 1) + "pts\\";
-        //    DataTable dt = null;
-        //    try
-        //    {
-        //        dt = ExcelHelper.ImportExcel(levFileName);
-        //        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "   打开Excel点之记文件成功！");
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "打开Excel点之记文件失败！请检查Excel格式后再试！");
-        //        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, " 【导入失败提示】 导入失败！");
-        //        return;
-        //    }
-
-        //    LevPointItemInfo levPointItemInfo = new LevPointItemInfo();
-        //    DivCodeDataDAO dcdd = new DivCodeDataDAO();//分类编码
-        //    LevPointDataDAO levptDao = new LevPointDataDAO();
-        //    ChangeStr chgstr = new ChangeStr();//全半角转换
-        //    BackgroundWorkerHelper.outputWorkerLog(worker, "2 提取点之记信息");
-        //    int n = 0;
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        LevPointInfoBean levptInfo = new LevPointInfoBean();
-        //        try
-        //        {
-        //            n++;
-
-        //            if (dr[levPointItemInfo.LevPointStName].ToString() == "")
-        //            {
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     水准点名称不能为空");
-        //                continue;
-        //            }
-
-        //            levptInfo.LevPointStName = chgstr.FullToHalf(dr[levPointItemInfo.LevPointStName].ToString());
-
-        //            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "   2." + n.ToString() + " 正在提取'" + levptInfo.LevPointStName + "'水准点信息...");
-
-        //            //水准点等级
-        //            levptInfo.LevPointGradeDiv = dcdd.GetDivCodebyName(getLevPointGradeName(dr[levPointItemInfo.LevMarkStoneTypeDiv].ToString(), dr[levPointItemInfo.LevPointStName].ToString()), "7");
-        //            if (levptInfo.LevPointGradeDiv == "*")
-        //            {
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     找不到对应的水准编码等级，暂用'*'代替");
-        //            }
-        //            string logstr = dr[levPointItemInfo.PointLongitude].ToString();
-
-        //            string latstr = dr[levPointItemInfo.PointLatitude].ToString();
-
-        //            if (logstr == "" || latstr == "")
-        //            {
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     经纬度不能为空，入库失败！");
-        //                continue;
-        //            }
-        //            //if (logstr.Contains("°") || logstr.Contains("′") || logstr.Contains("″"))
-        //            //{
-        //            //    logstr = logstr.Remove(logstr.IndexOf('′'));
-        //            //    logstr = logstr.Replace('°', '.');
-        //            //}
-        //            levptInfo.PointLongitude = RoundCal.Carry(ConvertLocation(logstr), 6);
-
-        //            //if (latstr.Contains("°") || latstr.Contains("′"))
-        //            //{
-        //            //    latstr = latstr.Remove(latstr.IndexOf('′'));
-        //            //    latstr = latstr.Replace('°', '.');
-        //            //}
-        //            levptInfo.PointLatitude = RoundCal.Carry(ConvertLocation(latstr), 6);
-
-        //            if (dr[levPointItemInfo.PointAltitude].ToString() != "")
-        //                levptInfo.PointAltitude = RoundCal.Carry(double.Parse(dr[levPointItemInfo.PointAltitude].ToString()), 2);
-        //            else
-        //                levptInfo.PointAltitude = 0;
-
-        //            if (dr[levPointItemInfo.GpsFlg].ToString() != "")
-        //                levptInfo.GpsFlg = dr[levPointItemInfo.GpsFlg].ToString();
-        //            else
-        //                levptInfo.GpsFlg = "0";
-
-        //            if (dr[levPointItemInfo.BlineFlg].ToString() != "")
-        //                levptInfo.BLineFlg = dr[levPointItemInfo.BlineFlg].ToString();
-        //            else
-        //                levptInfo.BLineFlg = "0";
-
-        //            if (dr[levPointItemInfo.GraFlg].ToString() != "")
-        //                levptInfo.GraFlg = dr[levPointItemInfo.GraFlg].ToString();
-        //            else
-        //                levptInfo.GraFlg = "0";
-
-        //            //水准标石类型
-        //            levptInfo.LevMarkStoneTypeDiv = dcdd.GetDivCodebyName(dr[levPointItemInfo.LevMarkStoneTypeDiv].ToString(), "8");
-        //            if (levptInfo.LevMarkStoneTypeDiv == "")
-        //            {
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     找不到对应的水准标石类型，暂用'*'代替");
-        //                levptInfo.LevMarkStoneTypeDiv = "*";
-        //            }
-        //            //水准点标石质料
-        //            levptInfo.MarkStoneMatlDiv = dcdd.GetDivCodebyName(getMarkStoneMatl(dr[levPointItemInfo.MarkStoneMatlDiv].ToString()), "11");
-        //            if (levptInfo.MarkStoneMatlDiv == "")
-        //            {
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     找不到对应的标石质料类型，暂用'*'代替");
-        //                levptInfo.MarkStoneMatlDiv = "*";
-        //            }
-        //            levptInfo.PointDetailInfo = dr[levPointItemInfo.PointDetailInfo].ToString();
-        //            levptInfo.PointTrafficMethod = dr[levPointItemInfo.PointTrafficMethod].ToString();
-        //            levptInfo.PointManageOrgName = dr[levPointItemInfo.PointManageOrgName].ToString();
-
-        //            string pointMonuOrgCode = "";
-        //            string pointMonuOrg = dr[levPointItemInfo.PointMonuOrgCode].ToString();
-        //            if (pointMonuOrg == "")
-        //                pointMonuOrg = "未知";
-
-        //            pointMonuOrgCode = dcdd.GetDivCodebyName(pointMonuOrg, "1");
-
-        //            //如果不存在埋石单位代码，则新增
-        //            if (pointMonuOrgCode == "")
-        //            {
-        //                DivCodeInfoBean divcodeif = new DivCodeInfoBean();
-        //                divcodeif.DivFirstCode = "1";
-        //                divcodeif.DivFirstName = "机构代码";
-        //                divcodeif.DivSecondCode = dcdd.SequenceID();
-        //                divcodeif.DivSecondName = pointMonuOrg;
-        //                dcdd.AddDivCodeInfo(divcodeif);
-        //                pointMonuOrgCode = divcodeif.DivSecondCode;
-        //            }
-        //            levptInfo.PointMonuOrgCode = pointMonuOrgCode;
-
-        //            if (dr[levPointItemInfo.PointMonuYMD].ToString() != "")
-        //                levptInfo.PointMonuYMD = dr[levPointItemInfo.PointMonuYMD].ToString();
-        //            else
-        //                levptInfo.PointMonuYMD = "1900.01.01";
-
-        //            levptInfo.PointDetailAddress = dr[levPointItemInfo.PointDetailAddress].ToString();
-        //            levptInfo.Note = dr[levPointItemInfo.Note].ToString();
-
-        //            //点位详细图
-        //            levptInfo.PointDetailMap = DbHelper.GetStreamBytes(picfilename + levptInfo.LevPointStName + "dw.jpg");
-        //            //标石断面图
-        //            levptInfo.PointSectionMap = DbHelper.GetStreamBytes(picfilename + levptInfo.LevPointStName + "bs.jpg");
-        //            //点之记电子文档
-        //            string docflnm = "";
-        //            if (File.Exists(docfilename + levptInfo.LevPointStName + ".jpg"))
-        //                docflnm = docfilename + levptInfo.LevPointStName + ".jpg";
-        //            else if (File.Exists(docfilename + levptInfo.LevPointStName + ".doc"))
-        //                docflnm = docfilename + levptInfo.LevPointStName + ".doc";
-        //            else if (File.Exists(docfilename + levptInfo.LevPointStName + ".xls"))
-        //                docflnm = docfilename + levptInfo.LevPointStName + ".xls";
-        //            levptInfo.PointRecordPic = DbHelper.GetStreamBytes(docflnm);
-        //            //如果图片不存在
-        //            if (levptInfo.PointDetailMap == null)
-        //            {
-        //                levptInfo.PointDetailMap = new byte[0];
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     '" + levptInfo.LevPointStName + "'点位详细图不存在！");
-        //            }
-        //            if (levptInfo.PointSectionMap == null)
-        //            {
-        //                levptInfo.PointSectionMap = new byte[0];
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     '" + levptInfo.LevPointStName + "'标石断面图不存在！");
-        //            }
-        //            if (levptInfo.PointRecordPic == null)
-        //            {
-        //                levptInfo.PointRecordPic = new byte[0];
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     '" + levptInfo.LevPointStName + "'点之记电子文档不存在！");
-        //            }
-        //            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "     正在将'" + levptInfo.LevPointStName + "'写入数据库...");
-        //            if (levptDao.IsExist(levptInfo.LevPointStName))
-        //                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     '" + levptInfo.LevPointStName + "'点已存在！");
-        //            else
-        //            {
-        //                if (levptDao.AddLevPoint(levptInfo) > 0)
-        //                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     '" + levptInfo.LevPointStName + "'入库成功！");
-        //                else
-        //                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     '" + levptInfo.LevPointStName + "'入库失败！");
-        //            }
-        //        }
-        //        catch (Exception exp)
-        //        {
-        //            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     '" + levptInfo.LevPointStName + "'入库过程中出现错误！" + exp.Message);
-        //            LogManager.WriteLog(LogFile.error, DataBaseInfoBean.UserName, "导入点之记数据发生错误：" + exp.Message);
-        //        }
-        //    }
-
-        //    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, " 【导入完成提示】 点之记数据导入完成！");
-        //    LogManager.WriteLog(LogFile.info, DataBaseInfoBean.UserName, "导入点之记数据");
-        //}
-
-        #endregion
     }
 }

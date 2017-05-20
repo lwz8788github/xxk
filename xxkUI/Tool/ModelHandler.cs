@@ -164,10 +164,6 @@ namespace xxkUI.Tool
                                                 field1.SetValue(model, v, null);
                                             }
                                         }
-                                       
-                                      
-                                        
-
                                     }
                             }
                         }
@@ -276,6 +272,8 @@ namespace xxkUI.Tool
 
         #endregion
 
+
+    
 
     }
 }

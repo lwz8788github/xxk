@@ -65,7 +65,7 @@ namespace Common.Data
                     cmd.InjectFrom<SetParamsValues>(where);
                     conn.Open();
 
-                    return (int)cmd.ExecuteScalar();
+                    return  int.Parse(cmd.ExecuteScalar().ToString());
                 }
             }
         }
@@ -126,8 +126,8 @@ namespace Common.Data
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "insert " + TableConvention.Resolve(o) + " ("
                     .InjectFrom(new FieldsBy().IgnoreFields("keyid"), o) + ") values("
-                    .InjectFrom(new FieldsBy().IgnoreFields("keyid").SetFormat("@{0}"), o)
-                    + ") select @@identity";
+                    .InjectFrom(new FieldsBy().IgnoreFields("keyid").SetFormat("@{0}"), o) + ")";
+                    //+ ") select @@identity";
 
                 cmd.InjectFrom(new SetParamsValues().IgnoreFields("keyid"), o);
 

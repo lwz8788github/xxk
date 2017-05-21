@@ -107,8 +107,8 @@ namespace xxkUI.Tool
 
                     NPOI.SS.UserModel.IRow headerrow = sheet.CreateRow(0);
                     ICellStyle style = book.CreateCellStyle();
-                    style.Alignment = HorizontalAlignment.CENTER;
-                    style.VerticalAlignment = VerticalAlignment.CENTER;
+                    style.Alignment = HorizontalAlignment.Center;
+                    style.VerticalAlignment = VerticalAlignment.Center;
 
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
@@ -151,6 +151,122 @@ namespace xxkUI.Tool
             
         }
 
+        /// <summary>  
+        /// 将excel导入到datatable  
+        /// </summary>  
+        /// <param name="filePath">excel路径</param>  
+        /// <param name="isColumnName">第一行是否是列名</param>  
+        /// <returns>返回datatable</returns>  
+        public DataTable ExcelToDataTable_LineObs(string filePath, bool isColumnName)
+        {
+            DataTable dataTable = null;
+            FileStream fs = null;
+            DataColumn column = null;
+            DataRow dataRow = null;
+
+            IRow row = null;
+            ICell cell = null;
+            int startRow = 0;
+            try
+            {
+                if (OpenWorkbook(filePath))
+                {
+                    dataTable = new DataTable();
+                    if (this.sheet != null)
+                    {
+                        int rowCount = this.sheet.LastRowNum;//总行数  
+                        if (rowCount > 0)
+                        {
+                            IRow firstRow = this.sheet.GetRow(0);//第一行  
+                            int cellCount = firstRow.LastCellNum;//列数  
+
+                            //构建datatable的列  
+                            if (isColumnName)
+                            {
+                                startRow = 1;//如果第一行是列名，则从第二行开始读取  
+                                for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
+                                {
+                                    cell = firstRow.GetCell(i);
+                                    if (cell != null)
+                                    {
+                                        if (cell.StringCellValue != null)
+                                        {
+                                            column = new DataColumn(cell.StringCellValue);
+                                            dataTable.Columns.Add(column);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
+                                {
+                                    column = new DataColumn("column" + (i + 1));
+                                    dataTable.Columns.Add(column);
+                                }
+                            }
+
+                            //填充行  
+                            for (int i = startRow; i <= rowCount; ++i)
+                            {
+                                row = this.sheet.GetRow(i);
+                                if (row == null) continue;
+
+                                dataRow = dataTable.NewRow();
+                                for (int j = row.FirstCellNum; j < cellCount; ++j)
+                                {
+                                    cell = row.GetCell(j);
+                                    if (cell == null)
+                                    {
+                                        dataRow[j] = "";
+                                    }
+                                    else
+                                    {
+                                        if (j == 0)
+                                        {
+                                            dataRow[j] = DateTime.Parse(cell.DateCellValue.ToString());
+                                        }
+                                        else if (j == 1)
+                                            dataRow[j] = cell.ToString();
+                                        //CellType(Unknown = -1,Numeric = 0,String = 1,Formula = 2,Blank = 3,Boolean = 4,Error = 5,)  
+                                        //switch (cell.CellType)
+                                        //{
+                                        //    case CellType.Blank:
+                                        //        dataRow[j] = "";
+                                        //        break;
+                                        //    case CellType.Numeric:
+                                        //        short format = cell.CellStyle.DataFormat;
+                                        //        //对时间格式（2015.12.5、2015/12/5、2015-12-5等）的处理  
+                                        //        if (format == 14 || format == 31 || format == 57 || format == 58)
+                                        //            dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
+                                        //        else
+                                        //            dataRow[j] = cell.NumericCellValue;
+                                        //        break;
+                                        //    case CellType.String:
+                                        //        dataRow[j] = cell.StringCellValue;
+                                        //        break;
+                                        //}
+                                    }
+                                }
+                                dataTable.Rows.Add(dataRow);
+                            }
+                        }
+                    }
+
+                }
+                return dataTable;
+            }
+            catch (Exception)
+            {
+                if (fs != null)
+                {
+                    fs.Close();
+                }
+                return null;
+            }
+        }
+
+
 
         //public bool Execute(string savefile)
         //{
@@ -171,8 +287,19 @@ namespace xxkUI.Tool
             {
                 using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    this.hssfWorkbook = new HSSFWorkbook(fs);
-                    this.sheet = this.hssfWorkbook.GetSheet(sheetName);
+                    // 2007版本  
+                    if (fileName.IndexOf(".xlsx") > 0)
+                    { 
+                        this.xssfWorkbook = new XSSFWorkbook(fs);
+                        this.sheet = this.xssfWorkbook.GetSheetAt(0);
+                    }
+                    // 2003版本  
+                    else if (fileName.IndexOf(".xls") > 0)
+                    { 
+                        this.hssfWorkbook = new HSSFWorkbook(fs);
+                        this.sheet = this.hssfWorkbook.GetSheetAt(0);
+                    }
+
                     return true;
                 }
             }
@@ -234,7 +361,8 @@ namespace xxkUI.Tool
             if (value == null)
                 return;
 
-            #region 不可空类型
+            #region 不可空类型
+
             if (value is Guid)
             {
                 cell.SetCellValue(value.ToString());
@@ -351,6 +479,9 @@ namespace xxkUI.Tool
             }
             #endregion
         }
+
+
+
         
     }
 }

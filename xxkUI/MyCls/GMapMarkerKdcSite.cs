@@ -127,6 +127,20 @@ namespace xxkUI.MyCls
         }
 
         /// <summary>
+        /// 清除所有场地
+        /// </summary>
+        public void ClearAllSiteMarker()
+        {
+            for (int i = 0; i < gMapCtrl.Overlays.Count; i++)
+            {
+                if (gMapCtrl.Overlays[i].Id == "sitemarkers")
+                {
+                    gMapCtrl.Overlays[i].Markers.Clear();
+                }
+            }
+        }
+
+        /// <summary>
         /// 定位到场地
         /// </summary>
         /// <param name="sb"></param>

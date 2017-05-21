@@ -28,6 +28,18 @@ namespace xxkUI.MyCls
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
         private DragPoint dragPoints;//可拖拽节点工具
+        private DrawLine drawLines;//绘制线
+
+       
+        //Bar bar1 = new Bar(this.tChart.Chart); 
+        //DrawLine drawLine1 = new DrawLine(this.tChart.Chart);  
+        //bar1.FillSampleValues(20);
+        //drawLine1.Series = bar1;
+        //drawLine1.Button = MouseButtons.Left; 
+        //drawLine1.EnableDraw = true; 
+        //drawLine1.EnableSelect = true; 
+        //drawLine1.Pen.Color = Color.AliceBlue;
+
         private Annotation annotation;
         private Annotation annotation_max;
         private Annotation annotation_min;
@@ -50,6 +62,7 @@ namespace xxkUI.MyCls
 
             InitCursorTool();
             InitDragMarks();
+            //InitDragPoints();
 
             InitAnnotations();
 
@@ -86,15 +99,29 @@ namespace xxkUI.MyCls
         }
 
 
+        /// <summary>
+        /// 初始化DragPoint
+        /// </summary>
+        private void InitDrawLines()
+        {
+            this.drawLines = new DrawLine();
+            this.tChart.Tools.Add(this.drawLines);
+            this.drawLines.Active = false;
+        }
 
+        /// <summary>
+        /// 初始化DragPoint
+        /// </summary>
+        private void InitDragPoints()
+        {
+            this.dragPoints = new DragPoint();
+            this.tChart.Tools.Add(this.dragPoints);
+         
+            this.dragPoints.Active = false;
+       
+        }
 
-
-
-
-
-
-
-
+        
 
         /// <summary>
         /// 初始化Annotations
@@ -320,6 +347,7 @@ namespace xxkUI.MyCls
                     this.tChart.Series[0].Marks.ShapeStyle = TextShapeStyle.Rectangle;
                     this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
                     this.dragMarks.Series = this.tChart.Series[0];
+                    //this.dragPoints.Series = this.tChart.Series[0];
                 }
                 else
                 {
@@ -471,12 +499,14 @@ namespace xxkUI.MyCls
         /// </summary>
         public void GetEqkShowForm()
         {
-           
+            InitDragPoints();
+            InitDrawLines();
+
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag,this.tChart,this.dragPoints);
+                    eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -488,7 +518,7 @@ namespace xxkUI.MyCls
             }
             else
             {
-                eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints);
+                eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }

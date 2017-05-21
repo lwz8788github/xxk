@@ -74,12 +74,18 @@ namespace xxkUI
                     //获取用户权限，放入userAut
                     List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
                     xtl.InitOriDataTree(userAhtList, this.gmmkks);
+                   
                 }
             }
             else
             {
                 return;
             }
+        }
+
+        void imagePoint1_GetSeriesMark(Steema.TeeChart.Styles.Series series, Steema.TeeChart.Styles.GetSeriesMarkEventArgs e)
+        {
+            e.MarkText = series.Tag.ToString();
         }
 
         #region 地图事件 刘文龙
@@ -246,7 +252,7 @@ namespace xxkUI
         {
             switch (e.Item.Name)
             {
-                case "btnSaveToWorkspace"://保存到工作区
+                case "btnSaveToWorkspace"://保存到远程信息库
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
@@ -257,7 +263,7 @@ namespace xxkUI
                                 DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
 
                                 NpoiCreator npcreator = new NpoiCreator();
-                                string savefile = Application.StartupPath + "/myworkspace";
+                                string savefile = Application.StartupPath + "/远程信息库";
                                 npcreator.TemplateFile = savefile;
                                 npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
 

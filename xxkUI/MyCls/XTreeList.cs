@@ -132,7 +132,7 @@ namespace xxkUI.MyCls
                 this.treeListOriData.OptionsBehavior.Editable = false;
 
                 List<String> excelList = new List<string>();
-                string excelPath = Application.StartupPath + "/myworkspace";
+                string excelPath = Application.StartupPath + "/远程信息库";
                 excelList = getFile(excelPath);
                 foreach (string lineCode in excelList)
                 {

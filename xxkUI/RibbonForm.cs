@@ -22,6 +22,8 @@ using xxkUI.MyCls;
 using DevExpress.XtraTab;
 using Steema.TeeChart;
 using DevExpress.XtraGrid;
+using System.Configuration;
+using Common.Data.MySql;
 
 
 namespace xxkUI
@@ -43,9 +45,11 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             mtc = new MyTeeChart(this.chartGroupBox);
-            xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
+            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
+            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+            xtl.bSignInitOriDataTree(this.gmmkks);
 
         }
 
@@ -76,10 +80,6 @@ namespace xxkUI
                 return;
             }
         }
-
-        void imagePoint1_GetSeriesMark(Steema.TeeChart.Styles.Series series, Steema.TeeChart.Styles.GetSeriesMarkEventArgs e)
-        {
-            e.MarkText = series.Tag.ToString();
         /// <summary>
         /// 注销登录
         /// </summary>
@@ -263,17 +263,18 @@ namespace xxkUI
         {
             switch (e.Item.Name)
             {
-                case "btnSaveToWorkspace"://保存到远程信息库
+                case "btnSaveToWorkspace"://保存到处理数据缓存
                     {
+                        string folderName = "处理数据缓存";
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
-                            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListOriData.Name);
+                            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListRemoteData.Name);
                             foreach (LineBean checkedLb in checkedNodes)
                             {
                                 DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
 
                                 NpoiCreator npcreator = new NpoiCreator();
-                                string savefile = Application.StartupPath + "/远程信息库";
+                                string savefile = Application.StartupPath + "/" + folderName;
                                 npcreator.TemplateFile = savefile;
                                 npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
 
@@ -283,9 +284,9 @@ namespace xxkUI
                                 tb.ParentFieldName = checkedLb.SITECODE;
                                 tb.Caption = checkedLb.OBSLINENAME;
                             }
-                            xtl.RefreshWorkspace();
-                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListOriData.Name)))
-                                xtl.RefreshWorkspace();
+                            xtl.RefreshWorkspace(folderName);
+                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
+                                xtl.RefreshWorkspace(folderName);
                         }
 
                     }
@@ -297,7 +298,7 @@ namespace xxkUI
                             this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListOriData.Name));
+                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListRemoteData.Name));
                         }
                       }
                     break;
@@ -348,6 +349,39 @@ namespace xxkUI
                         catch (Exception ex)
                         {
                             XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                        }
+                    }
+                    break;
+                case "btnDownLoad"://下载数据
+                    {
+                        string folderName = "远程信息库缓存";
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListRemoteData.Name);
+                            foreach (SiteBean checkedSb in checkedNodes)
+                            {
+                                DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
+
+                                foreach (DataRow row in linecode.Rows)
+                                {
+                                    string lCode = row[0].ToString();
+                                    string lName = row[0].ToString();
+                                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                                    NpoiCreator npcreator = new NpoiCreator();
+                                    string savefile = Application.StartupPath + "/" + folderName;
+                                    npcreator.TemplateFile = savefile;
+                                    npcreator.NpoiExcel(dt, lCode + ".xls", savefile + "/" + lCode + ".xls");
+
+                                    TreeBean tb = new TreeBean();
+
+                                    tb.KeyFieldName = lCode;
+                                    tb.ParentFieldName = checkedSb.SiteCode;
+                                    tb.Caption = lName;
+                                }
+                            }
+                            xtl.RefreshWorkspace(folderName);
+                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
+                                xtl.RefreshWorkspace(folderName);
                         }
                     }
                     break;
@@ -690,7 +724,6 @@ namespace xxkUI
         {
             defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";
         }
-
 
     }
 }

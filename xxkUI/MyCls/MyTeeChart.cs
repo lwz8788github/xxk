@@ -118,18 +118,6 @@ namespace xxkUI.MyCls
             this.drawLines.Active = false;
         }
 
-        /// <summary>
-        /// 初始化DragPoint
-        /// </summary>
-        private void InitDragPoints()
-        {
-            this.dragPoints = new DragPoint();
-            this.tChart.Tools.Add(this.dragPoints);
-         
-            this.dragPoints.Active = false;
-       
-        }
-
         
 
         /// <summary>

@@ -40,6 +40,11 @@ namespace xxkUI.Bll
             return LineDal.Instance.GetByID(getwhat, idname, idvalue).ToString();
         }
 
+        public LineBean GetInfoByID(string idvalue)
+        {
+            return LineDal.Instance.GetList("select * from t_obslinetb where OBSLINECODE = '" + idvalue + "'").ToList()[0];
+        }
+
         public IEnumerable<LineBean> GetAll()
         {
             return LineDal.Instance.GetAll();

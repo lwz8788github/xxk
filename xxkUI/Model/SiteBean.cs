@@ -164,20 +164,14 @@ public class SiteBean
     }
 
     [Description("卫星图")]
-    private string _RemoteMap;
-    public string RemoteMap
+    private byte[] _RemoteMap;
+    public byte[] RemoteMap
     {
         get { return _RemoteMap; }
         set { _RemoteMap = value; }
     }
 
-    [Description("布设图")]
-    private string _LayoutMap;
-    public string LayoutMap
-    {
-        get { return _LayoutMap; }
-        set { _LayoutMap = value; }
-    }
+
 
     [Description("坐标集")]
     private string _Locations;

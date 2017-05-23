@@ -247,11 +247,11 @@ namespace xxkUI
                     }
                     if (hitInfo.Node.Level == 1)
                     {
-                        popSiteTree.ShowPopup(p);
+                        popRemoteSiteTree.ShowPopup(p);
                     }
                     else if (hitInfo.Node.Level == 2)
                     {
-                        popLineTree.ShowPopup(p);
+                        popRemoteLineTree.ShowPopup(p);
                     }
                 }
             }
@@ -303,8 +303,11 @@ namespace xxkUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void popMenu_ItemClick(object sender, ItemClickEventArgs e)
+        private void popMenuRemote_ItemClick(object sender, ItemClickEventArgs e)
         {
+            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+            MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+
             switch (e.Item.Name)
             {
                 case "btnSaveToWorkspace"://保存到处理数据处理缓存
@@ -342,7 +345,8 @@ namespace xxkUI
                             this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListRemoteData.Name));
+                            MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListRemoteData.Name), DataFromPath.RemoteDbPath);
                         }
                       }
                     break;
@@ -368,7 +372,6 @@ namespace xxkUI
                             this.siteInfoTabPage.PageVisible = true;
                             this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
                         }
-
                     }
                     break;
                 case "btnImportObsline"://导入观测数据
@@ -397,7 +400,8 @@ namespace xxkUI
                 case "btnDownLoad"://下载数据
                     {
                         string userName = this.currentUserBar.Caption.Split('：')[1];
-                        if (userName == "")
+
+                        if (userName ==string.Empty)
                         {
                             XtraMessageBox.Show("没有登录！", "警告");
                             return;
@@ -445,7 +449,18 @@ namespace xxkUI
                         }
                     }
                     break;
-                case "btnCreateLoacalDb":
+              
+            }
+        }
+
+
+        private void popMenuLocal_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+            MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+            switch (e.Item.Name)
+            {
+                case "btnCreateLocalDb":
                     {
                         ProgressForm ptPro = new ProgressForm();
                         ptPro.Show(this);
@@ -455,11 +470,11 @@ namespace xxkUI
                     }
                     break;
             }
+
         }
 
-
         #region 导入观测数据
-        
+
         private void ImportData_DoWork(object sender, DoWorkEventArgs e)
         {
             string sitecode = ((SiteBean)currentClickNodeInfo.Tag).SiteCode;

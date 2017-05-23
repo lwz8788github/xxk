@@ -211,9 +211,8 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="obsdatalist">数据列表</param>
         /// <returns>是否添加成功</returns>
-        public bool AddSeries(List<LineBean> obsdatalist)
+        public bool AddSeries(List<LineBean> obsdatalist,string excelPath)
         {
-
 
             bool isok = false;
             this.tChart.Header.Text = "";
@@ -222,8 +221,8 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
-
+                    //DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
+                    DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
                     string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
 
                     Line line = new Line();

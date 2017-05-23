@@ -151,6 +151,61 @@ namespace xxkUI.Tool
             
         }
 
+
+        private DataTable ExportToDataTable(string filepath)
+        {
+
+
+            DataTable dt = new DataTable();
+
+            if (OpenWorkbook(filepath))
+            {
+                //默认，第一行是字段
+                IRow headRow = this.sheet.GetRow(0);
+
+                //设置datatable字段
+                for (int i = headRow.FirstCellNum, len = headRow.LastCellNum; i < len; i++)
+                {
+                    dt.Columns.Add(headRow.Cells[i].StringCellValue);
+                }
+                //遍历数据行
+                for (int i = (this.sheet.FirstRowNum + 1), len = this.sheet.LastRowNum + 1; i < len; i++)
+                {
+                    IRow tempRow = this.sheet.GetRow(i);
+                    DataRow dataRow = dt.NewRow();
+
+                    //遍历一行的每一个单元格
+                    for (int r = 0, j = tempRow.FirstCellNum, len2 = tempRow.LastCellNum; j < len2; j++, r++)
+                    {
+
+                        ICell cell = tempRow.GetCell(j);
+
+                        if (cell != null)
+                        {
+                            switch (cell.CellType)
+                            {
+                                case CellType.String:
+                                    dataRow[r] = cell.StringCellValue;
+                                    break;
+                                case CellType.Numeric:
+                                    dataRow[r] = cell.NumericCellValue;
+                                    break;
+                                case CellType.Boolean:
+                                    dataRow[r] = cell.BooleanCellValue;
+                                    break;
+                                default:
+                                    dataRow[r] = "ERROR";
+                                    break;
+                            }
+                        }
+                    }
+                    dt.Rows.Add(dataRow);
+                }
+               
+            }
+
+            return dt;
+        }
         /// <summary>  
         /// 将excel导入到datatable  
         /// </summary>  

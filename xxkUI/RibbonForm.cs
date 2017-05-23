@@ -52,6 +52,7 @@ namespace xxkUI
 
             xtl.bSignInitOriDataTree(this.gmmkks);
             xtl.bSignInitLocaldbTree();
+            //xtl.bSignInitManipdbTree();
 
         }
 
@@ -306,7 +307,7 @@ namespace xxkUI
         {
             switch (e.Item.Name)
             {
-                case "btnSaveToWorkspace"://保存到处理数据缓存
+                case "btnSaveToWorkspace"://保存到处理数据处理缓存
                     {
                         string folderName = "处理数据缓存";
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
@@ -395,16 +396,15 @@ namespace xxkUI
                     break;
                 case "btnDownLoad"://下载数据
                     {
-                        if (this.currentUserBar.Caption.Split('：').Count() <= 1)
+                        string userName = this.currentUserBar.Caption.Split('：')[1];
+                        if (userName == "")
                         {
                             XtraMessageBox.Show("没有登录！", "警告");
                             return;
                         }
                         else
                         {
-                            string userName = this.currentUserBar.Caption.Split('：')[1];
                             List<string> userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(userName);
-
 
                             string folderName = "远程信息库缓存";
                             using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))

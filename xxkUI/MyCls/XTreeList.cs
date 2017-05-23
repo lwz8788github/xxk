@@ -234,7 +234,32 @@ namespace xxkUI.MyCls
                  XtraMessageBox.Show(ex.Message, "错误");
              }
          }
-    
+
+         /// <summary>
+         /// 加载处理数据树列表
+         /// </summary>
+         public void bSignInitManipdbTree()
+         {
+             try
+             {
+                 //处理数据库测线列表显示
+                 List<String> manipExcelList = new List<string>();
+                 string manipExcelPath = Application.StartupPath + "/处理数据缓存";
+                 manipExcelList = getFile(manipExcelPath);
+                 foreach (string manipLineName in manipExcelList)
+                 {
+                     string subLineName = manipLineName.Substring(0, manipLineName.Length - 4);
+                     this.treeListManipData.Nodes.Add(subLineName);
+                 }
+                 this.treeListManipData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListManipData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListManipData.OptionsBehavior.Editable = false;
+             }
+             catch (Exception ex)
+             {
+                 XtraMessageBox.Show(ex.Message, "错误");
+             }
+         }
 
         /// <summary>
         /// 登陆后加载树和地图（暂时没用）
@@ -487,7 +512,7 @@ namespace xxkUI.MyCls
 
                 }
 
-                this.treeListLocalData.RefreshDataSource();
+                this.treeListRemoteData.RefreshDataSource();
             }
             catch (Exception ex)
             {

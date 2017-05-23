@@ -38,6 +38,7 @@ namespace xxkUI
             this.WindowState = FormWindowState.Maximized;//默认最大化窗体
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
+            this.recycleTabPage.PageVisible = false;
             mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListOriData, this.treeListWorkSpace);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
@@ -420,6 +421,100 @@ namespace xxkUI
         #endregion
 
 
+        #region 创建数据库
+
+        private void CreateLocalDb_DoWork(object sender, DoWorkEventArgs e)
+        {
+            MyBackgroundWorker worker = (MyBackgroundWorker)sender;
+            e.Cancel = false;
+
+            if (worker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            try
+            {
+                CreateLocalDb cldb = new CreateLocalDb();
+
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【创建数据库开始提示】开始创建本地数据库...");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 1. 正在创建数据库...");
+                if (cldb.CreateDatabase("localinfo"))
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    创建数据库成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "    创建数据库失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 2. 正在创建数据库表...");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.1 正在创建场地表...");
+                if (cldb.CreateSiteinfoTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建场地表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建场地表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.2 正在导入场地表记录...");
+                if (cldb.InsertSiteinfoLRec(worker, e))
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入场地表记录成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     导入场地表记录失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.3 正在创建测线信息表...");
+                if (cldb.CreateLineTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建测线信息表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建测线信息表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.4 正在导入测线信息表记录...");
+                if (cldb.InsertLineinfoLRec(worker, e))
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入测线信息表记录成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     导入测线信息表记录失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.5 正在创建单位信息表...");
+                if (cldb.CreateUnitTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建单位信息表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建单位信息表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.6 正在导入单位信息表记录...");
+                if (cldb.InsertUnitinfoLRec(worker, e))
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入单位信息表记录成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     导入单位信息表记录失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.7 正在创建地震目录表...");
+                if (cldb.CreateEqklogTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建地震目录表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建地震目录表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.8 正在导入地震目录表记录...");
+                if (cldb.InsertEqkloginfoLRec(worker, e))
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入地震目录表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     导入地震目录表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.9 正在创建观测信息表...");
+                if (cldb.CreateObsLineTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建观测信息表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建观测信息表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.10 正在创建场地布设图表...");
+                if (cldb.CreateSiteLayoutTb())
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     创建场地布设图表成功!");
+                else
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "     创建场地布设图表失败!");
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    创建数据库表成功！");
+
+            }
+            catch (Exception ex)
+            {
+                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "创建过程中发生错误:" + ex.Message);
+            }
+            
+
+            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【创建数据库完成提示】完成本地信息库的创建！");
+        }
+
+        private void CreateLocalDb_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+          
+        }
+
+        #endregion
+
+
         /////<summary>
         /////数据下载
         /////</summary>
@@ -666,6 +761,25 @@ namespace xxkUI
             defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";
         }
 
+        private void btnRecycled_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            this.recycleTabPage.PageVisible = true;
+            this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
+            this.recycleControl1.LoadRecycleItems();
+         
+        }
 
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+
+            ProgressForm ptPro = new ProgressForm();
+            ptPro.Show(this);
+            ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+            ptPro.beginWorking();
+            ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+
+
+          
+        }
     }
 }

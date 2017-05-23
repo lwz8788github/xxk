@@ -99,7 +99,7 @@ namespace Common.Data.MySql
                     tx.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tx.Rollback();
                     return false;

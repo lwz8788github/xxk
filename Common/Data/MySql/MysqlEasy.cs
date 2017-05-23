@@ -16,7 +16,10 @@ namespace Common.Data.MySql
         public static string ConnectionString
         {
             get { return connString; }
-            set { connString = value; }
+            set
+            {
+                connString = value;
+            }
         }
 
         public static int ExecuteNonQuery(string SQLString)

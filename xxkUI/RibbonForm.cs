@@ -245,11 +245,11 @@ namespace xxkUI
                     }
                     if (hitInfo.Node.Level == 1)
                     {
-                        popSiteTree.ShowPopup(p);
+                        popRemoteSiteTree.ShowPopup(p);
                     }
                     else if (hitInfo.Node.Level == 2)
                     {
-                        popLineTree.ShowPopup(p);
+                        popRemoteLineTree.ShowPopup(p);
                     }
                 }
             }
@@ -299,7 +299,8 @@ namespace xxkUI
                             this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
 
-                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListRemoteData.Name));
+                            MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListRemoteData.Name), DataFromPath.RemoteDbPath);
                         }
                       }
                     break;

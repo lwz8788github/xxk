@@ -223,8 +223,8 @@ namespace xxkUI.MyCls
                 {
                     //DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
                     DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
-                    string currentSitecode = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", checkedLb.OBSLINECODE);
-
+                    dt.Columns[0].ColumnName = "观测时间";
+                    dt.Columns[1].ColumnName = "观测值";
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
@@ -237,7 +237,7 @@ namespace xxkUI.MyCls
                     line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
 
                     line.Marks.Visible = false;
-                    line.Tag = new LineTag() { Sitecode = currentSitecode, Linecode = checkedLb.OBSLINECODE };
+                    line.Tag = new LineTag() { Sitecode = checkedLb.SITECODE, Linecode = checkedLb.OBSLINECODE };
                     line.MouseEnter += Line_MouseEnter;
                     line.MouseLeave += Line_MouseLeave;
                     line.GetSeriesMark += Line_GetSeriesMark;

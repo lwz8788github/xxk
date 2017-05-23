@@ -84,9 +84,20 @@ namespace xxkUI.Controls
                 this.richEditControl.Document.InsertText(GetPosition("地质概况"), sb.GeoSituation);
                 this.richEditControl.Document.InsertText(GetPosition("备注"), sb.Note);
                 this.richEditControl.Document.InsertText(GetPosition("其他情况"), sb.OtherSituation);
-                this.richEditControl.Document.InsertImage(GetPosition("卫星图"), DocumentImageSource.FromFile(SiteBll.Instance.DownloadPic("SITECODE", sb.SiteCode, "REMOTEMAP")));
-                this.richEditControl.Document.InsertImage(GetPosition("布设图"), DocumentImageSource.FromFile(SiteBll.Instance.DownloadPic("SITECODE", sb.SiteCode, "LAYOUTMAP")));
-
+                try
+                {
+                    DocumentImageSource diswxt = DocumentImageSource.FromFile(SiteBll.Instance.DownloadPic("SITECODE", sb.SiteCode, "REMOTEMAP"));
+                    if (diswxt != null)
+                        this.richEditControl.Document.InsertImage(GetPosition("卫星图"), diswxt);
+                }
+                catch{ }
+                try
+                {
+                    DocumentImageSource disbst = DocumentImageSource.FromFile(SiteBll.Instance.DownloadPic("SITECODE", sb.SiteCode, "LAYOUTMAP"));
+                    if (disbst != null)
+                        this.richEditControl.Document.InsertImage(GetPosition("布设图"), disbst);
+                }
+                catch { }
             }
             catch (Exception ex)
             {

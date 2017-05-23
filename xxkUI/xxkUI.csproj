@@ -184,6 +184,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\ProgressForm.designer.cs" />
+    <Compile Include="Form\SaveToManipData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\SaveToManipData.Designer.cs">
+      <DependentUpon>SaveToManipData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\WaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,7 +217,6 @@
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
-    <Compile Include="MyCls\DataManipulations.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
     <Compile Include="Model\EqkBean.cs" />
     <Compile Include="Model\LineBean.cs" />
@@ -233,6 +238,7 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
+    <Compile Include="Tool\FileOperateProxy.cs" />
     <Compile Include="Tool\NumberHelper.cs" />
     <Compile Include="Tool\RegeditHelper.cs" />
     <Compile Include="Tool\SystemHelper.cs" />
@@ -259,6 +265,9 @@
       <DependentUpon>EqkShow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\ProgressForm.resx" />
+    <EmbeddedResource Include="Form\SaveToManipData.resx">
+      <DependentUpon>SaveToManipData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\WaitForm.resx">
       <DependentUpon>WaitForm.cs</DependentUpon>
     </EmbeddedResource>

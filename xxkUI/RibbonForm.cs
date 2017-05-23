@@ -46,13 +46,13 @@ namespace xxkUI
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
             mtc = new MyTeeChart(this.chartGroupBox);
-            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData);
+            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData,this.treeListManipData);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
 
             xtl.bSignInitOriDataTree(this.gmmkks);
             xtl.bSignInitLocaldbTree();
-            //xtl.bSignInitManipdbTree();
+            xtl.bSignInitManipdbTree();
 
         }
 
@@ -284,10 +284,12 @@ namespace xxkUI
                         if (hitInfo.Node.Level == 1)
                         {
                             //popSiteTree.ShowPopup(p);
+                            popLocalTree.ShowPopup(p);
                         }
                         else if (hitInfo.Node.Level == 2)
                         {
                             //popLineTree.ShowPopup(p);
+                            popLineTreeWork.ShowPopup(p);
                         }
                     }
                 }
@@ -306,39 +308,26 @@ namespace xxkUI
         private void popMenuRemote_ItemClick(object sender, ItemClickEventArgs e)
         {
             MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
-            MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
-
+          
             switch (e.Item.Name)
             {
-                case "btnSaveToWorkspace"://保存到处理数据处理缓存
+                case "btnSaveToManip_remote"://保存到处理数据处理缓存
                     {
-                        string folderName = "处理数据缓存";
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
                             List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListRemoteData.Name);
                             foreach (LineBean checkedLb in checkedNodes)
                             {
-                                DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
-
-                                NpoiCreator npcreator = new NpoiCreator();
-                                string savefile = Application.StartupPath + "/" + folderName;
-                                npcreator.TemplateFile = savefile;
-                                npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
-
-                                TreeBean tb = new TreeBean();
-
-                                tb.KeyFieldName = checkedLb.OBSLINECODE;
-                                tb.ParentFieldName = checkedLb.SITECODE;
-                                tb.Caption = checkedLb.OBSLINENAME;
+                                string sourceFilenanme = DataFromPath.RemoteDbPath + "//" + checkedLb.OBSLINECODE + ".xls";
+                                string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
+                                string messageStr = "";
+                                FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
                             }
-                            xtl.RefreshWorkspace(folderName);
-                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
-                                xtl.RefreshWorkspace(folderName);
+                            xtl.bSignInitManipdbTree();
                         }
-
                     }
                     break;
-                case "btnChart"://趋势图
+                case "btnChart_remote"://趋势图
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
@@ -350,19 +339,11 @@ namespace xxkUI
                         }
                       }
                     break;
-                case "btnLineAttri"://测线属性
-                    break;
-                case "btnSiteLocation"://定位到地图
+                case "btnSiteLocation_remote"://定位到地图
                     this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
                     gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
                     break;
-                case "btnSiteAttri"://场地属性
-                    {
-                        GetSiteAttriForm();
-                        this.siteAttriFrm.SetDataSource(new List<SiteBean>() { (SiteBean)currentClickNodeInfo.Tag });
-                    }
-                    break;
-                case "btnSiteInfo"://信息库
+                case "btnSiteInfo_remote"://信息库
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
@@ -374,7 +355,7 @@ namespace xxkUI
                         }
                     }
                     break;
-                case "btnImportObsline"://导入观测数据
+                case "btnImportObsline_remote"://导入观测数据
                     {
                         try
                         {
@@ -397,7 +378,7 @@ namespace xxkUI
                         }
                     }
                     break;
-                case "btnDownLoad"://下载数据
+                case "btnDownLoad_remote"://下载数据
                     {
                         string userName = this.currentUserBar.Caption.Split('：')[1];
 
@@ -410,7 +391,6 @@ namespace xxkUI
                         {
                             List<string> userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(userName);
 
-                            string folderName = "远程信息库缓存";
                             using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                             {
                                 List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListRemoteData.Name);
@@ -428,23 +408,24 @@ namespace xxkUI
                                     foreach (DataRow row in linecode.Rows)
                                     {
                                         string lCode = row[0].ToString();
-                                        string lName = row[0].ToString();
+                                        string lName = row[1].ToString();
                                         DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
-                                        NpoiCreator npcreator = new NpoiCreator();
-                                        string savefile = Application.StartupPath + "/" + folderName;
-                                        npcreator.TemplateFile = savefile;
-                                        npcreator.NpoiExcel(dt, lCode + ".xls", savefile + "/" + lCode + ".xls");
+                                        if (dt.Rows.Count > 0)
+                                        {
+                                            NpoiCreator npcreator = new NpoiCreator();
+                                            npcreator.TemplateFile = DataFromPath.RemoteDbPath;
+                                            npcreator.NpoiExcel(dt, lCode + ".xls", DataFromPath.RemoteDbPath + "/" + lCode + ".xls");
 
-                                        TreeBean tb = new TreeBean();
+                                            TreeBean tb = new TreeBean();
 
-                                        tb.KeyFieldName = lCode;
-                                        tb.ParentFieldName = checkedSb.SiteCode;
-                                        tb.Caption = lName;
+                                            tb.KeyFieldName = lCode;
+                                            tb.ParentFieldName = checkedSb.SiteCode;
+                                            tb.Caption = lName;
+                                        }
                                     }
                                 }
-                                xtl.RefreshWorkspace(folderName);
-                                if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
-                                    xtl.RefreshWorkspace(folderName);
+                                xtl.RefreshWorkspace(DataFromPath.RemoteDbPath);
+                                
                             }
                         }
                     }
@@ -460,7 +441,7 @@ namespace xxkUI
             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
             switch (e.Item.Name)
             {
-                case "btnCreateLocalDb":
+                case "btnCreateLocalDb"://创建数据库
                     {
                         ProgressForm ptPro = new ProgressForm();
                         ptPro.Show(this);
@@ -469,6 +450,105 @@ namespace xxkUI
                         ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
                     }
                     break;
+                case "btnSaveToManip_local"://保存到处理数据处理缓存
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListLocalData.Name);
+                            foreach (LineBean checkedLb in checkedNodes)
+                            {
+                                string sourceFilenanme = DataFromPath.LocalDbPath + "//" + checkedLb.OBSLINECODE + ".xls";
+                                string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
+                                string messageStr = "";
+                                FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
+                            }
+                            xtl.bSignInitManipdbTree();
+                        }
+                    }
+                    break;
+                case "btnChart_local"://趋势图
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            this.chartTabPage.PageVisible = true;//曲线图页面可见
+                            this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
+                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListLocalData.Name), DataFromPath.LocalDbPath);
+                        }
+                    }
+                    break;
+                case "btnSiteLocation_local"://定位到地图
+                    this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                    gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
+                    break;
+                case "btnSiteInfo_local"://信息库
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
+                            this.siteInfoDocCtrl.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
+                            this.siteInfoDocCtrl.FillBookMarkText(sb);
+                            this.siteInfoTabPage.PageVisible = true;
+                            this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
+                        }
+                    }
+                    break;
+                case "btnImportObsline_local"://导入观测数据
+                    {
+                        try
+                        {
+                            OpenFileDialog ofd = new OpenFileDialog();
+                            ofd.Multiselect = true;//可多选
+                            ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                            if (ofd.ShowDialog() == DialogResult.OK)
+                            {
+                                importDataFiles = ofd.FileNames.ToList();
+                                ProgressForm ptPro = new ProgressForm();
+                                ptPro.Show(this);
+                                ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                ptPro.beginWorking();
+                                ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                        }
+                    }
+                    break;
+                case "btnDownLoad_local"://下载数据
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListLocalData.Name);
+                            foreach (SiteBean checkedSb in checkedNodes)
+                            {
+                                DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
+                                foreach (DataRow row in linecode.Rows)
+                                {
+                                    string lCode = row[0].ToString();
+                                    string lName = row[1].ToString();
+                                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        NpoiCreator npcreator = new NpoiCreator();
+                                        npcreator.TemplateFile = DataFromPath.LocalDbPath;
+                                        npcreator.NpoiExcel(dt, lCode + ".xls", DataFromPath.LocalDbPath + "/" + lCode + ".xls");
+
+                                        TreeBean tb = new TreeBean();
+
+                                        tb.KeyFieldName = lCode;
+                                        tb.ParentFieldName = checkedSb.SiteCode;
+                                        tb.Caption = lName;
+                                    }
+                                }
+                            }
+                            xtl.RefreshWorkspace(DataFromPath.LocalDbPath);
+
+                        }
+
+                    }
+                    break;
+              
             }
 
         }
@@ -555,8 +635,7 @@ namespace xxkUI
 
         private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            /*原始树刷新，方法未写*/
-            xtl.RefreshOrigData();
+         
         }
 
         #endregion

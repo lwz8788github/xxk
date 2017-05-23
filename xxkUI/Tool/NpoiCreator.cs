@@ -279,7 +279,7 @@ namespace xxkUI.Tool
                                     {
                                         if (j == 0)
                                         {
-                                            dataRow[j] = DateTime.Parse(cell.DateCellValue.ToString());
+                                            dataRow[j] = DateTime.Parse(cell.ToString());
                                         }
                                         else if (j == 1)
                                             dataRow[j] = cell.ToString();

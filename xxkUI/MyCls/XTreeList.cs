@@ -22,7 +22,7 @@ namespace xxkUI.MyCls
         private DevExpress.XtraTreeList.TreeList treeListLocalData;
         private DevExpress.XtraTreeList.TreeList treeListManipData;
 
-         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListLocalData)
+         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListLocalData,DevExpress.XtraTreeList.TreeList _treeListManipData)
          {
 
             _treeListRemoteData.LookAndFeel.UseDefaultLookAndFeel = false;
@@ -33,7 +33,7 @@ namespace xxkUI.MyCls
 
             treeListRemoteData = _treeListRemoteData;
             treeListLocalData = _treeListLocalData;
-
+            treeListManipData = _treeListManipData;
 
          }
 
@@ -44,6 +44,7 @@ namespace xxkUI.MyCls
          public void bSignInitOriDataTree(GMapMarkerKdcSite gmmkks)
          {
              MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
              if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
              { 
                  return;
@@ -151,6 +152,7 @@ namespace xxkUI.MyCls
          public void bSignInitLocaldbTree()
          {
              MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
              if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
                  return;
              try
@@ -234,7 +236,38 @@ namespace xxkUI.MyCls
                  XtraMessageBox.Show(ex.Message, "错误");
              }
          }
-    
+
+         /// <summary>
+         /// 加载处理数据树列表
+         /// </summary>
+         public void bSignInitManipdbTree()
+         {
+             try
+             {
+                 this.treeListManipData.Nodes.Clear();
+                 //处理数据库测线列表显示
+                 List<String> manipExcelList = new List<string>();
+                 string manipExcelPath = Application.StartupPath + "/处理数据缓存";
+                 manipExcelList = getFile(manipExcelPath);
+                 foreach (string manipLineName in manipExcelList)
+                 {
+                     string subLineName = manipLineName.Substring(0, manipLineName.Length - 4);
+                     this.treeListManipData.BeginUnboundLoad();
+                     TreeListNode newnode = this.treeListManipData.AppendNode(new object[] { subLineName, "" }, -1);
+                     //newnode["OrgName"] = orgnamestr;    //重新赋值
+                     //newnode["Id"] = newnodeid;             //重新赋值
+                     this.treeListManipData.EndUnboundLoad();
+                 }
+                 this.treeListManipData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListManipData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListManipData.OptionsBehavior.Editable = false;
+                 this.treeListManipData.Refresh();
+             }
+             catch (Exception ex)
+             {
+                 XtraMessageBox.Show(ex.Message, "错误");
+             }
+         }
 
         /// <summary>
         /// 登陆后加载树和地图（暂时没用）
@@ -463,18 +496,31 @@ namespace xxkUI.MyCls
         }
 
         /// <summary>
-        /// 刷新工作区
+        /// 刷新
         /// </summary>
         public void RefreshWorkspace(string workSpace)
         {
             try
             {
-                List<TreeBean> treeListRemoteData = this.treeListLocalData.DataSource as List<TreeBean>;
+                List<TreeBean> treebData = null;
+                TreeList treelist = null;
 
-                string excelPath = Application.StartupPath + "/" + workSpace;
+                if (workSpace.Contains("远程信息库缓存"))
+                {
+                    treelist = this.treeListRemoteData;
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                }
+                else if (workSpace.Contains("本地信息库缓存"))
+                {
+                    treelist = this.treeListLocalData;
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+                }
+
+                treebData = treelist.DataSource as List<TreeBean>;
+               
                 List<String> excelList = new List<string>();
 
-                excelList = getFile(excelPath);
+                excelList = getFile(workSpace);
                 foreach (string lineCode in excelList)
                 {
                     string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
@@ -482,12 +528,11 @@ namespace xxkUI.MyCls
                     tb.KeyFieldName = subLineCode;
                     tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
                     tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
-                    if (treeListRemoteData.Find(n => n.KeyFieldName == subLineCode) == null)
-                        treeListRemoteData.Add(tb);
-
+                    if (treebData.Find(n => n.KeyFieldName == subLineCode) == null)
+                        treebData.Add(tb);
                 }
 
-                this.treeListLocalData.RefreshDataSource();
+                treelist.RefreshDataSource();
             }
             catch (Exception ex)
             {

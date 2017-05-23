@@ -137,6 +137,7 @@ namespace Common.Data
             return DbUtils.GetByID<T>(getwhat, idname, idvalue);
         }
 
+    
         public DataTable GetDataTable(string sql)
         {
             return DbUtils.GetDataTable(sql);

@@ -39,10 +39,7 @@ namespace xxkUI.Form
             }
             try
             {
-                //if (rbOrigDb.Checked)
-                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
-                //else if (rbImprDb.Checked)
-                //    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["NewInfoConnnect"].ConnectionString;
+                MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
 
                 var userName = txtUsername.Text;
                 var password = txtPsd.Text;

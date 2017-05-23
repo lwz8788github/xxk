@@ -22,14 +22,21 @@ namespace xxkUI.Form
        private LineTag lineTag = new LineTag();
        private TChart tChart;
        private DragPoint DragPtTool;
+       private DrawLine DrawlnTool;
       
-        public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool)
+        public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
         {
             InitializeComponent();
             this.lineTag = _lineTag;
             tChart = _tChart;
             DragPtTool = _dragptTool;
+            DrawlnTool = _drawlnTool;
+
+            this.DragPtTool.Active = !this.DragPtTool.Active;
+            this.DrawlnTool.Active = !this.DrawlnTool.Active;
+            
         }
+
         public void LoadEqkData(DataTable dt)
         {
             dt.Columns.Add("check", Type.GetType("System.Boolean"));
@@ -180,6 +187,13 @@ namespace xxkUI.Form
 
         private void btnEqkAnnotation_Click(object sender, EventArgs e)
         {
+            int sNum = this.tChart.Series.Count;
+            if (this.tChart.Series.Count > 1)
+            {
+                for (int i = 1; i < sNum; i++)
+                    this.tChart.Series.RemoveAt(1);
+            }
+
             string eakText = "";
             string value = "";
             string eqkTimeStr = "";
@@ -228,14 +242,32 @@ namespace xxkUI.Form
                     if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
                     {
                         eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" +"ML="+ this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(scale,eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
+                        eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
                         isEqkInTimeSpan = true;
                     }
                     eqkSelectNum++;
                 }
             }
+            if (isEqkInTimeSpan && eqkSelectNum != 0)
+            {
+                this.DragPtTool.Chart = this.tChart.Chart;
+                this.DragPtTool.Style = DragPointStyles.Y;
+
+                //this.DrawlnTool.Chart = this.tChart.Chart;
+                //this.DrawlnTool.Style = DrawLineStyle.Line;
+                //this.DrawlnTool.NewLine += DrawlnTool_NewLine;
+                //this.DrawlnTool.Button = MouseButtons.Left;
+                //this.DrawlnTool.EnableDraw = true;
+                //this.DrawlnTool.EnableSelect = true;
+                //this.DrawlnTool.Pen.Color = Color.Red;
+            }
             if (eqkSelectNum == 0) XtraMessageBox.Show("未选中任何震例！","提示");
-            if (!isEqkInTimeSpan) XtraMessageBox.Show("所选地震未在观测时间段内！","提示" );
+            if (!isEqkInTimeSpan&&eqkSelectNum == 0) XtraMessageBox.Show("所选地震未在观测时间段内！","提示" );
+        }
+
+        void DrawlnTool_NewLine(DrawLine sender)
+        {
+            throw new NotImplementedException();
         }
         /// <summary>
         /// 地震事件标注
@@ -244,37 +276,67 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void eqkAnnotation(double scale,DateTime date,double value, string eakText)//
         {
-            //this.tChart.Chart.Series[0].Legend.Visible = false;
-            Arrow arw = new Arrow(this.tChart.Chart);
-            //arw.Active = true;
-            arw.Visible = true;
-            arw.Legend.Visible = false;
+            this.tChart.Chart.Series[0].Legend.Visible = false;
 
-            arw.Add(date, value);
-            arw.Color = Color.Red;
+            //Arrow arw = new Arrow(this.tChart.Chart);
 
-            arw.Tag = eakText;
-            arw.Visible = true;
+            //arw.Active = this.DragPtTool.Active;
+            //arw.Visible = this.DragPtTool.Active;
+            //arw.Legend.Visible = !this.DragPtTool.Active;
+            //arw.Visible = this.DragPtTool.Active;
+            //arw.Color = Color.Red;
 
-            arw.Marks.Visible = true;
-            arw.Marks.TextAlign = StringAlignment.Center;
-            arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
-            arw.GetSeriesMark += arw_GetSeriesMark;
+            //arw.Marks.Visible = this.DragPtTool.Active;
+            //arw.Marks.TextAlign = StringAlignment.Center;
+            //arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
 
-            arw.StartYValues.Value[0] = value + scale*0.15;
-            arw.EndYValues.Value[0] = value + scale * 0.1;
-            arw.StartXValues.Value[0] = arw.XValues.First;
-            arw.EndXValues.Value[0] = arw.XValues.Last;
+            //arw.Add(date, value);
+
+            //arw.Tag = eakText;
+            //arw.GetSeriesMark += arw_GetSeriesMark;
+
+            //arw.StartYValues.Value[0] = value + scale * 0.15;
+            //arw.EndYValues.Value[0] = value + scale * 0.1;
+
+            //arw.StartXValues.Value[0] = arw.XValues.First;
+            //arw.EndXValues.Value[0] = arw.XValues.Last;
+
+            //arw.XValues[1] = arw.XValues[0];
+            //arw.YValues[1] = arw.EndYValues.Value[0];
 
 
-            //this.DragPtTool.Series = arw;
+            ImagePoint imgpt = new ImagePoint(this.tChart.Chart);
+            imgpt.Legend.Visible = false;
 
+            Image img = Image.FromFile(Application.StartupPath + "//pic//arrow.png");
+
+            imgpt.Marks.Visible = true;
+            imgpt.Marks.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.Rectangle;
+
+            imgpt.Add(date, value);
+            imgpt.PointImage = img;
+            imgpt.Tag = eakText;
+
+            imgpt.GetSeriesMark += imgpt_GetSeriesMark;
+            
         }
+        void imgpt_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
+        {
+ 	        //throw new NotImplementedException();
+            e.MarkText = series.Tag.ToString();
+        }
+
+
 
         void arw_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
         {
             //throw new NotImplementedException();
             e.MarkText = series.Tag.ToString();
+        }
+
+        private void btnEqkSite_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

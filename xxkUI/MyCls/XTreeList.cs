@@ -16,26 +16,215 @@ namespace xxkUI.MyCls
 {
    public class XTreeList
     {
-        private DevExpress.XtraTreeList.TreeList treeListOriData;
-         private DevExpress.XtraTreeList.TreeList treeListWorkSpace;
+        private DevExpress.XtraTreeList.TreeList treeListRemoteData;
+        private DevExpress.XtraTreeList.TreeList treeListLocalData;
+        private DevExpress.XtraTreeList.TreeList treeListManipData;
 
-         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListOriData,DevExpress.XtraTreeList.TreeList _treeListWorkSpace)
+         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListLocalData)
          {
 
-            _treeListOriData.LookAndFeel.UseDefaultLookAndFeel = false;
-            _treeListOriData.LookAndFeel.UseWindowsXPTheme = true;
+            _treeListRemoteData.LookAndFeel.UseDefaultLookAndFeel = false;
+            _treeListRemoteData.LookAndFeel.UseWindowsXPTheme = true;
 
-            _treeListWorkSpace.LookAndFeel.UseDefaultLookAndFeel = false;
-            _treeListWorkSpace.LookAndFeel.UseWindowsXPTheme = true;
+            _treeListLocalData.LookAndFeel.UseDefaultLookAndFeel = false;
+            _treeListLocalData.LookAndFeel.UseWindowsXPTheme = true;
 
-            treeListOriData = _treeListOriData;
-            treeListWorkSpace = _treeListWorkSpace;
+            treeListRemoteData = _treeListRemoteData;
+            treeListLocalData = _treeListLocalData;
 
 
          }
-        
+
+         /// <summary>
+         /// 登陆前加载树和地图
+         /// </summary>
+         /// <param name="userAhtList"></param>
+         /// <param name="gmmkks"></param>
+         public void bSignInitOriDataTree(GMapMarkerKdcSite gmmkks)
+         {
+             try
+             {
+                 List<TreeBean> treeListRemoteData = new List<TreeBean>();
+                 List<TreeBean> treeListLocalData = new List<TreeBean>();
+                 List<TreeBean> treeListManipData = new List<TreeBean>();
+
+                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+
+                 foreach (UnitInfoBean sb in ubEnumt)
+                 {
+                     TreeBean tb = new TreeBean();
+                     if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
+                         || sb.UnitCode == "152006" || sb.UnitCode == "152008"
+                         || sb.UnitCode == "152009" || sb.UnitCode == "152010"
+                         || sb.UnitCode == "152012" || sb.UnitCode == "152015"
+                         || sb.UnitCode == "152022" || sb.UnitCode == "152023"
+                         || sb.UnitCode == "152026" || sb.UnitCode == "152029"
+                         || sb.UnitCode == "152032" || sb.UnitCode == "152034"
+                         || sb.UnitCode == "152035" || sb.UnitCode == "152036"
+                         || sb.UnitCode == "152039" || sb.UnitCode == "152040"
+                         || sb.UnitCode == "152041" || sb.UnitCode == "152042"
+                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
+                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
+                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
+
+                         tb.KeyFieldName = sb.UnitCode;
+                         tb.ParentFieldName = "0";
+                         tb.Caption = sb.UnitName;
+                         tb.SiteType = "";
+                         tb.LineStatus = "";
+                         tb.Tag = sb;//lwl
+                         treeListRemoteData.Add(tb);
+                         treeListLocalData.Add(tb);
+                 }
+
+                 //#region 将加载场地标记的的过程移植到此处(lwl)
+                 //string userahths = "(";
+                 //foreach (string str in userAhtList)
+                 //{
+                 //    userahths += "'" + str + "',";
+                 //}
+                 //userahths = userahths.Substring(0, userahths.Length - 1) + ")";
+                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();//.GetSitesByAuth(userahths);
+                 //gmmkks.LoadSiteMarker(sbEnumt);
+                 //#endregion
+
+                 //场地列表显示
+                 List<string> olSiteCode = new List<string>();
+                 foreach (SiteBean sb in sbEnumt)
+                 {
+                     try
+                     {
+                         olSiteCode.Add(sb.SiteCode);
+                         TreeBean tb = new TreeBean();
+                         tb.KeyFieldName = sb.SiteCode;
+                         tb.ParentFieldName = sb.UnitCode;
+                         tb.Caption = sb.SiteName;
+                         tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                         tb.Tag = sb;//lwl
+
+                         treeListRemoteData.Add(tb);
+                         treeListLocalData.Add(tb);
+                     }
+                     catch (Exception exp)
+                     {
+                         throw new Exception(exp.Message);
+                     }
+
+                 }
+
+                 //远程信息库测线列表显示
+                 string remoteFolder = Application.StartupPath + "/远程信息库缓存";
+                 List<String> remoteExcelList = new List<string>();
+                 string remoteExcelPath = Application.StartupPath + "/远程信息库缓存";
+                 remoteExcelList = getFile(remoteExcelPath);
+
+                 foreach (string remoteLineCode in remoteExcelList)
+                 {
+                     string subLineCode = remoteLineCode.Substring(0, remoteLineCode.Length - 4);
+                     LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
+                     if (olSiteCode.Contains(ol.SITECODE))
+                     {
+                         TreeBean tb = new TreeBean();
+                         tb.KeyFieldName = ol.OBSLINECODE;
+                         tb.ParentFieldName = ol.SITECODE;
+                         tb.Caption = ol.OBSLINENAME;
+                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                         tb.Tag = ol;//lwl
+                         treeListRemoteData.Add(tb);
+                         //treeListManipData.Add(tb);
+                     }
+                 }
+
+                 //本地信息库测线列表显示
+                 string localFolder = Application.StartupPath + "/本地信息库缓存";
+                 List<String> localExcelList = new List<string>();
+                 string localExcelPath = Application.StartupPath + "/本地信息库缓存";
+                 localExcelList = getFile(localExcelPath);
+
+                 foreach (string localLineCode in localExcelList)
+                 {
+                     string subLineCode = localLineCode.Substring(0, localLineCode.Length - 4);
+                     LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
+                     if (olSiteCode.Contains(ol.SITECODE))
+                     {
+                         TreeBean tb = new TreeBean();
+                         tb.KeyFieldName = ol.OBSLINECODE;
+                         tb.ParentFieldName = ol.SITECODE;
+                         tb.Caption = ol.OBSLINENAME;
+                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                         tb.Tag = ol;//lwl
+                         treeListLocalData.Add(tb);
+                     }
+                 }
+
+                 //IEnumerable<LineBean> olEnumt = LineBll.Instance.GetAll();
+                 //foreach (LineBean ol in olEnumt)
+                 //{
+                 //    if (olSiteCode.Contains(ol.SITECODE))
+                 //    {
+                 //        TreeBean tb = new TreeBean();
+                 //        tb.KeyFieldName = ol.OBSLINECODE;
+                 //        tb.ParentFieldName = ol.SITECODE;
+                 //        tb.Caption = ol.OBSLINENAME;
+                 //        tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
+                 //        tb.Tag = ol;//lwl
+                 //        //treeListRemoteData.Add(tb);
+                 //        treeListManipData.Add(tb);
+                 //    }
+                 //}
+
+                 //远程信息库树列表显示
+                 this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                 this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                 this.treeListRemoteData.DataSource = treeListRemoteData;　　//绑定数据源
+                 this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListRemoteData.OptionsBehavior.Editable = false;
+
+                 //List<String> excelList = new List<string>();
+                 //string excelPath = Application.StartupPath + "/远程信息库缓存";
+                 //excelList = getFile(excelPath);
+                 //foreach (string lineCode in excelList)
+                 //{
+                 //    string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
+                 //    TreeBean tb = new TreeBean();
+                 //    tb.KeyFieldName = subLineCode;
+                 //    tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
+                 //    tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
+                 //    treeListLocalData.Add(tb);
+                 //}
+
+                 //本地数据库树列表显示
+                 this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                 this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                 this.treeListLocalData.DataSource = treeListLocalData;　　//绑定数据源
+
+                 this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListLocalData.OptionsBehavior.Editable = false;
+
+                 //InitNodeImg(this.treeListRemoteData.Nodes);
+                 //SetImageIndex(this.treeListRemoteData, null, 1, 0);
+
+                 //处理数据树列表显示
+                 //this.treeListManipData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                 //this.treeListManipData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                 //this.treeListManipData.DataSource = treeListManipData;　　//绑定数据源
+
+                 //this.treeListManipData.OptionsView.ShowCheckBoxes = true;
+                 ////this.treeListManipData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 //this.treeListManipData.OptionsBehavior.Editable = false;
+
+             }
+             catch (Exception ex)
+             {
+                 XtraMessageBox.Show(ex.Message, "错误");
+             }
+
+         }
+
         /// <summary>
-        /// 加载树和地图
+        /// 登陆后加载树和地图
         /// </summary>
         /// <param name="userAhtList"></param>
         /// <param name="gmmkks"></param>
@@ -43,8 +232,9 @@ namespace xxkUI.MyCls
         {
             try
             {
-                List<TreeBean> treelistOriData = new List<TreeBean>();
-                List<TreeBean> treelistWorkSpace = new List<TreeBean>();
+                List<TreeBean> treeListRemoteData = new List<TreeBean>();
+                List<TreeBean> treeListLocalData = new List<TreeBean>();
+                List<TreeBean> treeListManipData = new List<TreeBean>();
 
                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
@@ -64,6 +254,8 @@ namespace xxkUI.MyCls
                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
+
+                    //单位列表显示
                     if (userAhtList.Contains(sb.UnitCode))
                     {
                         tb.KeyFieldName = sb.UnitCode;
@@ -72,8 +264,8 @@ namespace xxkUI.MyCls
                         tb.SiteType = "";
                         tb.LineStatus = "";
                         tb.Tag = sb;//lwl
-                        treelistOriData.Add(tb);
-                        treelistWorkSpace.Add(tb);
+                        treeListRemoteData.Add(tb);
+                        treeListLocalData.Add(tb);
 
                     }
                 }
@@ -89,6 +281,7 @@ namespace xxkUI.MyCls
                 gmmkks.LoadSiteMarker(sbEnumt);
                 #endregion
 
+                //场地列表显示
                 List<string> olSiteCode = new List<string>();
                 foreach (SiteBean sb in sbEnumt)
                 {
@@ -100,8 +293,8 @@ namespace xxkUI.MyCls
                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                     tb.Tag = sb;//lwl
 
-                    treelistOriData.Add(tb);
-                    treelistWorkSpace.Add(tb);
+                    treeListRemoteData.Add(tb);
+                    treeListLocalData.Add(tb);
 
                 }
 
@@ -117,20 +310,21 @@ namespace xxkUI.MyCls
                         tb.Caption = ol.OBSLINENAME;
                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
                         tb.Tag = ol;//lwl
-                        treelistOriData.Add(tb);
+                        //treeListRemoteData.Add(tb);
+                        treeListManipData.Add(tb);
                     }
                 }
 
-                //原始数据树列表显示
-                this.treeListOriData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListOriData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                this.treeListOriData.DataSource = treelistOriData;　　//绑定数据源
-                this.treeListOriData.OptionsView.ShowCheckBoxes = true;
-                this.treeListOriData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListOriData.OptionsBehavior.Editable = false;
+                //远程信息库树列表显示
+                this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                this.treeListRemoteData.DataSource = treeListRemoteData;　　//绑定数据源
+                this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
+                this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListRemoteData.OptionsBehavior.Editable = false;
 
                 List<String> excelList = new List<string>();
-                string excelPath = Application.StartupPath + "/myworkspace";
+                string excelPath = Application.StartupPath + "/远程信息库缓存";
                 excelList = getFile(excelPath);
                 foreach (string lineCode in excelList)
                 {
@@ -139,21 +333,29 @@ namespace xxkUI.MyCls
                     tb.KeyFieldName = subLineCode;
                     tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
                     tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
-                    treelistWorkSpace.Add(tb);
+                    treeListLocalData.Add(tb);
                 }
 
-                //工作区树列表显示
-                this.treeListWorkSpace.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListWorkSpace.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                this.treeListWorkSpace.DataSource = treelistWorkSpace;　　//绑定数据源
+                //本地数据库树列表显示
+                this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                this.treeListLocalData.DataSource = treeListLocalData;　　//绑定数据源
 
-                this.treeListWorkSpace.OptionsView.ShowCheckBoxes = true;
-                this.treeListWorkSpace.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListWorkSpace.OptionsBehavior.Editable = false;
+                this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
+                this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListLocalData.OptionsBehavior.Editable = false;
 
-                //InitNodeImg(this.treeListOriData.Nodes);
-                //SetImageIndex(this.treeListOriData, null, 1, 0);
+                //InitNodeImg(this.treeListRemoteData.Nodes);
+                //SetImageIndex(this.treeListRemoteData, null, 1, 0);
 
+                //处理数据树列表显示
+                //this.treeListManipData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                //this.treeListManipData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                //this.treeListManipData.DataSource = treeListManipData;　　//绑定数据源
+
+                //this.treeListManipData.OptionsView.ShowCheckBoxes = true;
+                ////this.treeListManipData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                //this.treeListManipData.OptionsBehavior.Editable = false;
 
             }
             catch (Exception ex)
@@ -249,13 +451,13 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 刷新工作区
         /// </summary>
-        public void RefreshWorkspace()
+        public void RefreshWorkspace(string workSpace)
         {
             try
             {
-                List<TreeBean> treelistOriData = this.treeListWorkSpace.DataSource as List<TreeBean>;
+                List<TreeBean> treeListRemoteData = this.treeListLocalData.DataSource as List<TreeBean>;
 
-                string excelPath = Application.StartupPath + "/myworkspace";
+                string excelPath = Application.StartupPath + "/" + workSpace;
                 List<String> excelList = new List<string>();
 
                 excelList = getFile(excelPath);
@@ -266,12 +468,12 @@ namespace xxkUI.MyCls
                     tb.KeyFieldName = subLineCode;
                     tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
                     tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
-                    if (treelistOriData.Find(n => n.KeyFieldName == subLineCode) == null)
-                        treelistOriData.Add(tb);
+                    if (treeListRemoteData.Find(n => n.KeyFieldName == subLineCode) == null)
+                        treeListRemoteData.Add(tb);
 
                 }
 
-                this.treeListWorkSpace.RefreshDataSource();
+                this.treeListLocalData.RefreshDataSource();
             }
             catch (Exception ex)
             {
@@ -316,7 +518,7 @@ namespace xxkUI.MyCls
             return list;
         }
 
-        //private void treeListOriData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        //private void treeListRemoteData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
         //{
         //    if (e.Column == treeListColumn1)
         //    {
@@ -328,7 +530,7 @@ namespace xxkUI.MyCls
         //    }
         //}
 
-        //private void treeListWorkSpace_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
+        //private void treeListLocalData_CustomDrawNodeCell(object sender, DevExpress.XtraTreeList.CustomDrawNodeCellEventArgs e)
         //{
         //    if (e.Column == treeListColumn4)
         //    {
@@ -350,7 +552,7 @@ namespace xxkUI.MyCls
         /// <param name="tree">TreeListNode</param>
         /// <param name="conditionHanlder">委托</param>
         /// <param name="e">CheckNodeEventArgs</param>
-        private void treeListWorkSpace_BeforeCheckNode(object sender, CheckNodeEventArgs e)
+        private void treeListLocalData_BeforeCheckNode(object sender, CheckNodeEventArgs e)
         {
             e.CanCheck = false;
             //if ((bool)sender)
@@ -360,7 +562,7 @@ namespace xxkUI.MyCls
 
         }
 
-        private void treeListOriData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
+        private void treeListRemoteData_BeforeCheckNode_1(object sender, CheckNodeEventArgs e)
         {
             e.CanCheck = false;
             //if ((bool) sender)
@@ -377,10 +579,10 @@ namespace xxkUI.MyCls
         public List<LineBean> GetCheckedLine(string treeType)
         {
             TreeList tree = null;
-            if (treeType == "treeListOriData")
-                tree = this.treeListOriData;
-            else if (treeType == "treeListWorkSpace")
-                tree = this.treeListWorkSpace;
+            if (treeType == "treeListRemoteData")
+                tree = this.treeListRemoteData;
+            else if (treeType == "treeListLocalData")
+                tree = this.treeListLocalData;
 
             List<LineBean> lblist = new List<LineBean>();
             try
@@ -402,10 +604,10 @@ namespace xxkUI.MyCls
         public List<TreeListNode> GetNodesByKey(string treeType,string keyfieldname)
         {
             TreeList tree = null;
-            if (treeType == "treeListOriData")
-                tree = this.treeListOriData;
-            else if (treeType == "treeListWorkSpace")
-                tree = this.treeListWorkSpace;
+            if (treeType == "treeListRemoteData")
+                tree = this.treeListRemoteData;
+            else if (treeType == "treeListLocalData")
+                tree = this.treeListLocalData;
 
             List<TreeListNode> lblist = new List<TreeListNode>();
             try
@@ -423,7 +625,7 @@ namespace xxkUI.MyCls
 
         }
         /// <summary>
-        /// 获取选择状态的数据主键ID集合  lwl
+        /// 获取测线选择状态的数据主键ID集合  lwl
         /// </summary>
         /// <param name="parentNode">父级节点</param>
         private void GetCheckedNode(TreeListNode parentNode, ref List<LineBean> lblist)
@@ -472,11 +674,85 @@ namespace xxkUI.MyCls
 
         }
 
+        /// <summary>
+        /// 获取选中的场地节点tag lwl
+        /// </summary>
+        /// <param name="treeType"></param>
+        /// <returns></returns>
+        public List<SiteBean> GetCheckedSite(string treeType)
+        {
+            TreeList tree = null;
+            if (treeType == "treeListRemoteData")
+                tree = this.treeListRemoteData;
+            else if (treeType == "treeListLocalData")
+                tree = this.treeListLocalData;
+
+            List<SiteBean> lblist = new List<SiteBean>();
+            try
+            {
+                foreach (TreeListNode dn in tree.Nodes)
+                {
+                    GetSiteCheckedNode(dn, ref lblist);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return lblist;
+
+        }
+        /// <summary>
+        /// 获取场地选择状态的数据主键ID集合  lwl
+        /// </summary>
+        /// <param name="parentNode">父级节点</param>
+        private void GetSiteCheckedNode(TreeListNode parentNode, ref List<SiteBean> lblist)
+        {
+            if (parentNode.Nodes.Count == 0)
+            {
+                return;//递归终止
+            }
+
+            foreach (TreeListNode node in parentNode.Nodes)
+            {
+
+                if (node.CheckState == CheckState.Checked)
+                {
+                    TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+                    SiteBean tag = nodeInfo.Tag as SiteBean;
+                    if (tag != null)
+                    {
+                        lblist.Add(tag);
+                    }
+                }
+                GetSiteCheckedNode(node, ref lblist);
+
+            }
+
+        }
+        private void GetSiteNodesRec(TreeListNode parentNode, string keyfieldname, ref List<TreeListNode> lblist)
+        {
+            if (parentNode.Nodes.Count == 0)
+            {
+                return;//递归终止
+            }
+
+            foreach (TreeListNode node in parentNode.Nodes)
+            {
+                TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+
+                if (nodeInfo.KeyFieldName == keyfieldname)
+                    lblist.Add(node);
+
+                GetSiteNodesRec(node, keyfieldname, ref lblist);
+            }
+
+        }
 
         public void ClearTreelistNodes()
         {
-            this.treeListOriData.ClearNodes();
-            this.treeListWorkSpace.ClearNodes();
+            this.treeListRemoteData.ClearNodes();
+            this.treeListLocalData.ClearNodes();
         }
     }
 }

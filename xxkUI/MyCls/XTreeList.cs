@@ -11,6 +11,8 @@ using xxkUI.Model;
 using xxkUI.Form;
 using DevExpress.XtraTreeList.Nodes;
 using System.IO;
+using Common.Data.MySql;
+using System.Configuration;
 
 namespace xxkUI.MyCls
 {
@@ -36,18 +38,20 @@ namespace xxkUI.MyCls
          }
 
          /// <summary>
-         /// 登陆前加载树和地图
+         /// 加载远程库树列表
          /// </summary>
-         /// <param name="userAhtList"></param>
-         /// <param name="gmmkks"></param>
+         /// <param name="gmmkks">GMAP控件</param>
          public void bSignInitOriDataTree(GMapMarkerKdcSite gmmkks)
          {
+             MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+             if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
+             { 
+                 return;
+             }
              try
              {
-                 List<TreeBean> treeListRemoteData = new List<TreeBean>();
-                 List<TreeBean> treeListLocalData = new List<TreeBean>();
-                 List<TreeBean> treeListManipData = new List<TreeBean>();
-
+                 List<TreeBean> RemoteData = new List<TreeBean>();
+               
                  IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
                  foreach (UnitInfoBean sb in ubEnumt)
@@ -73,8 +77,8 @@ namespace xxkUI.MyCls
                          tb.SiteType = "";
                          tb.LineStatus = "";
                          tb.Tag = sb;//lwl
-                         treeListRemoteData.Add(tb);
-                         treeListLocalData.Add(tb);
+                         RemoteData.Add(tb);
+                        
                  }
 
                  //#region 将加载场地标记的的过程移植到此处(lwl)
@@ -92,24 +96,15 @@ namespace xxkUI.MyCls
                  List<string> olSiteCode = new List<string>();
                  foreach (SiteBean sb in sbEnumt)
                  {
-                     try
-                     {
-                         olSiteCode.Add(sb.SiteCode);
-                         TreeBean tb = new TreeBean();
-                         tb.KeyFieldName = sb.SiteCode;
-                         tb.ParentFieldName = sb.UnitCode;
-                         tb.Caption = sb.SiteName;
-                         tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-                         tb.Tag = sb;//lwl
 
-                         treeListRemoteData.Add(tb);
-                         treeListLocalData.Add(tb);
-                     }
-                     catch (Exception exp)
-                     {
-                         throw new Exception(exp.Message);
-                     }
-
+                     olSiteCode.Add(sb.SiteCode);
+                     TreeBean tb = new TreeBean();
+                     tb.KeyFieldName = sb.SiteCode;
+                     tb.ParentFieldName = sb.UnitCode;
+                     tb.Caption = sb.SiteName;
+                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                     tb.Tag = sb;//lwl
+                     RemoteData.Add(tb);
                  }
 
                  //远程信息库测线列表显示
@@ -130,13 +125,82 @@ namespace xxkUI.MyCls
                          tb.Caption = ol.OBSLINENAME;
                          tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
                          tb.Tag = ol;//lwl
-                         treeListRemoteData.Add(tb);
-                         //treeListManipData.Add(tb);
+                         RemoteData.Add(tb);
                      }
                  }
 
+                 //远程信息库树列表显示
+                 this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                 this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                 this.treeListRemoteData.DataSource = RemoteData;　　//绑定数据源
+                 this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListRemoteData.OptionsBehavior.Editable = false;
+
+             }
+             catch (Exception ex)
+             {
+                 XtraMessageBox.Show(ex.Message, "错误");
+             }
+
+         }
+
+       /// <summary>
+       /// 加载本地库树列表
+       /// </summary>
+         public void bSignInitLocaldbTree()
+         {
+             MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+             if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
+                 return;
+             try
+             {
+                 List<TreeBean> LocaldbData = new List<TreeBean>();
+               
+                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+
+                 foreach (UnitInfoBean sb in ubEnumt)
+                 {
+                     TreeBean tb = new TreeBean();
+                     if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
+                         || sb.UnitCode == "152006" || sb.UnitCode == "152008"
+                         || sb.UnitCode == "152009" || sb.UnitCode == "152010"
+                         || sb.UnitCode == "152012" || sb.UnitCode == "152015"
+                         || sb.UnitCode == "152022" || sb.UnitCode == "152023"
+                         || sb.UnitCode == "152026" || sb.UnitCode == "152029"
+                         || sb.UnitCode == "152032" || sb.UnitCode == "152034"
+                         || sb.UnitCode == "152035" || sb.UnitCode == "152036"
+                         || sb.UnitCode == "152039" || sb.UnitCode == "152040"
+                         || sb.UnitCode == "152041" || sb.UnitCode == "152042"
+                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
+                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
+                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
+                         tb.KeyFieldName = sb.UnitCode;
+                         tb.ParentFieldName = "0";
+                         tb.Caption = sb.UnitName;
+                         tb.SiteType = "";
+                         tb.LineStatus = "";
+                         tb.Tag = sb;//lwl
+                         LocaldbData.Add(tb);
+                 }
+         
+                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();//.GetSitesByAuth(userahths);
+
+                 //场地列表显示
+                 List<string> olSiteCode = new List<string>();
+                 foreach (SiteBean sb in sbEnumt)
+                 {
+                     olSiteCode.Add(sb.SiteCode);
+                     TreeBean tb = new TreeBean();
+                     tb.KeyFieldName = sb.SiteCode;
+                     tb.ParentFieldName = sb.UnitCode;
+                     tb.Caption = sb.SiteName;
+                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                     tb.Tag = sb;//lwl
+                     LocaldbData.Add(tb);
+                 }
+
                  //本地信息库测线列表显示
-                 string localFolder = Application.StartupPath + "/本地信息库缓存";
                  List<String> localExcelList = new List<string>();
                  string localExcelPath = Application.StartupPath + "/本地信息库缓存";
                  localExcelList = getFile(localExcelPath);
@@ -153,83 +217,33 @@ namespace xxkUI.MyCls
                          tb.Caption = ol.OBSLINENAME;
                          tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
                          tb.Tag = ol;//lwl
-                         treeListLocalData.Add(tb);
+                         LocaldbData.Add(tb);
                      }
                  }
 
-                 //IEnumerable<LineBean> olEnumt = LineBll.Instance.GetAll();
-                 //foreach (LineBean ol in olEnumt)
-                 //{
-                 //    if (olSiteCode.Contains(ol.SITECODE))
-                 //    {
-                 //        TreeBean tb = new TreeBean();
-                 //        tb.KeyFieldName = ol.OBSLINECODE;
-                 //        tb.ParentFieldName = ol.SITECODE;
-                 //        tb.Caption = ol.OBSLINENAME;
-                 //        tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
-                 //        tb.Tag = ol;//lwl
-                 //        //treeListRemoteData.Add(tb);
-                 //        treeListManipData.Add(tb);
-                 //    }
-                 //}
-
                  //远程信息库树列表显示
-                 this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                 this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 this.treeListRemoteData.DataSource = treeListRemoteData;　　//绑定数据源
-                 this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
-                 this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                 this.treeListRemoteData.OptionsBehavior.Editable = false;
-
-                 //List<String> excelList = new List<string>();
-                 //string excelPath = Application.StartupPath + "/远程信息库缓存";
-                 //excelList = getFile(excelPath);
-                 //foreach (string lineCode in excelList)
-                 //{
-                 //    string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
-                 //    TreeBean tb = new TreeBean();
-                 //    tb.KeyFieldName = subLineCode;
-                 //    tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
-                 //    tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
-                 //    treeListLocalData.Add(tb);
-                 //}
-
-                 //本地数据库树列表显示
                  this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
                  this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 this.treeListLocalData.DataSource = treeListLocalData;　　//绑定数据源
-
+                 this.treeListLocalData.DataSource = LocaldbData;　　//绑定数据源
                  this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
                  this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
                  this.treeListLocalData.OptionsBehavior.Editable = false;
-
-                 //InitNodeImg(this.treeListRemoteData.Nodes);
-                 //SetImageIndex(this.treeListRemoteData, null, 1, 0);
-
-                 //处理数据树列表显示
-                 //this.treeListManipData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                 //this.treeListManipData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 //this.treeListManipData.DataSource = treeListManipData;　　//绑定数据源
-
-                 //this.treeListManipData.OptionsView.ShowCheckBoxes = true;
-                 ////this.treeListManipData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                 //this.treeListManipData.OptionsBehavior.Editable = false;
-
              }
              catch (Exception ex)
              {
                  XtraMessageBox.Show(ex.Message, "错误");
              }
-
          }
+    
 
         /// <summary>
-        /// 登陆后加载树和地图
+        /// 登陆后加载树和地图（暂时没用）
         /// </summary>
         /// <param name="userAhtList"></param>
         /// <param name="gmmkks"></param>
         public void InitOriDataTree(List<string> userAhtList, GMapMarkerKdcSite gmmkks) 
         {
+
             try
             {
                 List<TreeBean> treeListRemoteData = new List<TreeBean>();

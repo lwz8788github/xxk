@@ -17,9 +17,6 @@ using System.Windows.Forms;
 using System.IO;
 using xxkUI.Tool;
 using xxkUI.Bll;
-using DevExpress.DXCore.Controls.XtraEditors.Repository;
-using DevExpress.DXCore.Controls.XtraEditors.Controls;
-
 namespace xxkUI.Controls
 {
     public partial class RecycleControl : UserControl

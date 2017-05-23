@@ -112,22 +112,20 @@
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelRemoteData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListRemoteData = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelLocalData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListLocalData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.dockPanelRemoteData = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListRemoteData = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelManipData = new DevExpress.XtraBars.Docking.DockPanel();
             this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListManipData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.recycleTabPage = new DevExpress.XtraTab.XtraTabPage();
-            this.recycleControl1 = new xxkUI.Controls.RecycleControl();
             this.siteInfoTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.siteInfoDocCtrl = new xxkUI.Controls.SiteInfoDocCtrl();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -144,6 +142,8 @@
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
             this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
+            this.recycleTabPage = new DevExpress.XtraTab.XtraTabPage();
+            this.recycleControl1 = new xxkUI.Controls.RecycleControl();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
@@ -152,6 +152,8 @@
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.popLocalTree = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.btnCreateLocalDb = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -167,26 +169,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelRemoteData.SuspendLayout();
-            this.dockPanel3_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).BeginInit();
             this.dockPanelLocalData.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListLocalData)).BeginInit();
+            this.dockPanelRemoteData.SuspendLayout();
+            this.dockPanel3_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).BeginInit();
             this.dockPanelManipData.SuspendLayout();
             this.controlContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
-            this.recycleTabPage.SuspendLayout();
             this.siteInfoTabPage.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
             this.chartGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.recycleTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLocalTree)).BeginInit();
             this.SuspendLayout();
             // 
             // splashScreenManager
@@ -261,10 +264,11 @@
             this.btnSiteInfo,
             this.btnImportObsline,
             this.btnRecycled,
-            this.btnDownLoad});
+            this.btnDownLoad,
+            this.btnCreateLocalDb});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbon.MaxItemId = 84;
+            this.ribbon.MaxItemId = 85;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -556,35 +560,35 @@
             this.btnSiteLocation.Caption = "定位到地图";
             this.btnSiteLocation.Id = 70;
             this.btnSiteLocation.Name = "btnSiteLocation";
-            this.btnSiteLocation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnSiteLocation.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnSiteAttri
             // 
             this.btnSiteAttri.Caption = "查看场地属性";
             this.btnSiteAttri.Id = 71;
             this.btnSiteAttri.Name = "btnSiteAttri";
-            this.btnSiteAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnSiteAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnSaveToWorkspace
             // 
             this.btnSaveToWorkspace.Caption = "保存到工作区";
             this.btnSaveToWorkspace.Id = 72;
             this.btnSaveToWorkspace.Name = "btnSaveToWorkspace";
-            this.btnSaveToWorkspace.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnSaveToWorkspace.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnChart
             // 
             this.btnChart.Caption = "查看趋势图";
             this.btnChart.Id = 73;
             this.btnChart.Name = "btnChart";
-            this.btnChart.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnChart.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnLineAttri
             // 
             this.btnLineAttri.Caption = "查看测线属性";
             this.btnLineAttri.Id = 74;
             this.btnLineAttri.Name = "btnLineAttri";
-            this.btnLineAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnLineAttri.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnSaveToWp
             // 
@@ -621,14 +625,14 @@
             this.btnSiteInfo.Caption = "查看信息库";
             this.btnSiteInfo.Id = 79;
             this.btnSiteInfo.Name = "btnSiteInfo";
-            this.btnSiteInfo.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnSiteInfo.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnImportObsline
             // 
             this.btnImportObsline.Caption = "导入观测数据";
             this.btnImportObsline.Id = 80;
             this.btnImportObsline.Name = "btnImportObsline";
-            this.btnImportObsline.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnImportObsline.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // btnRecycled
             // 
@@ -644,7 +648,7 @@
             this.btnDownLoad.Caption = "下载";
             this.btnDownLoad.Id = 83;
             this.btnDownLoad.Name = "btnDownLoad";
-            this.btnDownLoad.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
+            this.btnDownLoad.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
             // ribbonPage1
             // 
@@ -690,6 +694,8 @@
             this.ribbonPageGroup5.ItemLinks.Add(this.btnSysAbout);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnHelper);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnExit);
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnSiteInfo);
+            this.ribbonPageGroup5.ItemLinks.Add(this.btnSiteLocation);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.Text = "系统";
             // 
@@ -851,7 +857,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelRemoteData;
+            this.panelContainer1.ActiveChild = this.dockPanelLocalData;
             this.panelContainer1.Controls.Add(this.dockPanelRemoteData);
             this.panelContainer1.Controls.Add(this.dockPanelLocalData);
             this.panelContainer1.Controls.Add(this.dockPanelManipData);
@@ -864,6 +870,50 @@
             this.panelContainer1.Size = new System.Drawing.Size(186, 511);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
+            // 
+            // dockPanelLocalData
+            // 
+            this.dockPanelLocalData.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelLocalData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelLocalData.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
+            this.dockPanelLocalData.Location = new System.Drawing.Point(5, 28);
+            this.dockPanelLocalData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanelLocalData.Name = "dockPanelLocalData";
+            this.dockPanelLocalData.OriginalSize = new System.Drawing.Size(202, 436);
+            this.dockPanelLocalData.Size = new System.Drawing.Size(174, 444);
+            this.dockPanelLocalData.Text = "本地信息库";
+            this.dockPanelLocalData.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
+            // 
+            // dockPanel1_Container
+            // 
+            this.dockPanel1_Container.Controls.Add(this.treeListLocalData);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
+            this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(174, 444);
+            this.dockPanel1_Container.TabIndex = 0;
+            // 
+            // treeListLocalData
+            // 
+            this.treeListLocalData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn2});
+            this.treeListLocalData.Cursor = System.Windows.Forms.Cursors.Default;
+            this.treeListLocalData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListLocalData.Location = new System.Drawing.Point(0, 0);
+            this.treeListLocalData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeListLocalData.Name = "treeListLocalData";
+            this.treeListLocalData.OptionsView.ShowHorzLines = false;
+            this.treeListLocalData.Size = new System.Drawing.Size(174, 444);
+            this.treeListLocalData.TabIndex = 18;
+            this.treeListLocalData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeListLocalData_MouseUp);
+            // 
+            // treeListColumn2
+            // 
+            this.treeListColumn2.Caption = "场地";
+            this.treeListColumn2.FieldName = "Caption";
+            this.treeListColumn2.Name = "treeListColumn2";
+            this.treeListColumn2.Visible = true;
+            this.treeListColumn2.VisibleIndex = 0;
             // 
             // dockPanelRemoteData
             // 
@@ -906,7 +956,6 @@
             this.treeListRemoteData.Size = new System.Drawing.Size(174, 444);
             this.treeListRemoteData.TabIndex = 0;
             this.treeListRemoteData.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListOriData_AfterCheckNode);
-            this.treeListRemoteData.CustomDrawNodeImages += new DevExpress.XtraTreeList.CustomDrawNodeImagesEventHandler(this.treeListOriData_CustomDrawNodeImages);
             this.treeListRemoteData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn1
@@ -920,51 +969,6 @@
             this.treeListColumn1.Visible = true;
             this.treeListColumn1.VisibleIndex = 0;
             this.treeListColumn1.Width = 190;
-            // 
-            // dockPanelLocalData
-            // 
-            this.dockPanelLocalData.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelLocalData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelLocalData.ID = new System.Guid("eca16e46-6142-4190-93fd-fbabfe750b26");
-            this.dockPanelLocalData.Location = new System.Drawing.Point(5, 28);
-            this.dockPanelLocalData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dockPanelLocalData.Name = "dockPanelLocalData";
-            this.dockPanelLocalData.OriginalSize = new System.Drawing.Size(202, 436);
-            this.dockPanelLocalData.Size = new System.Drawing.Size(174, 444);
-            this.dockPanelLocalData.Text = "本地信息库";
-            this.dockPanelLocalData.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.treeListLocalData);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(174, 444);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // treeListLocalData
-            // 
-            this.treeListLocalData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn2});
-            this.treeListLocalData.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListLocalData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListLocalData.Location = new System.Drawing.Point(0, 0);
-            this.treeListLocalData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.treeListLocalData.Name = "treeListLocalData";
-            this.treeListLocalData.OptionsView.ShowHorzLines = false;
-            this.treeListLocalData.Size = new System.Drawing.Size(174, 444);
-            this.treeListLocalData.TabIndex = 18;
-            // 
-            // treeListColumn2
-            // 
-            this.treeListColumn2.Caption = "场地";
-            this.treeListColumn2.FieldName = "Caption";
-            this.treeListColumn2.MinWidth = 52;
-            this.treeListColumn2.Name = "treeListColumn2";
-            this.treeListColumn2.Visible = true;
-            this.treeListColumn2.VisibleIndex = 0;
-            this.treeListColumn2.Width = 190;
             // 
             // dockPanelManipData
             // 
@@ -1027,25 +1031,6 @@
             this.siteInfoTabPage,
             this.recycleTabPage});
             // 
-            // recycleTabPage
-            // 
-            this.recycleTabPage.Controls.Add(this.recycleControl1);
-            this.recycleTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.recycleTabPage.Name = "recycleTabPage";
-            this.recycleTabPage.Size = new System.Drawing.Size(1156, 471);
-            this.recycleTabPage.Text = "回收站";
-            // 
-            // recycleControl1
-            // 
-            this.recycleControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.recycleControl1.Location = new System.Drawing.Point(3, 5);
-            this.recycleControl1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.recycleControl1.Name = "recycleControl1";
-            this.recycleControl1.Size = new System.Drawing.Size(1371, 600);
-            this.recycleControl1.TabIndex = 0;
-            // 
             // siteInfoTabPage
             // 
             this.siteInfoTabPage.Controls.Add(this.siteInfoDocCtrl);
@@ -1068,7 +1053,7 @@
             this.mapTabPage.Controls.Add(this.gMapCtrl);
             this.mapTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.mapTabPage.Name = "mapTabPage";
-            this.mapTabPage.Size = new System.Drawing.Size(1156, 471);
+            this.mapTabPage.Size = new System.Drawing.Size(1183, 475);
             this.mapTabPage.Text = "场地分布";
             // 
             // gMapCtrl
@@ -1094,7 +1079,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(1156, 471);
+            this.gMapCtrl.Size = new System.Drawing.Size(1183, 475);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -1108,7 +1093,7 @@
             this.chartTabPage.Controls.Add(this.groupBox1);
             this.chartTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartTabPage.Name = "chartTabPage";
-            this.chartTabPage.Size = new System.Drawing.Size(1156, 471);
+            this.chartTabPage.Size = new System.Drawing.Size(1183, 475);
             this.chartTabPage.Text = "趋势图";
             // 
             // chartGroupBox
@@ -1119,7 +1104,7 @@
             this.chartGroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartGroupBox.Name = "chartGroupBox";
             this.chartGroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chartGroupBox.Size = new System.Drawing.Size(1156, 416);
+            this.chartGroupBox.Size = new System.Drawing.Size(1183, 420);
             this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
             // 
@@ -1129,7 +1114,7 @@
             this.siteLayoutMaps1.Location = new System.Drawing.Point(3, 23);
             this.siteLayoutMaps1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.siteLayoutMaps1.Name = "siteLayoutMaps1";
-            this.siteLayoutMaps1.Size = new System.Drawing.Size(1150, 185);
+            this.siteLayoutMaps1.Size = new System.Drawing.Size(1177, 185);
             this.siteLayoutMaps1.TabIndex = 2;
             // 
             // groupBox1
@@ -1143,11 +1128,11 @@
             this.groupBox1.Controls.Add(this.btnMouseCur);
             this.groupBox1.Controls.Add(this.btnShowTitle);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 416);
+            this.groupBox1.Location = new System.Drawing.Point(0, 420);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(1156, 55);
+            this.groupBox1.Size = new System.Drawing.Size(1183, 55);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
@@ -1238,6 +1223,25 @@
             this.btnShowTitle.Text = "标题";
             this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
+            // recycleTabPage
+            // 
+            this.recycleTabPage.Controls.Add(this.recycleControl1);
+            this.recycleTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.recycleTabPage.Name = "recycleTabPage";
+            this.recycleTabPage.Size = new System.Drawing.Size(1183, 475);
+            this.recycleTabPage.Text = "回收站";
+            // 
+            // recycleControl1
+            // 
+            this.recycleControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.recycleControl1.Location = new System.Drawing.Point(3, 4);
+            this.recycleControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.recycleControl1.Name = "recycleControl1";
+            this.recycleControl1.Size = new System.Drawing.Size(1200, 467);
+            this.recycleControl1.TabIndex = 0;
+            // 
             // barEditItemCounty
             // 
             this.barEditItemCounty.Edit = null;
@@ -1284,6 +1288,19 @@
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
             // 
+            // popLocalTree
+            // 
+            this.popLocalTree.ItemLinks.Add(this.btnCreateLocalDb);
+            this.popLocalTree.Name = "popLocalTree";
+            this.popLocalTree.Ribbon = this.ribbon;
+            // 
+            // btnCreateLocalDb
+            // 
+            this.btnCreateLocalDb.Caption = "创建本地信息库";
+            this.btnCreateLocalDb.Id = 84;
+            this.btnCreateLocalDb.Name = "btnCreateLocalDb";
+            this.btnCreateLocalDb.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuLocal_ItemClick);
+            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -1313,26 +1330,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelRemoteData.ResumeLayout(false);
-            this.dockPanel3_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).EndInit();
             this.dockPanelLocalData.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListLocalData)).EndInit();
+            this.dockPanelRemoteData.ResumeLayout(false);
+            this.dockPanel3_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).EndInit();
             this.dockPanelManipData.ResumeLayout(false);
             this.controlContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
-            this.recycleTabPage.ResumeLayout(false);
             this.siteInfoTabPage.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
             this.chartGroupBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.recycleTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLocalTree)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1454,7 +1472,6 @@
         private DevExpress.XtraBars.BarButtonItem btnSiteInfo;
         private DevExpress.XtraBars.BarButtonItem btnImportObsline;
         private DevExpress.XtraTreeList.TreeList treeListLocalData;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraBars.BarButtonItem btnRecycled;
 
         private DevExpress.XtraTab.XtraTabPage recycleTabPage;
@@ -1467,6 +1484,9 @@
         private DevExpress.XtraTreeList.TreeList treeListManipData;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
         private DevExpress.XtraBars.BarButtonItem btnDownLoad;
-
+        private DevExpress.XtraBars.BarButtonItem btnCreateLoacalDb;
+        private DevExpress.XtraBars.PopupMenu popLocalTree;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
+        private DevExpress.XtraBars.BarButtonItem btnCreateLocalDb;
     }
 }

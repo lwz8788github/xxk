@@ -80,7 +80,7 @@ namespace xxkUI.MyCls
             {
                 List<string> sqllist = GetTextStrlist(System.Windows.Forms.Application.StartupPath + "//创建本地信息库//3.导入场地信息表记录.txt");
 
-                MysqlEasy.ExecuteNoQueryTran(sqllist);
+                MysqlEasy.ExecuteSqlTran(sqllist);
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入" + sqllist.Count + "条场地信息记录!");
 
                 //int i = 0;
@@ -138,7 +138,7 @@ namespace xxkUI.MyCls
             {
                
                 List<string> sqllist = GetTextStrlist(System.Windows.Forms.Application.StartupPath + "//创建本地信息库//5.导入测线信息表记录.txt");
-                MysqlEasy.ExecuteNoQueryTran(sqllist);
+                MysqlEasy.ExecuteSqlTran(sqllist);
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入" + sqllist.Count + "条测线信息记录!");
                 isok = true;
                 //int i = 0;
@@ -194,7 +194,7 @@ namespace xxkUI.MyCls
             {
                
                 List<string> sqllist = GetTextStrlist(System.Windows.Forms.Application.StartupPath + "//创建本地信息库//7.导入单位信息表记录.txt");
-                MysqlEasy.ExecuteNoQueryTran(sqllist);
+                MysqlEasy.ExecuteSqlTran(sqllist);
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入" + sqllist.Count + "条单位信息记录!");
                 //int i = 0;
                 //foreach (string sql in sqllist)
@@ -251,7 +251,7 @@ namespace xxkUI.MyCls
             {
               
                 List<string> sqllist = GetTextStrlist(System.Windows.Forms.Application.StartupPath + "//创建本地信息库//9.导入地震目录表记录.txt");
-                MysqlEasy.ExecuteNoQueryTran(sqllist);
+                MysqlEasy.ExecuteSqlTran(sqllist);
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     导入" + sqllist.Count + "条地震目录记录!");
                 //int i = 0;
                 //foreach (string sql in sqllist)

@@ -49,8 +49,9 @@ namespace xxkUI
             xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData);
             gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
             InitFaultCombobox();
-            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+
             xtl.bSignInitOriDataTree(this.gmmkks);
+            xtl.bSignInitLocaldbTree();
 
         }
 
@@ -68,11 +69,11 @@ namespace xxkUI
             {
                 using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                 {
-                    currentUserBar.Caption = currentUserBar.Caption.Split(':')[0] + lg.Username;
+                    currentUserBar.Caption = currentUserBar.Caption + lg.Username;
 
                     //获取用户权限，放入userAut
                     List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                    xtl.InitOriDataTree(userAhtList, this.gmmkks);
+                    //xtl.InitOriDataTree(userAhtList, this.gmmkks);
                    
                 }
             }
@@ -256,6 +257,47 @@ namespace xxkUI
         }
 
         /// <summary>
+        /// 本地库树点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeListLocalData_MouseUp(object sender, MouseEventArgs e)
+        {
+            TreeList tree = sender as TreeList;
+
+            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
+            {
+                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
+                if (tree.Nodes.Count > 0)
+                {
+                    TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                    if (hitInfo.HitInfoType == HitInfoType.Cell)
+                    {
+                        tree.SetFocusedNode(hitInfo.Node);
+
+                        currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
+                        if (currentClickNodeInfo == null)
+                        {
+                            return;
+                        }
+                        if (hitInfo.Node.Level == 1)
+                        {
+                            //popSiteTree.ShowPopup(p);
+                        }
+                        else if (hitInfo.Node.Level == 2)
+                        {
+                            //popLineTree.ShowPopup(p);
+                        }
+                    }
+                }
+                else
+                {
+                    this.popLocalTree.ShowPopup(p);
+                }
+            }
+        }
+
+        /// <summary>
         /// 菜单项点击事件
         /// </summary>
         /// <param name="sender"></param>
@@ -320,10 +362,8 @@ namespace xxkUI
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
                             SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-                           
                             this.siteInfoDocCtrl.LoadDocument(Application.StartupPath + "/tempDoc/信息库模板.doc");
                             this.siteInfoDocCtrl.FillBookMarkText(sb);
-                        
                             this.siteInfoTabPage.PageVisible = true;
                             this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
                         }
@@ -355,38 +395,65 @@ namespace xxkUI
                     break;
                 case "btnDownLoad"://下载数据
                     {
-                        string folderName = "远程信息库缓存";
-                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        if (this.currentUserBar.Caption.Split('：').Count() <= 1)
                         {
-                            List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListRemoteData.Name);
-                            foreach (SiteBean checkedSb in checkedNodes)
+                            XtraMessageBox.Show("没有登录！", "警告");
+                            return;
+                        }
+                        else
+                        {
+                            string userName = this.currentUserBar.Caption.Split('：')[1];
+                            List<string> userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(userName);
+
+
+                            string folderName = "远程信息库缓存";
+                            using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                             {
-                                DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
+                                List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListRemoteData.Name);
 
-                                foreach (DataRow row in linecode.Rows)
+                                foreach (SiteBean checkedSb in checkedNodes)
                                 {
-                                    string lCode = row[0].ToString();
-                                    string lName = row[0].ToString();
-                                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
-                                    NpoiCreator npcreator = new NpoiCreator();
-                                    string savefile = Application.StartupPath + "/" + folderName;
-                                    npcreator.TemplateFile = savefile;
-                                    npcreator.NpoiExcel(dt, lCode + ".xls", savefile + "/" + lCode + ".xls");
+                                    if (!userAhtyList.Contains(checkedSb.UnitCode))
+                                    {
+                                        string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
+                                        XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
+                                        continue;
+                                    }
+                                    DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
 
-                                    TreeBean tb = new TreeBean();
+                                    foreach (DataRow row in linecode.Rows)
+                                    {
+                                        string lCode = row[0].ToString();
+                                        string lName = row[0].ToString();
+                                        DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                                        NpoiCreator npcreator = new NpoiCreator();
+                                        string savefile = Application.StartupPath + "/" + folderName;
+                                        npcreator.TemplateFile = savefile;
+                                        npcreator.NpoiExcel(dt, lCode + ".xls", savefile + "/" + lCode + ".xls");
 
-                                    tb.KeyFieldName = lCode;
-                                    tb.ParentFieldName = checkedSb.SiteCode;
-                                    tb.Caption = lName;
+                                        TreeBean tb = new TreeBean();
+
+                                        tb.KeyFieldName = lCode;
+                                        tb.ParentFieldName = checkedSb.SiteCode;
+                                        tb.Caption = lName;
+                                    }
                                 }
-                            }
-                            xtl.RefreshWorkspace(folderName);
-                            if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
                                 xtl.RefreshWorkspace(folderName);
+                                if (DataManipulations.SaveToWorkspace(xtl.GetCheckedLine(this.treeListRemoteData.Name)))
+                                    xtl.RefreshWorkspace(folderName);
+                            }
                         }
                     }
                     break;
-
+                case "btnCreateLoacalDb":
+                    {
+                        ProgressForm ptPro = new ProgressForm();
+                        ptPro.Show(this);
+                        ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+                        ptPro.beginWorking();
+                        ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+                    }
+                    break;
             }
         }
 
@@ -568,7 +635,7 @@ namespace xxkUI
 
         private void CreateLocalDb_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-          
+            xtl.bSignInitLocaldbTree();
         }
 
         #endregion
@@ -756,60 +823,6 @@ namespace xxkUI
 
         }
 
-        private void treeListOriData_CustomDrawNodeImages(object sender, CustomDrawNodeImagesEventArgs e)
-        {
-            //try
-            //{
-            //    if (e.Node.Nodes.Count > 0)
-            //    {
-
-                    //if (e.Node.Level == 1)
-                    //{
-                    //    TreeBean tb = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
-                    //    if (tb != null)
-                    //    {
-                    //        SiteBean sb = tb.Tag as SiteBean;
-                    //        if (sb.SiteCode.Substring(0, 1) == "L")
-                    //        {
-                    //            e.Node.StateImageIndex = 1;
-                    //            e.Node.ImageIndex = 1;
-                    //            return;
-                    //        }
-                    //        else
-                    //        {
-                    //            e.Node.StateImageIndex = 0;
-                    //            e.Node.ImageIndex = 0;
-                    //            return;
-                    //        }
-
-                    //    }
-                    //    else
-                    //    {
-                    //        e.Node.StateImageIndex = -1;
-                    //        e.Node.ImageIndex = -1;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    e.Node.StateImageIndex = -1;
-                    //    e.Node.ImageIndex = -1;
-                    //    return;
-                    //}
-            //    }
-            //    else
-            //    {
-            //        e.StateImageIndex = -1;
-            //        e.SelectImageIndex = -1;
-            //        return;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    XtraMessageBox.Show(ex.Message, "错误");
-            //}
-
-        }
-
         private void btnSilveryStyle_ItemClick(object sender, ItemClickEventArgs e)
         {
             defaultLookAndFeel.LookAndFeel.SkinName = "DevExpress Style";
@@ -828,17 +841,7 @@ namespace xxkUI
          
         }
 
-        private void simpleButton1_Click(object sender, EventArgs e)
-        {
-
-            ProgressForm ptPro = new ProgressForm();
-            ptPro.Show(this);
-            ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
-            ptPro.beginWorking();
-            ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
-
-          
-        }
+       
 
     }
 }

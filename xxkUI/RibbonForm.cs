@@ -937,5 +937,9 @@ namespace xxkUI
 
        
 
+        private void btnDataProgress_ItemClick(object sender, ItemClickEventArgs e)
+        {
+           mtc.PlusMinusMultiplyDivide();
+        }
     }
 }

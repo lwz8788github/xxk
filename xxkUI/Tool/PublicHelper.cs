@@ -162,6 +162,33 @@ namespace xxkUI.Tool
         OrigDb,LocalDb, HandleData
     }
 
+
+    /// <summary>
+    /// 数据处理方法分类
+    /// </summary>
+    public enum DataProessMethod
+    {
+        /// <summary>
+        /// 加
+        /// </summary>
+        Plus,
+        /// <summary>
+        /// 减
+        /// </summary>
+        Minus,
+        /// <summary>
+        /// 乘
+        /// </summary>
+        Multiply,
+        /// <summary>
+        /// 除
+        /// </summary>
+        Divide,
+        /// <summary>
+        /// 无操作
+        /// </summary>
+        NoProg
+    }
     public static class DataFromPath
     {
         public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";

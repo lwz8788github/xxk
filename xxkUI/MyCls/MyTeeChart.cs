@@ -221,8 +221,8 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    //DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
-                    DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
+                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
+                    //DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
                     dt.Columns[0].ColumnName = "观测时间";
                     dt.Columns[1].ColumnName = "观测值";
                     Line line = new Line();
@@ -250,7 +250,7 @@ namespace xxkUI.MyCls
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+             //   throw new Exception(ex.Message);
             }
             return isok;
         }
@@ -499,12 +499,12 @@ namespace xxkUI.MyCls
         {
             InitDragPoints();
             InitDrawLines();
-
             if (eqkfrm != null)
             {
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
                     eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
+                   
                     eqkfrm.Show();
                     eqkfrm.Focus();
                 }
@@ -517,9 +517,15 @@ namespace xxkUI.MyCls
             else
             {
                 eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
+               
                 eqkfrm.Show();
                 eqkfrm.Focus();
             }
+        }
+
+        void eqkfrm_FocousToMapPage(List<EqkBean> eblist)
+        {
+           
         }
 
         #endregion

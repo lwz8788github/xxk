@@ -18,12 +18,12 @@ namespace xxkUI.Form
 {
     public partial class EqkShow :XtraForm
     {
-       private List<EqkBean> eqkDataList = new List<EqkBean>();
+        private List<EqkBean> eqkDataList = new List<EqkBean>();
        private LineTag lineTag = new LineTag();
        private TChart tChart;
        private DragPoint DragPtTool;
        private DrawLine DrawlnTool;
-      
+     
         public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
         {
             InitializeComponent();
@@ -336,6 +336,17 @@ namespace xxkUI.Form
 
         private void btnEqkSite_Click(object sender, EventArgs e)
         {
+            Control xtraTabControl1 = Application.OpenForms["RibbonForm"].Controls.Find("xtraTabControl1", true)[0];
+            Control mapTabPage = Application.OpenForms["RibbonForm"].Controls.Find("mapTabPage", true)[0];
+
+            ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
+
+            //GMap.NET.WindowsForms.GMapControl gMapCtrl;
+
+            //gmmkks = new GMapMarkerKdcSite(gMapCtrl);
+            GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
+            GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
+
             
         }
     }

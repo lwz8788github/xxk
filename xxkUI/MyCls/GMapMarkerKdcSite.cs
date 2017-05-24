@@ -10,41 +10,35 @@ using GMap.NET.WindowsForms.Markers;
 
 namespace xxkUI.MyCls
 {
-    public class GMapMarkerKdcSite    {
+    public static class GMapMarkerKdcSite    {
         /// <summary>
         /// 地图中心点
         /// </summary>
-        private readonly PointLatLng chinaCenter = new PointLatLng(35, 107.5);
-        private GMap.NET.WindowsForms.GMapControl gMapCtrl;
-
-        public GMapMarkerKdcSite(GMap.NET.WindowsForms.GMapControl _gmapctrl)
-        {
-            gMapCtrl = _gmapctrl;
-        }
+        private static readonly PointLatLng chinaCenter = new PointLatLng(35, 107.5);
 
         /// <summary>
         /// 初始化地图
         /// </summary>
         /// <returns></returns>
-        public bool InitMap()
+        public static bool InitMap(GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             bool isOk = false;
             try
             {
-                this.gMapCtrl.BackColor = Color.Red;
+                gMapCtrl.BackColor = Color.Red;
                 //设置控件的管理模式  
-                this.gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
+                gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
                 //设置控件显示的地图来源  
-                this.gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
+                gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
                 //设置控件显示的当前中心位置  
                 //31.7543, 121.6281  
-                this.gMapCtrl.Position = chinaCenter;
+                gMapCtrl.Position = chinaCenter;
                 //设置控件最大的缩放比例  
-                this.gMapCtrl.MaxZoom = 50;
+                gMapCtrl.MaxZoom = 50;
                 //设置控件最小的缩放比例  
-                this.gMapCtrl.MinZoom = 2;
+                gMapCtrl.MinZoom = 2;
                 //设置控件当前的缩放比例  
-                this.gMapCtrl.Zoom = 4;
+                gMapCtrl.Zoom = 4;
 
                 isOk = true;
             }
@@ -61,7 +55,7 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 重载地图
         /// </summary>
-        public  void ReloadMap()
+        public static void ReloadMap(GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             gMapCtrl.ReloadMap();
         }
@@ -70,7 +64,7 @@ namespace xxkUI.MyCls
         /// 地图缩放
         /// </summary>
         /// <param name="scale">缩放级别</param>
-        public void Zoom(int scale)
+        public static void Zoom(int scale, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             gMapCtrl.Zoom += scale;
         }
@@ -78,7 +72,7 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 全图
         /// </summary>
-        public void Full()
+        public static void Full(GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             gMapCtrl.Position = chinaCenter;
             //设置控件当前的缩放比例  
@@ -91,16 +85,16 @@ namespace xxkUI.MyCls
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public PointLatLng FromLocalToLatLng(int x, int y)
+        public static PointLatLng FromLocalToLatLng(int x, int y, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
-            return this.gMapCtrl.FromLocalToLatLng(x, y);
+            return gMapCtrl.FromLocalToLatLng(x, y);
         }
 
         /// <summary>
         /// 加载场地标记
         /// </summary>
         /// <param name="sblist"></param>
-        public void LoadSiteMarker(IEnumerable<SiteBean> sblist)
+        public static void LoadSiteMarker(IEnumerable<SiteBean> sblist, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
@@ -129,7 +123,7 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 清除所有场地
         /// </summary>
-        public void ClearAllSiteMarker()
+        public static void ClearAllSiteMarker(GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             for (int i = 0; i < gMapCtrl.Overlays.Count; i++)
             {
@@ -144,11 +138,80 @@ namespace xxkUI.MyCls
         /// 定位到场地
         /// </summary>
         /// <param name="sb"></param>
-        public void ZoomToSite(SiteBean sb)
+        public static void ZoomToSite(SiteBean sb, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             PointLatLng sitepoint = new PointLatLng(sb.Latitude, sb.Longtitude);
             gMapCtrl.Position = sitepoint;
             gMapCtrl.Zoom = 10;
         }
+        /// <summary>
+        /// Map标注地震
+        /// </summary>
+        public static void AnnotationEqkToMap(List<EqkBean> eqkList, GMap.NET.WindowsForms.GMapControl gMapCtrl)
+        {
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            GMapOverlay EqkOverlay = new GMapOverlay("eqkmarkers");
+
+            foreach (EqkBean eqk in eqkList)
+            {
+                GMapMarker marker = null;
+                string picName = "";
+                switch ((int)eqk.Magntd)
+                {
+                    case 0: picName = "2.png";
+                        break;
+                    case 1: picName = "2.png";
+                        break;
+                    case 2: picName = "2.png";
+                        break;
+                    case 3: picName = "3.png";
+                        break;
+                    case 4: picName = "4.png";
+                        break;
+                    case 5: picName = "5.png";
+                        break;
+                    case 6: picName = "6.png";
+                        break;
+                    case 7: picName = "7.png";
+                        break;
+                    case 8: picName = "8.png";
+                        break;
+                    case 9: picName = "9.png";
+                        break;
+
+                }
+                string picPath = System.Windows.Forms.Application.StartupPath + "//地震标注图片//" + picName;
+                Bitmap eqkDotPic = new Bitmap(picPath);
+                marker = new GMarkerGoogle(new PointLatLng(eqk.Latitude, eqk.Longtitude), eqkDotPic);
+                marker.Tag = eqk;
+                EqkOverlay.Markers.Add(marker);
+
+            }
+            gMapCtrl.Overlays.Add(EqkOverlay);
+
+            gMapCtrl.Zoom += 1;
+            gMapCtrl.Refresh();
+
+        }
+        ///// <summary>
+        ///// 创建标注地震圆点集
+        ///// </summary>
+        //private List<PointLatLng> createPoint(PointF point, double radi, int numP)
+        //{
+        //    List<PointLatLng> gPolList = new List<PointLatLng>();
+        //    double seg = Math.PI * 2.0 / numP;
+
+        //    for (int i=0;i<numP;i++)
+        //    {
+        //        double theta = seg * i;
+        //        double aValue = point.X + Math.Cos(theta) * radi;
+        //        double bValue = point.Y + Math.Sin(theta) * radi;
+
+        //        PointLatLng GPOI = new PointLatLng(aValue, bValue);
+        //        gPolList.Add(GPOI);
+        //    }
+        //    return gPolList;
+        //} 
+
     }
 }

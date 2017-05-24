@@ -221,16 +221,17 @@ namespace xxkUI.MyCls
                 this.tChart.Series.Clear();
                 foreach (LineBean checkedLb in obsdatalist)
                 {
-                    //DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate as 观测时间,obvvalue as 观测值,note as 备注 from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "' order by 观测时间");
                     DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
                     dt.Columns[0].ColumnName = "观测时间";
                     dt.Columns[1].ColumnName = "观测值";
+
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
-                    line.XValues.DataMember = "观测时间";
-                    line.YValues.DataMember = "观测值";
+                    line.XValues.DataMember = "obvdate";
+                    line.YValues.DataMember = "obvvalue";
                     line.XValues.DateTime = true;
+                   
                     line.DataSource = dt;
 
                     /*只有一条曲线时不显示图例*/
@@ -591,7 +592,9 @@ namespace xxkUI.MyCls
             {
                 Line ln = s as Line;
 
-                DataTable obsdata = ln.DataSource as DataTable;
+                DataTable obsdata = (ln.DataSource as DataSet).Tables[0];
+                obsdata.Columns[0].ColumnName = "观测时间";
+                obsdata.Columns[1].ColumnName = "观测值";
                 if (this.tChart.Series.Count > 1)
                     AddSingleSeries(obsdata, ln.Title);
 

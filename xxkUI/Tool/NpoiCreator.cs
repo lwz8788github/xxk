@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using NPOI.XSSF.UserModel;
 using System.Data;
+using System.Data.OleDb;
 
 namespace xxkUI.Tool
 {
@@ -152,10 +153,8 @@ namespace xxkUI.Tool
         }
 
 
-        private DataTable ExportToDataTable(string filepath)
+        public DataTable ExportToDataTable(string filepath)
         {
-
-
             DataTable dt = new DataTable();
 
             if (OpenWorkbook(filepath))
@@ -206,6 +205,7 @@ namespace xxkUI.Tool
 
             return dt;
         }
+
         /// <summary>  
         /// 将excel导入到datatable  
         /// </summary>  
@@ -246,7 +246,12 @@ namespace xxkUI.Tool
                                     {
                                         if (cell.StringCellValue != null)
                                         {
-                                            column = new DataColumn(cell.StringCellValue);
+                                            if (i == 0)
+                                                column = new DataColumn(cell.StringCellValue, typeof(DateTime));
+                                           else if(i==1)
+                                                column = new DataColumn(cell.StringCellValue, typeof(Double));
+                                            else if(i==2)
+                                                column = new DataColumn(cell.StringCellValue, typeof(String));
                                             dataTable.Columns.Add(column);
                                         }
                                     }

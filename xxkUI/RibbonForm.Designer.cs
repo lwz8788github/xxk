@@ -56,20 +56,20 @@
             this.repositoryItemCheckedComboBoxEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
             this.barFault = new DevExpress.XtraBars.BarEditItem();
             this.faultChckCbbxEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
-            this.barEditItem6 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkMinMtd = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem7 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkStartTime = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemCalcEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem8 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkEndTime = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
-            this.barEditItem9 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkMinDepth = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem10 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkMaxDepth = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.barEditItem11 = new DevExpress.XtraBars.BarEditItem();
+            this.beiEqkMaxMtd = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnEqkQuery = new DevExpress.XtraBars.BarButtonItem();
             this.btnSiteLocation_remote = new DevExpress.XtraBars.BarButtonItem();
             this.btnSiteAttri = new DevExpress.XtraBars.BarButtonItem();
             this.btnSaveToManip_remote = new DevExpress.XtraBars.BarButtonItem();
@@ -158,6 +158,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.popLocalTree = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -194,6 +196,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLocalTree)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).BeginInit();
             this.SuspendLayout();
             // 
             // splashScreenManager
@@ -247,14 +253,14 @@
             this.barEditItem1,
             this.barEditItem3,
             this.barFault,
-            this.barEditItem6,
-            this.barEditItem7,
-            this.barEditItem8,
-            this.barEditItem9,
-            this.barEditItem10,
-            this.barEditItem11,
+            this.beiEqkMinMtd,
+            this.beiEqkStartTime,
+            this.beiEqkEndTime,
+            this.beiEqkMinDepth,
+            this.beiEqkMaxDepth,
+            this.beiEqkMaxMtd,
             this.barButtonItem6,
-            this.barButtonItem7,
+            this.btnEqkQuery,
             this.btnSiteLocation_remote,
             this.btnSiteAttri,
             this.btnSaveToManip_remote,
@@ -293,7 +299,9 @@
             this.repositoryItemCalcEdit2,
             this.repositoryItemTextEdit3,
             this.repositoryItemTextEdit4,
-            this.repositoryItemTextEdit5});
+            this.repositoryItemTextEdit5,
+            this.repositoryItemDateEdit1,
+            this.repositoryItemDateEdit2});
             this.ribbon.Size = new System.Drawing.Size(1204, 147);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
@@ -465,26 +473,26 @@
             this.faultChckCbbxEdit.DropDownRows = 11;
             this.faultChckCbbxEdit.Name = "faultChckCbbxEdit";
             // 
-            // barEditItem6
+            // beiEqkMinMtd
             // 
-            this.barEditItem6.Caption = "震级大于：";
-            this.barEditItem6.Edit = this.repositoryItemTextEdit1;
-            this.barEditItem6.EditWidth = 120;
-            this.barEditItem6.Id = 61;
-            this.barEditItem6.Name = "barEditItem6";
+            this.beiEqkMinMtd.Caption = "震级大于：";
+            this.beiEqkMinMtd.Edit = this.repositoryItemTextEdit1;
+            this.beiEqkMinMtd.EditWidth = 120;
+            this.beiEqkMinMtd.Id = 61;
+            this.beiEqkMinMtd.Name = "beiEqkMinMtd";
             // 
             // repositoryItemTextEdit1
             // 
             this.repositoryItemTextEdit1.AutoHeight = false;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
-            // barEditItem7
+            // beiEqkStartTime
             // 
-            this.barEditItem7.Caption = "起始时间：";
-            this.barEditItem7.Edit = this.repositoryItemCalcEdit1;
-            this.barEditItem7.EditWidth = 120;
-            this.barEditItem7.Id = 63;
-            this.barEditItem7.Name = "barEditItem7";
+            this.beiEqkStartTime.Caption = "起始时间：";
+            this.beiEqkStartTime.Edit = this.repositoryItemDateEdit1;
+            this.beiEqkStartTime.EditWidth = 120;
+            this.beiEqkStartTime.Id = 63;
+            this.beiEqkStartTime.Name = "beiEqkStartTime";
             // 
             // repositoryItemCalcEdit1
             // 
@@ -493,13 +501,13 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCalcEdit1.Name = "repositoryItemCalcEdit1";
             // 
-            // barEditItem8
+            // beiEqkEndTime
             // 
-            this.barEditItem8.Caption = "终止时间：";
-            this.barEditItem8.Edit = this.repositoryItemCalcEdit2;
-            this.barEditItem8.EditWidth = 120;
-            this.barEditItem8.Id = 64;
-            this.barEditItem8.Name = "barEditItem8";
+            this.beiEqkEndTime.Caption = "终止时间：";
+            this.beiEqkEndTime.Edit = this.repositoryItemDateEdit2;
+            this.beiEqkEndTime.EditWidth = 120;
+            this.beiEqkEndTime.Id = 64;
+            this.beiEqkEndTime.Name = "beiEqkEndTime";
             // 
             // repositoryItemCalcEdit2
             // 
@@ -508,39 +516,39 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemCalcEdit2.Name = "repositoryItemCalcEdit2";
             // 
-            // barEditItem9
+            // beiEqkMinDepth
             // 
-            this.barEditItem9.Caption = "震级小于：";
-            this.barEditItem9.Edit = this.repositoryItemTextEdit3;
-            this.barEditItem9.EditWidth = 120;
-            this.barEditItem9.Id = 65;
-            this.barEditItem9.Name = "barEditItem9";
+            this.beiEqkMinDepth.Caption = "深度大于：";
+            this.beiEqkMinDepth.Edit = this.repositoryItemTextEdit3;
+            this.beiEqkMinDepth.EditWidth = 120;
+            this.beiEqkMinDepth.Id = 65;
+            this.beiEqkMinDepth.Name = "beiEqkMinDepth";
             // 
             // repositoryItemTextEdit3
             // 
             this.repositoryItemTextEdit3.AutoHeight = false;
             this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
             // 
-            // barEditItem10
+            // beiEqkMaxDepth
             // 
-            this.barEditItem10.Caption = "深度大于：";
-            this.barEditItem10.Edit = this.repositoryItemTextEdit4;
-            this.barEditItem10.EditWidth = 120;
-            this.barEditItem10.Id = 66;
-            this.barEditItem10.Name = "barEditItem10";
+            this.beiEqkMaxDepth.Caption = "深度小于：";
+            this.beiEqkMaxDepth.Edit = this.repositoryItemTextEdit4;
+            this.beiEqkMaxDepth.EditWidth = 120;
+            this.beiEqkMaxDepth.Id = 66;
+            this.beiEqkMaxDepth.Name = "beiEqkMaxDepth";
             // 
             // repositoryItemTextEdit4
             // 
             this.repositoryItemTextEdit4.AutoHeight = false;
             this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
             // 
-            // barEditItem11
+            // beiEqkMaxMtd
             // 
-            this.barEditItem11.Caption = "深度小于：";
-            this.barEditItem11.Edit = this.repositoryItemTextEdit5;
-            this.barEditItem11.EditWidth = 120;
-            this.barEditItem11.Id = 67;
-            this.barEditItem11.Name = "barEditItem11";
+            this.beiEqkMaxMtd.Caption = "震级小于：";
+            this.beiEqkMaxMtd.Edit = this.repositoryItemTextEdit5;
+            this.beiEqkMaxMtd.EditWidth = 120;
+            this.beiEqkMaxMtd.Id = 67;
+            this.beiEqkMaxMtd.Name = "beiEqkMaxMtd";
             // 
             // repositoryItemTextEdit5
             // 
@@ -554,12 +562,13 @@
             this.barButtonItem6.Name = "barButtonItem6";
             this.barButtonItem6.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             // 
-            // barButtonItem7
+            // btnEqkQuery
             // 
-            this.barButtonItem7.Caption = "查询";
-            this.barButtonItem7.Id = 69;
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnEqkQuery.Caption = "查询";
+            this.btnEqkQuery.Id = 69;
+            this.btnEqkQuery.Name = "btnEqkQuery";
+            this.btnEqkQuery.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnEqkQuery.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnEqkQuery_ItemClick);
             // 
             // btnSiteLocation_remote
             // 
@@ -856,13 +865,13 @@
             // 
             // ribbonPageGroup20
             // 
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem6);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem9);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem7);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem8);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem10);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barEditItem11);
-            this.ribbonPageGroup20.ItemLinks.Add(this.barButtonItem7);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkMinMtd);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkMinDepth);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkStartTime);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkMaxMtd);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkMaxDepth);
+            this.ribbonPageGroup20.ItemLinks.Add(this.beiEqkEndTime);
+            this.ribbonPageGroup20.ItemLinks.Add(this.btnEqkQuery);
             this.ribbonPageGroup20.Name = "ribbonPageGroup20";
             this.ribbonPageGroup20.Text = "历史地震";
             // 
@@ -1313,6 +1322,24 @@
             this.popLocalTree.Name = "popLocalTree";
             this.popLocalTree.Ribbon = this.ribbon;
             // 
+            // repositoryItemDateEdit1
+            // 
+            this.repositoryItemDateEdit1.AutoHeight = false;
+            this.repositoryItemDateEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
+            // 
+            // repositoryItemDateEdit2
+            // 
+            this.repositoryItemDateEdit2.AutoHeight = false;
+            this.repositoryItemDateEdit2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit2.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemDateEdit2.Name = "repositoryItemDateEdit2";
+            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1362,6 +1389,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLocalTree)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1431,20 +1462,20 @@
         private DevExpress.XtraBars.BarEditItem barEditItemCounty;
         private DevExpress.XtraBars.BarEditItem barFault;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit faultChckCbbxEdit;
-        private DevExpress.XtraBars.BarEditItem barEditItem6;
+        private DevExpress.XtraBars.BarEditItem beiEqkMinMtd;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
-        private DevExpress.XtraBars.BarEditItem barEditItem7;
+        private DevExpress.XtraBars.BarEditItem beiEqkStartTime;
         private DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit repositoryItemCalcEdit1;
-        private DevExpress.XtraBars.BarEditItem barEditItem8;
+        private DevExpress.XtraBars.BarEditItem beiEqkEndTime;
         private DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit repositoryItemCalcEdit2;
-        private DevExpress.XtraBars.BarEditItem barEditItem9;
+        private DevExpress.XtraBars.BarEditItem beiEqkMinDepth;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit3;
-        private DevExpress.XtraBars.BarEditItem barEditItem10;
+        private DevExpress.XtraBars.BarEditItem beiEqkMaxDepth;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit4;
-        private DevExpress.XtraBars.BarEditItem barEditItem11;
+        private DevExpress.XtraBars.BarEditItem beiEqkMaxMtd;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem6;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem7;
+        private DevExpress.XtraBars.BarButtonItem btnEqkQuery;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup20;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
         private DevExpress.XtraBars.BarEditItem barEditItem4;
@@ -1503,5 +1534,7 @@
         private DevExpress.XtraBars.BarButtonItem btnSiteInfo_local;
         private DevExpress.XtraBars.BarButtonItem btnImportObsline_local;
         private DevExpress.XtraBars.BarButtonItem btnDownLoad_local;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2;
     }
 }

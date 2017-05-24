@@ -41,7 +41,7 @@ namespace xxkUI.MyCls
          /// 加载远程库树列表
          /// </summary>
          /// <param name="gmmkks">GMAP控件</param>
-         public void bSignInitOriDataTree(GMapMarkerKdcSite gmmkks)
+         public void bSignInitOriDataTree()
          {
              MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
              MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
@@ -274,7 +274,7 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="userAhtList"></param>
         /// <param name="gmmkks"></param>
-        public void InitOriDataTree(List<string> userAhtList, GMapMarkerKdcSite gmmkks) 
+        public void InitOriDataTree(List<string> userAhtList) 
         {
 
             try
@@ -325,7 +325,7 @@ namespace xxkUI.MyCls
                 }
                 userahths = userahths.Substring(0, userahths.Length - 1) + ")";
                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetSitesByAuth(userahths);
-                gmmkks.LoadSiteMarker(sbEnumt);
+                GMapMarkerKdcSite.LoadSiteMarker(sbEnumt, Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl);
                 #endregion
 
                 //场地列表显示

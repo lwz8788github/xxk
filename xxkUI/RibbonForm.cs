@@ -31,7 +31,7 @@ namespace xxkUI
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
         private XTreeList xtl;
-        private GMapMarkerKdcSite gmmkks;
+      
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;//当前点击的树节点信息
         private SiteAttri siteAttriFrm = new SiteAttri();
@@ -47,10 +47,10 @@ namespace xxkUI
             this.recycleTabPage.PageVisible = false;
             mtc = new MyTeeChart(this.chartGroupBox);
             xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData,this.treeListManipData);
-            gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
+           
             InitFaultCombobox();
 
-            xtl.bSignInitOriDataTree(this.gmmkks);
+            xtl.bSignInitOriDataTree();
             xtl.bSignInitLocaldbTree();
             xtl.bSignInitManipdbTree();
 
@@ -93,7 +93,7 @@ namespace xxkUI
             try
             {
                 xtl.ClearTreelistNodes();
-                gmmkks.ClearAllSiteMarker();
+                GMapMarkerKdcSite.ClearAllSiteMarker(this.gMapCtrl);
                 currentUserBar.Caption = "当前用户:";
             }
             catch (Exception ex)
@@ -111,51 +111,59 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            gmmkks.InitMap();
+            GMapMarkerKdcSite.InitMap(this.gMapCtrl);
         }
              
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
-            gmmkks.Zoom(1);
+            GMapMarkerKdcSite.Zoom(1, this.gMapCtrl);
 
         }
 
         private void gMapCtrl_MouseMove(object sender, MouseEventArgs e)
         {
-            PointLatLng latLng = gmmkks.FromLocalToLatLng(e.X, e.Y);
+            PointLatLng latLng = GMapMarkerKdcSite.FromLocalToLatLng(e.X, e.Y, this.gMapCtrl);
             this.currentLocation.Caption = string.Format("经度：{0}, 纬度：{1} ", latLng.Lng, latLng.Lat);
         }
 
 
         private void gMapCtrl_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            SiteBean sb = (SiteBean)item.Tag;
-            //sb.SiteMapFile = SiteBll.Instance.GetBlob<SiteBean>("sitecode", sb.SiteCode, "SiteMapFile");
-            sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+            try
+            {
+              
+                /*点击场地标注弹出测项下拉列表*/
+                SiteBean sb = (SiteBean)item.Tag;
+                sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                /*点击地震标注弹出地震详细说明*/
+            }
+            catch 
+            {
 
-            GetSiteAttriForm();
-            this.siteAttriFrm.SetDataSource(new List<SiteBean>() { sb });
+            }
+            //GetSiteAttriForm();
+            //this.siteAttriFrm.SetDataSource(new List<SiteBean>() { sb });
         }
 
         private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
         {
-            gmmkks.Full();
+            GMapMarkerKdcSite.Full(this.gMapCtrl);
         }
 
         private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
         {
-            gmmkks.Zoom(1);
+            GMapMarkerKdcSite.Zoom(1, this.gMapCtrl);
         }
 
         private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
         {
-            gmmkks.Zoom(-1);
+            GMapMarkerKdcSite.Zoom(-1, this.gMapCtrl);
 
         }
 
         private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
         {
-            gmmkks.ReloadMap();
+            GMapMarkerKdcSite.ReloadMap(this.gMapCtrl);
         }
 
 
@@ -341,7 +349,7 @@ namespace xxkUI
                     break;
                 case "btnSiteLocation_remote"://定位到地图
                     this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                    gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
+                    GMapMarkerKdcSite.ZoomToSite((SiteBean)currentClickNodeInfo.Tag, this.gMapCtrl);
                     break;
                 case "btnSiteInfo_remote"://信息库
                     {
@@ -478,7 +486,7 @@ namespace xxkUI
                     break;
                 case "btnSiteLocation_local"://定位到地图
                     this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                    gmmkks.ZoomToSite((SiteBean)currentClickNodeInfo.Tag);
+                    GMapMarkerKdcSite.ZoomToSite((SiteBean)currentClickNodeInfo.Tag,this.gMapCtrl);
                     break;
                 case "btnSiteInfo_local"://信息库
                     {
@@ -527,7 +535,7 @@ namespace xxkUI
                                 {
                                     string lCode = row[0].ToString();
                                     string lName = row[1].ToString();
-                                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                                    DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue,note,from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
                                     if (dt.Rows.Count > 0)
                                     {
                                         NpoiCreator npcreator = new NpoiCreator();
@@ -900,6 +908,8 @@ namespace xxkUI
         private void simpleButton3_Click(object sender, EventArgs e)
         {
             mtc.GetEqkShowForm();
+
+   
         }
 
         /// <summary>
@@ -934,6 +944,62 @@ namespace xxkUI
             this.recycleControl1.LoadRecycleItems();
          
         }
+
+        private void btnEqkQuery_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            float eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
+            float eqkMlMax = float.Parse(this.beiEqkMaxMtd.EditValue.ToString());
+            if (eqkMlMin > eqkMlMax)
+            {
+                XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
+                this.beiEqkMinMtd.EditValue = "";
+                this.beiEqkMaxMtd.EditValue = "";
+                return;
+            }
+            float eqkDepthMin = float.Parse(this.beiEqkMinDepth.EditValue.ToString());
+            float eqkDepthMax = float.Parse(this.beiEqkMaxDepth.EditValue.ToString());
+            if (eqkDepthMin > eqkDepthMax)
+            {
+                XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
+                this.beiEqkMinDepth.EditValue = "";
+                this.beiEqkMinDepth.EditValue = "";
+                return;
+            }
+            string timeStStr = this.beiEqkStartTime.EditValue.ToString();
+            DateTime timeStc = Convert.ToDateTime(timeStStr);
+            DateTime timeSt = Convert.ToDateTime(timeStc).Date;
+            string timeEdStr = this.beiEqkEndTime.EditValue.ToString();
+            DateTime timeEdc = Convert.ToDateTime(timeEdStr);
+            DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
+            if (DateTime.Compare(timeSt, timeEd) > 0)
+            {
+                XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
+                this.beiEqkStartTime.EditValue = "";
+                this.beiEqkEndTime.EditValue = "";
+                return;
+            }
+            string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
+            string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
+            if (eqkMlMin == eqkMlMax) sql1 = "  from t_eqkcatalog where MAGNTD = " + eqkMlMin;
+            string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
+            if (eqkDepthMin == eqkDepthMax) sql2 = " and DEPTH =" + eqkDepthMin;
+            string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
+            if (DateTime.Compare(timeSt, timeEd) == 0) sql3 = " and EAKDATE =" + "\'" + timeSt.ToString() + "\'";
+            string sql = sql0 + sql1 + sql2 + sql3;
+            List<EqkBean> eqkDataList = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
+
+            if (eqkDataList.Count() > 0)
+            {
+                this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, this.gMapCtrl);
+            }
+            else
+            {
+                XtraMessageBox.Show("没有相应震例！", "提示");
+            }
+
+        }
+
 
        
 

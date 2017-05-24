@@ -49,7 +49,7 @@ namespace xxkUI.Bll
             if (File.Exists(filename))
             {
                 NpoiCreator npcreator = new NpoiCreator();
-                dt = npcreator.ExcelToDataTable_LineObs(filename, true);
+                dt = npcreator.ExcelToDataTable_LineObs(filename,true);
             }
 
             return dt;

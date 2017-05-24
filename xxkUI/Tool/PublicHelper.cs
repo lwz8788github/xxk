@@ -164,46 +164,9 @@ namespace xxkUI.Tool
 
     public static class DataFromPath
     {
-        private static string  _RemoteDbPath;
-        public static string RemoteDbPath
-        {
-            get
-            {
-                return _RemoteDbPath;
-            }
-
-            set
-            {
-                _RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
-            }
-        }
-
-        private static string _LocalDbPath;
-        public static string LocalDbPath
-        {
-            get
-            {
-                return _LocalDbPath;
-            }
-
-            set
-            {
-                _LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
-            }
-        }
-
-        private static string _HandleDataPath;
-        public static string HandleDataPath
-        {
-            get
-            {
-                return _HandleDataPath;
-            }
-
-            set
-            {
-                _HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
-            }
-        }
+        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
+        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
+        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
+      
     }
 }

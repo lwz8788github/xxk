@@ -9,7 +9,9 @@ using Steema.TeeChart.Drawing;
 using System.Drawing;
 using Steema.TeeChart.Tools;
 using xxkUI.Form;
+using System.Runtime.InteropServices;
 using xxkUI.Tool;
+using System.Reflection;
 
 namespace xxkUI.MyCls
 {
@@ -21,6 +23,7 @@ namespace xxkUI.MyCls
     }
     public class MyTeeChart
     {
+       
         #region 变量
         private TChart tChart;
         private ObsData obsfrm = new ObsData();
@@ -271,8 +274,8 @@ namespace xxkUI.MyCls
                 tChart.Series.Add(line);
                 line.Title = linename;
 
-                line.XValues.DataMember = "观测时间";
-                line.YValues.DataMember = "观测值";
+                line.XValues.DataMember = "obvdate";
+                line.YValues.DataMember = "obvvalue";
                 line.XValues.DateTime = true;
                 line.DataSource = dt;
                 line.Legend.Visible = false;
@@ -590,9 +593,9 @@ namespace xxkUI.MyCls
             {
                 Line ln = s as Line;
 
-                DataTable obsdata = (ln.DataSource as DataSet).Tables[0];
-                obsdata.Columns[0].ColumnName = "观测时间";
-                obsdata.Columns[1].ColumnName = "观测值";
+                DataTable obsdata = ln.DataSource as DataTable;
+                obsdata.Columns[0].ColumnName = "obvdate";
+                obsdata.Columns[1].ColumnName = "obvvalue";
                 if (this.tChart.Series.Count > 1)
                     AddSingleSeries(obsdata, ln.Title);
 
@@ -697,6 +700,22 @@ namespace xxkUI.MyCls
         {
             Line ln = sender as Line;
             ln.LinePen.Width++;
+        }
+
+        #endregion
+
+
+        #region 加减乘除
+
+        public void PlusMinusMultiplyDivide()
+        {
+            DataTable dt = this.tChart.Series[0].DataSource as DataTable;
+            DataProgreeFrm dpf = new DataProgreeFrm(dt.Rows.Count);
+            if (dpf.ShowDialog() == DialogResult.OK)
+            {
+                PriAlgorithmHelper pralg = new PriAlgorithmHelper();
+                AddSingleSeries(pralg.PlusMinusMultiplyDivide(dt, dpf.progreeValue, dpf.dpm), this.tChart.Header.Text);
+            }
         }
 
         #endregion

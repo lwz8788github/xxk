@@ -83,6 +83,7 @@
             this.btnImportObsline = new DevExpress.XtraBars.BarButtonItem();
             this.btnRecycled = new DevExpress.XtraBars.BarButtonItem();
             this.btnDownLoad = new DevExpress.XtraBars.BarButtonItem();
+            this.btnPlus = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -126,15 +127,12 @@
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.recycleTabPage = new DevExpress.XtraTab.XtraTabPage();
-            this.recycleControl1 = new xxkUI.Controls.RecycleControl();
             this.siteInfoTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.siteInfoDocCtrl = new xxkUI.Controls.SiteInfoDocCtrl();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.chartGroupBox = new System.Windows.Forms.GroupBox();
-            this.siteLayoutMaps1 = new xxkUI.Controls.SiteLayoutMaps();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnExportChart = new DevExpress.XtraEditors.SimpleButton();
             this.btnGrid = new DevExpress.XtraEditors.SimpleButton();
@@ -144,6 +142,8 @@
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.btnMouseCur = new DevExpress.XtraEditors.SimpleButton();
             this.btnShowTitle = new DevExpress.XtraEditors.SimpleButton();
+            this.recycleTabPage = new DevExpress.XtraTab.XtraTabPage();
+            this.recycleControl1 = new xxkUI.Controls.RecycleControl();
             this.barEditItemCounty = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem4 = new DevExpress.XtraBars.BarEditItem();
             this.barEditItem5 = new DevExpress.XtraBars.BarEditItem();
@@ -178,12 +178,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
-            this.recycleTabPage.SuspendLayout();
             this.siteInfoTabPage.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
-            this.chartGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.recycleTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
@@ -261,10 +260,11 @@
             this.btnSiteInfo,
             this.btnImportObsline,
             this.btnRecycled,
-            this.btnDownLoad});
+            this.btnDownLoad,
+            this.btnPlus});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbon.MaxItemId = 84;
+            this.ribbon.MaxItemId = 86;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -646,6 +646,14 @@
             this.btnDownLoad.Name = "btnDownLoad";
             this.btnDownLoad.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenu_ItemClick);
             // 
+            // btnPlus
+            // 
+            this.btnPlus.Caption = "加减乘除";
+            this.btnPlus.Id = 84;
+            this.btnPlus.Name = "btnPlus";
+            this.btnPlus.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnPlus.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -758,6 +766,7 @@
             // 
             // ribbonPageGroup15
             // 
+            this.ribbonPageGroup15.ItemLinks.Add(this.btnPlus);
             this.ribbonPageGroup15.Name = "ribbonPageGroup15";
             this.ribbonPageGroup15.Text = "加减乘除";
             // 
@@ -1027,25 +1036,6 @@
             this.siteInfoTabPage,
             this.recycleTabPage});
             // 
-            // recycleTabPage
-            // 
-            this.recycleTabPage.Controls.Add(this.recycleControl1);
-            this.recycleTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.recycleTabPage.Name = "recycleTabPage";
-            this.recycleTabPage.Size = new System.Drawing.Size(1156, 471);
-            this.recycleTabPage.Text = "回收站";
-            // 
-            // recycleControl1
-            // 
-            this.recycleControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.recycleControl1.Location = new System.Drawing.Point(3, 5);
-            this.recycleControl1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.recycleControl1.Name = "recycleControl1";
-            this.recycleControl1.Size = new System.Drawing.Size(1371, 600);
-            this.recycleControl1.TabIndex = 0;
-            // 
             // siteInfoTabPage
             // 
             this.siteInfoTabPage.Controls.Add(this.siteInfoDocCtrl);
@@ -1068,7 +1058,7 @@
             this.mapTabPage.Controls.Add(this.gMapCtrl);
             this.mapTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.mapTabPage.Name = "mapTabPage";
-            this.mapTabPage.Size = new System.Drawing.Size(1156, 471);
+            this.mapTabPage.Size = new System.Drawing.Size(1183, 475);
             this.mapTabPage.Text = "场地分布";
             // 
             // gMapCtrl
@@ -1094,7 +1084,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(1156, 471);
+            this.gMapCtrl.Size = new System.Drawing.Size(1183, 475);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -1108,29 +1098,19 @@
             this.chartTabPage.Controls.Add(this.groupBox1);
             this.chartTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartTabPage.Name = "chartTabPage";
-            this.chartTabPage.Size = new System.Drawing.Size(1156, 471);
+            this.chartTabPage.Size = new System.Drawing.Size(1183, 475);
             this.chartTabPage.Text = "趋势图";
             // 
             // chartGroupBox
             // 
-            this.chartGroupBox.Controls.Add(this.siteLayoutMaps1);
             this.chartGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
             this.chartGroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chartGroupBox.Name = "chartGroupBox";
             this.chartGroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chartGroupBox.Size = new System.Drawing.Size(1156, 416);
+            this.chartGroupBox.Size = new System.Drawing.Size(1183, 420);
             this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
-            // 
-            // siteLayoutMaps1
-            // 
-            this.siteLayoutMaps1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.siteLayoutMaps1.Location = new System.Drawing.Point(3, 23);
-            this.siteLayoutMaps1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-            this.siteLayoutMaps1.Name = "siteLayoutMaps1";
-            this.siteLayoutMaps1.Size = new System.Drawing.Size(1150, 185);
-            this.siteLayoutMaps1.TabIndex = 2;
             // 
             // groupBox1
             // 
@@ -1143,11 +1123,11 @@
             this.groupBox1.Controls.Add(this.btnMouseCur);
             this.groupBox1.Controls.Add(this.btnShowTitle);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 416);
+            this.groupBox1.Location = new System.Drawing.Point(0, 420);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(1156, 55);
+            this.groupBox1.Size = new System.Drawing.Size(1183, 55);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
@@ -1238,6 +1218,25 @@
             this.btnShowTitle.Text = "标题";
             this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
+            // recycleTabPage
+            // 
+            this.recycleTabPage.Controls.Add(this.recycleControl1);
+            this.recycleTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.recycleTabPage.Name = "recycleTabPage";
+            this.recycleTabPage.Size = new System.Drawing.Size(1183, 475);
+            this.recycleTabPage.Text = "回收站";
+            // 
+            // recycleControl1
+            // 
+            this.recycleControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.recycleControl1.Location = new System.Drawing.Point(3, 5);
+            this.recycleControl1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.recycleControl1.Name = "recycleControl1";
+            this.recycleControl1.Size = new System.Drawing.Size(1371, 600);
+            this.recycleControl1.TabIndex = 0;
+            // 
             // barEditItemCounty
             // 
             this.barEditItemCounty.Edit = null;
@@ -1324,12 +1323,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
-            this.recycleTabPage.ResumeLayout(false);
             this.siteInfoTabPage.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
-            this.chartGroupBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.recycleTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
@@ -1459,7 +1457,6 @@
 
         private DevExpress.XtraTab.XtraTabPage recycleTabPage;
         private Controls.RecycleControl recycleControl1;
-        private Controls.SiteLayoutMaps siteLayoutMaps1;
 
         private DevExpress.XtraBars.Docking.DockPanel panelContainer1;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelManipData;
@@ -1467,6 +1464,6 @@
         private DevExpress.XtraTreeList.TreeList treeListManipData;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
         private DevExpress.XtraBars.BarButtonItem btnDownLoad;
-
+        private DevExpress.XtraBars.BarButtonItem btnPlus;
     }
 }

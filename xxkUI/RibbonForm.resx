@@ -791,7 +791,7 @@
     <value>82</value>
   </metadata>
   <metadata name="imageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 59</value>
+    <value>1014, 17</value>
   </metadata>
   <metadata name="popRemoteSiteTree.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>395, 17</value>
@@ -800,15 +800,15 @@
     <value>599, 17</value>
   </metadata>
   <metadata name="popLineTreeWork.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>358, 59</value>
+    <value>222, 59</value>
   </metadata>
   <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>805, 17</value>
   </metadata>
   <metadata name="defaultLookAndFeel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>153, 59</value>
+    <value>17, 59</value>
   </metadata>
   <metadata name="popLocalTree.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>547, 59</value>
+    <value>411, 59</value>
   </metadata>
 </root>

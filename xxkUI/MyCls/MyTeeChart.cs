@@ -225,9 +225,7 @@ namespace xxkUI.MyCls
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
-                    dt.Columns[0].ColumnName = "观测时间";
-                    dt.Columns[1].ColumnName = "观测值";
-
+                 
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;

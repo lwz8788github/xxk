@@ -120,6 +120,10 @@
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanelManipData = new DevExpress.XtraBars.Docking.DockPanel();
+            this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListManipData = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelRemoteData = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListRemoteData = new DevExpress.XtraTreeList.TreeList();
@@ -128,10 +132,6 @@
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListLocalData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.dockPanelManipData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListManipData = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.siteInfoTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -140,7 +140,6 @@
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.chartGroupBox = new System.Windows.Forms.GroupBox();
-            this.siteLayoutMaps1 = new xxkUI.Controls.SiteLayoutMaps();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnExportChart = new DevExpress.XtraEditors.SimpleButton();
             this.btnGrid = new DevExpress.XtraEditors.SimpleButton();
@@ -180,21 +179,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.panelContainer1.SuspendLayout();
+            this.dockPanelManipData.SuspendLayout();
+            this.controlContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
             this.dockPanelRemoteData.SuspendLayout();
             this.dockPanel3_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).BeginInit();
             this.dockPanelLocalData.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListLocalData)).BeginInit();
-            this.dockPanelManipData.SuspendLayout();
-            this.controlContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.siteInfoTabPage.SuspendLayout();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
-            this.chartGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.recycleTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).BeginInit();
@@ -762,8 +760,6 @@
             this.ribbonPageGroup5.ItemLinks.Add(this.btnSysAbout);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnHelper);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnExit);
-            this.ribbonPageGroup5.ItemLinks.Add(this.btnSiteInfo_remote);
-            this.ribbonPageGroup5.ItemLinks.Add(this.btnSiteLocation_remote);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.Text = "系统";
             // 
@@ -954,6 +950,46 @@
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
             // 
+            // dockPanelManipData
+            // 
+            this.dockPanelManipData.Controls.Add(this.controlContainer1);
+            this.dockPanelManipData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelManipData.ID = new System.Guid("c3051830-b722-4138-a46f-080928d6e09b");
+            this.dockPanelManipData.Location = new System.Drawing.Point(5, 28);
+            this.dockPanelManipData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanelManipData.Name = "dockPanelManipData";
+            this.dockPanelManipData.OriginalSize = new System.Drawing.Size(202, 436);
+            this.dockPanelManipData.Size = new System.Drawing.Size(174, 444);
+            this.dockPanelManipData.Text = "处理数据";
+            // 
+            // controlContainer1
+            // 
+            this.controlContainer1.Controls.Add(this.treeListManipData);
+            this.controlContainer1.Location = new System.Drawing.Point(0, 0);
+            this.controlContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.controlContainer1.Name = "controlContainer1";
+            this.controlContainer1.Size = new System.Drawing.Size(174, 444);
+            this.controlContainer1.TabIndex = 0;
+            // 
+            // treeListManipData
+            // 
+            this.treeListManipData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn3});
+            this.treeListManipData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListManipData.Location = new System.Drawing.Point(0, 0);
+            this.treeListManipData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeListManipData.Name = "treeListManipData";
+            this.treeListManipData.Size = new System.Drawing.Size(174, 444);
+            this.treeListManipData.TabIndex = 0;
+            // 
+            // treeListColumn3
+            // 
+            this.treeListColumn3.Caption = "文件";
+            this.treeListColumn3.FieldName = "文件";
+            this.treeListColumn3.Name = "treeListColumn3";
+            this.treeListColumn3.Visible = true;
+            this.treeListColumn3.VisibleIndex = 0;
+            // 
             // dockPanelRemoteData
             // 
             this.dockPanelRemoteData.Controls.Add(this.dockPanel3_Container);
@@ -1053,46 +1089,6 @@
             this.treeListColumn2.Visible = true;
             this.treeListColumn2.VisibleIndex = 0;
             // 
-            // dockPanelManipData
-            // 
-            this.dockPanelManipData.Controls.Add(this.controlContainer1);
-            this.dockPanelManipData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelManipData.ID = new System.Guid("c3051830-b722-4138-a46f-080928d6e09b");
-            this.dockPanelManipData.Location = new System.Drawing.Point(5, 28);
-            this.dockPanelManipData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dockPanelManipData.Name = "dockPanelManipData";
-            this.dockPanelManipData.OriginalSize = new System.Drawing.Size(202, 436);
-            this.dockPanelManipData.Size = new System.Drawing.Size(174, 444);
-            this.dockPanelManipData.Text = "处理数据";
-            // 
-            // controlContainer1
-            // 
-            this.controlContainer1.Controls.Add(this.treeListManipData);
-            this.controlContainer1.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.controlContainer1.Name = "controlContainer1";
-            this.controlContainer1.Size = new System.Drawing.Size(174, 444);
-            this.controlContainer1.TabIndex = 0;
-            // 
-            // treeListManipData
-            // 
-            this.treeListManipData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn3});
-            this.treeListManipData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListManipData.Location = new System.Drawing.Point(0, 0);
-            this.treeListManipData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.treeListManipData.Name = "treeListManipData";
-            this.treeListManipData.Size = new System.Drawing.Size(174, 444);
-            this.treeListManipData.TabIndex = 0;
-            // 
-            // treeListColumn3
-            // 
-            this.treeListColumn3.Caption = "文件";
-            this.treeListColumn3.FieldName = "文件";
-            this.treeListColumn3.Name = "treeListColumn3";
-            this.treeListColumn3.Visible = true;
-            this.treeListColumn3.VisibleIndex = 0;
-            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -1181,7 +1177,6 @@
             // 
             // chartGroupBox
             // 
-            this.chartGroupBox.Controls.Add(this.siteLayoutMaps1);
             this.chartGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
             this.chartGroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1190,15 +1185,6 @@
             this.chartGroupBox.Size = new System.Drawing.Size(1183, 420);
             this.chartGroupBox.TabIndex = 11;
             this.chartGroupBox.TabStop = false;
-            // 
-            // siteLayoutMaps1
-            // 
-            this.siteLayoutMaps1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.siteLayoutMaps1.Location = new System.Drawing.Point(3, 23);
-            this.siteLayoutMaps1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-            this.siteLayoutMaps1.Name = "siteLayoutMaps1";
-            this.siteLayoutMaps1.Size = new System.Drawing.Size(1177, 185);
-            this.siteLayoutMaps1.TabIndex = 2;
             // 
             // groupBox1
             // 
@@ -1413,21 +1399,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
             this.panelContainer1.ResumeLayout(false);
+            this.dockPanelManipData.ResumeLayout(false);
+            this.controlContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
             this.dockPanelRemoteData.ResumeLayout(false);
             this.dockPanel3_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListRemoteData)).EndInit();
             this.dockPanelLocalData.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListLocalData)).EndInit();
-            this.dockPanelManipData.ResumeLayout(false);
-            this.controlContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.siteInfoTabPage.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
-            this.chartGroupBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.recycleTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).EndInit();
@@ -1559,7 +1544,6 @@
 
         private DevExpress.XtraTab.XtraTabPage recycleTabPage;
         private Controls.RecycleControl recycleControl1;
-        private Controls.SiteLayoutMaps siteLayoutMaps1;
 
         private DevExpress.XtraBars.Docking.DockPanel panelContainer1;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelManipData;

@@ -107,7 +107,6 @@ namespace xxkUI.MyCls
                      tb.Tag = sb;//lwl
                      RemoteData.Add(tb);
                  }
-
                  //远程信息库测线列表显示
                  string remoteFolder = Application.StartupPath + "/远程信息库缓存";
                  List<String> remoteExcelList = new List<string>();

@@ -30,6 +30,8 @@ namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
+        private eqkList eqklist = null;
+
         private XTreeList xtl;
       
         private List<string> userAut = new List<string>();
@@ -38,6 +40,7 @@ namespace xxkUI
         private List<string> importDataFiles = new List<string>();//导入数据的文件路径集
 
         private MyTeeChart mtc = null;
+        private EqkShow eqkShow;
         public RibbonForm()
         {
             InitializeComponent();
@@ -944,7 +947,11 @@ namespace xxkUI
             this.recycleControl1.LoadRecycleItems();
          
         }
-
+        /// <summary>
+        /// 查询地震
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEqkQuery_ItemClick(object sender, ItemClickEventArgs e)
         {
             float eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
@@ -978,6 +985,7 @@ namespace xxkUI
                 this.beiEqkEndTime.EditValue = "";
                 return;
             }
+            //string sql0 = "select longtitude as 'u经度',latitude as 'u纬度',eakdate as 'u时间', magntd as 'u震级', depth as 'u深度', place as 'u地点'";
             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
             if (eqkMlMin == eqkMlMax) sql1 = "  from t_eqkcatalog where MAGNTD = " + eqkMlMin;
@@ -991,7 +999,7 @@ namespace xxkUI
             if (eqkDataList.Count() > 0)
             {
                 this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, this.gMapCtrl);
+                eqkShow.annoEqkList();
             }
             else
             {
@@ -999,9 +1007,6 @@ namespace xxkUI
             }
 
         }
-
-
-       
 
         private void btnDataProgress_ItemClick(object sender, ItemClickEventArgs e)
         {

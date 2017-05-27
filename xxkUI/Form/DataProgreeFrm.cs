@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,7 @@ using xxkUI.Tool;
 
 namespace xxkUI.Form
 {
-    public partial class DataProgreeFrm : DevExpress.DXCore.Controls.XtraEditors.XtraForm
+    public partial class DataProgreeFrm : XtraForm
     {
         public DataProessMethod dpm = DataProessMethod.NoProg;
         public double progreeValue = double.NaN;
@@ -32,7 +33,7 @@ namespace xxkUI.Form
             catch
             {
                 progreeValue = double.NaN;
-                DevExpress.DXCore.Controls.XtraEditors.XtraMessageBox.Show("不是有效的数字", "错误");
+                XtraMessageBox.Show("不是有效的数字", "错误");
                 this.textValue.Focus();
                 return;
 

@@ -18,11 +18,12 @@ namespace xxkUI.Form
 {
     public partial class EqkShow :XtraForm
     {
-        private List<EqkBean> eqkDataList = new List<EqkBean>();
+       private List<EqkBean> eqkDataList = new List<EqkBean>();
        private LineTag lineTag = new LineTag();
        private TChart tChart;
        private DragPoint DragPtTool;
        private DrawLine DrawlnTool;
+       private eqkList eqklist = null;
      
         public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
         {
@@ -89,7 +90,9 @@ namespace xxkUI.Form
             double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
             double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
 
+            //string sql0 = "select longtitude as '经度',latitude as '纬度',eakdate as '时间', magntd as '震级', depth as '深度', place as '地点'";
             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
+
             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax; 
             string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
             string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
@@ -341,13 +344,49 @@ namespace xxkUI.Form
 
             ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
 
-            //GMap.NET.WindowsForms.GMapControl gMapCtrl;
-
-            //gmmkks = new GMapMarkerKdcSite(gMapCtrl);
             GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
-            GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
+            annoEqkList(gmapcontrol);
+        }
+        public void annoEqkList(GMap.NET.WindowsForms.GMapControl gmapcontrol=null)
+        {
+            for (int i = 0; i < this.gridView.RowCount; i++)
+            {
+                string value = this.gridView.GetDataRow(i)["check"].ToString();
+                if (value == "True")
+                {
+                    GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
+                    MapEqkShowForm(eqkDataList);
+                }
 
-            
+            }
+        }
+
+        /// <summary>
+        /// 地震列表
+        /// </summary>
+        public void MapEqkShowForm(List<EqkBean> eqkShowList)
+        {
+            if (eqklist != null)
+            {
+                if (eqklist.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    eqklist = new eqkList(eqkShowList);
+
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+                else
+                {
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+            }
+            else
+            {
+                eqklist = new eqkList(eqkShowList);
+                eqklist.Show();
+                eqklist.Focus();
+            }
         }
     }
 }

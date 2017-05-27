@@ -15,11 +15,16 @@ namespace Common.Data.MySql
         private static string connString;
         public static string ConnectionString
         {
-            get
+            get { return connString; }
+            set
             {
-                string connStr = ConfigurationManager.ConnectionStrings["MyConnnect"].ConnectionString;
-                return connStr;
+                connString = value;
             }
+        }
+
+        public static bool IsCanConnected(string connstr)
+        {
+            return MysqlHelper.ConnectionTest(connstr);
         }
 
         public static int ExecuteNonQuery(string SQLString)
@@ -27,7 +32,7 @@ namespace Common.Data.MySql
             return MysqlHelper.ExecuteNonQuery(SQLString);
         }
         /// <summary>   
-        /// 执行SQL语句，返回影响的记录数   
+        /// 执行SQL语句，返回影响的记录数
         /// </summary>   
         /// <param name="SQLString">SQL语句</param>   
         /// <returns>影响的记录数</returns>   
@@ -37,12 +42,12 @@ namespace Common.Data.MySql
         }
         //执行多条SQL语句，实现数据库事务。   
         /// <summary>   
-        /// 执行多条SQL语句，实现数据库事务。   
+        /// 执行多条SQL语句，实现数据库事务。
         /// </summary>   
         /// <param name="SQLStringList">多条SQL语句</param>   
-        public static bool ExecuteNoQueryTran(List<String> SQLStringList)
+        public static bool ExecuteSqlTran(List<String> SQLStringList)
         {
-            return MysqlHelper.ExecuteNoQueryTran(SQLStringList);
+            return MysqlHelper.ExecuteSqlTran(SQLStringList);
         }
 
         #region ExecuteScalar   

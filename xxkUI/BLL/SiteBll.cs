@@ -62,9 +62,26 @@ namespace xxkUI.Bll
         public IEnumerable<SiteBean> GetSitesByAuth(string auths)
         {
             return SiteDal.Instance.GetList(@"select UNITCODE,SITECODE,SITENAME,TYPE,HISTORYSITE,LONGTITUDE,
-                                                LATITUDE, ALTITUDE,PLACE,FAULTNAME,FAULTPROPERTY,FAULTSTRIKE,
-                                                FAULTTENDENCY,FAULTDIP,UPROCK,BOTTOMROCK,STARTDATE,XZCODE
+                                                LATITUDE, ALTITUDE,PLACE,STARTDATE,SITESTATUS,MARKSTONETYPE,DATACHG,FAULTNAME,
+                                                BUILDUNIT,OBSUNIT,SITESITUATION,GEOSITUATION,NOTE,LOCATIONS,OTHERSITUATION
                                                  from t_siteinfodb where UNITCODE in " + auths);
+        }
+        /// <summary>
+        /// 根据场地编码获取场地名称
+        /// </summary>
+        /// <param name="sitecode">场地编码</param>
+        /// <returns>场地名称</returns>
+        public string GetSitenameByID(string sitecode)
+        {
+            string sitename = SiteDal.Instance.GetByID("SITENAME", "SITECODE", sitecode).ToString();
+            return sitename;
+        }
+
+
+        public string GetSiteCodeByName(string sitename)
+        {
+            string sitecode = SiteDal.Instance.GetByID("SITECODE", "SITENAME", sitename).ToString();
+            return sitecode;
         }
 
         /// <summary>
@@ -79,7 +96,41 @@ namespace xxkUI.Bll
             string filename = string.Empty;
             try
             {
-                filename = System.Windows.Forms.Application.StartupPath + "/tempDoc/" + idvalue + ".doc";
+                filename = System.Windows.Forms.Application.StartupPath + "/文档缓存/" + idvalue + ".doc";
+                if (!File.Exists(filename))
+                {
+                    byte[] blob = GetBlob<SiteBean>(idname, idvalue, blobfield);
+                    if (blob == null)
+                        return string.Empty;
+                    if (blob.Length == 0)
+                        return string.Empty;
+
+                    File.WriteAllBytes(filename, blob);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                filename = string.Empty;
+                throw new Exception(ex.Message);
+            }
+
+            return filename;
+        }
+
+        /// <summary>
+        /// 下载图片
+        /// </summary>
+        /// <param name="idname"></param>
+        /// <param name="idvalue"></param>
+        /// <param name="blobfield"></param>
+        /// <returns></returns>
+        public string DownloadPic(string idname, string idvalue, string blobfield)
+        {
+            string filename = string.Empty;
+            try
+            {
+                filename = System.Windows.Forms.Application.StartupPath + "/图片缓存/" + idvalue + ".jpg";
                 if (!File.Exists(filename))
                 {
                     byte[] blob = GetBlob<SiteBean>(idname, idvalue, blobfield);

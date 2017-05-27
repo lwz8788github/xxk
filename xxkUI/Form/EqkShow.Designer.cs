@@ -109,6 +109,7 @@
             this.btnEqkSite.Size = new System.Drawing.Size(100, 20);
             this.btnEqkSite.TabIndex = 24;
             this.btnEqkSite.Text = "查看地图";
+            this.btnEqkSite.Click += new System.EventHandler(this.btnEqkSite_Click);
             // 
             // btnExit
             // 

@@ -15,8 +15,52 @@ namespace Common.Data.MySql
         //数据库连接字符串(web.config来配置)，可以动态更改connectionString支持多数据库.   
         // public static string connectionString = ConfigurationManager.ConnectionStrings["ConnDB"].ConnectionString;   
         public static string connectionString = ConfigurationManager.AppSettings["MySQL"];
-        //public string m = ConfigurationManager.AppSettings["MySQL"];   
+        //public string m = ConfigurationManager.AppSettings["MySQL"];
+
+
         public MysqlHelper() { }
+
+         /// <summary>
+        /// 测试连接数据库是否成功
+        /// </summary>
+        /// <returns></returns>
+        public static bool ConnectionTest(string cnnstr)
+        {
+            bool IsCanConnectioned = false;
+
+            MySqlConnection mySqlConnection = new MySqlConnection(cnnstr);
+            try
+            {
+                //Open DataBase
+                //打开数据库
+                mySqlConnection.Open();
+                IsCanConnectioned = true;
+            }
+            catch
+            {
+                //Can not Open DataBase
+                //打开不成功 则连接不成功
+                IsCanConnectioned = false;
+            }
+            finally
+            {
+                //Close DataBase
+                //关闭数据库连接
+                mySqlConnection.Close();
+            }
+            //mySqlConnection   is   a   SqlConnection   object 
+            if (mySqlConnection.State == ConnectionState.Closed || mySqlConnection.State == ConnectionState.Broken)
+            {
+                //Connection   is   not   available  
+                return IsCanConnectioned;
+            }
+            else
+            {
+                //Connection   is   available  
+                return IsCanConnectioned;
+            }
+        }
+    
         #region ExecuteNonQuery   
         //执行SQL语句，返回影响的记录数   
         /// <summary>   
@@ -71,7 +115,7 @@ namespace Common.Data.MySql
         }
         //执行多条SQL语句，实现数据库事务。   
         /// <summary>   
-        /// 执行多条SQL语句，实现数据库事务。   
+        /// 执行多条SQL语句，实现数据库事务。（这个过程有问题，总是多插入一行相同记录，暂时废弃。类似方法用下面ExecuteSqlTran）
         /// </summary>   
         /// <param name="SQLStringList">多条SQL语句</param>   
         public static bool ExecuteNoQueryTran(List<String> SQLStringList)
@@ -99,13 +143,52 @@ namespace Common.Data.MySql
                     tx.Commit();
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
                     tx.Rollback();
                     return false;
                 }
             }
         }
+
+        /// <summary>
+        ///  执行多条SQL语句，实现数据库事务
+        /// </summary>
+        /// <param name="SQLStringList">多条sql</param>
+        /// <returns>是否执行成功</returns>
+         public static bool ExecuteSqlTran(List<string> SQLStringList)  
+         {
+             using (MySqlConnection conn = new MySqlConnection(connectionString))  
+             {  
+                 conn.Open();  
+                 MySqlCommand cmd = new MySqlCommand();  
+                 cmd.Connection = conn;  
+                 MySqlTransaction tx = conn.BeginTransaction();  
+                 cmd.Transaction = tx;  
+                 try  
+                 {  
+                     for (int n = 0; n < SQLStringList.Count; n++)  
+                     {  
+                         string strsql = SQLStringList[n].ToString();  
+                         if (strsql.Trim().Length > 1)  
+                         {  
+                             cmd.CommandText = strsql;  
+                             cmd.ExecuteNonQuery();  
+                         }  
+                     
+                     }  
+                     tx.Commit();
+                     return true;
+                 }  
+                 catch (System.Data.SqlClient.SqlException E)  
+                 {  
+                     tx.Rollback();
+                     return false;
+                 }  
+           }  
+        } 
+
+
         #endregion
         #region ExecuteScalar   
         /// <summary>   

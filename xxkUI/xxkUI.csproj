@@ -81,33 +81,40 @@
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\Net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="NPOI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\NPOI.dll</HintPath>
+      <HintPath>..\..\Net40\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OOXML, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\NPOI.OOXML.dll</HintPath>
+      <HintPath>..\..\Net40\NPOI.OOXML.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXml4Net, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\NPOI.OpenXml4Net.dll</HintPath>
+      <HintPath>..\..\Net40\NPOI.OpenXml4Net.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\NPOI.OpenXmlFormats.dll</HintPath>
+      <HintPath>..\..\Net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="NVelocity">
-      <HintPath>..\Common\bin\Debug\NVelocity.dll</HintPath>
+      <HintPath>..\..\GMap源码编译引用dll\NVelocity.dll</HintPath>
     </Reference>
-    <Reference Include="Omu.ValueInjecter">
-      <HintPath>..\Common\bin\Debug\Omu.ValueInjecter.dll</HintPath>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -137,11 +144,23 @@
     <Compile Include="Controls\OriDataControl.Designer.cs">
       <DependentUpon>OriDataControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RecycleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RecycleControl.Designer.cs">
+      <DependentUpon>RecycleControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SiteInfoDocCtrl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SiteInfoDocCtrl.Designer.cs">
       <DependentUpon>SiteInfoDocCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SiteLayoutMaps.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SiteLayoutMaps.Designer.cs">
+      <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\EqkDal.cs" />
     <Compile Include="DAL\LineDal.cs" />
@@ -149,11 +168,33 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\DataProgreeFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DataProgreeFrm.Designer.cs">
+      <DependentUpon>DataProgreeFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\eqkList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\eqkList.Designer.cs">
+      <DependentUpon>eqkList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\EqkShow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\EqkShow.Designer.cs">
       <DependentUpon>EqkShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ProgressForm.designer.cs" />
+    <Compile Include="Form\SaveToManipData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\SaveToManipData.Designer.cs">
+      <DependentUpon>SaveToManipData.cs</DependentUpon>
     </Compile>
     <Compile Include="Form\WaitForm.cs">
       <SubType>Form</SubType>
@@ -161,10 +202,10 @@
     <Compile Include="Form\WaitForm.Designer.cs">
       <DependentUpon>WaitForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Login.cs">
+    <Compile Include="Form\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Model\Login.Designer.cs">
+    <Compile Include="Form\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Form\ObsData.cs">
@@ -180,6 +221,7 @@
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\TreeBean.cs" />
+    <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
     <Compile Include="Model\EqkBean.cs" />
@@ -188,7 +230,11 @@
     <Compile Include="Model\SiteBean.cs" />
     <Compile Include="Model\UnitInfoBean.cs" />
     <Compile Include="Model\UserInfoBean.cs" />
+    <Compile Include="MyCls\MyDragPoint.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MyCls\MyTeeChart.cs" />
+    <Compile Include="MyCls\RecycledHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RibbonForm.cs">
@@ -198,6 +244,12 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
+    <Compile Include="Tool\FileOperateProxy.cs" />
+    <Compile Include="Tool\NumberHelper.cs" />
+    <Compile Include="Tool\PriAlgorithmHelper.cs" />
+    <Compile Include="Tool\RegeditHelper.cs" />
+    <Compile Include="Tool\SystemHelper.cs" />
+    <Compile Include="Tool\WordHelper.cs" />
     <Compile Include="Tool\LogManager.cs" />
     <Compile Include="Tool\ModelHandler.cs" />
     <Compile Include="MyCls\XTreeList.cs" />
@@ -207,16 +259,32 @@
     <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
+    <EmbeddedResource Include="Controls\RecycleControl.resx">
+      <DependentUpon>RecycleControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SiteInfoDocCtrl.resx">
       <DependentUpon>SiteInfoDocCtrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
+      <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DataProgreeFrm.resx">
+      <DependentUpon>DataProgreeFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\eqkList.resx">
+      <DependentUpon>eqkList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\EqkShow.resx">
       <DependentUpon>EqkShow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\ProgressForm.resx" />
+    <EmbeddedResource Include="Form\SaveToManipData.resx">
+      <DependentUpon>SaveToManipData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\WaitForm.resx">
       <DependentUpon>WaitForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Model\Login.resx">
+    <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\ObsData.resx">

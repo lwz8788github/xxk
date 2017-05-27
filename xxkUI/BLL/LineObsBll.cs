@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Common.Provider;
 using xxkUI.Dal;
+using System.IO;
+using xxkUI.Tool;
 
 namespace xxkUI.Bll
 {
@@ -17,9 +19,7 @@ namespace xxkUI.Bll
 
         public int Add(LineObsBean model)
         {
-            model = new LineObsBean();
-           
-            return LineObsDal.Instance.Insert(model);
+           return LineObsDal.Instance.Insert(model);
         }
 
         public int Update(LineObsBean model)
@@ -41,7 +41,19 @@ namespace xxkUI.Bll
         {
             return LineObsDal.Instance.GetDataTable(sql);
         }
+        public DataTable GetDataTable(string linecode, string path)
+        {
+            DataTable dt = null;
 
+            string filename = path + "//" + linecode + ".xls";
+            if (File.Exists(filename))
+            {
+                NpoiCreator npcreator = new NpoiCreator();
+                dt = npcreator.ExcelToDataTable_LineObs(filename, true);
+            }
+
+            return dt;
+        }
 
         public IEnumerable<LineObsBean> GetAll()
         {

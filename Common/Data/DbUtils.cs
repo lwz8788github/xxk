@@ -15,10 +15,10 @@ namespace Common.Data
 
     public static class DbUtils
     {
-        static string cs = MysqlEasy.ConnectionString; //数据库连接字符串
+       
         public static IEnumerable<T> GetWhere<T>(object where) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -51,7 +51,7 @@ namespace Common.Data
 
         public static int CountWhere<T>(object where) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -65,14 +65,14 @@ namespace Common.Data
                     cmd.InjectFrom<SetParamsValues>(where);
                     conn.Open();
 
-                    return (int)cmd.ExecuteScalar();
+                    return  int.Parse(cmd.ExecuteScalar().ToString());
                 }
             }
         }
 
         public static int Delete<T>(int id)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -86,7 +86,7 @@ namespace Common.Data
 
         public static int DeleteWhere<T>(object where)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -105,7 +105,7 @@ namespace Common.Data
 
         public static int Delete<T>(string ids)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -120,14 +120,14 @@ namespace Common.Data
         ///<returns> the id of the inserted object </returns>
         public static int Insert(object o)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "insert " + TableConvention.Resolve(o) + " ("
                     .InjectFrom(new FieldsBy().IgnoreFields("keyid"), o) + ") values("
-                    .InjectFrom(new FieldsBy().IgnoreFields("keyid").SetFormat("@{0}"), o)
-                    + ") select @@identity";
+                    .InjectFrom(new FieldsBy().IgnoreFields("keyid").SetFormat("@{0}"), o) + ")";
+                    //+ ") select @@identity";
 
                 cmd.InjectFrom(new SetParamsValues().IgnoreFields("keyid"), o);
 
@@ -141,7 +141,7 @@ namespace Common.Data
             string[] strarr = { };
             if (!string.IsNullOrEmpty(IgnoreFields))
                 strarr = IgnoreFields.Split(',');
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -160,7 +160,7 @@ namespace Common.Data
 
         public static int Update(object o)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -177,7 +177,7 @@ namespace Common.Data
 
         public static int Update(object o, params string[] fields)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -194,7 +194,7 @@ namespace Common.Data
 
         public static int UpdateWhatWhere<T>(object what, object where)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -218,7 +218,7 @@ namespace Common.Data
 
         public static int InsertNoIdentity(object o)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -237,7 +237,7 @@ namespace Common.Data
         /// <returns>rows affected</returns>
         public static int ExecuteNonQuerySp(string sp, object parameters)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -252,7 +252,7 @@ namespace Common.Data
 
         public static int ExecuteNonQuery(string commendText, object parameters)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -267,7 +267,7 @@ namespace Common.Data
 
         public static IEnumerable<T> ExecuteReader<T>(string sql, object parameters) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -289,7 +289,7 @@ namespace Common.Data
 
         public static IEnumerable<T> ExecuteReaderSp<T>(string sp, object parameters) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -310,7 +310,7 @@ namespace Common.Data
 
         public static IEnumerable<T> ExecuteReaderSpValueType<T>(string sp, object parameters)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -329,7 +329,7 @@ namespace Common.Data
 
         public static int Count<T>()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -351,7 +351,7 @@ namespace Common.Data
 
         public static IEnumerable<T> GetAll<T>() where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -374,7 +374,7 @@ namespace Common.Data
 
         public static IEnumerable<T> GetList<T>(string sql, object parameters) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -398,7 +398,7 @@ namespace Common.Data
 
         public static IEnumerable<T> GetList<T>(string sql) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -421,7 +421,7 @@ namespace Common.Data
 
         public static DataTable GetPageWithSp(ProcCustomPage pcp, out int recordCount)
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -451,7 +451,7 @@ namespace Common.Data
 
         public static IEnumerable<T> GetPage<T>(int page, int pageSize) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -482,7 +482,7 @@ namespace Common.Data
 
         public static T Get<T>(long keyid) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -502,7 +502,7 @@ namespace Common.Data
 
         public static IEnumerable<T> Get<T>(string keyid) where T : new()
         {
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandType = CommandType.Text;
@@ -534,7 +534,7 @@ namespace Common.Data
         public static byte[] GetBlobByID<T>(string idname, string idvalue, string blobfieldname)
         {
             byte[] ms = null;
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -570,7 +570,7 @@ namespace Common.Data
         public static object GetByID<T>(string getwhat, string idname, string idvalue)
         {
             object o;
-            using (var conn = new MySqlConnection(cs))
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (var cmd = conn.CreateCommand())
                 {
@@ -595,9 +595,10 @@ namespace Common.Data
 
 
 
+
         //public static DataTable GetDataTable(string sql)
         //{
-        //    using (var conn = new MySqlConnection(cs))
+        //    using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
         //    {
         //        using (var cmd = conn.CreateCommand())
         //        {
@@ -623,7 +624,7 @@ namespace Common.Data
         {
             MySqlCommand cmd = new MySqlCommand();
             DataTable dt = new DataTable();
-            MySqlConnection conn = new MySqlConnection(cs);//connectionString))
+            MySqlConnection conn = new MySqlConnection(MysqlEasy.ConnectionString);//connectionString))
             {
                 MySqlDataAdapter SqlDA = new MySqlDataAdapter();
                 try
@@ -662,7 +663,7 @@ namespace Common.Data
         /// <returns>影响的记录数</returns>   
         public static int WriteBlob(string SQLString, string blobname, object blob)
         {
-            using (MySqlConnection connection = new MySqlConnection(cs))
+            using (MySqlConnection connection = new MySqlConnection(MysqlEasy.ConnectionString))
             {
                 using (MySqlCommand cmd = new MySqlCommand(SQLString, connection))
                 {

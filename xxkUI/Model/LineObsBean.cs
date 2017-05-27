@@ -25,7 +25,7 @@ public class LineObsBean
         set { _obvdate = value; }
     }
     private double _obvvalue;
-    [Description("观测值")]
+    [Description("数据")]
     public double obvvalue
     {
         get { return _obvvalue; }

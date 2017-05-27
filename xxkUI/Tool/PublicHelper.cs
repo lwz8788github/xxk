@@ -68,6 +68,33 @@ namespace xxkUI.Tool
             return rEdit;
         }
 
+
+        /// <summary>
+        /// 创建当前时间字符串(构建删除文件名用)
+        /// </summary>
+        /// <returns></returns>
+        public string CreateTimeStr()
+        {
+            string zipname = "";
+
+            string year = DateTime.Now.Year.ToString();
+            string month = DateTime.Now.Month.ToString();
+            string day = DateTime.Now.Day.ToString();
+            string hour = DateTime.Now.Hour.ToString();
+            string minute = DateTime.Now.Minute.ToString();
+            string second = DateTime.Now.Second.ToString();
+
+            if (month.Length < 2) month = "0" + month;
+            if (day.Length < 2) day = "0" + day;
+            if (hour.Length < 2) hour = "0" + hour;
+            if (minute.Length < 2) minute = "0" + minute;
+            if (second.Length < 2) second = "0" + second;
+
+            zipname = year + month + day + hour + minute + second;
+
+            return zipname;
+        }
+
     }
 
     /// <summary>
@@ -125,5 +152,47 @@ namespace xxkUI.Tool
     public enum LogType
     {
         Common, Right, Warning, Error
+    }
+
+    /// <summary>
+    /// 数据源分类：原始信息库、本地信息库、处理数据
+    /// </summary>
+    public enum DataFromType
+    {
+        OrigDb,LocalDb, HandleData
+    }
+
+
+    /// <summary>
+    /// 数据处理方法分类
+    /// </summary>
+    public enum DataProessMethod
+    {
+        /// <summary>
+        /// 加
+        /// </summary>
+        Plus,
+        /// <summary>
+        /// 减
+        /// </summary>
+        Minus,
+        /// <summary>
+        /// 乘
+        /// </summary>
+        Multiply,
+        /// <summary>
+        /// 除
+        /// </summary>
+        Divide,
+        /// <summary>
+        /// 无操作
+        /// </summary>
+        NoProg
+    }
+    public static class DataFromPath
+    {
+        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
+        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
+        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
     }
 }

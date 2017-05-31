@@ -147,46 +147,42 @@ namespace xxkUI.MyCls
         /// <summary>
         /// Map标注地震
         /// </summary>
-        public static void AnnotationEqkToMap(List<EqkBean> eqkList, GMap.NET.WindowsForms.GMapControl gMapCtrl)
+        public static void AnnotationEqkToMap(EqkBean eqkData, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             GMaps.Instance.Mode = AccessMode.ServerOnly;
             GMapOverlay EqkOverlay = new GMapOverlay("eqkmarkers");
 
-            foreach (EqkBean eqk in eqkList)
+            GMapMarker marker = null;
+            string picName = "";
+            switch ((int)eqkData.Magntd)
             {
-                GMapMarker marker = null;
-                string picName = "";
-                switch ((int)eqk.Magntd)
-                {
-                    case 0: picName = "2.png";
-                        break;
-                    case 1: picName = "2.png";
-                        break;
-                    case 2: picName = "2.png";
-                        break;
-                    case 3: picName = "3.png";
-                        break;
-                    case 4: picName = "4.png";
-                        break;
-                    case 5: picName = "5.png";
-                        break;
-                    case 6: picName = "6.png";
-                        break;
-                    case 7: picName = "7.png";
-                        break;
-                    case 8: picName = "8.png";
-                        break;
-                    case 9: picName = "9.png";
-                        break;
-
-                }
-                string picPath = System.Windows.Forms.Application.StartupPath + "//地震标注图片//" + picName;
-                Bitmap eqkDotPic = new Bitmap(picPath);
-                marker = new GMarkerGoogle(new PointLatLng(eqk.Latitude, eqk.Longtitude), eqkDotPic);
-                marker.Tag = eqk;
-                EqkOverlay.Markers.Add(marker);
-
+                case 0: picName = "2.png";
+                    break;
+                case 1: picName = "2.png";
+                    break;
+                case 2: picName = "2.png";
+                    break;
+                case 3: picName = "3.png";
+                    break;
+                case 4: picName = "4.png";
+                    break;
+                case 5: picName = "5.png";
+                    break;
+                case 6: picName = "6.png";
+                    break;
+                case 7: picName = "7.png";
+                    break;
+                case 8: picName = "8.png";
+                    break;
+                case 9: picName = "9.png";
+                    break;
             }
+            string picPath = System.Windows.Forms.Application.StartupPath + "//地震标注图片//" + picName;
+            Bitmap eqkDotPic = new Bitmap(picPath);
+            marker = new GMarkerGoogle(new PointLatLng(eqkData.Latitude, eqkData.Longtitude), eqkDotPic);
+            marker.Tag = eqkData;
+            EqkOverlay.Markers.Add(marker);
+
             gMapCtrl.Overlays.Add(EqkOverlay);
 
             gMapCtrl.Zoom += 1;

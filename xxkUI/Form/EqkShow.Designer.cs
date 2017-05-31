@@ -50,12 +50,13 @@
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMgd = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colDph = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPlc = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colDis = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cekbox = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -317,71 +318,75 @@
             // gridView
             // 
             this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.colTime,
-            this.colMgd,
-            this.colDph,
-            this.colPlc,
-            this.colDis,
-            this.cekbox});
+            this.gridColumn1,
+            this.gridColumn2,
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn5,
+            this.gridColumn6,
+            this.gridColumn7});
             this.gridView.GridControl = this.gridControl1;
             this.gridView.Name = "gridView";
+            this.gridView.OptionsBehavior.Editable = false;
             this.gridView.OptionsSelection.MultiSelect = true;
+            this.gridView.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.gridView.OptionsView.ShowGroupPanel = false;
             // 
-            // colTime
+            // gridColumn1
             // 
-            this.colTime.Caption = "时间";
-            this.colTime.FieldName = "EakDate";
-            this.colTime.Name = "colTime";
-            this.colTime.OptionsColumn.AllowEdit = false;
-            this.colTime.Visible = true;
-            this.colTime.VisibleIndex = 0;
+            this.gridColumn1.Caption = "经度";
+            this.gridColumn1.FieldName = "Longtitude";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 1;
             // 
-            // colMgd
+            // gridColumn2
             // 
-            this.colMgd.Caption = "震级(ML)";
-            this.colMgd.FieldName = "Magntd";
-            this.colMgd.Name = "colMgd";
-            this.colMgd.OptionsColumn.AllowEdit = false;
-            this.colMgd.Visible = true;
-            this.colMgd.VisibleIndex = 1;
+            this.gridColumn2.Caption = "纬度";
+            this.gridColumn2.FieldName = "Latitude";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 2;
             // 
-            // colDph
+            // gridColumn3
             // 
-            this.colDph.Caption = "震源深度(KM)";
-            this.colDph.FieldName = "Depth";
-            this.colDph.MinWidth = 40;
-            this.colDph.Name = "colDph";
-            this.colDph.OptionsColumn.AllowEdit = false;
-            this.colDph.Visible = true;
-            this.colDph.VisibleIndex = 2;
+            this.gridColumn3.Caption = "时间";
+            this.gridColumn3.FieldName = "EakDate";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 3;
             // 
-            // colPlc
+            // gridColumn4
             // 
-            this.colPlc.Caption = "地点";
-            this.colPlc.FieldName = "Place";
-            this.colPlc.Name = "colPlc";
-            this.colPlc.OptionsColumn.AllowEdit = false;
-            this.colPlc.Visible = true;
-            this.colPlc.VisibleIndex = 4;
+            this.gridColumn4.Caption = "震级";
+            this.gridColumn4.FieldName = "Magntd";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 4;
             // 
-            // colDis
+            // gridColumn5
             // 
-            this.colDis.Caption = "距离(KM)";
-            this.colDis.FieldName = "Dist";
-            this.colDis.Name = "colDis";
-            this.colDis.OptionsColumn.AllowEdit = false;
-            this.colDis.Visible = true;
-            this.colDis.VisibleIndex = 3;
+            this.gridColumn5.Caption = "深度";
+            this.gridColumn5.FieldName = "Depth";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 5;
             // 
-            // cekbox
+            // gridColumn6
             // 
-            this.cekbox.Caption = "选择";
-            this.cekbox.ColumnEdit = this.repositoryItemCheckEdit1;
-            this.cekbox.FieldName = "check";
-            this.cekbox.Name = "cekbox";
-            this.cekbox.Visible = true;
-            this.cekbox.VisibleIndex = 5;
+            this.gridColumn6.Caption = "地点";
+            this.gridColumn6.FieldName = "Place";
+            this.gridColumn6.Name = "gridColumn6";
+            this.gridColumn6.Visible = true;
+            this.gridColumn6.VisibleIndex = 6;
+            // 
+            // gridColumn7
+            // 
+            this.gridColumn7.Caption = "距离";
+            this.gridColumn7.FieldName = "Dist";
+            this.gridColumn7.Name = "gridColumn7";
+            this.gridColumn7.Visible = true;
+            this.gridColumn7.VisibleIndex = 7;
             // 
             // repositoryItemCheckEdit1
             // 
@@ -442,13 +447,14 @@
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView;
-        private DevExpress.XtraGrid.Columns.GridColumn colTime;
-        private DevExpress.XtraGrid.Columns.GridColumn colMgd;
-        private DevExpress.XtraGrid.Columns.GridColumn colDph;
-        private DevExpress.XtraGrid.Columns.GridColumn colDis;
-        private DevExpress.XtraGrid.Columns.GridColumn colPlc;
-        private DevExpress.XtraGrid.Columns.GridColumn cekbox;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
 
     }
 }

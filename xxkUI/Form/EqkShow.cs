@@ -40,7 +40,7 @@ namespace xxkUI.Form
 
         public void LoadEqkData(DataTable dt)
         {
-            dt.Columns.Add("check", Type.GetType("System.Boolean"));
+            //dt.Columns.Add("check", Type.GetType("System.Boolean"));
             //this.gridView.Columns.Clear();
             this.gridControl1.DataSource = null;
             this.gridControl1.DataSource = dt;
@@ -89,10 +89,8 @@ namespace xxkUI.Form
             }
             double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
             double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
-
-            //string sql0 = "select longtitude as '经度',latitude as '纬度',eakdate as '时间', magntd as '震级', depth as '深度', place as '地点'";
+           
             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
-
             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax; 
             string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
             string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
@@ -204,52 +202,51 @@ namespace xxkUI.Form
             double scale = 1.0;
             Boolean isEqkInTimeSpan = false;
             this.tChart.Tools.Clear();
-            for (int i = 0; i < this.gridView.RowCount; i++)
+            
+            int[] rowNum = this.gridView.GetSelectedRows();
+            for (int index = 0; index < rowNum.Length; index++)
             {
-                value = this.gridView.GetDataRow(i)["check"].ToString();
-                if (value == "True")
+                int i = rowNum[index];
+                eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
+                DateTime eqkTime = DateTime.Parse(eqkTimeStr);
+                double maxX = tChart.Series[0].XValues.Maximum;
+                double minX = tChart.Series[0].XValues.Minimum;
+                DateTime maxEqkT = DateTime.FromOADate(maxX);
+                DateTime minEqkT = DateTime.FromOADate(minX);
+                TimeSpan spanT = eqkTime.Subtract(minEqkT);
+                double eqkT = spanT.Days + minX;
+
+                double maxY = tChart.Chart.Series[0].MaxYValue();
+                double minY = tChart.Chart.Series[0].MinYValue();
+                scale = maxY - minY;
+
+                int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
+                int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
+                int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX + maxX) / 2.0);
+
+                //观测时间距离地震时间最近索引
+                int minIndex = 0;
+                double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
+
+                for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
                 {
-                    eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
-                    DateTime eqkTime = DateTime.Parse(eqkTimeStr);
-                    double maxX = tChart.Series[0].XValues.Maximum;
-                    double minX = tChart.Series[0].XValues.Minimum;
-                    DateTime maxEqkT = DateTime.FromOADate(maxX);
-                    DateTime minEqkT = DateTime.FromOADate(minX);
-                    TimeSpan spanT = eqkTime.Subtract(minEqkT);
-                    double eqkT = spanT.Days + minX;
-
-                    double maxY = tChart.Chart.Series[0].MaxYValue();
-                    double minY = tChart.Chart.Series[0].MinYValue();
-                    scale = maxY - minY;
-
-                    int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
-                    int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
-                    int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX+maxX)/2.0);
-
-                    //观测时间距离地震时间最近索引
-                    int minIndex = 0;
-                    double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
-
-                    for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
+                    deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
+                    if (deltX > deltX1)
                     {
-                        deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
-                        if (deltX > deltX1)
-                        {
-                            minIndex = j;
-                            deltX = deltX1;
-                        }
-                        else break;
+                        minIndex = j;
+                        deltX = deltX1;
                     }
-                    
-                    //标注地震事件
-                    if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
-                    {
-                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" +"ML="+ this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
-                        isEqkInTimeSpan = true;
-                    }
-                    eqkSelectNum++;
+                    else break;
                 }
+
+                //标注地震事件
+                if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
+                {
+                    eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + "ML=" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
+                    eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
+                    isEqkInTimeSpan = true;
+                }
+                eqkSelectNum++;
             }
             if (isEqkInTimeSpan && eqkSelectNum != 0)
             {
@@ -349,15 +346,12 @@ namespace xxkUI.Form
         }
         public void annoEqkList(GMap.NET.WindowsForms.GMapControl gmapcontrol=null)
         {
-            for (int i = 0; i < this.gridView.RowCount; i++)
+            int[] rowNum = this.gridView.GetSelectedRows();
+            for (int index = 0; index < rowNum.Length; index++)
             {
-                string value = this.gridView.GetDataRow(i)["check"].ToString();
-                if (value == "True")
-                {
-                    GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
-                    MapEqkShowForm(eqkDataList);
-                }
-
+                int i = rowNum[index];
+                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList[i], gmapcontrol);
+                MapEqkShowForm(eqkDataList);
             }
         }
 

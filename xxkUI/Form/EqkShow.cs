@@ -13,6 +13,7 @@ using System.Collections;
 using Steema.TeeChart;
 using Steema.TeeChart.Styles;
 using Steema.TeeChart.Tools;
+using GMap.NET;
 
 namespace xxkUI.Form
 {
@@ -344,43 +345,30 @@ namespace xxkUI.Form
             GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
             annoEqkList(gmapcontrol);
         }
+        /// <summary>
+        /// 地图显示地震标注
+        /// </summary>
+        /// <param name="gmapcontrol"></param>
         public void annoEqkList(GMap.NET.WindowsForms.GMapControl gmapcontrol=null)
         {
             int[] rowNum = this.gridView.GetSelectedRows();
+            double lg = 0;
+            double la = 0;
+            List<EqkBean> eqkMapList = new List<EqkBean>();
+            GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
+
             for (int index = 0; index < rowNum.Length; index++)
             {
                 int i = rowNum[index];
-                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList[i], gmapcontrol);
-                MapEqkShowForm(eqkDataList);
+                eqkMapList.Add(eqkDataList[i]);
+                lg += eqkDataList[i].Longtitude;
+                la += eqkDataList[i].Latitude;
             }
-        }
 
-        /// <summary>
-        /// 地震列表
-        /// </summary>
-        public void MapEqkShowForm(List<EqkBean> eqkShowList)
-        {
-            if (eqklist != null)
-            {
-                if (eqklist.IsDisposed)//如果已经销毁，则重新创建子窗口对象
-                {
-                    eqklist = new eqkList(eqkShowList);
-
-                    eqklist.Show();
-                    eqklist.Focus();
-                }
-                else
-                {
-                    eqklist.Show();
-                    eqklist.Focus();
-                }
-            }
-            else
-            {
-                eqklist = new eqkList(eqkShowList);
-                eqklist.Show();
-                eqklist.Focus();
-            }
+            GMapMarkerKdcSite.AnnotationEqkToMap(eqkMapList, gmapcontrol);
+            gmapcontrol.Position = new PointLatLng(la / rowNum.Length, lg / rowNum.Length);
+            gmapcontrol.Zoom = 6;
         }
+    
     }
 }

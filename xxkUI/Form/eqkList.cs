@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using GMap.NET;
 using Steema.TeeChart.Styles;
 using System;
 using System.Collections;
@@ -23,7 +24,7 @@ namespace xxkUI.Form
         private void LoadEqkData(List<EqkBean> eqkShowList)
         {
             DataTable eqkShowData = ToDataTable<EqkBean>(eqkShowList);
-            eqkShowData.Columns.Add("check", Type.GetType("System.Boolean"));
+            //eqkShowData.Columns.Add("check", Type.GetType("System.Boolean"));
             //this.gridView.Columns.Clear();
             this.gridControl1.DataSource = null;
             this.gridControl1.DataSource = eqkShowData;
@@ -68,35 +69,18 @@ namespace xxkUI.Form
                 {
                     try
                     {
-                        //int sc = this.tChart.Series.Count;
-                        //if (sc > 1)
-                        //{
-                        //    for (int i = 1; i < sc; i++)
-                        //        this.tChart.Series.RemoveAt(i);
-                        //}
+                        Control xtraTabControl1 = Application.OpenForms["RibbonForm"].Controls.Find("xtraTabControl1", true)[0];
+                        Control mapTabPage = Application.OpenForms["RibbonForm"].Controls.Find("mapTabPage", true)[0];
+                        ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
+                        GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
 
-                        //DataRowView drv = (DataRowView)gridView1.GetRow(hInfo.RowHandle);
-                        //DateTime obsdate = new DateTime();
-                        //DateTime.TryParse(drv["观测时间"].ToString(), out obsdate);
-                        //double obsv = double.NaN;
-                        //double.TryParse(drv["观测值"].ToString(), out obsv);
+                        DataRowView drv = (DataRowView)this.gridView1.GetRow(hInfo.RowHandle);
 
-                        //Line ln = tChart.Series[0] as Line;
-
-                        //for (int i = 0; i < ln.Count; i++)
-                        //{
-                        //    if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
-                        //    {
-                        //        Points pts = new Points(this.tChart.Chart);
-                        //        pts.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
-
-                        //        pts.Pointer.Style = PointerStyles.Circle;
-
-                        //        pts.Legend.Visible = false;
-                        //        pts.Color = Color.DeepSkyBlue;
-                        //    }
-                        //}
-                        //this.tChart.Refresh();
+                        gmapcontrol.Position = new PointLatLng(double.Parse(drv["Latitude"].ToString()), double.Parse(drv["Longtitude"].ToString()));
+                        //PointLatLng sitepoint = new PointLatLng(sb.Latitude, sb.Longtitude);
+                        //gmapcontrol.Position = sitepoint;
+                        gmapcontrol.Zoom = 6;
+                        //gmapcontrol.Refresh();
                     }
                     catch (Exception ex)
                     {

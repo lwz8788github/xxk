@@ -506,21 +506,21 @@ namespace xxkUI.MyCls
                 if (eqkfrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
                     eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
-                   
-                    eqkfrm.Show();
+
+                    eqkfrm.ShowDialog();
                     eqkfrm.Focus();
                 }
                 else
                 {
-                    eqkfrm.Show();
+                    eqkfrm.ShowDialog();
                     eqkfrm.Focus();
                 }
             }
             else
             {
                 eqkfrm = new EqkShow(this.tChart.Series[0].Tag as LineTag, this.tChart, this.dragPoints, this.drawLines);
-               
-                eqkfrm.Show();
+
+                eqkfrm.ShowDialog();
                 eqkfrm.Focus();
             }
         }

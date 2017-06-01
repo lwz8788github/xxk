@@ -999,7 +999,11 @@ namespace xxkUI
             if (eqkDataList.Count() > 0)
             {
                 this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                eqkShow.annoEqkList();
+                MapEqkShowForm(eqkDataList);
+                GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
+                GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
+                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
+
             }
             else
             {
@@ -1007,7 +1011,33 @@ namespace xxkUI
             }
 
         }
+        /// <summary>
+        /// 地震列表
+        /// </summary>
+        public void MapEqkShowForm(List<EqkBean> eqkShowList)
+        {
+            if (eqklist != null)
+            {
+                if (eqklist.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    eqklist = new eqkList(eqkShowList);
 
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+                else
+                {
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+            }
+            else
+            {
+                eqklist = new eqkList(eqkShowList);
+                eqklist.Show();
+                eqklist.Focus();
+            }
+        }
         private void btnDataProgress_ItemClick(object sender, ItemClickEventArgs e)
         {
            mtc.PlusMinusMultiplyDivide();

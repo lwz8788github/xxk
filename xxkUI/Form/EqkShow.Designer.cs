@@ -144,6 +144,7 @@
             this.textEdit8.Location = new System.Drawing.Point(66, 102);
             this.textEdit8.Name = "textEdit8";
             this.textEdit8.Properties.Mask.BeepOnError = true;
+            this.textEdit8.Properties.Mask.EditMask = "[0-9]*";
             this.textEdit8.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.textEdit8.Size = new System.Drawing.Size(223, 20);
             this.textEdit8.TabIndex = 18;
@@ -190,6 +191,7 @@
             this.textEdit3.Location = new System.Drawing.Point(189, 50);
             this.textEdit3.Name = "textEdit3";
             this.textEdit3.Properties.Mask.BeepOnError = true;
+            this.textEdit3.Properties.Mask.EditMask = "[0-9]*";
             this.textEdit3.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.textEdit3.Size = new System.Drawing.Size(100, 20);
             this.textEdit3.TabIndex = 11;
@@ -200,7 +202,8 @@
             this.textEdit4.Location = new System.Drawing.Point(66, 50);
             this.textEdit4.Name = "textEdit4";
             this.textEdit4.Properties.Mask.BeepOnError = true;
-            this.textEdit4.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.textEdit4.Properties.Mask.EditMask = "[0-9]*";
+            this.textEdit4.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.textEdit4.Size = new System.Drawing.Size(100, 20);
             this.textEdit4.TabIndex = 10;
             // 
@@ -237,8 +240,8 @@
             this.textEdit2.Location = new System.Drawing.Point(189, 24);
             this.textEdit2.Name = "textEdit2";
             this.textEdit2.Properties.Mask.BeepOnError = true;
-            this.textEdit2.Properties.Mask.EditMask = "n1";
-            this.textEdit2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.textEdit2.Properties.Mask.EditMask = "[0-9].[0-9]";
+            this.textEdit2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.textEdit2.Properties.MaxLength = 3;
             this.textEdit2.Size = new System.Drawing.Size(100, 20);
             this.textEdit2.TabIndex = 1;
@@ -249,8 +252,8 @@
             this.textEdit1.Location = new System.Drawing.Point(66, 24);
             this.textEdit1.Name = "textEdit1";
             this.textEdit1.Properties.Mask.BeepOnError = true;
-            this.textEdit1.Properties.Mask.EditMask = "n1";
-            this.textEdit1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            this.textEdit1.Properties.Mask.EditMask = "[0-9].[0-9]";
+            this.textEdit1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.textEdit1.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.textEdit1.Properties.MaxLength = 3;
             this.textEdit1.Size = new System.Drawing.Size(100, 20);
@@ -314,7 +317,6 @@
             this.gridControl1.TabIndex = 5;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView});
-        
             // 
             // gridView
             // 

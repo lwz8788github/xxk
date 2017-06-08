@@ -119,6 +119,7 @@
             this.btnExit.Size = new System.Drawing.Size(100, 20);
             this.btnExit.TabIndex = 23;
             this.btnExit.Text = "退出";
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnEqkAnnotation
             // 

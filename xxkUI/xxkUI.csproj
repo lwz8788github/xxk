@@ -193,6 +193,12 @@
     <Compile Include="Form\DataProgreeFrm.Designer.cs">
       <DependentUpon>DataProgreeFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\eqkList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\eqkList.Designer.cs">
+      <DependentUpon>eqkList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\EqkShow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\DataProgreeFrm.resx">
       <DependentUpon>DataProgreeFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\eqkList.resx">
+      <DependentUpon>eqkList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\EqkShow.resx">
       <DependentUpon>EqkShow.cs</DependentUpon>

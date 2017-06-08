@@ -144,19 +144,48 @@ namespace xxkUI.MyCls
             gMapCtrl.Position = sitepoint;
             gMapCtrl.Zoom = 10;
         }
+
+        /// <summary>
+        /// 清除所有地震标注
+        /// </summary>
+        /// <param name="gMapCtrl"></param>
+        public static void ClearAllEqkMarker(GMap.NET.WindowsForms.GMapControl gMapCtrl)
+        {
+            for (int i = 0; i < gMapCtrl.Overlays.Count; i++)
+            {
+                if (gMapCtrl.Overlays[i].Id == "eqkmarkers")
+                {
+                    gMapCtrl.Overlays[i].Markers.Clear();
+                }
+            }
+        }
         /// <summary>
         /// Map标注地震
         /// </summary>
         public static void AnnotationEqkToMap(List<EqkBean> eqkList, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
             GMaps.Instance.Mode = AccessMode.ServerOnly;
-            GMapOverlay EqkOverlay = new GMapOverlay("eqkmarkers");
 
-            foreach (EqkBean eqk in eqkList)
+            GMapOverlay EqkOverlay = null;
+            for (int i = 0; i < gMapCtrl.Overlays.Count; i++)
             {
-                GMapMarker marker = null;
-                string picName = "";
-                switch ((int)eqk.Magntd)
+                if (gMapCtrl.Overlays[i].Id == "eqkmarkers")
+                {
+                    EqkOverlay = gMapCtrl.Overlays[i];
+                }
+            }
+
+            if (EqkOverlay==null)
+            {
+                 EqkOverlay = new GMapOverlay("eqkmarkers");
+                gMapCtrl.Overlays.Add(EqkOverlay);
+            }
+
+            GMapMarker marker = null;
+            string picName = "";
+            for (int i = 0; i < eqkList.Count; i++)
+            {
+                switch ((int)eqkList[i].Magntd)
                 {
                     case 0: picName = "2.png";
                         break;
@@ -178,17 +207,14 @@ namespace xxkUI.MyCls
                         break;
                     case 9: picName = "9.png";
                         break;
-
                 }
+
                 string picPath = System.Windows.Forms.Application.StartupPath + "//地震标注图片//" + picName;
                 Bitmap eqkDotPic = new Bitmap(picPath);
-                marker = new GMarkerGoogle(new PointLatLng(eqk.Latitude, eqk.Longtitude), eqkDotPic);
-                marker.Tag = eqk;
+                marker = new GMarkerGoogle(new PointLatLng(eqkList[i].Latitude, eqkList[i].Longtitude), eqkDotPic);
+                marker.Tag = eqkList[i];
                 EqkOverlay.Markers.Add(marker);
-
             }
-            gMapCtrl.Overlays.Add(EqkOverlay);
-
             gMapCtrl.Zoom += 1;
             gMapCtrl.Refresh();
 

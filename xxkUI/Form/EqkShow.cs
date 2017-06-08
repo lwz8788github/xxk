@@ -13,16 +13,18 @@ using System.Collections;
 using Steema.TeeChart;
 using Steema.TeeChart.Styles;
 using Steema.TeeChart.Tools;
+using GMap.NET;
 
 namespace xxkUI.Form
 {
     public partial class EqkShow :XtraForm
     {
-        private List<EqkBean> eqkDataList = new List<EqkBean>();
+       private List<EqkBean> eqkDataList = new List<EqkBean>();
        private LineTag lineTag = new LineTag();
        private TChart tChart;
        private DragPoint DragPtTool;
        private DrawLine DrawlnTool;
+       private eqkList eqklist = null;
      
         public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
         {
@@ -39,7 +41,7 @@ namespace xxkUI.Form
 
         public void LoadEqkData(DataTable dt)
         {
-            dt.Columns.Add("check", Type.GetType("System.Boolean"));
+            //dt.Columns.Add("check", Type.GetType("System.Boolean"));
             //this.gridView.Columns.Clear();
             this.gridControl1.DataSource = null;
             this.gridControl1.DataSource = dt;
@@ -88,7 +90,7 @@ namespace xxkUI.Form
             }
             double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
             double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
-
+           
             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax; 
             string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
@@ -195,58 +197,56 @@ namespace xxkUI.Form
             }
 
             string eakText = "";
-            string value = "";
             string eqkTimeStr = "";
             int eqkSelectNum = 0;
             double scale = 1.0;
             Boolean isEqkInTimeSpan = false;
             this.tChart.Tools.Clear();
-            for (int i = 0; i < this.gridView.RowCount; i++)
+            
+            int[] rowNum = this.gridView.GetSelectedRows();
+            for (int index = 0; index < rowNum.Length; index++)
             {
-                value = this.gridView.GetDataRow(i)["check"].ToString();
-                if (value == "True")
+                int i = rowNum[index];
+                eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
+                DateTime eqkTime = DateTime.Parse(eqkTimeStr);
+                double maxX = tChart.Series[0].XValues.Maximum;
+                double minX = tChart.Series[0].XValues.Minimum;
+                DateTime maxEqkT = DateTime.FromOADate(maxX);
+                DateTime minEqkT = DateTime.FromOADate(minX);
+                TimeSpan spanT = eqkTime.Subtract(minEqkT);
+                double eqkT = spanT.Days + minX;
+
+                double maxY = tChart.Chart.Series[0].MaxYValue();
+                double minY = tChart.Chart.Series[0].MinYValue();
+                scale = maxY - minY;
+
+                int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
+                int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
+                int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX + maxX) / 2.0);
+
+                //观测时间距离地震时间最近索引
+                int minIndex = 0;
+                double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
+
+                for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
                 {
-                    eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
-                    DateTime eqkTime = DateTime.Parse(eqkTimeStr);
-                    double maxX = tChart.Series[0].XValues.Maximum;
-                    double minX = tChart.Series[0].XValues.Minimum;
-                    DateTime maxEqkT = DateTime.FromOADate(maxX);
-                    DateTime minEqkT = DateTime.FromOADate(minX);
-                    TimeSpan spanT = eqkTime.Subtract(minEqkT);
-                    double eqkT = spanT.Days + minX;
-
-                    double maxY = tChart.Chart.Series[0].MaxYValue();
-                    double minY = tChart.Chart.Series[0].MinYValue();
-                    scale = maxY - minY;
-
-                    int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
-                    int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
-                    int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX+maxX)/2.0);
-
-                    //观测时间距离地震时间最近索引
-                    int minIndex = 0;
-                    double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
-
-                    for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
+                    deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
+                    if (deltX > deltX1)
                     {
-                        deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
-                        if (deltX > deltX1)
-                        {
-                            minIndex = j;
-                            deltX = deltX1;
-                        }
-                        else break;
+                        minIndex = j;
+                        deltX = deltX1;
                     }
-                    
-                    //标注地震事件
-                    if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
-                    {
-                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" +"ML="+ this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
-                        isEqkInTimeSpan = true;
-                    }
-                    eqkSelectNum++;
+                    else break;
                 }
+
+                //标注地震事件
+                if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
+                {
+                    eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + "ML=" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
+                    eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
+                    isEqkInTimeSpan = true;
+                }
+                eqkSelectNum++;
             }
             if (isEqkInTimeSpan && eqkSelectNum != 0)
             {
@@ -341,13 +341,40 @@ namespace xxkUI.Form
 
             ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
 
-            //GMap.NET.WindowsForms.GMapControl gMapCtrl;
-
-            //gmmkks = new GMapMarkerKdcSite(gMapCtrl);
             GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
-            GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
-
-            
+            annoEqkList(gmapcontrol);
         }
+        /// <summary>
+        /// 地图显示地震标注
+        /// </summary>
+        /// <param name="gmapcontrol"></param>
+        public void annoEqkList(GMap.NET.WindowsForms.GMapControl gmapcontrol=null)
+        {
+            int[] rowNum = this.gridView.GetSelectedRows();
+            double lg = 0;
+            double la = 0;
+            List<EqkBean> eqkMapList = new List<EqkBean>();
+            GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
+
+            for (int index = 0; index < rowNum.Length; index++)
+            {
+                int i = rowNum[index];
+                eqkMapList.Add(eqkDataList[i]);
+                lg += eqkDataList[i].Longtitude;
+                la += eqkDataList[i].Latitude;
+            }
+
+            GMapMarkerKdcSite.AnnotationEqkToMap(eqkMapList, gmapcontrol);
+            gmapcontrol.Position = new PointLatLng(la / rowNum.Length, lg / rowNum.Length);
+            gmapcontrol.Zoom = 6;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(System.Environment.ExitCode);
+            this.Dispose();
+            this.Close();
+        }
+    
     }
 }

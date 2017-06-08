@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +12,7 @@ using xxkUI.Tool;
 
 namespace xxkUI.Form
 {
-    public partial class RemoveJumpFrm : DevExpress.DXCore.Controls.XtraEditors.XtraForm
+    public partial class RemoveJumpFrm : XtraForm
     {
         public DataProcessMethod dpm = DataProcessMethod.NoProg;
         private PriAlgorithmHelper pralgthHelper;

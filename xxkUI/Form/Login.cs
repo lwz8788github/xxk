@@ -39,7 +39,7 @@ namespace xxkUI.Form
             }
             try
             {
-                MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
 
                 var userName = txtUsername.Text;
                 var password = txtPsd.Text;

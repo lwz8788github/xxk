@@ -868,7 +868,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void btnMouseCur()
         {
-            if (this.tChart.Series.Count > 1) return;
+            if (this.tChart.Series.Count != 1) return;
 
             this.cursorTool.Active = !this.cursorTool.Active;
             annotation.Active = this.cursorTool.Active;

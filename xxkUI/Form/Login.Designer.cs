@@ -39,9 +39,6 @@
             this.barDockControl3 = new DevExpress.XtraBars.BarDockControl();
             this.barDockControl4 = new DevExpress.XtraBars.BarDockControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.rbImprDb = new System.Windows.Forms.RadioButton();
-            this.rbOrigDb = new System.Windows.Forms.RadioButton();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnLogin = new DevExpress.XtraEditors.SimpleButton();
             this.txtUsername = new DevExpress.XtraEditors.TextEdit();
@@ -132,9 +129,6 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Controls.Add(this.labelControl3);
-            this.panelControl1.Controls.Add(this.rbImprDb);
-            this.panelControl1.Controls.Add(this.rbOrigDb);
             this.panelControl1.Controls.Add(this.btnCancel);
             this.panelControl1.Controls.Add(this.btnLogin);
             this.panelControl1.Controls.Add(this.txtUsername);
@@ -146,38 +140,6 @@
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(358, 136);
             this.panelControl1.TabIndex = 8;
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(51, 67);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(48, 14);
-            this.labelControl3.TabIndex = 15;
-            this.labelControl3.Text = "数据库：";
-            // 
-            // rbImprDb
-            // 
-            this.rbImprDb.AutoSize = true;
-            this.rbImprDb.Location = new System.Drawing.Point(215, 67);
-            this.rbImprDb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rbImprDb.Name = "rbImprDb";
-            this.rbImprDb.Size = new System.Drawing.Size(85, 18);
-            this.rbImprDb.TabIndex = 14;
-            this.rbImprDb.Text = "本地信息库";
-            this.rbImprDb.UseVisualStyleBackColor = true;
-            // 
-            // rbOrigDb
-            // 
-            this.rbOrigDb.AutoSize = true;
-            this.rbOrigDb.Checked = true;
-            this.rbOrigDb.Location = new System.Drawing.Point(105, 67);
-            this.rbOrigDb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rbOrigDb.Name = "rbOrigDb";
-            this.rbOrigDb.Size = new System.Drawing.Size(85, 18);
-            this.rbOrigDb.TabIndex = 13;
-            this.rbOrigDb.TabStop = true;
-            this.rbOrigDb.Text = "远程信息库";
-            this.rbOrigDb.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
@@ -289,8 +251,5 @@
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.TextEdit txtPsd;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
-        private System.Windows.Forms.RadioButton rbImprDb;
-        private System.Windows.Forms.RadioButton rbOrigDb;
     }
 }

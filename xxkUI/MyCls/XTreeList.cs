@@ -18,23 +18,16 @@ namespace xxkUI.MyCls
 {
    public class XTreeList
     {
-        private DevExpress.XtraTreeList.TreeList treeListRemoteData;
-        private DevExpress.XtraTreeList.TreeList treeListLocalData;
+        private DevExpress.XtraTreeList.TreeList treeListData;
         private DevExpress.XtraTreeList.TreeList treeListManipData;
 
-         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListManipData,DevExpress.XtraTreeList.TreeList _treeListLocalData = null)
+         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListData,DevExpress.XtraTreeList.TreeList _treeListManipData)
          {
 
-            _treeListRemoteData.LookAndFeel.UseDefaultLookAndFeel = false;
-            _treeListRemoteData.LookAndFeel.UseWindowsXPTheme = true;
+            _treeListData.LookAndFeel.UseDefaultLookAndFeel = false;
+            _treeListData.LookAndFeel.UseWindowsXPTheme = true;
 
-            if (_treeListLocalData != null)
-            {
-                _treeListLocalData.LookAndFeel.UseDefaultLookAndFeel = false;
-                _treeListLocalData.LookAndFeel.UseWindowsXPTheme = true;
-                treeListLocalData = _treeListLocalData;
-            }
-            treeListRemoteData = _treeListRemoteData;
+            treeListData = _treeListData;
             treeListManipData = _treeListManipData;
 
          }
@@ -43,17 +36,16 @@ namespace xxkUI.MyCls
          /// 加载远程库树列表
          /// </summary>
          /// <param name="gmmkks">GMAP控件</param>
-         public void bSignInitOriDataTree()
+         public void bSignDbTree(string foldName)
          {
-             MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
-             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+
              if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
              { 
                  return;
              }
              try
              {
-                 List<TreeBean> RemoteData = new List<TreeBean>();
+                 List<TreeBean> treeData = new List<TreeBean>();
                
                  IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
 
@@ -80,7 +72,7 @@ namespace xxkUI.MyCls
                          tb.SiteType = "";
                          tb.LineStatus = "";
                          tb.Tag = sb;//lwl
-                         RemoteData.Add(tb);
+                         treeData.Add(tb);
                         
                  }
 
@@ -107,13 +99,12 @@ namespace xxkUI.MyCls
                      tb.Caption = sb.SiteName;
                      tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                      tb.Tag = sb;//lwl
-                     RemoteData.Add(tb);
+                     treeData.Add(tb);
                  }
                  //远程信息库测线列表显示
-                 string remoteFolder = Application.StartupPath + "/远程信息库缓存";
+              
                  List<String> remoteExcelList = new List<string>();
-                 string remoteExcelPath = Application.StartupPath + "/远程信息库缓存";
-                 remoteExcelList = getFile(remoteExcelPath);
+                 remoteExcelList = getFile(foldName);
 
                  foreach (string remoteLineCode in remoteExcelList)
                  {
@@ -127,17 +118,17 @@ namespace xxkUI.MyCls
                          tb.Caption = ol.OBSLINENAME;
                          tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
                          tb.Tag = ol;//lwl
-                         RemoteData.Add(tb);
+                         treeData.Add(tb);
                      }
                  }
 
-                 //远程信息库树列表显示
-                 this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                 this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 this.treeListRemoteData.DataSource = RemoteData;　　//绑定数据源
-                 this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
-                 this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                 this.treeListRemoteData.OptionsBehavior.Editable = false;
+                 //树列表显示
+                 this.treeListData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                 this.treeListData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                 this.treeListData.DataSource = treeData;　　//绑定数据源
+                 this.treeListData.OptionsView.ShowCheckBoxes = true;
+                 this.treeListData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                 this.treeListData.OptionsBehavior.Editable = false;
 
              }
              catch (Exception ex)
@@ -145,97 +136,6 @@ namespace xxkUI.MyCls
                  XtraMessageBox.Show(ex.Message, "错误");
              }
 
-         }
-
-       /// <summary>
-       /// 加载本地库树列表
-       /// </summary>
-         public void bSignInitLocaldbTree()
-         {
-             MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
-             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
-             if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
-                 return;
-             try
-             {
-                 List<TreeBean> LocaldbData = new List<TreeBean>();
-               
-                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
-
-                 foreach (UnitInfoBean sb in ubEnumt)
-                 {
-                     TreeBean tb = new TreeBean();
-                     if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
-                         || sb.UnitCode == "152006" || sb.UnitCode == "152008"
-                         || sb.UnitCode == "152009" || sb.UnitCode == "152010"
-                         || sb.UnitCode == "152012" || sb.UnitCode == "152015"
-                         || sb.UnitCode == "152022" || sb.UnitCode == "152023"
-                         || sb.UnitCode == "152026" || sb.UnitCode == "152029"
-                         || sb.UnitCode == "152032" || sb.UnitCode == "152034"
-                         || sb.UnitCode == "152035" || sb.UnitCode == "152036"
-                         || sb.UnitCode == "152039" || sb.UnitCode == "152040"
-                         || sb.UnitCode == "152041" || sb.UnitCode == "152042"
-                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
-                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
-                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
-                         tb.KeyFieldName = sb.UnitCode;
-                         tb.ParentFieldName = "0";
-                         tb.Caption = sb.UnitName;
-                         tb.SiteType = "";
-                         tb.LineStatus = "";
-                         tb.Tag = sb;//lwl
-                         LocaldbData.Add(tb);
-                 }
-         
-                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();//.GetSitesByAuth(userahths);
-
-                 //场地列表显示
-                 List<string> olSiteCode = new List<string>();
-                 foreach (SiteBean sb in sbEnumt)
-                 {
-                     olSiteCode.Add(sb.SiteCode);
-                     TreeBean tb = new TreeBean();
-                     tb.KeyFieldName = sb.SiteCode;
-                     tb.ParentFieldName = sb.UnitCode;
-                     tb.Caption = sb.SiteName;
-                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-                     tb.Tag = sb;//lwl
-                     LocaldbData.Add(tb);
-                 }
-
-                 //本地信息库测线列表显示
-                 List<String> localExcelList = new List<string>();
-                 string localExcelPath = Application.StartupPath + "/本地信息库缓存";
-                 localExcelList = getFile(localExcelPath);
-
-                 foreach (string localLineCode in localExcelList)
-                 {
-                     string subLineCode = localLineCode.Substring(0, localLineCode.Length - 4);
-                     LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
-                     if (olSiteCode.Contains(ol.SITECODE))
-                     {
-                         TreeBean tb = new TreeBean();
-                         tb.KeyFieldName = ol.OBSLINECODE;
-                         tb.ParentFieldName = ol.SITECODE;
-                         tb.Caption = ol.OBSLINENAME;
-                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
-                         tb.Tag = ol;//lwl
-                         LocaldbData.Add(tb);
-                     }
-                 }
-
-                 //远程信息库树列表显示
-                 this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                 this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 this.treeListLocalData.DataSource = LocaldbData;　　//绑定数据源
-                 this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
-                 this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                 this.treeListLocalData.OptionsBehavior.Editable = false;
-             }
-             catch (Exception ex)
-             {
-                 XtraMessageBox.Show(ex.Message, "错误");
-             }
          }
 
          /// <summary>
@@ -364,12 +264,12 @@ namespace xxkUI.MyCls
                 }
 
                 //远程信息库树列表显示
-                this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                this.treeListRemoteData.DataSource = treeListRemoteData;　　//绑定数据源
-                this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
-                this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListRemoteData.OptionsBehavior.Editable = false;
+                //this.treeListRemoteData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                //this.treeListRemoteData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                //this.treeListRemoteData.DataSource = treeListRemoteData;　　//绑定数据源
+                //this.treeListRemoteData.OptionsView.ShowCheckBoxes = true;
+                //this.treeListRemoteData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                //this.treeListRemoteData.OptionsBehavior.Editable = false;
 
                 List<String> excelList = new List<string>();
                 string excelPath = Application.StartupPath + "/远程信息库缓存";
@@ -385,13 +285,13 @@ namespace xxkUI.MyCls
                 }
 
                 //本地数据库树列表显示
-                this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                this.treeListLocalData.DataSource = treeListLocalData;　　//绑定数据源
+                //this.treeListLocalData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
+                //this.treeListLocalData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
+                //this.treeListLocalData.DataSource = treeListLocalData;　　//绑定数据源
 
-                this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
-                this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                this.treeListLocalData.OptionsBehavior.Editable = false;
+                //this.treeListLocalData.OptionsView.ShowCheckBoxes = true;
+                //this.treeListLocalData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                //this.treeListLocalData.OptionsBehavior.Editable = false;
 
                 //InitNodeImg(this.treeListRemoteData.Nodes);
                 //SetImageIndex(this.treeListRemoteData, null, 1, 0);
@@ -508,12 +408,12 @@ namespace xxkUI.MyCls
 
                 if (workSpace.Contains("远程信息库缓存"))
                 {
-                    treelist = this.treeListRemoteData;
-                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["OrigInfoConnnect"].ConnectionString;
+                    treelist = this.treeListData;
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
                 }
                 else if (workSpace.Contains("本地信息库缓存"))
                 {
-                    treelist = this.treeListLocalData;
+                    treelist = this.treeListData;
                     MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
                 }
 
@@ -639,10 +539,8 @@ namespace xxkUI.MyCls
         public List<LineBean> GetCheckedLine(string treeType)
         {
             TreeList tree = null;
-            if (treeType == "treeListRemoteData")
-                tree = this.treeListRemoteData;
-            else if (treeType == "treeListLocalData")
-                tree = this.treeListLocalData;
+            if (treeType == "treeListData")
+                tree = this.treeListData;
 
             List<LineBean> lblist = new List<LineBean>();
             try
@@ -664,10 +562,8 @@ namespace xxkUI.MyCls
         public List<TreeListNode> GetNodesByKey(string treeType,string keyfieldname)
         {
             TreeList tree = null;
-            if (treeType == "treeListRemoteData")
-                tree = this.treeListRemoteData;
-            else if (treeType == "treeListLocalData")
-                tree = this.treeListLocalData;
+            if (treeType == "treeListData")
+                tree = this.treeListData;
 
             List<TreeListNode> lblist = new List<TreeListNode>();
             try
@@ -742,10 +638,8 @@ namespace xxkUI.MyCls
         public List<SiteBean> GetCheckedSite(string treeType)
         {
             TreeList tree = null;
-            if (treeType == "treeListRemoteData")
-                tree = this.treeListRemoteData;
-            else if (treeType == "treeListLocalData")
-                tree = this.treeListLocalData;
+            if (treeType == "treeListData")
+                tree = this.treeListData;
 
             List<SiteBean> lblist = new List<SiteBean>();
             try
@@ -811,8 +705,7 @@ namespace xxkUI.MyCls
 
         public void ClearTreelistNodes()
         {
-            this.treeListRemoteData.ClearNodes();
-            this.treeListLocalData.ClearNodes();
+            this.treeListData.ClearNodes();
         }
     }
 }

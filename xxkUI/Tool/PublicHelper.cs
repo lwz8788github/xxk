@@ -167,7 +167,7 @@ namespace xxkUI.Tool
     /// </summary>
     public enum DataFromType
     {
-        OrigDb, LocalDb, HandleData
+        RemoteDb, LocalDb, HandleData
     }
 
     #region 数据处理

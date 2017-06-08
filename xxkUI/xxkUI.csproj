@@ -54,6 +54,7 @@
     <Reference Include="DevExpress.Data.v16.1, Version=16.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DXCore.Controls.Data.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d" />
     <Reference Include="DevExpress.DXCore.Controls.Utils.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d" />
+    <Reference Include="DevExpress.DXCore.Controls.XtraBars.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DXCore.Controls.XtraEditors.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DXCore.Controls.XtraGrid.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DXCore.Controls.XtraLayout.v6.3, Version=16.1.4.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d" />
@@ -144,11 +145,11 @@
     <Compile Include="BLL\SiteBll.cs" />
     <Compile Include="BLL\UnitInfoBll.cs" />
     <Compile Include="BLL\UserInfoBll.cs" />
-    <Compile Include="Controls\OriDataControl.cs">
+    <Compile Include="Controls\ObsDataControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\OriDataControl.Designer.cs">
-      <DependentUpon>OriDataControl.cs</DependentUpon>
+    <Compile Include="Controls\ObsDataControl.Designer.cs">
+      <DependentUpon>ObsDataControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\RecycleControl.cs">
       <SubType>UserControl</SubType>
@@ -174,6 +175,18 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\RemoveStepFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RemoveStepFrm.Designer.cs">
+      <DependentUpon>RemoveStepFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\RemoveJumpFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RemoveJumpFrm.Designer.cs">
+      <DependentUpon>RemoveJumpFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\DataProgreeFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,6 +227,7 @@
     <Compile Include="Form\SiteAttri.Designer.cs">
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
@@ -239,6 +253,7 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
+    <Compile Include="Tool\ObsdataCls.cs" />
     <Compile Include="Tool\NumberHelper.cs" />
     <Compile Include="Tool\PriAlgorithmHelper.cs" />
     <Compile Include="Tool\RegeditHelper.cs" />
@@ -253,6 +268,9 @@
     <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
+    <EmbeddedResource Include="Controls\ObsDataControl.resx">
+      <DependentUpon>ObsDataControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RecycleControl.resx">
       <DependentUpon>RecycleControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -261,6 +279,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RemoveStepFrm.resx">
+      <DependentUpon>RemoveStepFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RemoveJumpFrm.resx">
+      <DependentUpon>RemoveJumpFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\DataProgreeFrm.resx">
       <DependentUpon>DataProgreeFrm.cs</DependentUpon>

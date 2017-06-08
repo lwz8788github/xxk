@@ -37,7 +37,7 @@ namespace xxkUI.MyCls
                     DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + checkedLb.OBSLINECODE + "'");
 
                     NpoiCreator npcreator = new NpoiCreator();
-                    string savefile = Application.StartupPath + "/myworkspace";
+                    string savefile = Application.StartupPath + "/远程信息库缓存";
                     npcreator.TemplateFile = savefile;
                     npcreator.NpoiExcel(dt, checkedLb.OBSLINECODE + ".xls", savefile + "/" + checkedLb.OBSLINECODE + ".xls");
 

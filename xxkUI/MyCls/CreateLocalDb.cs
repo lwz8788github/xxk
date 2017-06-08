@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,27 @@ namespace xxkUI.MyCls
         public CreateLocalDb()
         {
             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnectWithoutDbname"].ConnectionString;
+        }
+
+        /// <summary>
+        /// 本地库是否存在
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsLocaldbExist()
+        {
+            bool isexisted = false;
+
+            try
+            {
+                DataTable dt = MysqlHelper.ExecuteDataTable("SELECT count(*) FROM information_schema.SCHEMATA where SCHEMA_NAME='localinfo'");
+                if (dt.Rows[0][0].ToString() == "1")
+                    isexisted = true;
+            }
+            catch
+            {
+                isexisted = false;
+            }
+            return isexisted;
         }
 
         public bool CreateDatabase(string dbname)

@@ -69,25 +69,26 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lbProgressExplain);
-            this.groupBox1.Location = new System.Drawing.Point(12, 59);
+            this.groupBox1.Location = new System.Drawing.Point(12, 74);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(283, 55);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "操作说明";
             // 
             // lbProgressExplain
             // 
             this.lbProgressExplain.AutoSize = true;
-            this.lbProgressExplain.Location = new System.Drawing.Point(9, 22);
+            this.lbProgressExplain.Location = new System.Drawing.Point(9, 25);
             this.lbProgressExplain.Name = "lbProgressExplain";
-            this.lbProgressExplain.Size = new System.Drawing.Size(270, 18);
+            this.lbProgressExplain.Size = new System.Drawing.Size(195, 18);
             this.lbProgressExplain.TabIndex = 1;
-            this.lbProgressExplain.Text = "操作说明：处理数据=原始数据+操作值";
+            this.lbProgressExplain.Text = "处理数据=原始数据+操作值";
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.textValue);
-            this.groupBox4.Location = new System.Drawing.Point(12, 201);
+            this.groupBox4.Location = new System.Drawing.Point(12, 216);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(283, 58);
             this.groupBox4.TabIndex = 12;
@@ -104,7 +105,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.radioGroup);
-            this.groupBox3.Location = new System.Drawing.Point(12, 120);
+            this.groupBox3.Location = new System.Drawing.Point(12, 135);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(283, 75);
             this.groupBox3.TabIndex = 11;
@@ -129,18 +130,19 @@
             this.groupBox2.Controls.Add(this.lbDataCount);
             this.groupBox2.Location = new System.Drawing.Point(12, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(283, 49);
+            this.groupBox2.Size = new System.Drawing.Size(283, 64);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "待处理目标数量";
             // 
             // lbDataCount
             // 
             this.lbDataCount.AutoSize = true;
-            this.lbDataCount.Location = new System.Drawing.Point(9, 22);
+            this.lbDataCount.Location = new System.Drawing.Point(9, 28);
             this.lbDataCount.Name = "lbDataCount";
-            this.lbDataCount.Size = new System.Drawing.Size(167, 18);
+            this.lbDataCount.Size = new System.Drawing.Size(47, 18);
             this.lbDataCount.TabIndex = 0;
-            this.lbDataCount.Text = "待处理目标数量：100个";
+            this.lbDataCount.Text = "100个";
             // 
             // DataProgreeFrm
             // 

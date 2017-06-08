@@ -138,11 +138,11 @@
     <Compile Include="BLL\SiteBll.cs" />
     <Compile Include="BLL\UnitInfoBll.cs" />
     <Compile Include="BLL\UserInfoBll.cs" />
-    <Compile Include="Controls\OriDataControl.cs">
+    <Compile Include="Controls\ObsDataControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\OriDataControl.Designer.cs">
-      <DependentUpon>OriDataControl.cs</DependentUpon>
+    <Compile Include="Controls\ObsDataControl.Designer.cs">
+      <DependentUpon>ObsDataControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\RecycleControl.cs">
       <SubType>UserControl</SubType>
@@ -168,6 +168,18 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\RemoveStepFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RemoveStepFrm.Designer.cs">
+      <DependentUpon>RemoveStepFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\RemoveJumpFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RemoveJumpFrm.Designer.cs">
+      <DependentUpon>RemoveJumpFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\DataProgreeFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +232,7 @@
     <Compile Include="Form\SiteAttri.Designer.cs">
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
@@ -245,6 +258,7 @@
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
     <Compile Include="Tool\FileOperateProxy.cs" />
+    <Compile Include="Tool\ObsdataCls.cs" />
     <Compile Include="Tool\NumberHelper.cs" />
     <Compile Include="Tool\PriAlgorithmHelper.cs" />
     <Compile Include="Tool\RegeditHelper.cs" />
@@ -259,6 +273,9 @@
     <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
+    <EmbeddedResource Include="Controls\ObsDataControl.resx">
+      <DependentUpon>ObsDataControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RecycleControl.resx">
       <DependentUpon>RecycleControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -267,6 +284,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RemoveStepFrm.resx">
+      <DependentUpon>RemoveStepFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RemoveJumpFrm.resx">
+      <DependentUpon>RemoveJumpFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\DataProgreeFrm.resx">
       <DependentUpon>DataProgreeFrm.cs</DependentUpon>
@@ -293,7 +316,6 @@
     <EmbeddedResource Include="Form\SiteAttri.resx">
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

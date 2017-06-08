@@ -51,8 +51,8 @@ namespace xxkUI
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
             mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
-            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData);
-            gmmkks = new GMapMarkerKdcSite(this.gMapCtrl);
+            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData,this.treeListManipData);
+         
             InitFaultCombobox();
 
             xtl.bSignInitOriDataTree();
@@ -293,8 +293,8 @@ namespace xxkUI
                         }
                         if (hitInfo.Node.Level == 1)
                         {
-                            //popSiteTree.ShowPopup(p);
-                            popLocalTree.ShowPopup(p);
+                            popRemoteSiteTree.ShowPopup(p);
+                           
                         }
                         else if (hitInfo.Node.Level == 2)
                         {
@@ -305,7 +305,8 @@ namespace xxkUI
                 }
                 else
                 {
-                    this.popLocalTree.ShowPopup(p);
+                  
+                    popRemoteSiteTree.ShowPopup(p);
                 }
             }
         }
@@ -452,15 +453,6 @@ namespace xxkUI
             MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
             switch (e.Item.Name)
             {
-                case "btnCreateLocalDb"://创建数据库
-                    {
-                        ProgressForm ptPro = new ProgressForm();
-                        ptPro.Show(this);
-                        ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
-                        ptPro.beginWorking();
-                        ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
-                    }
-                    break;
                 case "btnSaveToManip_local"://保存到处理数据处理缓存
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
@@ -927,15 +919,34 @@ namespace xxkUI
             }
 
         }
-
-        private void simpleButton1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 地震列表
+        /// </summary>
+        public void MapEqkShowForm(List<EqkBean> eqkShowList)
         {
-            ProgressForm ptPro = new ProgressForm();
-            ptPro.Show(this);
-            ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
-            ptPro.beginWorking();
-            ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+            if (eqklist != null)
+            {
+                if (eqklist.IsDisposed)//如果已经销毁，则重新创建子窗口对象
+                {
+                    eqklist = new eqkList(eqkShowList);
+
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+                else
+                {
+                    eqklist.Show();
+                    eqklist.Focus();
+                }
+            }
+            else
+            {
+                eqklist = new eqkList(eqkShowList);
+                eqklist.Show();
+                eqklist.Focus();
+            }
         }
+
 
         /// <summary>
         /// 数据处理方法
@@ -1204,8 +1215,31 @@ namespace xxkUI
         }
 
 
+
         #endregion
 
-      
+        #region 数据库操作（创建、切换、备份）
+        private void btnDb_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            switch (e.Item.Name)
+            {
+                case "btnCreateLocaDb"://创建本地库
+                    {
+                        ProgressForm ptPro = new ProgressForm();
+                        ptPro.Show(this);
+                        ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+                        ptPro.beginWorking();
+                        ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+                    }
+                    break;
+                case "btnSwitchDb"://数据库切换
+                    { }
+                    break;
+                case "btnCopyDb"://数据库备份
+                    { }
+                    break;
+            }
+        }
+        #endregion
     }
 }

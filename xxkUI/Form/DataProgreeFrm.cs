@@ -12,7 +12,7 @@ namespace xxkUI.Form
 {
     public partial class DataProgreeFrm : DevExpress.DXCore.Controls.XtraEditors.XtraForm
     {
-        public DataProessMethod dpm = DataProessMethod.NoProg;
+        public DataProcessMethod dpm = DataProcessMethod.NoProg;
         public double progreeValue = double.NaN;
         public DataProgreeFrm(int datacount)
         {
@@ -40,16 +40,16 @@ namespace xxkUI.Form
             switch (this.radioGroup.Properties.Items[this.radioGroup.SelectedIndex].ToString())
             {
                 case "＋":
-                    this.dpm = DataProessMethod.Plus;
+                    this.dpm = DataProcessMethod.Plus;
                     break;
                 case "－":
-                    this.dpm = DataProessMethod.Minus;
+                    this.dpm = DataProcessMethod.Minus;
                     break;
                 case "×":
-                    this.dpm = DataProessMethod.Multiply;
+                    this.dpm = DataProcessMethod.Multiply;
                     break;
                 case "÷":
-                    this.dpm = DataProessMethod.Divide;
+                    this.dpm = DataProcessMethod.Divide;
                     break;
             }
             this.DialogResult = DialogResult.OK;

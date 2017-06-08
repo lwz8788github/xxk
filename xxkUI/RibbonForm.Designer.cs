@@ -1001,7 +1001,6 @@
             this.dockPanelRemoteData.OriginalSize = new System.Drawing.Size(202, 436);
             this.dockPanelRemoteData.Size = new System.Drawing.Size(174, 444);
             this.dockPanelRemoteData.Text = "远程信息库";
-            this.dockPanelRemoteData.Click += new System.EventHandler(this.dockPanelOriData_Click);
             // 
             // dockPanel3_Container
             // 
@@ -1030,7 +1029,6 @@
             this.treeListRemoteData.ParentFieldName = "";
             this.treeListRemoteData.Size = new System.Drawing.Size(174, 444);
             this.treeListRemoteData.TabIndex = 0;
-            this.treeListRemoteData.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListOriData_AfterCheckNode);
             this.treeListRemoteData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn1
@@ -1056,7 +1054,6 @@
             this.dockPanelLocalData.OriginalSize = new System.Drawing.Size(202, 436);
             this.dockPanelLocalData.Size = new System.Drawing.Size(174, 444);
             this.dockPanelLocalData.Text = "本地信息库";
-            this.dockPanelLocalData.Click += new System.EventHandler(this.dockPanelWorkSpace_Click);
             // 
             // dockPanel1_Container
             // 
@@ -1214,7 +1211,6 @@
             this.btnExportChart.Size = new System.Drawing.Size(87, 31);
             this.btnExportChart.TabIndex = 9;
             this.btnExportChart.Text = "导出图像";
-            this.btnExportChart.Click += new System.EventHandler(this.btnExportChart_Click);
             // 
             // btnGrid
             // 
@@ -1225,7 +1221,6 @@
             this.btnGrid.Size = new System.Drawing.Size(87, 31);
             this.btnGrid.TabIndex = 7;
             this.btnGrid.Text = "网格";
-            this.btnGrid.Click += new System.EventHandler(this.btnGrid_Click);
             // 
             // simpleButton2
             // 
@@ -1246,7 +1241,6 @@
             this.btnShowNote.Size = new System.Drawing.Size(87, 31);
             this.btnShowNote.TabIndex = 2;
             this.btnShowNote.Text = "显示备注";
-            this.btnShowNote.Click += new System.EventHandler(this.btnShowNote_Click);
             // 
             // btnMaxMinValue
             // 
@@ -1257,7 +1251,6 @@
             this.btnMaxMinValue.Size = new System.Drawing.Size(87, 31);
             this.btnMaxMinValue.TabIndex = 8;
             this.btnMaxMinValue.Text = "最大最小值";
-            this.btnMaxMinValue.Click += new System.EventHandler(this.btnMaxMinValue_Click);
             // 
             // simpleButton3
             // 
@@ -1268,7 +1261,6 @@
             this.simpleButton3.Size = new System.Drawing.Size(87, 31);
             this.simpleButton3.TabIndex = 4;
             this.simpleButton3.Text = "历史地震";
-            this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
             // 
             // btnMouseCur
             // 
@@ -1279,7 +1271,6 @@
             this.btnMouseCur.Size = new System.Drawing.Size(87, 31);
             this.btnMouseCur.TabIndex = 7;
             this.btnMouseCur.Text = "鼠标热线";
-            this.btnMouseCur.Click += new System.EventHandler(this.btnMouseCur_Click);
             // 
             // btnShowTitle
             // 
@@ -1290,7 +1281,6 @@
             this.btnShowTitle.Size = new System.Drawing.Size(87, 31);
             this.btnShowTitle.TabIndex = 5;
             this.btnShowTitle.Text = "标题";
-            this.btnShowTitle.Click += new System.EventHandler(this.btnShowTitle_Click);
             // 
             // recycleTabPage
             // 

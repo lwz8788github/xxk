@@ -197,7 +197,6 @@ namespace xxkUI.Form
             }
 
             string eakText = "";
-            string value = "";
             string eqkTimeStr = "";
             int eqkSelectNum = 0;
             double scale = 1.0;
@@ -368,6 +367,13 @@ namespace xxkUI.Form
             GMapMarkerKdcSite.AnnotationEqkToMap(eqkMapList, gmapcontrol);
             gmapcontrol.Position = new PointLatLng(la / rowNum.Length, lg / rowNum.Length);
             gmapcontrol.Zoom = 6;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(System.Environment.ExitCode);
+            this.Dispose();
+            this.Close();
         }
     
     }

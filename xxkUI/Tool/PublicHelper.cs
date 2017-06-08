@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,7 +43,6 @@ namespace xxkUI.Tool
             /// </summary>
             public string infoTblName;
         }
-
 
         public DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit CreateLookUpEdit(string[] values)
         {
@@ -154,19 +154,27 @@ namespace xxkUI.Tool
         Common, Right, Warning, Error
     }
 
+    public static class DataFromPath
+    {
+        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
+        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
+        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
+    }
+
+
     /// <summary>
     /// 数据源分类：原始信息库、本地信息库、处理数据
     /// </summary>
     public enum DataFromType
     {
-        OrigDb,LocalDb, HandleData
+        OrigDb, LocalDb, HandleData
     }
 
-
+    #region 数据处理
     /// <summary>
     /// 数据处理方法分类
     /// </summary>
-    public enum DataProessMethod
+    public enum DataProcessMethod
     {
         /// <summary>
         /// 加
@@ -185,14 +193,55 @@ namespace xxkUI.Tool
         /// </summary>
         Divide,
         /// <summary>
+        /// 消台阶
+        /// </summary>
+        RemoveStep,
+        /// <summary>
+        /// 消突跳
+        /// </summary>
+        RemoveJump,
+        /// <summary>
         /// 无操作
         /// </summary>
         NoProg
     }
-    public static class DataFromPath
+
+    public enum Left_Right
     {
-        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
-        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
-        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
+        left, right, both
     }
+
+    public enum MergenceSeparation
+    {
+        Mergence, Separation
+    }
+
+    /// <summary>
+    /// 记录Tchart事件类型
+    /// </summary>
+    public enum TChartEventType
+    {
+        /// <summary>
+        /// 热线
+        /// </summary>
+        Hotline,
+        /// <summary>
+        /// 消台阶
+        /// </summary>
+        RemoveStep,
+        /// <summary>
+        /// 消突跳
+        /// </summary>
+        RemoveJump,
+        /// <summary>
+        /// 无操作
+        /// </summary>
+        NoProg
+    }
+
+    #endregion
+
+
+ 
+
 }

@@ -74,5 +74,6 @@ namespace xxkUI.Form
         {
             this.DialogResult = DialogResult.Cancel;
         }
+
     }
 }

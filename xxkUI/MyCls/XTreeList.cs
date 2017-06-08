@@ -22,17 +22,19 @@ namespace xxkUI.MyCls
         private DevExpress.XtraTreeList.TreeList treeListLocalData;
         private DevExpress.XtraTreeList.TreeList treeListManipData;
 
-         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListLocalData,DevExpress.XtraTreeList.TreeList _treeListManipData)
+         public XTreeList(DevExpress.XtraTreeList.TreeList _treeListRemoteData,DevExpress.XtraTreeList.TreeList _treeListManipData,DevExpress.XtraTreeList.TreeList _treeListLocalData = null)
          {
 
             _treeListRemoteData.LookAndFeel.UseDefaultLookAndFeel = false;
             _treeListRemoteData.LookAndFeel.UseWindowsXPTheme = true;
 
-            _treeListLocalData.LookAndFeel.UseDefaultLookAndFeel = false;
-            _treeListLocalData.LookAndFeel.UseWindowsXPTheme = true;
-
+            if (_treeListLocalData != null)
+            {
+                _treeListLocalData.LookAndFeel.UseDefaultLookAndFeel = false;
+                _treeListLocalData.LookAndFeel.UseWindowsXPTheme = true;
+                treeListLocalData = _treeListLocalData;
+            }
             treeListRemoteData = _treeListRemoteData;
-            treeListLocalData = _treeListLocalData;
             treeListManipData = _treeListManipData;
 
          }

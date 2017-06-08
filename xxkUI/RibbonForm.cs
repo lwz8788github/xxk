@@ -49,12 +49,12 @@ namespace xxkUI
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
             mtc = new MyTeeChart(this.chartGroupBox);
-            xtl = new XTreeList(this.treeListRemoteData, this.treeListLocalData,this.treeListManipData);
+            xtl = new XTreeList(this.treeListRemoteData, this.treeListManipData);
            
             InitFaultCombobox();
 
             xtl.bSignInitOriDataTree();
-            xtl.bSignInitLocaldbTree();
+            //xtl.bSignInitLocaldbTree();
             xtl.bSignInitManipdbTree();
 
         }

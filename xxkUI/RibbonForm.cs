@@ -54,7 +54,9 @@ namespace xxkUI
             mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
             xtl = new XTreeList(this.treeListData, this.treeListManipData);
 
-            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
+            if (this.dockPanelDb.Text.Contains("本地"))
+                SwapDb();
+          
             InitFaultCombobox();
             xtl.bSignDbTree(DataFromPath.RemoteDbPath);
             xtl.bSignInitManipdbTree();
@@ -375,8 +377,8 @@ namespace xxkUI
                         {
                             SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
                            
-                            this.siteInfoDocCtrl.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
-                            this.siteInfoDocCtrl.FillBookMarkText(sb);
+                            this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
+                            this.siteInfoDocCtrl1.FillBookMarkText(sb);
                             this.siteInfoTabPage.PageVisible = true;
                             this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
                         }
@@ -418,76 +420,89 @@ namespace xxkUI
                 case "btnDownLoad"://下载数据
                     {
                         string userName = this.currentUserBar.Caption.Split('：')[1];
-
-                        if (userName == string.Empty && this.dockPanelDb.Text == "远程信息库")
+                        if (userName == string.Empty && this.dockPanelDb.Text.Contains("远程"))
                         {
                             XtraMessageBox.Show("没有登录！", "警告");
                             return;
                         }
-                        else
-                        {
-                            if (userName == string.Empty) userName = "superadmin";
-                            List<string> userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(userName);
 
-                            using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-                            {
-                                List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListData.Name);
-
-                                foreach (SiteBean checkedSb in checkedNodes)
-                                {
-                                    if (!userAhtyList.Contains(checkedSb.UnitCode))
-                                    {
-                                        string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
-                                        XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
-                                        continue;
-                                    }
-                                    DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
-
-                                    foreach (DataRow row in linecode.Rows)
-                                    {
-                                        string lCode = row[0].ToString();
-                                        string lName = row[1].ToString();
-                                        DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
-                                        if (dt.Rows.Count > 0)
-                                        {
-                                            if (this.dockPanelDb.Text == "本地信息库")
-                                            { 
-                                                filePath = DataFromPath.LocalDbPath; 
-                                            }
-                                            else if (this.dockPanelDb.Text == "远程信息库")
-                                            {
-                                                filePath = DataFromPath.RemoteDbPath;
-                                            }
-                                            NpoiCreator npcreator = new NpoiCreator();
-                                            npcreator.TemplateFile = filePath;
-                                            npcreator.NpoiExcel(dt, lCode + ".xls", filePath + "/" + lCode + ".xls");
-
-                                            TreeBean tb = new TreeBean();
-
-                                            tb.KeyFieldName = lCode;
-                                            tb.ParentFieldName = checkedSb.SiteCode;
-                                            tb.Caption = lName;
-                                        }
-                                    }
-                                }
-                                if (this.dockPanelDb.Text == "本地信息库")
-                                {
-                                    filePath = DataFromPath.LocalDbPath;
-                                }
-                                else if (this.dockPanelDb.Text == "远程信息库")
-                                {
-                                    filePath = DataFromPath.RemoteDbPath;
-                                }
-                                xtl.RefreshWorkspace(filePath);
-                                
-                            }
-                        }
+                        DownloadData(userName);
+                        
                     }
                     break;
               
             }
         }
 
+
+        /// <summary>
+        /// 下载数据
+        /// </summary>
+        /// <param name="username">用户名</param>
+        private void DownloadData(string username)
+        {
+
+            try
+            {
+                string datafilepath = "";
+                List<string> userAhtyList = null;
+                if (this.dockPanelDb.Text.Contains("远程"))
+                {
+                    datafilepath = DataFromPath.RemoteDbPath;
+                    userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(username);
+                }
+                else
+                {
+                    datafilepath = DataFromPath.LocalDbPath;
+                }
+
+                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                {
+                    List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListData.Name);
+
+                    foreach (SiteBean checkedSb in checkedNodes)
+                    {
+
+                        DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
+
+                        if (userAhtyList != null)
+                            if (!userAhtyList.Contains(checkedSb.UnitCode))
+                            {
+                                string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
+                                XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
+                                continue;
+                            }
+
+                        foreach (DataRow row in linecode.Rows)
+                        {
+                            string lCode = row[0].ToString();
+                            string lName = row[1].ToString();
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                            if (dt.Rows.Count > 0)
+                            {
+
+                                NpoiCreator npcreator = new NpoiCreator();
+                                npcreator.TemplateFile = datafilepath;
+                                npcreator.NpoiExcel(dt, lCode + ".xls", datafilepath + "/" + lCode + ".xls");
+
+                                TreeBean tb = new TreeBean();
+
+                                tb.KeyFieldName = lCode;
+                                tb.ParentFieldName = checkedSb.SiteCode;
+                                tb.Caption = lName;
+                            }
+                        }
+                    }
+
+                    xtl.RefreshWorkspace(datafilepath);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("下载数据失败：" + ex.Message, "错误");
+            }
+        }
 
         //private void popMenuLocal_ItemClick(object sender, ItemClickEventArgs e)
         //{
@@ -530,8 +545,8 @@ namespace xxkUI
         //                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
         //                {
         //                    SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-        //                    this.siteInfoDocCtrl.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
-        //                    this.siteInfoDocCtrl.FillBookMarkText(sb);
+        //                    this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
+        //                    this.siteInfoDocCtrl1.FillBookMarkText(sb);
         //                    this.siteInfoTabPage.PageVisible = true;
         //                    this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
         //                }
@@ -680,7 +695,7 @@ namespace xxkUI
 
         private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-         
+            xtl.bSignDbTree(DataFromPath.LocalDbPath);
         }
 
         #endregion
@@ -705,10 +720,19 @@ namespace xxkUI
 
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【创建数据库开始提示】开始创建本地数据库...");
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 1. 正在创建数据库...");
-                if (cldb.CreateDatabase("localinfo"))
-                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    创建数据库成功!");
+
+                if (!cldb.IsLocaldbExist())
+                {
+                    if (cldb.CreateDatabase("localinfo"))
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    创建数据库成功!");
+                    else
+                        BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "    创建数据库失败!");
+                }
                 else
-                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "    创建数据库失败!");
+                {
+                    BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    本地数据库已存在!");
+                }
+
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, " 2. 正在创建数据库表...");
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "  2.1 正在创建场地表...");
                 if (cldb.CreateSiteinfoTb())
@@ -774,8 +798,9 @@ namespace xxkUI
 
         private void CreateLocalDb_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
-            SwapDb(DataFromType.LocalDb);
+            MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+            xtl.bSignDbTree(DataFromPath.RemoteDbPath);
+            dockPanelDb.Text = "本地信息库";
         }
 
         #endregion
@@ -896,7 +921,7 @@ namespace xxkUI
         {
             this.recycleTabPage.PageVisible = true;
             this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
-            this.recycleControl1.LoadRecycleItems();
+            this.recycleControl2.LoadRecycleItems();
         }
         /// <summary>
         /// 查询地震
@@ -1268,28 +1293,24 @@ namespace xxkUI
             {
                 case "btnCreateLocaDb"://创建本地库
                     {
-                        CreateLocalDb cld = new CreateLocalDb();
-                        if (!cld.IsLocaldbExist())
-                        {
-                            ProgressForm ptPro = new ProgressForm();
-                            ptPro.Show(this);
-                            ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
-                            ptPro.beginWorking();
-                            ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
-                        }
-                        else
-                        {
-                            XtraMessageBox.Show("本地库已存在！","提示");
-                        }
+                        ProgressForm ptPro = new ProgressForm();
+                        ptPro.Show(this);
+                        ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+                        ptPro.beginWorking();
+                        ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
 
                     }
                     break;
                 case "btnSwitchDb"://数据库切换
                     {
                         if (this.dockPanelDb.Text.Contains("远程"))
-                            SwapDb(DataFromType.LocalDb);
+                        {
+                            SwapDb();
+                        }
                         else if (this.dockPanelDb.Text.Contains("本地"))
-                            SwapDb(DataFromType.RemoteDb);
+                        { 
+                            SwapDb();
+                        }
 
                     }
                     break;
@@ -1302,19 +1323,54 @@ namespace xxkUI
         /// <summary>
         /// 切换数据库和列表
         /// </summary>
-        private void SwapDb(DataFromType dft)
+        private void SwapDb()
         {
-            if (dft == DataFromType.RemoteDb)
+
+            if (this.dockPanelDb.Text.Contains("本地"))
             {
                 MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
                 xtl.bSignDbTree(DataFromPath.RemoteDbPath);
                 dockPanelDb.Text = "远程信息库";
+             
             }
-            else if (dft == DataFromType.LocalDb)
+            else if (this.dockPanelDb.Text.Contains("远程"))
             {
                 MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
-                xtl.bSignDbTree(DataFromPath.RemoteDbPath);
-                dockPanelDb.Text = "本地信息库";
+
+                CreateLocalDb Createlocaldb = new CreateLocalDb();
+
+                if (Createlocaldb.IsLocaldbExist())
+                {
+                    if (Createlocaldb.FullTableValidate())
+                    {
+                        xtl.bSignDbTree(DataFromPath.LocalDbPath);
+                        dockPanelDb.Text = "本地信息库";
+                    }
+                    else
+                    {
+                        if (XtraMessageBox.Show("本地库数据表不完整，是否重新创建？", "提示") == System.Windows.Forms.DialogResult.OK)
+                        {
+                            ProgressForm ptPro = new ProgressForm();
+                            ptPro.Show(this);
+                            ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+                            ptPro.beginWorking();
+                            ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (XtraMessageBox.Show("本地库不存在，是否创建？", "提示") == System.Windows.Forms.DialogResult.OK)
+                    {
+                        ProgressForm ptPro = new ProgressForm();
+                        ptPro.Show(this);
+                        ptPro.progressWorker.DoWork += CreateLocalDb_DoWork;
+                        ptPro.beginWorking();
+                        ptPro.progressWorker.RunWorkerCompleted += CreateLocalDb_RunWorkerCompleted;
+                    }
+                }
+
             }
         }
         #endregion

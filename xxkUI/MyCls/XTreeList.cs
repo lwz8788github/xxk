@@ -45,6 +45,8 @@ namespace xxkUI.MyCls
              }
              try
              {
+                 this.treeListData.ClearNodes();
+                 this.treeListData.DataSource = null;
                  List<TreeBean> treeData = new List<TreeBean>();
                
                  IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();

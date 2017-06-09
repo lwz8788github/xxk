@@ -46,6 +46,33 @@ namespace xxkUI.MyCls
             return isexisted;
         }
 
+        /// <summary>
+        /// 数据表完整性验证
+        /// </summary>
+        /// <returns></returns>
+        public bool FullTableValidate()
+        {
+            bool isFull = false;
+            int n = 0;
+
+            List<string> tbnamelist = (new string[] { "t_siteinfodb", "t_obslinetb", "t_unittb", "t_eqkcatalog", "t_obsrvtntb", "t_layoutmap" }).ToList();
+
+            foreach (string tbname in tbnamelist)
+            {
+                DataTable dt = MysqlHelper.ExecuteDataTable("select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='localinfo' and TABLE_NAME='" + tbname + "'");
+                if (dt.Rows.Count > 0)
+                    n++;
+            }
+
+            if (n < tbnamelist.Count)
+                isFull = false;
+            else
+                isFull = true;
+
+            return isFull;
+        }
+
+
         public bool CreateDatabase(string dbname)
         {
             bool isok = false;
@@ -56,6 +83,7 @@ namespace xxkUI.MyCls
                 MysqlHelper.ExecuteScalar(sql);
                 MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
                 isok = true;
+
             }
             catch (Exception ex)
             {
@@ -63,6 +91,7 @@ namespace xxkUI.MyCls
             }
 
             return isok;
+
         }
 
         /// <summary>

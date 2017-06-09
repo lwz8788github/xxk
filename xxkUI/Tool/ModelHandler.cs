@@ -128,43 +128,40 @@ namespace xxkUI.Tool
                 {
                     foreach (System.Reflection.PropertyInfo field1 in model.GetType().GetProperties())
                     {
-                        object[] objAttrs = field1.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                        if (objAttrs.Length > 0)
-                        {
-                            DescriptionAttribute attr = objAttrs[0] as DescriptionAttribute;
-                            if (attr != null)
-                            {
-                                if (attr.Description == dr.Table.Columns[i].ColumnName)
-                                    if (dr[i] != DBNull.Value)
-                                    {
-                                        if (i == 0)
-                                        {
-                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("DateTime"))
-                                            {
-                                                DateTime v = DateTime.Parse(dr[i].ToString());
-                                                field1.SetValue(model, v, null);
-                                            }
 
-                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("String"))
-                                            {
-                                                DateTime v = DateTime.Parse(dr[i].ToString());
-                                                field1.SetValue(model, dr[i].ToString(), null);
-                                            }
-                                        }
-                                        if (i == 1)
-                                        {
-                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Double"))
-                                            {
-                                                double v = double.Parse(dr[i].ToString());
-                                                field1.SetValue(model, v, null);
-                                            }
-                                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Int"))
-                                            {
-                                                int v = int.Parse(dr[i].ToString());
-                                                field1.SetValue(model, v, null);
-                                            }
-                                        }
-                                    }
+                        if (field1.Name == "obvdate")
+                        {
+                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("DateTime"))
+                            {
+                                DateTime v = DateTime.Parse(dr[0].ToString());
+                                field1.SetValue(model, v, null);
+                            }
+
+                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("String"))
+                            {
+                                DateTime v = DateTime.Parse(dr[0].ToString());
+                                field1.SetValue(model, dr[0].ToString(), null);
+                            }
+                        }
+                        if (field1.Name == "obvvalue")
+                        {
+                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Double"))
+                            {
+                                double v = double.Parse(dr[1].ToString());
+                                field1.SetValue(model, v, null);
+                            }
+                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("Int"))
+                            {
+                                int v = int.Parse(dr[1].ToString());
+                                field1.SetValue(model, v, null);
+                            }
+                        } 
+                        if (field1.Name == "note")
+                        {
+                            if (field1.PropertyType.IsValueType && field1.PropertyType.Name.StartsWith("String"))
+                            {
+                                double v = double.Parse(dr[2].ToString());
+                                field1.SetValue(model, v, null);
                             }
                         }
 

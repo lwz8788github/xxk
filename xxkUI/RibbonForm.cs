@@ -50,7 +50,7 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
-
+            this.panelContainer2.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
             mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
             xtl = new XTreeList(this.treeListData, this.treeListManipData);
 
@@ -477,7 +477,7 @@ namespace xxkUI
                         {
                             string lCode = row[0].ToString();
                             string lName = row[1].ToString();
-                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
+                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue,note from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
                             if (dt.Rows.Count > 0)
                             {
 
@@ -1035,7 +1035,7 @@ namespace xxkUI
                     mtc.RemoStepOrJump(TChartEventType.RemoveJump);
                     break;
                 case "btnLinesUnion"://测线合并
-
+                    mtc.LinesUnion();
                     break;
                 case "btnLinesBreak"://测线拆分
 
@@ -1373,8 +1373,12 @@ namespace xxkUI
 
             }
         }
+
         #endregion
 
-  
+        private void xtraTabControl1_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            this.panelContainer2.Visibility = (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage") ? DevExpress.XtraBars.Docking.DockVisibility.Visible : DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+        }
     }
 }

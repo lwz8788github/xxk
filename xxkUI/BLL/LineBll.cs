@@ -40,9 +40,24 @@ namespace xxkUI.Bll
             return LineDal.Instance.GetByID(getwhat, idname, idvalue).ToString();
         }
 
+        /// <summary>
+        /// 根据测线编码获取测线信息
+        /// </summary>
+        /// <param name="idvalue">测线编码</param>
+        /// <returns></returns>
         public LineBean GetInfoByID(string idvalue)
         {
             return LineDal.Instance.GetList("select * from t_obslinetb where OBSLINECODE = '" + idvalue + "'").ToList()[0];
+        }
+
+        /// <summary>
+        /// 根据场地编码获取测线集合
+        /// </summary>
+        /// <param name="sitecode">场地编码</param>
+        /// <returns></returns>
+        public IEnumerable<LineBean> GetBySitecode(string sitecode)
+        {
+            return LineDal.Instance.GetList("select * from t_obslinetb where SITECODE = '" + sitecode + "'").ToList();
         }
 
         public IEnumerable<LineBean> GetAll()

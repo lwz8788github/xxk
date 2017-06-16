@@ -325,35 +325,24 @@ public class PriAlgorithmHelper
         /// <summary>
         /// 测项合并
         /// </summary>
-        /// <param name="dataOne"></param>
-        /// <param name="dataTwo"></param>
-        /// <param name="met"></param>
-        /// <param name="choose"><是否移动到平均值：true为移动；false为不移动/param>
-        /// <returns></returns>
-        public DataTable Merge(DataTable dataOne,DataTable dataTwo, MergenceSeparation met ,bool choose ,string field)
+        /// <param name="dataOne">显示的数据</param>
+        /// <param name="dataTwo">合并的数据</param>
+        /// <param name="choose">是否移动到平均值处</param>
+        /// <param name="field">排序字段,一般为时间</param>
+        /// <returns>处理结果</returns>
+        public DataTable Merge(DataTable dataOne,DataTable dataTwo,bool choose)
         {
-            DataTable rt = new DataTable();
             try
-            {                
-                string sortfield = "";
+            {
                 if (dataOne.Rows.Count == 0 || dataTwo.Rows.Count == 0)
                 {
                     return null;
-                }
-                if (field == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    sortfield = field + "desc";
                 }
                 //起止时间
                 DateTime SartOne = DateTime.Parse(dataOne.Rows[0][0].ToString());
                 DateTime EndOne = DateTime.Parse(dataOne.Rows[0][0].ToString());
                 DateTime SartTwo = DateTime.Parse(dataTwo.Rows[0][0].ToString());
                 DateTime EndTwo = DateTime.Parse(dataTwo.Rows[0][0].ToString());
-
 
                 double ave_One = 0, ave_Two = 0;
                 double n_One = 0, n_Two = 0;
@@ -366,7 +355,7 @@ public class PriAlgorithmHelper
                         n_One += 1;
                     }
                     ave_One = ave_One / n_One;
-                    foreach (DataRow dr in dataOne.Rows)
+                    foreach (DataRow dr in dataTwo.Rows)
                     {
                         ave_Two += double.Parse(dr[1].ToString());
                         n_Two += 1;
@@ -387,20 +376,27 @@ public class PriAlgorithmHelper
                     double d = double.Parse(dataTwo.Rows[i][1].ToString());
                     d = d + offset;
                     dataTwo.Rows[i][1] = d;
-                    dataOne.Rows.Add(dataTwo.Rows[i]);
+
+                    DataRow dr = dataOne.NewRow();
+                    for (int j = 0; j < dataOne.Columns.Count; j++)
+                    {
+                        dr[j] = dataTwo.Rows[i][j];
+                    }
+                    dataOne.Rows.Add(dr);
                 }
 
-                rt = dataOne.Clone();
-                rt.DefaultView.Sort = sortfield;//"OBVDATE desc"
 
-                //检查两组数据是否连续、重复
+                DataView dataView = dataOne.DefaultView;
+                dataView.Sort = "obvdate asc";
+                dataOne = dataView.ToTable();
+
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }           
 
-            return rt;
+            return dataOne;
         }
         /// <summary>
         /// 测项拆分

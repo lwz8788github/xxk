@@ -50,65 +50,72 @@ namespace xxkUI.Form
         }
         private void btnFind_Click(object sender, EventArgs e)
         {
-            float eqkMlMin = float.Parse(this.textEdit1.Text);
-            float eqkMlMax = float.Parse(this.textEdit2.Text);
-            if (eqkMlMin > eqkMlMax)
+            try
             {
-                XtraMessageBox.Show("最大震级应大于最小震级，重新输入！","提示");
-                textEdit1.Text = "";
-                textEdit2.Text = "";
-                return;
-            }
-            float eqkDepthMin = float.Parse(this.textEdit4.Text);
-            float eqkDepthMax = float.Parse(this.textEdit3.Text);
-            if (eqkDepthMin > eqkDepthMax)
-            {
-                XtraMessageBox.Show( "最大深度应大于最小深度，重新输入！","提示");
-                textEdit4.Text = "";
-                textEdit3.Text = "";
-                return;
-            }
-            string timeStStr = this.textEdit6.Text;
-            DateTime timeStc = Convert.ToDateTime(timeStStr);
-            DateTime timeSt = Convert.ToDateTime(timeStc).Date; 
-            string timeEdStr = this.textEdit5.Text;
-            DateTime timeEdc = Convert.ToDateTime(timeEdStr);
-            DateTime timeEd = Convert.ToDateTime(timeEdc).Date; 
-            if(DateTime.Compare(timeSt,timeEd)>0)
-            {
-                XtraMessageBox.Show( "结束时间应在开始时间之后！","提示");
-                textEdit6.Text = "";
-                textEdit5.Text = "";
-                return;
-            }
-            float radial = float.Parse(this.textEdit8.Text);
-            if (radial <= 0)
-            {
-                XtraMessageBox.Show("提示", "缓冲半径应大于0！");
-                textEdit8.Text = "";
-                return;
-            }
-            double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
-            double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
-           
-            string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
-            string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax; 
-            string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
-            string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
-            string sql = sql0 + sql1 + sql2 + sql3;
-            List<EqkBean> datasource = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
-            eqkDataList.Clear();
-            foreach (EqkBean eqkData in datasource)
-            {
-                double dist = LantitudeLongitudeDist(lon, lat, eqkData.Longtitude, eqkData.Latitude);
-                if (dist <= radial)
+                float eqkMlMin = float.Parse(this.textEdit1.Text);
+                float eqkMlMax = float.Parse(this.textEdit2.Text);
+                if (eqkMlMin > eqkMlMax)
                 {
-                    eqkData.Dist = Math.Round(dist);
-                    eqkDataList.Add(eqkData);
+                    XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
+                    textEdit1.Text = "";
+                    textEdit2.Text = "";
+                    return;
                 }
+                float eqkDepthMin = float.Parse(this.textEdit4.Text);
+                float eqkDepthMax = float.Parse(this.textEdit3.Text);
+                if (eqkDepthMin > eqkDepthMax)
+                {
+                    XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
+                    textEdit4.Text = "";
+                    textEdit3.Text = "";
+                    return;
+                }
+                string timeStStr = this.textEdit6.Text;
+                DateTime timeStc = Convert.ToDateTime(timeStStr);
+                DateTime timeSt = Convert.ToDateTime(timeStc).Date;
+                string timeEdStr = this.textEdit5.Text;
+                DateTime timeEdc = Convert.ToDateTime(timeEdStr);
+                DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
+                if (DateTime.Compare(timeSt, timeEd) > 0)
+                {
+                    XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
+                    textEdit6.Text = "";
+                    textEdit5.Text = "";
+                    return;
+                }
+                float radial = float.Parse(this.textEdit8.Text);
+                if (radial <= 0)
+                {
+                    XtraMessageBox.Show("提示", "缓冲半径应大于0！");
+                    textEdit8.Text = "";
+                    return;
+                }
+                double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
+                double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
+
+                string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
+                string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
+                string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
+                string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
+                string sql = sql0 + sql1 + sql2 + sql3;
+                List<EqkBean> datasource = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
+                eqkDataList.Clear();
+                foreach (EqkBean eqkData in datasource)
+                {
+                    double dist = LantitudeLongitudeDist(lon, lat, eqkData.Longtitude, eqkData.Latitude);
+                    if (dist <= radial)
+                    {
+                        eqkData.Dist = Math.Round(dist);
+                        eqkDataList.Add(eqkData);
+                    }
+                }
+                DataTable eqkObsData = ToDataTable<EqkBean>(eqkDataList);
+                LoadEqkData(eqkObsData);
             }
-            DataTable eqkObsData = ToDataTable<EqkBean>(eqkDataList);
-            LoadEqkData(eqkObsData);
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
         }
 
         ///<summary>
@@ -169,100 +176,116 @@ namespace xxkUI.Form
         {
             var props = typeof(T).GetProperties();
             var dt = new DataTable();
-            dt.Columns.AddRange(props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray());
-            if (collection.Count() > 0)
+
+            try
             {
-                for (int i = 0; i < collection.Count(); i++)
+                dt.Columns.AddRange(props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray());
+                if (collection.Count() > 0)
                 {
-                    ArrayList tempList = new ArrayList();
-                    foreach (PropertyInfo pi in props)
+                    for (int i = 0; i < collection.Count(); i++)
                     {
-                        object obj = pi.GetValue(collection.ElementAt(i), null);
-                        tempList.Add(obj);
+                        ArrayList tempList = new ArrayList();
+                        foreach (PropertyInfo pi in props)
+                        {
+                            object obj = pi.GetValue(collection.ElementAt(i), null);
+                            tempList.Add(obj);
+                        }
+                        object[] array = tempList.ToArray();
+                        dt.LoadDataRow(array, true);
                     }
-                    object[] array = tempList.ToArray();
-                    dt.LoadDataRow(array, true);
                 }
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+                throw new Exception(ex.Message);
             }
             return dt;
         }
 
         private void btnEqkAnnotation_Click(object sender, EventArgs e)
         {
-            int sNum = this.tChart.Series.Count;
-            if (this.tChart.Series.Count > 1)
+            try
             {
-                for (int i = 1; i < sNum; i++)
-                    this.tChart.Series.RemoveAt(1);
-            }
-
-            string eakText = "";
-            string eqkTimeStr = "";
-            int eqkSelectNum = 0;
-            double scale = 1.0;
-            Boolean isEqkInTimeSpan = false;
-            this.tChart.Tools.Clear();
-            
-            int[] rowNum = this.gridView.GetSelectedRows();
-            for (int index = 0; index < rowNum.Length; index++)
-            {
-                int i = rowNum[index];
-                eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
-                DateTime eqkTime = DateTime.Parse(eqkTimeStr);
-                double maxX = tChart.Series[0].XValues.Maximum;
-                double minX = tChart.Series[0].XValues.Minimum;
-                DateTime maxEqkT = DateTime.FromOADate(maxX);
-                DateTime minEqkT = DateTime.FromOADate(minX);
-                TimeSpan spanT = eqkTime.Subtract(minEqkT);
-                double eqkT = spanT.Days + minX;
-
-                double maxY = tChart.Chart.Series[0].MaxYValue();
-                double minY = tChart.Chart.Series[0].MinYValue();
-                scale = maxY - minY;
-
-                int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
-                int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
-                int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX + maxX) / 2.0);
-
-                //观测时间距离地震时间最近索引
-                int minIndex = 0;
-                double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
-
-                for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
+                int sNum = this.tChart.Series.Count;
+                if (this.tChart.Series.Count > 1)
                 {
-                    deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
-                    if (deltX > deltX1)
+                    for (int i = 1; i < sNum; i++)
+                        this.tChart.Series.RemoveAt(1);
+                }
+
+                string eakText = "";
+                string eqkTimeStr = "";
+                int eqkSelectNum = 0;
+                double scale = 1.0;
+                Boolean isEqkInTimeSpan = false;
+                this.tChart.Tools.Clear();
+
+                int[] rowNum = this.gridView.GetSelectedRows();
+                for (int index = 0; index < rowNum.Length; index++)
+                {
+                    int i = rowNum[index];
+                    eqkTimeStr = this.gridView.GetRowCellValue(i, "EakDate").ToString();
+                    DateTime eqkTime = DateTime.Parse(eqkTimeStr);
+                    double maxX = tChart.Series[0].XValues.Maximum;
+                    double minX = tChart.Series[0].XValues.Minimum;
+                    DateTime maxEqkT = DateTime.FromOADate(maxX);
+                    DateTime minEqkT = DateTime.FromOADate(minX);
+                    TimeSpan spanT = eqkTime.Subtract(minEqkT);
+                    double eqkT = spanT.Days + minX;
+
+                    double maxY = tChart.Chart.Series[0].MaxYValue();
+                    double minY = tChart.Chart.Series[0].MinYValue();
+                    scale = maxY - minY;
+
+                    int index0 = tChart.Chart.Series[0].XValues.IndexOf(maxX);
+                    int index1 = tChart.Chart.Series[0].XValues.IndexOf(minX);
+                    int index2 = tChart.Chart.Series[0].XValues.IndexOf((minX + maxX) / 2.0);
+
+                    //观测时间距离地震时间最近索引
+                    int minIndex = 0;
+                    double deltX = Math.Abs(tChart.Chart.Series[0].XValues[0] - eqkT), deltX1;
+
+                    for (int j = 1; j < tChart.Chart.Series[0].XValues.Count; j++)
                     {
-                        minIndex = j;
-                        deltX = deltX1;
+                        deltX1 = Math.Abs(tChart.Chart.Series[0].XValues[j] - eqkT);
+                        if (deltX > deltX1)
+                        {
+                            minIndex = j;
+                            deltX = deltX1;
+                        }
+                        else break;
                     }
-                    else break;
-                }
 
-                //标注地震事件
-                if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
+                    //标注地震事件
+                    if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
+                    {
+                        eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + "ML=" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
+                        eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
+                        isEqkInTimeSpan = true;
+                    }
+                    eqkSelectNum++;
+                }
+                if (isEqkInTimeSpan && eqkSelectNum != 0)
                 {
-                    eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + "ML=" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                    eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
-                    isEqkInTimeSpan = true;
-                }
-                eqkSelectNum++;
-            }
-            if (isEqkInTimeSpan && eqkSelectNum != 0)
-            {
-                this.DragPtTool.Chart = this.tChart.Chart;
-                this.DragPtTool.Style = DragPointStyles.Y;
+                    this.DragPtTool.Chart = this.tChart.Chart;
+                    this.DragPtTool.Style = DragPointStyles.Y;
 
-                //this.DrawlnTool.Chart = this.tChart.Chart;
-                //this.DrawlnTool.Style = DrawLineStyle.Line;
-                //this.DrawlnTool.NewLine += DrawlnTool_NewLine;
-                //this.DrawlnTool.Button = MouseButtons.Left;
-                //this.DrawlnTool.EnableDraw = true;
-                //this.DrawlnTool.EnableSelect = true;
-                //this.DrawlnTool.Pen.Color = Color.Red;
+                    //this.DrawlnTool.Chart = this.tChart.Chart;
+                    //this.DrawlnTool.Style = DrawLineStyle.Line;
+                    //this.DrawlnTool.NewLine += DrawlnTool_NewLine;
+                    //this.DrawlnTool.Button = MouseButtons.Left;
+                    //this.DrawlnTool.EnableDraw = true;
+                    //this.DrawlnTool.EnableSelect = true;
+                    //this.DrawlnTool.Pen.Color = Color.Red;
+                }
+                if (eqkSelectNum == 0) XtraMessageBox.Show("未选中任何震例！", "提示");
+                if (!isEqkInTimeSpan && eqkSelectNum == 0) XtraMessageBox.Show("所选地震未在观测时间段内！", "提示");
             }
-            if (eqkSelectNum == 0) XtraMessageBox.Show("未选中任何震例！","提示");
-            if (!isEqkInTimeSpan&&eqkSelectNum == 0) XtraMessageBox.Show("所选地震未在观测时间段内！","提示" );
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
         }
 
         void DrawlnTool_NewLine(DrawLine sender)
@@ -276,49 +299,55 @@ namespace xxkUI.Form
         /// <param name="e"></param>
         private void eqkAnnotation(double scale,DateTime date,double value, string eakText)//
         {
-            this.tChart.Chart.Series[0].Legend.Visible = false;
+            try
+            {
+                this.tChart.Chart.Series[0].Legend.Visible = false;
 
-            //Arrow arw = new Arrow(this.tChart.Chart);
+                //Arrow arw = new Arrow(this.tChart.Chart);
 
-            //arw.Active = this.DragPtTool.Active;
-            //arw.Visible = this.DragPtTool.Active;
-            //arw.Legend.Visible = !this.DragPtTool.Active;
-            //arw.Visible = this.DragPtTool.Active;
-            //arw.Color = Color.Red;
+                //arw.Active = this.DragPtTool.Active;
+                //arw.Visible = this.DragPtTool.Active;
+                //arw.Legend.Visible = !this.DragPtTool.Active;
+                //arw.Visible = this.DragPtTool.Active;
+                //arw.Color = Color.Red;
 
-            //arw.Marks.Visible = this.DragPtTool.Active;
-            //arw.Marks.TextAlign = StringAlignment.Center;
-            //arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
+                //arw.Marks.Visible = this.DragPtTool.Active;
+                //arw.Marks.TextAlign = StringAlignment.Center;
+                //arw.Marks.TextFormat = Steema.TeeChart.Drawing.TextFormat.Normal;
 
-            //arw.Add(date, value);
+                //arw.Add(date, value);
 
-            //arw.Tag = eakText;
-            //arw.GetSeriesMark += arw_GetSeriesMark;
+                //arw.Tag = eakText;
+                //arw.GetSeriesMark += arw_GetSeriesMark;
 
-            //arw.StartYValues.Value[0] = value + scale * 0.15;
-            //arw.EndYValues.Value[0] = value + scale * 0.1;
+                //arw.StartYValues.Value[0] = value + scale * 0.15;
+                //arw.EndYValues.Value[0] = value + scale * 0.1;
 
-            //arw.StartXValues.Value[0] = arw.XValues.First;
-            //arw.EndXValues.Value[0] = arw.XValues.Last;
+                //arw.StartXValues.Value[0] = arw.XValues.First;
+                //arw.EndXValues.Value[0] = arw.XValues.Last;
 
-            //arw.XValues[1] = arw.XValues[0];
-            //arw.YValues[1] = arw.EndYValues.Value[0];
+                //arw.XValues[1] = arw.XValues[0];
+                //arw.YValues[1] = arw.EndYValues.Value[0];
 
 
-            ImagePoint imgpt = new ImagePoint(this.tChart.Chart);
-            imgpt.Legend.Visible = false;
+                ImagePoint imgpt = new ImagePoint(this.tChart.Chart);
+                imgpt.Legend.Visible = false;
 
-            Image img = Image.FromFile(Application.StartupPath + "//pic//arrow.png");
+                Image img = Image.FromFile(Application.StartupPath + "//pic//arrow.png");
 
-            imgpt.Marks.Visible = true;
-            imgpt.Marks.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.Rectangle;
+                imgpt.Marks.Visible = true;
+                imgpt.Marks.ShapeStyle = Steema.TeeChart.Drawing.TextShapeStyle.Rectangle;
 
-            imgpt.Add(date, value);
-            imgpt.PointImage = img;
-            imgpt.Tag = eakText;
+                imgpt.Add(date, value);
+                imgpt.PointImage = img;
+                imgpt.Tag = eakText;
 
-            imgpt.GetSeriesMark += imgpt_GetSeriesMark;
-            
+                imgpt.GetSeriesMark += imgpt_GetSeriesMark;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         void imgpt_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
         {
@@ -336,13 +365,20 @@ namespace xxkUI.Form
 
         private void btnEqkSite_Click(object sender, EventArgs e)
         {
-            Control xtraTabControl1 = Application.OpenForms["RibbonForm"].Controls.Find("xtraTabControl1", true)[0];
-            Control mapTabPage = Application.OpenForms["RibbonForm"].Controls.Find("mapTabPage", true)[0];
+            try
+            {
+                Control xtraTabControl1 = Application.OpenForms["RibbonForm"].Controls.Find("xtraTabControl1", true)[0];
+                Control mapTabPage = Application.OpenForms["RibbonForm"].Controls.Find("mapTabPage", true)[0];
 
-            ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
+                ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
 
-            GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
-            annoEqkList(gmapcontrol);
+                GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
+                annoEqkList(gmapcontrol);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
         }
         /// <summary>
         /// 地图显示地震标注
@@ -350,25 +386,32 @@ namespace xxkUI.Form
         /// <param name="gmapcontrol"></param>
         public void annoEqkList(GMap.NET.WindowsForms.GMapControl gmapcontrol=null)
         {
-            int[] rowNum = this.gridView.GetSelectedRows();
-            double lg = 0;
-            double la = 0;
-            List<EqkBean> eqkMapList = new List<EqkBean>();
-            GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
-
-            for (int index = 0; index < rowNum.Length; index++)
+            try
             {
-                int i = rowNum[index];
-                eqkMapList.Add(eqkDataList[i]);
-                lg += eqkDataList[i].Longtitude;
-                la += eqkDataList[i].Latitude;
+                int[] rowNum = this.gridView.GetSelectedRows();
+                double lg = 0;
+                double la = 0;
+                List<EqkBean> eqkMapList = new List<EqkBean>();
+                GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
+
+                for (int index = 0; index < rowNum.Length; index++)
+                {
+                    int i = rowNum[index];
+                    eqkMapList.Add(eqkDataList[i]);
+                    lg += eqkDataList[i].Longtitude;
+                    la += eqkDataList[i].Latitude;
+                }
+
+                GMapMarkerKdcSite.AnnotationEqkToMap(eqkMapList, gmapcontrol);
+                gmapcontrol.Position = new PointLatLng(la / rowNum.Length, lg / rowNum.Length);
+                gmapcontrol.Zoom = 6;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
-            GMapMarkerKdcSite.AnnotationEqkToMap(eqkMapList, gmapcontrol);
-            gmapcontrol.Position = new PointLatLng(la / rowNum.Length, lg / rowNum.Length);
-            gmapcontrol.Zoom = 6;
-        }
-
+            }
         private void btnExit_Click(object sender, EventArgs e)
         {
             System.Environment.Exit(System.Environment.ExitCode);

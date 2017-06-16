@@ -968,6 +968,7 @@ namespace xxkUI.MyCls
             if (this.tChart.Series.Count == 0)
                 return;
 
+
             Line ln = this.tChart.Series[0] as Line;
 
             DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
@@ -985,6 +986,11 @@ namespace xxkUI.MyCls
         /// </summary>
         public void RemoStepOrJump(TChartEventType tep)
         {
+
+            if (this.tChart == null)
+                return;
+            if (this.tChart.Series.Count == 0)
+                return;
             this.tchartEventType = tep;
             start = new Point();//矩形起点
             end = new Point();//矩形终点
@@ -996,12 +1002,38 @@ namespace xxkUI.MyCls
         /// 测项合并
         /// </summary>
         public void LinesUnion()
-        { }
+        {
+            if (this.tChart == null)
+                return;
+            if (this.tChart.Series.Count == 0)
+                return;
+
+            Line ln = this.tChart.Series[0] as Line;
+  
+            ObslineMergeFrm olmf = new ObslineMergeFrm();
+            if (olmf.ShowDialog() == DialogResult.OK)
+            {
+
+                DataTable dtone = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                DataTable dttwo = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue,note from t_obsrvtntb where obslinecode = '" + olmf.SelectedObsLineCode + "'");
+
+                PriAlgorithmHelper pralg = new PriAlgorithmHelper();
+                ObsdataCls.ObsdataHash[ln.Title] = pralg.Merge(dtone, dttwo, olmf.MoveToAverage);
+
+                AddSingleSeries(this.tChart.Header.Text);
+            }
+        }
         /// <summary>
         /// 测项拆分
         /// </summary>
         public void LinesBreak()
-        { }
+        {
+
+            if (this.tChart == null)
+                return;
+            if (this.tChart.Series.Count == 0)
+                return;
+        }
 
 
         /// <summary>

@@ -1029,6 +1029,7 @@ namespace xxkUI
                     mtc.PlusMinusMultiplyDivide();
                     break;
                 case "btnRemoveStep"://消台阶
+                    
                     mtc.RemoStepOrJump(TChartEventType.RemoveStep);
                     break;
                 case "btnRemoveJump"://消突跳

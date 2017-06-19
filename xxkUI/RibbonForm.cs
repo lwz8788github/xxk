@@ -50,7 +50,9 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
-            this.panelContainer2.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
+
+            this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
+
             mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
             xtl = new XTreeList(this.treeListData, this.treeListManipData);
 
@@ -61,7 +63,6 @@ namespace xxkUI
             xtl.bSignDbTree(DataFromPath.RemoteDbPath);
             xtl.bSignInitManipdbTree();
 
-          
         }
 
         /// <summary>
@@ -153,26 +154,125 @@ namespace xxkUI
             //this.siteAttriFrm.SetDataSource(new List<SiteBean>() { sb });
         }
 
-        private void btnFull_ItemClick(object sender, ItemClickEventArgs e)
+        private void btnEventOnMap_ItemClick(object sender, ItemClickEventArgs e)
         {
-            GMapMarkerKdcSite.Full(this.gMapCtrl);
+            switch (e.Item.Name)
+            {
+                case "btnZoomout":
+                    { GMapMarkerKdcSite.Zoom(1, this.gMapCtrl); }
+                    break;
+                case "btnZoomin":
+                    { GMapMarkerKdcSite.Zoom(-1, this.gMapCtrl); }
+                    break;
+                case "btnFull":
+                    { GMapMarkerKdcSite.Full(this.gMapCtrl); }
+                    break;
+                case "btnReloadMap":
+                    { GMapMarkerKdcSite.ReloadMap(this.gMapCtrl); }
+                    break;
+                case "btnEqkSearch":
+                    {
+                        float eqkMlMin = float.NaN;
+                         float eqkMlMax = float.NaN;
+                         try
+                         {
+                             eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
+                             eqkMlMax = float.Parse(this.beiEqkMaxMtd.EditValue.ToString());
+                         }
+                         catch (Exception ex)
+                         {
+                             XtraMessageBox.Show("不是有效的震级！", "提示");
+                             return;
+                         }
+
+                         if (eqkMlMin > eqkMlMax)
+                         {
+                             XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
+                             this.beiEqkMinMtd.EditValue = "";
+                             this.beiEqkMaxMtd.EditValue = "";
+                             return;
+                         }
+
+
+                         float eqkDepthMin = float.NaN;
+                         float eqkDepthMax = float.NaN;
+                         try
+                         {
+                             eqkDepthMin = float.Parse(this.beiEqkMinDepth.EditValue.ToString());
+                             eqkDepthMax = float.Parse(this.beiEqkMaxDepth.EditValue.ToString());
+                         }
+                         catch (Exception ex)
+                         {
+                             XtraMessageBox.Show("不是有效的震源深度值！", "提示");
+                             return;
+                         }
+
+                         if (eqkDepthMin > eqkDepthMax)
+                         {
+                             XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
+                             this.beiEqkMinDepth.EditValue = "";
+                             this.beiEqkMinDepth.EditValue = "";
+                             return;
+                         }
+                         try
+                         {
+                             string timeStStr = this.beiEqkStartTime.EditValue.ToString();
+                             DateTime timeStc = Convert.ToDateTime(timeStStr);
+                             DateTime timeSt = Convert.ToDateTime(timeStc).Date;
+                             string timeEdStr = this.beiEqkEndTime.EditValue.ToString();
+                             DateTime timeEdc = Convert.ToDateTime(timeEdStr);
+                             DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
+                             if (DateTime.Compare(timeSt, timeEd) > 0)
+                             {
+                                 XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
+                                 this.beiEqkStartTime.EditValue = "";
+                                 this.beiEqkEndTime.EditValue = "";
+                                 return;
+                             }
+                             //string sql0 = "select longtitude as 'u经度',latitude as 'u纬度',eakdate as 'u时间', magntd as 'u震级', depth as 'u深度', place as 'u地点'";
+                             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
+                             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
+                             if (eqkMlMin == eqkMlMax) sql1 = "  from t_eqkcatalog where MAGNTD = " + eqkMlMin;
+                             string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
+                             if (eqkDepthMin == eqkDepthMax) sql2 = " and DEPTH =" + eqkDepthMin;
+                             string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
+                             if (DateTime.Compare(timeSt, timeEd) == 0) sql3 = " and EAKDATE =" + "\'" + timeSt.ToString() + "\'";
+                             string sql = sql0 + sql1 + sql2 + sql3;
+                             List<EqkBean> eqkDataList = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
+
+                             if (eqkDataList.Count() > 0)
+                             {
+                                 this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                                 this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                                 panelContainerDataItemVisible(this.dockPanelEqkCatalog.Name);
+                                 ModelHandler<EqkBean> mh = new ModelHandler<EqkBean>();
+
+                                 DataTable eqkShowData = mh.FillDataTable(eqkDataList);
+                                     //ToDataTable<EqkBean>(eqkShowList);
+                              
+                                 this.gridControlEqklist.DataSource = eqkShowData;
+                                 this.gridControlEqklist.Refresh();
+
+                                 GMapMarkerKdcSite.ClearAllEqkMarker(gMapCtrl);
+                                 GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gMapCtrl);
+
+                             }
+                             else
+                             {
+                                 throw new Exception("没有相应震例");
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             XtraMessageBox.Show("查询失败："+ex.Message, "错误");
+                         }
+                    }
+                    break;
+
+            }
+            
         }
 
-        private void btnZoomout_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            GMapMarkerKdcSite.Zoom(1, this.gMapCtrl);
-        }
-
-        private void btnZoomin_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            GMapMarkerKdcSite.Zoom(-1, this.gMapCtrl);
-
-        }
-
-        private void btnReloadMap_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            GMapMarkerKdcSite.ReloadMap(this.gMapCtrl);
-        }
 
 
         #endregion
@@ -233,6 +333,32 @@ namespace xxkUI
             {
 
                 XtraMessageBox.Show("初始化断层数据发生错误：" + ex.Message, "错误");
+            }
+        }
+
+
+
+        /// <summary>
+        /// 控制dockPanel的显示
+        /// </summary>
+        /// <param name="controlname"></param>
+        private void panelContainerDataItemVisible(string controlname)
+        {
+            if (this.panelContainerData.Visibility == DevExpress.XtraBars.Docking.DockVisibility.Visible)
+            {
+                if (controlname == this.dockPanelEqkCatalog.Name)
+                {
+                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                 
+                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                }
+                else
+                {
+                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                }
             }
         }
 
@@ -923,97 +1049,8 @@ namespace xxkUI
             this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
             this.recycleControl2.LoadRecycleItems();
         }
-        /// <summary>
-        /// 查询地震
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnEqkQuery_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            float eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
-            float eqkMlMax = float.Parse(this.beiEqkMaxMtd.EditValue.ToString());
-            if (eqkMlMin > eqkMlMax)
-            {
-                XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
-                this.beiEqkMinMtd.EditValue = "";
-                this.beiEqkMaxMtd.EditValue = "";
-                return;
-            }
-            float eqkDepthMin = float.Parse(this.beiEqkMinDepth.EditValue.ToString());
-            float eqkDepthMax = float.Parse(this.beiEqkMaxDepth.EditValue.ToString());
-            if (eqkDepthMin > eqkDepthMax)
-            {
-                XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
-                this.beiEqkMinDepth.EditValue = "";
-                this.beiEqkMinDepth.EditValue = "";
-                return;
-            }
-            string timeStStr = this.beiEqkStartTime.EditValue.ToString();
-            DateTime timeStc = Convert.ToDateTime(timeStStr);
-            DateTime timeSt = Convert.ToDateTime(timeStc).Date;
-            string timeEdStr = this.beiEqkEndTime.EditValue.ToString();
-            DateTime timeEdc = Convert.ToDateTime(timeEdStr);
-            DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
-            if (DateTime.Compare(timeSt, timeEd) > 0)
-            {
-                XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
-                this.beiEqkStartTime.EditValue = "";
-                this.beiEqkEndTime.EditValue = "";
-                return;
-            }
-            //string sql0 = "select longtitude as 'u经度',latitude as 'u纬度',eakdate as 'u时间', magntd as 'u震级', depth as 'u深度', place as 'u地点'";
-            string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
-            string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
-            if (eqkMlMin == eqkMlMax) sql1 = "  from t_eqkcatalog where MAGNTD = " + eqkMlMin;
-            string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
-            if (eqkDepthMin == eqkDepthMax) sql2 = " and DEPTH =" + eqkDepthMin;
-            string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
-            if (DateTime.Compare(timeSt, timeEd) == 0) sql3 = " and EAKDATE =" + "\'" + timeSt.ToString() + "\'";
-            string sql = sql0 + sql1 + sql2 + sql3;
-            List<EqkBean> eqkDataList = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
+ 
 
-            if (eqkDataList.Count() > 0)
-            {
-                this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                MapEqkShowForm(eqkDataList);
-                GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;
-                GMapMarkerKdcSite.ClearAllEqkMarker(gmapcontrol);
-                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gmapcontrol);
-
-            }
-            else
-            {
-                XtraMessageBox.Show("没有相应震例！", "提示");
-            }
-
-        }
-        /// <summary>
-        /// 地震列表
-        /// </summary>
-        public void MapEqkShowForm(List<EqkBean> eqkShowList)
-        {
-            if (eqklist != null)
-            {
-                if (eqklist.IsDisposed)//如果已经销毁，则重新创建子窗口对象
-                {
-                    eqklist = new eqkList(eqkShowList);
-
-                    eqklist.Show();
-                    eqklist.Focus();
-                }
-                else
-                {
-                    eqklist.Show();
-                    eqklist.Focus();
-                }
-            }
-            else
-            {
-                eqklist = new eqkList(eqkShowList);
-                eqklist.Show();
-                eqklist.Focus();
-            }
-        }
 
 
         /// <summary>
@@ -1378,7 +1415,54 @@ namespace xxkUI
 
         private void xtraTabControl1_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
         {
-            this.panelContainer2.Visibility = (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage") ? DevExpress.XtraBars.Docking.DockVisibility.Visible : DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+
+            if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
+            {
+                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                panelContainerDataItemVisible("");
+            }
+            else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage")
+            {
+                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                panelContainerDataItemVisible(this.dockPanelEqkCatalog.Name);
+            }
+        }
+
+        /// <summary>
+        /// 地震目录列表行双击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gridControlEqklist_MouseDown(object sender, MouseEventArgs e)
+        {
+            DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo hInfo = this.gridViewEqklist.CalcHitInfo(new Point(e.X, e.Y));
+            /*
+             * 执行双击事件
+             */
+            if (e.Button == MouseButtons.Left && e.Clicks == 2)
+            {
+                //判断光标是否在行范围内 
+                if (hInfo.InRow)
+                {
+                    try
+                    {
+                        this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                  
+                        DataRowView drv = (DataRowView)this.gridViewEqklist.GetRow(hInfo.RowHandle);
+
+                        this.gMapCtrl.Position = new PointLatLng(double.Parse(drv["Latitude"].ToString()), double.Parse(drv["Longtitude"].ToString()));
+                        //PointLatLng sitepoint = new PointLatLng(sb.Latitude, sb.Longtitude);
+                        //gmapcontrol.Position = sitepoint;
+                        this.gMapCtrl.Zoom = 6;
+                        //gmapcontrol.Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        XtraMessageBox.Show(ex.Message, "错误");
+                    }
+
+                }
+            }
         }
     }
 }

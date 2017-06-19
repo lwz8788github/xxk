@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Common.Data;
+using System.Collections;
 
 namespace xxkUI.Tool
 {
@@ -266,6 +267,32 @@ namespace xxkUI.Tool
         }
 
 
+        /// <summary>
+        /// 实体类转DataTable，已验证可用(王世进)
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public  DataTable ToDataTable(IEnumerable<T> collection)
+        {
+            var props = typeof(T).GetProperties();
+            var dt = new DataTable();
+            dt.Columns.AddRange(props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray());
+            if (collection.Count() > 0)
+            {
+                for (int i = 0; i < collection.Count(); i++)
+                {
+                    ArrayList tempList = new ArrayList();
+                    foreach (PropertyInfo pi in props)
+                    {
+                        object obj = pi.GetValue(collection.ElementAt(i), null);
+                        tempList.Add(obj);
+                    }
+                    object[] array = tempList.ToArray();
+                    dt.LoadDataRow(array, true);
+                }
+            }
+            return dt;
+        }
 
         #endregion
 

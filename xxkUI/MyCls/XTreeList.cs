@@ -32,13 +32,17 @@ namespace xxkUI.MyCls
 
          }
 
-         /// <summary>
-         /// 加载远程库树列表
-         /// </summary>
-         /// <param name="gmmkks">GMAP控件</param>
-         public void bSignDbTree(string foldName)
-         {
+        public XTreeList()
+        {
 
+        }
+
+        /// <summary>
+        /// 加载远程库树列表
+        /// </summary>
+        /// <param name="gmmkks">GMAP控件</param>
+        public void bSignDbTree(string foldName)
+         {
              if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
              { 
                  return;
@@ -66,7 +70,8 @@ namespace xxkUI.MyCls
                          || sb.UnitCode == "152041" || sb.UnitCode == "152042"
                          || sb.UnitCode == "152043" || sb.UnitCode == "152044"
                          || sb.UnitCode == "152045" || sb.UnitCode == "152046"
-                         || sb.UnitCode == "152001" || sb.UnitCode == "152047") { continue; }
+                         || sb.UnitCode == "152001" || sb.UnitCode == "152047")
+                    { continue; }
 
                          tb.KeyFieldName = sb.UnitCode;
                          tb.ParentFieldName = "0";
@@ -75,7 +80,6 @@ namespace xxkUI.MyCls
                          tb.LineStatus = "";
                          tb.Tag = sb;//lwl
                          treeData.Add(tb);
-                        
                  }
 
                  //#region 将加载场地标记的的过程移植到此处(lwl)
@@ -140,10 +144,92 @@ namespace xxkUI.MyCls
 
          }
 
+        /// <summary>
+        /// 加载测项合并数列表
+        /// </summary>
+        /// <returns></returns>
+        public List<TreeBean> ObslineMergeTree()
+        {
+            /*存储当前库连接字符串，加载完后恢复连接*/
+            string currentDbConstr = MysqlEasy.ConnectionString;
+            List<TreeBean> tblist = new List<TreeBean>();
+            try
+            {
+                IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+
+                foreach (UnitInfoBean sb in ubEnumt)
+                {
+                    TreeBean tb = new TreeBean();
+                    if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
+                        || sb.UnitCode == "152006" || sb.UnitCode == "152008"
+                        || sb.UnitCode == "152009" || sb.UnitCode == "152010"
+                        || sb.UnitCode == "152012" || sb.UnitCode == "152015"
+                        || sb.UnitCode == "152022" || sb.UnitCode == "152023"
+                        || sb.UnitCode == "152026" || sb.UnitCode == "152029"
+                        || sb.UnitCode == "152032" || sb.UnitCode == "152034"
+                        || sb.UnitCode == "152035" || sb.UnitCode == "152036"
+                        || sb.UnitCode == "152039" || sb.UnitCode == "152040"
+                        || sb.UnitCode == "152041" || sb.UnitCode == "152042"
+                        || sb.UnitCode == "152043" || sb.UnitCode == "152044"
+                        || sb.UnitCode == "152045" || sb.UnitCode == "152046"
+                        || sb.UnitCode == "152001" || sb.UnitCode == "152047")
+                    { continue; }
+
+                    tb.KeyFieldName = sb.UnitCode;
+                    tb.ParentFieldName = "0";
+                    tb.Caption = sb.UnitName;
+                    tb.SiteType = "";
+                    tb.LineStatus = "";
+                    tb.Tag = sb;//lwl
+                    tblist.Add(tb);
+                }
+
+                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+
+                //场地列表显示
+                List<string> olSiteCode = new List<string>();
+                foreach (SiteBean sb in sbEnumt)
+                {
+                    olSiteCode.Add(sb.SiteCode);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = sb.SiteCode;
+                    tb.ParentFieldName = sb.UnitCode;
+                    tb.Caption = sb.SiteName;
+                    tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                    tb.Tag = sb;//lwl
+                    tblist.Add(tb);
+                }
+                //测线列表显示
+                foreach (string sitecode in olSiteCode)
+                {
+                    foreach (LineBean lb in LineBll.Instance.GetBySitecode(sitecode))
+                    {
+                        TreeBean tb = new TreeBean();
+                        tb.KeyFieldName = lb.OBSLINECODE;
+                        tb.ParentFieldName = lb.SITECODE;
+                        tb.Caption = lb.OBSLINENAME;
+                        tb.LineStatus = lb.LineStatus == "0" ? "正常" : (lb.LineStatus == "1" ? "停测" : "改造中");
+                        tb.Tag = lb;//lwl
+                        tblist.Add(tb);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            /*恢复连接*/
+            MysqlEasy.ConnectionString = currentDbConstr;
+            return tblist;
+
+        }
+
          /// <summary>
          /// 加载处理数据树列表
          /// </summary>
-         public void bSignInitManipdbTree()
+        public void bSignInitManipdbTree()
          {
              try
              {

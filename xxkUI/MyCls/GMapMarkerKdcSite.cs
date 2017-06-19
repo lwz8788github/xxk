@@ -219,6 +219,11 @@ namespace xxkUI.MyCls
             gMapCtrl.Refresh();
 
         }
+
+ 
+
+
+
         ///// <summary>
         ///// 创建标注地震圆点集
         ///// </summary>

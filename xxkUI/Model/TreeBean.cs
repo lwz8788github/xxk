@@ -52,7 +52,6 @@ namespace xxkUI.Model
         /// <summary>
         /// 用于装节点对象
         /// </summary>
-        /// 
         public object Tag
         {
             get { return tag; }

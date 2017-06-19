@@ -177,6 +177,7 @@ namespace xxkUI.MyCls
             RemoveJumpORStepPoints.Pointer.Style = PointerStyles.PolishedSphere;
             RemoveJumpORStepPoints.Pointer.SizeUnits = PointerSizeUnits.Axis;
             RemoveJumpORStepPoints.Pointer.SizeDouble = 20;
+
         }
         #endregion
       
@@ -696,6 +697,7 @@ namespace xxkUI.MyCls
                     {
                         if (isDrawing)
                         {
+                            this.tChart.Cursor = Cursors.Cross;
                             //先擦除
                             g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
                             end.X = e.X;
@@ -711,6 +713,7 @@ namespace xxkUI.MyCls
 
                         if (isDrawing)
                         {
+                            this.tChart.Cursor = Cursors.Cross;
                             //先擦除
                             g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
                             end.X = e.X;
@@ -734,21 +737,27 @@ namespace xxkUI.MyCls
         {
             if (e.Button == MouseButtons.Left)
             {
+                
                 switch (tchartEventType)
                 {
                     case TChartEventType.RemoveJump://消突跳
                         {
+                            this.tChart.Cursor = Cursors.Arrow;
                             DrawJumOrStepPoints(e);
 
                         }
+
                         break;
                     case TChartEventType.RemoveStep://消台阶
                         {
+                            this.tChart.Cursor = Cursors.Arrow;
                             DrawJumOrStepPoints(e);
                         }
                         break;
                 }
             }
+
+           
         }
 
         /// <summary>
@@ -986,15 +995,18 @@ namespace xxkUI.MyCls
         /// </summary>
         public void RemoStepOrJump(TChartEventType tep)
         {
-
+          
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
                 return;
+           
             this.tchartEventType = tep;
             start = new Point();//矩形起点
             end = new Point();//矩形终点
             g = this.tChart.CreateGraphics();
+
+            this.tChart.Cursor = Cursors.Cross;
             InitRemoveJumpOrStepPoint();
         }
 
@@ -1033,6 +1045,8 @@ namespace xxkUI.MyCls
                 return;
             if (this.tChart.Series.Count == 0)
                 return;
+
+            //this.tChart.Cursor = Cursors.Cross;
         }
         /// <summary>
         /// 保存处理数据
@@ -1079,7 +1093,7 @@ namespace xxkUI.MyCls
                             Line ln = series as Line;
                             DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
 
-                            this.tChart.Refresh();
+                            //this.tChart.Refresh();
                             for (int i = 0; i < ln.Count; i++)
                             {
                                 int screenX = series.CalcXPosValue(ln[i].X);
@@ -1090,13 +1104,13 @@ namespace xxkUI.MyCls
                                     selectedPtlist.Add(new SelectedPointStruct() { PtElement = new Point(screenX, screenY), PtValue = ln[i].Y });
                                 }
                             }
-                            this.tChart.Refresh();
+                            //this.tChart.Refresh();
 
                             switch (tchartEventType)
                             {
                                 case TChartEventType.RemoveJump://消突跳
                                     {
-                                      
+
                                         DataTable selectdt = dt.Clone();
                                         for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
                                         {
@@ -1105,6 +1119,7 @@ namespace xxkUI.MyCls
                                             newdr[1] = RemoveJumpORStepPoints[i].Y;
                                             selectdt.Rows.Add(newdr);
                                         }
+                                        //this.tChart.Cursor = Cursors.Default;
                                         RemoveJumpFrm dpf = new RemoveJumpFrm(dt, selectdt);
                                         if (dpf.ShowDialog() == DialogResult.OK)
                                         {
@@ -1113,13 +1128,13 @@ namespace xxkUI.MyCls
                                             AddSingleSeries(this.tChart.Header.Text);
                                             /*重画选中的点*/
                                             ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
-                                        
+                                            tchartEventType = TChartEventType.NoProg;
                                         }
                                     }
                                     break;
                                 case TChartEventType.RemoveStep://消台阶
                                     {
-                                                                              DataTable selectdt = dt.Clone();
+                                        DataTable selectdt = dt.Clone();
                                         for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
                                         {
                                             DataRow newdr = selectdt.NewRow();
@@ -1127,6 +1142,7 @@ namespace xxkUI.MyCls
                                             newdr[1] = RemoveJumpORStepPoints[i].Y;
                                             selectdt.Rows.Add(newdr);
                                         }
+
                                         RemoveStepFrm dpf = new RemoveStepFrm(dt, selectdt);
                                         if (dpf.ShowDialog() == DialogResult.OK)
                                         {
@@ -1135,6 +1151,7 @@ namespace xxkUI.MyCls
                                             AddSingleSeries(this.tChart.Header.Text);
                                             /*重画选中的点*/
                                             ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
+                                            tchartEventType = TChartEventType.NoProg;
                                         }
                                     }
                                     break;
@@ -1149,6 +1166,7 @@ namespace xxkUI.MyCls
                 }
                 isDrawing = false;
             }
+
         }
 
         #endregion

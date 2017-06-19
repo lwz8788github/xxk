@@ -1034,8 +1034,25 @@ namespace xxkUI.MyCls
             if (this.tChart.Series.Count == 0)
                 return;
         }
+        /// <summary>
+        /// 保存处理数据
+        /// </summary>
+        public void SaveHandleData()
+        {
+            try
+            {
+                Line ln = this.tChart.Series[0] as Line;
+                DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                NpoiCreator npcreator = new NpoiCreator();
+                npcreator.TemplateFile = DataFromPath.HandleDataPath;
+                npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + ln.Title + ".xls");
 
-
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("保存失败！：" + ex.Message, "错误");
+            }
+        }
         /// <summary>
         /// 画消突跳或者台阶的标注点
         /// </summary>

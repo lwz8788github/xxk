@@ -105,6 +105,7 @@
             this.btnCreateLocaDb = new DevExpress.XtraBars.BarButtonItem();
             this.btnSwitchDb = new DevExpress.XtraBars.BarButtonItem();
             this.btnCopyDb = new DevExpress.XtraBars.BarButtonItem();
+            this.barSaveToChuLi = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -140,15 +141,6 @@
             this.treeListManipData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.panelContainerData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelChartAttri = new DevExpress.XtraBars.Docking.DockPanel();
-            this.controlContainer3 = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.dockPanelObsData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.controlContainer2 = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.gridControlObsdata = new DevExpress.XtraGrid.GridControl();
-            this.gridViewObsdata = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumnObsDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnObsValue = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnNote = new DevExpress.XtraGrid.Columns.GridColumn();
             this.dockPanelEqkCatalog = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.gridControlEqklist = new DevExpress.XtraGrid.GridControl();
@@ -157,6 +149,15 @@
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dockPanelObsData = new DevExpress.XtraBars.Docking.DockPanel();
+            this.controlContainer2 = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.gridControlObsdata = new DevExpress.XtraGrid.GridControl();
+            this.gridViewObsdata = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumnObsDate = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumnObsValue = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumnNote = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dockPanelChartAttri = new DevExpress.XtraBars.Docking.DockPanel();
+            this.controlContainer3 = new DevExpress.XtraBars.Docking.ControlContainer();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -204,15 +205,15 @@
             this.controlContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
             this.panelContainerData.SuspendLayout();
-            this.dockPanelChartAttri.SuspendLayout();
-            this.dockPanelObsData.SuspendLayout();
-            this.controlContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).BeginInit();
             this.dockPanelEqkCatalog.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).BeginInit();
+            this.dockPanelObsData.SuspendLayout();
+            this.controlContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).BeginInit();
+            this.dockPanelChartAttri.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.mapTabPage.SuspendLayout();
@@ -320,9 +321,10 @@
             this.barButtonItem8,
             this.btnCreateLocaDb,
             this.btnSwitchDb,
-            this.btnCopyDb});
+            this.btnCopyDb,
+            this.barSaveToChuLi});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 107;
+            this.ribbon.MaxItemId = 108;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -893,6 +895,14 @@
             this.btnCopyDb.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnCopyDb.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDb_ItemClick);
             // 
+            // barSaveToChuLi
+            // 
+            this.barSaveToChuLi.Caption = "保存为处理数据";
+            this.barSaveToChuLi.Id = 107;
+            this.barSaveToChuLi.Name = "barSaveToChuLi";
+            this.barSaveToChuLi.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barSaveToChuLi.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -1003,6 +1013,7 @@
             this.ribbonPageGroup13.ItemLinks.Add(this.btnRemoveJump);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesUnion);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesBreak);
+            this.ribbonPageGroup13.ItemLinks.Add(this.barSaveToChuLi);
             this.ribbonPageGroup13.Name = "ribbonPageGroup13";
             this.ribbonPageGroup13.Text = "数据处理方法";
             // 
@@ -1219,98 +1230,6 @@
             this.panelContainerData.Tabbed = true;
             this.panelContainerData.Text = "panelContainer2";
             // 
-            // dockPanelChartAttri
-            // 
-            this.dockPanelChartAttri.Controls.Add(this.controlContainer3);
-            this.dockPanelChartAttri.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelChartAttri.ID = new System.Guid("25ee6056-20ad-4ea4-83fc-26f7be4808e2");
-            this.dockPanelChartAttri.Location = new System.Drawing.Point(5, 23);
-            this.dockPanelChartAttri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dockPanelChartAttri.Name = "dockPanelChartAttri";
-            this.dockPanelChartAttri.OriginalSize = new System.Drawing.Size(267, 322);
-            this.dockPanelChartAttri.Size = new System.Drawing.Size(305, 322);
-            this.dockPanelChartAttri.Text = "曲线属性";
-            // 
-            // controlContainer3
-            // 
-            this.controlContainer3.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.controlContainer3.Name = "controlContainer3";
-            this.controlContainer3.Size = new System.Drawing.Size(305, 322);
-            this.controlContainer3.TabIndex = 0;
-            // 
-            // dockPanelObsData
-            // 
-            this.dockPanelObsData.Controls.Add(this.controlContainer2);
-            this.dockPanelObsData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelObsData.ID = new System.Guid("58455861-352f-464c-8365-a68e15fd0423");
-            this.dockPanelObsData.Location = new System.Drawing.Point(5, 23);
-            this.dockPanelObsData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dockPanelObsData.Name = "dockPanelObsData";
-            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(267, 322);
-            this.dockPanelObsData.Size = new System.Drawing.Size(305, 322);
-            this.dockPanelObsData.Text = "监测数据";
-            // 
-            // controlContainer2
-            // 
-            this.controlContainer2.Controls.Add(this.gridControlObsdata);
-            this.controlContainer2.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.controlContainer2.Name = "controlContainer2";
-            this.controlContainer2.Size = new System.Drawing.Size(305, 322);
-            this.controlContainer2.TabIndex = 0;
-            // 
-            // gridControlObsdata
-            // 
-            this.gridControlObsdata.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
-            this.gridControlObsdata.MainView = this.gridViewObsdata;
-            this.gridControlObsdata.Name = "gridControlObsdata";
-            this.gridControlObsdata.Size = new System.Drawing.Size(305, 322);
-            this.gridControlObsdata.TabIndex = 18;
-            this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewObsdata});
-            // 
-            // gridViewObsdata
-            // 
-            this.gridViewObsdata.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumnObsDate,
-            this.gridColumnObsValue,
-            this.gridColumnNote});
-            this.gridViewObsdata.GridControl = this.gridControlObsdata;
-            this.gridViewObsdata.Name = "gridViewObsdata";
-            this.gridViewObsdata.OptionsBehavior.Editable = false;
-            this.gridViewObsdata.OptionsView.ShowGroupPanel = false;
-            this.gridViewObsdata.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridViewObsdata_ShowingEditor);
-            this.gridViewObsdata.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewObsdata_CellValueChanged);
-            this.gridViewObsdata.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseDown);
-            this.gridViewObsdata.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseUp);
-            // 
-            // gridColumnObsDate
-            // 
-            this.gridColumnObsDate.Caption = "观测时间";
-            this.gridColumnObsDate.FieldName = "obvdate";
-            this.gridColumnObsDate.Name = "gridColumnObsDate";
-            this.gridColumnObsDate.Visible = true;
-            this.gridColumnObsDate.VisibleIndex = 0;
-            // 
-            // gridColumnObsValue
-            // 
-            this.gridColumnObsValue.Caption = "观测值";
-            this.gridColumnObsValue.FieldName = "obvvalue";
-            this.gridColumnObsValue.Name = "gridColumnObsValue";
-            this.gridColumnObsValue.Visible = true;
-            this.gridColumnObsValue.VisibleIndex = 1;
-            // 
-            // gridColumnNote
-            // 
-            this.gridColumnNote.Caption = "备注";
-            this.gridColumnNote.FieldName = "note";
-            this.gridColumnNote.Name = "gridColumnNote";
-            this.gridColumnNote.Visible = true;
-            this.gridColumnNote.VisibleIndex = 2;
-            // 
             // dockPanelEqkCatalog
             // 
             this.dockPanelEqkCatalog.Controls.Add(this.dockPanel1_Container);
@@ -1390,6 +1309,98 @@
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 3;
             this.gridColumn6.Width = 40;
+            // 
+            // dockPanelObsData
+            // 
+            this.dockPanelObsData.Controls.Add(this.controlContainer2);
+            this.dockPanelObsData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelObsData.ID = new System.Guid("58455861-352f-464c-8365-a68e15fd0423");
+            this.dockPanelObsData.Location = new System.Drawing.Point(5, 23);
+            this.dockPanelObsData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dockPanelObsData.Name = "dockPanelObsData";
+            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(267, 322);
+            this.dockPanelObsData.Size = new System.Drawing.Size(305, 322);
+            this.dockPanelObsData.Text = "监测数据";
+            // 
+            // controlContainer2
+            // 
+            this.controlContainer2.Controls.Add(this.gridControlObsdata);
+            this.controlContainer2.Location = new System.Drawing.Point(0, 0);
+            this.controlContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.controlContainer2.Name = "controlContainer2";
+            this.controlContainer2.Size = new System.Drawing.Size(305, 322);
+            this.controlContainer2.TabIndex = 0;
+            // 
+            // gridControlObsdata
+            // 
+            this.gridControlObsdata.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
+            this.gridControlObsdata.MainView = this.gridViewObsdata;
+            this.gridControlObsdata.Name = "gridControlObsdata";
+            this.gridControlObsdata.Size = new System.Drawing.Size(305, 322);
+            this.gridControlObsdata.TabIndex = 18;
+            this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewObsdata});
+            // 
+            // gridViewObsdata
+            // 
+            this.gridViewObsdata.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumnObsDate,
+            this.gridColumnObsValue,
+            this.gridColumnNote});
+            this.gridViewObsdata.GridControl = this.gridControlObsdata;
+            this.gridViewObsdata.Name = "gridViewObsdata";
+            this.gridViewObsdata.OptionsBehavior.Editable = false;
+            this.gridViewObsdata.OptionsView.ShowGroupPanel = false;
+            this.gridViewObsdata.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridViewObsdata_ShowingEditor);
+            this.gridViewObsdata.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewObsdata_CellValueChanged);
+            this.gridViewObsdata.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseDown);
+            this.gridViewObsdata.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseUp);
+            // 
+            // gridColumnObsDate
+            // 
+            this.gridColumnObsDate.Caption = "观测时间";
+            this.gridColumnObsDate.FieldName = "obvdate";
+            this.gridColumnObsDate.Name = "gridColumnObsDate";
+            this.gridColumnObsDate.Visible = true;
+            this.gridColumnObsDate.VisibleIndex = 0;
+            // 
+            // gridColumnObsValue
+            // 
+            this.gridColumnObsValue.Caption = "观测值";
+            this.gridColumnObsValue.FieldName = "obvvalue";
+            this.gridColumnObsValue.Name = "gridColumnObsValue";
+            this.gridColumnObsValue.Visible = true;
+            this.gridColumnObsValue.VisibleIndex = 1;
+            // 
+            // gridColumnNote
+            // 
+            this.gridColumnNote.Caption = "备注";
+            this.gridColumnNote.FieldName = "note";
+            this.gridColumnNote.Name = "gridColumnNote";
+            this.gridColumnNote.Visible = true;
+            this.gridColumnNote.VisibleIndex = 2;
+            // 
+            // dockPanelChartAttri
+            // 
+            this.dockPanelChartAttri.Controls.Add(this.controlContainer3);
+            this.dockPanelChartAttri.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelChartAttri.ID = new System.Guid("25ee6056-20ad-4ea4-83fc-26f7be4808e2");
+            this.dockPanelChartAttri.Location = new System.Drawing.Point(5, 23);
+            this.dockPanelChartAttri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dockPanelChartAttri.Name = "dockPanelChartAttri";
+            this.dockPanelChartAttri.OriginalSize = new System.Drawing.Size(267, 322);
+            this.dockPanelChartAttri.Size = new System.Drawing.Size(305, 322);
+            this.dockPanelChartAttri.Text = "曲线属性";
+            // 
+            // controlContainer3
+            // 
+            this.controlContainer3.Location = new System.Drawing.Point(0, 0);
+            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.controlContainer3.Name = "controlContainer3";
+            this.controlContainer3.Size = new System.Drawing.Size(305, 322);
+            this.controlContainer3.TabIndex = 0;
             // 
             // imageList1
             // 
@@ -1603,15 +1614,15 @@
             this.controlContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
             this.panelContainerData.ResumeLayout(false);
-            this.dockPanelChartAttri.ResumeLayout(false);
-            this.dockPanelObsData.ResumeLayout(false);
-            this.controlContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).EndInit();
             this.dockPanelEqkCatalog.ResumeLayout(false);
             this.dockPanel1_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).EndInit();
+            this.dockPanelObsData.ResumeLayout(false);
+            this.controlContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).EndInit();
+            this.dockPanelChartAttri.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
             this.mapTabPage.ResumeLayout(false);
@@ -1786,5 +1797,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraBars.BarButtonItem barSaveToChuLi;
     }
 }

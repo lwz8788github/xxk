@@ -70,6 +70,20 @@ namespace Common.Data
             }
         }
 
+        public static int CountWhere<T>(string strWhere) where T : new()
+        {
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "select count(*) from " + TableConvention.Resolve(typeof(T)) + " where " + strWhere;
+                    conn.Open();
+                    return int.Parse(cmd.ExecuteScalar().ToString());
+                }
+            }
+        }
+
         public static int Delete<T>(int id)
         {
             using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
@@ -449,6 +463,36 @@ namespace Common.Data
         }
 
 
+        public static IEnumerable<T> GetPage<T>(string strWhere,int page, int pageSize) where T : new()
+        {
+            using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    var name = TableConvention.Resolve(typeof(T));
+
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = string.Format(@"with result as(select *, ROW_NUMBER() over(order by keyid desc) nr
+                            from {0}
+                    )
+                    select  * 
+                    from    result
+                    where   nr  between (({1} - 1) * {2} + 1)
+                            and ({1} * {2}) and "+strWhere, name, page, pageSize);
+                    conn.Open();
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var o = new T();
+                            o.InjectFrom<ReaderInjection>(dr);
+                            yield return o;
+                        }
+                    }
+                }
+            }
+        }
         public static IEnumerable<T> GetPage<T>(int page, int pageSize) where T : new()
         {
             using (var conn = new MySqlConnection(MysqlEasy.ConnectionString))
@@ -464,7 +508,7 @@ namespace Common.Data
                     select  * 
                     from    result
                     where   nr  between (({1} - 1) * {2} + 1)
-                            and ({1} * {2}) ", name, page, pageSize);
+                            and ({1} * {2})" , name, page, pageSize);
                     conn.Open();
 
                     using (var dr = cmd.ExecuteReader())

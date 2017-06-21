@@ -215,8 +215,10 @@ namespace xxkUI.MyCls
                 marker.Tag = eqkList[i];
                 EqkOverlay.Markers.Add(marker);
             }
-            gMapCtrl.Zoom += 1;
-            gMapCtrl.Refresh();
+
+            gMapCtrl.Position = chinaCenter;
+            gMapCtrl.Zoom = 4;
+            //gMapCtrl.Refresh();
 
         }
 

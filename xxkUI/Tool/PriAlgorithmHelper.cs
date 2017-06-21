@@ -428,7 +428,24 @@ public class PriAlgorithmHelper
                 }
                 if (divide)
                 {
+                    //按时间排序
+                    dataIn.DefaultView.Sort = "obvdate ASC";
+                    dataIn = dataIn.DefaultView.ToTable();
+
+                    //计算观测周期
+                    DateTime InStart = DateTime.Parse(dataIn.Rows[0][0].ToString());
+                    DateTime InEnd = DateTime.Parse(dataIn.Rows[dataIn.Rows.Count - 1][0].ToString());
+                    TimeSpan ts = InEnd - InStart;
+                    int days = ts.Days;
+                    double obsRecycle = double.Parse((days / dataIn.Rows.Count).ToString());
+
+
+
                     DateTime SelStart = DateTime.Parse(datasel.Rows[0][0].ToString());
+                    DateTime SelEnd = DateTime.Parse(datasel.Rows[datasel.Rows.Count - 1][0].ToString());
+                    TimeSpan selectts = SelEnd - SelStart;
+                    int selectdays = selectts.Days;
+
                     int lenSel = datasel.Rows.Count;
                     int StartSplit = 0;
                     int EndSplit = 0;
@@ -444,7 +461,15 @@ public class PriAlgorithmHelper
                     EndSplit = StartSplit + datasel.Rows.Count;
                     for (int i = StartSplit; i < EndSplit; i++)
                     {
-                        dataIn.Rows[i].Delete();
+
+                        if (selectdays >= obsRecycle * 2)
+                        {
+                            dataIn.Rows[i][1] = double.NaN;
+                        }
+                        else
+                        {
+                            dataIn.Rows[i].Delete();
+                        }
                     }
 
                 }

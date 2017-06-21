@@ -23,25 +23,24 @@ using Steema.TeeChart.Styles;
 using System.Configuration;
 using Common.Data.MySql;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using System.Text.RegularExpressions;
 
 namespace xxkUI
 {
     public partial class RibbonForm : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private eqkList eqklist = null;
-
         private XTreeList xtl;
-      
         private List<string> userAut = new List<string>();
-        private TreeBean currentClickNodeInfo;//当前点击的树节点信息
+        private TreeBean currentClickNodeInfo;// 当前点击的树节点信息
         private SiteAttri siteAttriFrm = new SiteAttri();
-        private List<string> importDataFiles = new List<string>();//导入数据的文件路径集
-        /// <summary>
-        /// 观测数据操作类型
-        /// </summary>
-        private ActionType actiontype = ActionType.NoAction;
+        private List<string> importDataFiles = new List<string>();// 导入数据的文件路径集
+        private ActionType actiontype = ActionType.NoAction;// 观测数据操作类型
         private MyTeeChart mtc = null;
-        private EqkShow eqkShow;
+        private bool IsEqkShow = false;// 是否显示地震目录列表
+        private int pagesize = 50;// 页行数
+        private int pageIndex = 1;// 当前页
+        private int pageCount;// 总页数
+
         public RibbonForm()
         {
             InitializeComponent();
@@ -58,7 +57,7 @@ namespace xxkUI
 
             if (this.dockPanelDb.Text.Contains("本地"))
                 SwapDb();
-          
+
             InitFaultCombobox();
             xtl.bSignDbTree(DataFromPath.RemoteDbPath);
             xtl.bSignInitManipdbTree();
@@ -84,7 +83,7 @@ namespace xxkUI
                     //获取用户权限，放入userAut
                     List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
                     //xtl.InitOriDataTree(userAhtList, this.gmmkks);
-                   
+
                 }
             }
             else
@@ -122,7 +121,7 @@ namespace xxkUI
         {
             GMapMarkerKdcSite.InitMap(this.gMapCtrl);
         }
-             
+
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
         {
             GMapMarkerKdcSite.Zoom(1, this.gMapCtrl);
@@ -140,13 +139,13 @@ namespace xxkUI
         {
             try
             {
-              
+
                 /*点击场地标注弹出测项下拉列表*/
                 SiteBean sb = (SiteBean)item.Tag;
                 sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                 /*点击地震标注弹出地震详细说明*/
             }
-            catch 
+            catch
             {
 
             }
@@ -172,105 +171,23 @@ namespace xxkUI
                     break;
                 case "btnEqkSearch":
                     {
-                        float eqkMlMin = float.NaN;
-                         float eqkMlMax = float.NaN;
-                         try
-                         {
-                             eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
-                             eqkMlMax = float.Parse(this.beiEqkMaxMtd.EditValue.ToString());
-                         }
-                         catch (Exception ex)
-                         {
-                             XtraMessageBox.Show("不是有效的震级！", "提示");
-                             return;
-                         }
-
-                         if (eqkMlMin > eqkMlMax)
-                         {
-                             XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
-                             this.beiEqkMinMtd.EditValue = "";
-                             this.beiEqkMaxMtd.EditValue = "";
-                             return;
-                         }
-
-
-                         float eqkDepthMin = float.NaN;
-                         float eqkDepthMax = float.NaN;
-                         try
-                         {
-                             eqkDepthMin = float.Parse(this.beiEqkMinDepth.EditValue.ToString());
-                             eqkDepthMax = float.Parse(this.beiEqkMaxDepth.EditValue.ToString());
-                         }
-                         catch (Exception ex)
-                         {
-                             XtraMessageBox.Show("不是有效的震源深度值！", "提示");
-                             return;
-                         }
-
-                         if (eqkDepthMin > eqkDepthMax)
-                         {
-                             XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
-                             this.beiEqkMinDepth.EditValue = "";
-                             this.beiEqkMinDepth.EditValue = "";
-                             return;
-                         }
-                         try
-                         {
-                             string timeStStr = this.beiEqkStartTime.EditValue.ToString();
-                             DateTime timeStc = Convert.ToDateTime(timeStStr);
-                             DateTime timeSt = Convert.ToDateTime(timeStc).Date;
-                             string timeEdStr = this.beiEqkEndTime.EditValue.ToString();
-                             DateTime timeEdc = Convert.ToDateTime(timeEdStr);
-                             DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
-                             if (DateTime.Compare(timeSt, timeEd) > 0)
-                             {
-                                 XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
-                                 this.beiEqkStartTime.EditValue = "";
-                                 this.beiEqkEndTime.EditValue = "";
-                                 return;
-                             }
-                             //string sql0 = "select longtitude as 'u经度',latitude as 'u纬度',eakdate as 'u时间', magntd as 'u震级', depth as 'u深度', place as 'u地点'";
-                             string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
-                             string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
-                             if (eqkMlMin == eqkMlMax) sql1 = "  from t_eqkcatalog where MAGNTD = " + eqkMlMin;
-                             string sql2 = " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
-                             if (eqkDepthMin == eqkDepthMax) sql2 = " and DEPTH =" + eqkDepthMin;
-                             string sql3 = " and EAKDATE >=" + "\'" + timeSt.ToString() + "\'" + " and EAKDATE <=" + "\'" + timeEd.ToString() + "\'";
-                             if (DateTime.Compare(timeSt, timeEd) == 0) sql3 = " and EAKDATE =" + "\'" + timeSt.ToString() + "\'";
-                             string sql = sql0 + sql1 + sql2 + sql3;
-                             List<EqkBean> eqkDataList = xxkUI.BLL.EqkBll.Instance.GetList(sql).ToList();
-
-                             if (eqkDataList.Count() > 0)
-                             {
-                                 this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                                 this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                                 panelContainerDataItemVisible(this.dockPanelEqkCatalog.Name);
-                                 ModelHandler<EqkBean> mh = new ModelHandler<EqkBean>();
-
-                                 DataTable eqkShowData = mh.FillDataTable(eqkDataList);
-                                     //ToDataTable<EqkBean>(eqkShowList);
-                              
-                                 this.gridControlEqklist.DataSource = eqkShowData;
-                                 this.gridControlEqklist.Refresh();
-
-                                 GMapMarkerKdcSite.ClearAllEqkMarker(gMapCtrl);
-                                 GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gMapCtrl);
-
-                             }
-                             else
-                             {
-                                 throw new Exception("没有相应震例");
-                             }
-                         }
-                         catch (Exception ex)
-                         {
-                             XtraMessageBox.Show("查询失败："+ex.Message, "错误");
-                         }
+                        try
+                        {
+                            string sqlwhere = GetSqlWhere();
+                            if (sqlwhere != string.Empty)
+                                BindPageGridList(sqlwhere);
+                            else
+                                throw new Exception("不是有效的查询语句");
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("查询失败：" + ex.Message, "错误");
+                        }
                     }
                     break;
 
             }
-            
+
         }
 
 
@@ -342,24 +259,29 @@ namespace xxkUI
         /// 控制dockPanel的显示
         /// </summary>
         /// <param name="controlname"></param>
-        private void panelContainerDataItemVisible(string controlname)
+        private void ChangePanelContainerItemVisible()
         {
-            if (this.panelContainerData.Visibility == DevExpress.XtraBars.Docking.DockVisibility.Visible)
+            if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
             {
-                if (controlname == this.dockPanelEqkCatalog.Name)
-                {
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                 
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                }
-                else
-                {
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                }
+                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+
             }
+            else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage" && IsEqkShow)
+            {
+                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+            }
+            else
+            {
+                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+            }
+
+
         }
 
 
@@ -371,7 +293,7 @@ namespace xxkUI
         private void tree_MouseUp(object sender, MouseEventArgs e)
         {
             TreeList tree = sender as TreeList;
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None)&& (tree.State == TreeListState.Regular))
+            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
             {
                 Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
                 TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
@@ -423,7 +345,7 @@ namespace xxkUI
                         if (hitInfo.Node.Level == 1)
                         {
                             popRemoteSiteTree.ShowPopup(p);
-                           
+
                         }
                         else if (hitInfo.Node.Level == 2)
                         {
@@ -434,7 +356,7 @@ namespace xxkUI
                 }
                 else
                 {
-                  
+
                     popRemoteSiteTree.ShowPopup(p);
                 }
             }
@@ -491,7 +413,7 @@ namespace xxkUI
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
                             mtc.AddSeries(xtl.GetCheckedLine(this.treeListData.Name), filePath);
                         }
-                      }
+                    }
                     break;
                 case "btnSiteLocation"://定位到地图
                     this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
@@ -502,7 +424,7 @@ namespace xxkUI
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
                             SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-                           
+
                             this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
                             this.siteInfoDocCtrl1.FillBookMarkText(sb);
                             this.siteInfoTabPage.PageVisible = true;
@@ -553,10 +475,10 @@ namespace xxkUI
                         }
 
                         DownloadData(userName);
-                        
+
                     }
                     break;
-              
+
             }
         }
 
@@ -734,7 +656,7 @@ namespace xxkUI
 
         //            }
         //            break;
-              
+
         //    }
 
         //}
@@ -798,7 +720,7 @@ namespace xxkUI
                         foreach (LineObsBean lob in lineobslist)
                         {
                             LineObsBll.Instance.Add(new LineObsBean() { obslinecode = linecode, obvdate = lob.obvdate, obvvalue = lob.obvvalue });
-                            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     观测时间："+lob.obvdate + "  观测值："+ lob.obvvalue+" 已入库！");
+                            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     观测时间：" + lob.obvdate + "  观测值：" + lob.obvvalue + " 已入库！");
                             succedCount++;
                         }
                     }
@@ -917,7 +839,7 @@ namespace xxkUI
             {
                 BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Error, "创建过程中发生错误:" + ex.Message);
             }
-            
+
 
             BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Common, "【创建数据库完成提示】完成本地信息库的创建！");
         }
@@ -959,7 +881,7 @@ namespace xxkUI
             {
                 if (siteAttriFrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
                 {
-                    siteAttriFrm = new  SiteAttri();//此为你双击打开的FORM
+                    siteAttriFrm = new SiteAttri();//此为你双击打开的FORM
                     siteAttriFrm.Show();
                     siteAttriFrm.Focus();
                 }
@@ -975,7 +897,7 @@ namespace xxkUI
                 siteAttriFrm.Show();
                 siteAttriFrm.Focus();
             }
-           
+
         }
 
 
@@ -986,38 +908,38 @@ namespace xxkUI
             //    if (e.Node.Nodes.Count > 0)
             //    {
 
-                    //if (e.Node.Level == 1)
-                    //{
-                    //    TreeBean tb = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
-                    //    if (tb != null)
-                    //    {
-                    //        SiteBean sb = tb.Tag as SiteBean;
-                    //        if (sb.SiteCode.Substring(0, 1) == "L")
-                    //        {
-                    //            e.Node.StateImageIndex = 1;
-                    //            e.Node.ImageIndex = 1;
-                    //            return;
-                    //        }
-                    //        else
-                    //        {
-                    //            e.Node.StateImageIndex = 0;
-                    //            e.Node.ImageIndex = 0;
-                    //            return;
-                    //        }
+            //if (e.Node.Level == 1)
+            //{
+            //    TreeBean tb = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
+            //    if (tb != null)
+            //    {
+            //        SiteBean sb = tb.Tag as SiteBean;
+            //        if (sb.SiteCode.Substring(0, 1) == "L")
+            //        {
+            //            e.Node.StateImageIndex = 1;
+            //            e.Node.ImageIndex = 1;
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            e.Node.StateImageIndex = 0;
+            //            e.Node.ImageIndex = 0;
+            //            return;
+            //        }
 
-                    //    }
-                    //    else
-                    //    {
-                    //        e.Node.StateImageIndex = -1;
-                    //        e.Node.ImageIndex = -1;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    e.Node.StateImageIndex = -1;
-                    //    e.Node.ImageIndex = -1;
-                    //    return;
-                    //}
+            //    }
+            //    else
+            //    {
+            //        e.Node.StateImageIndex = -1;
+            //        e.Node.ImageIndex = -1;
+            //    }
+            //}
+            //else
+            //{
+            //    e.Node.StateImageIndex = -1;
+            //    e.Node.ImageIndex = -1;
+            //    return;
+            //}
             //    }
             //    else
             //    {
@@ -1049,7 +971,7 @@ namespace xxkUI
             this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
             this.recycleControl2.LoadRecycleItems();
         }
- 
+
 
 
 
@@ -1066,7 +988,6 @@ namespace xxkUI
                     mtc.PlusMinusMultiplyDivide();
                     break;
                 case "btnRemoveStep"://消台阶
-                    
                     mtc.RemoStepOrJump(TChartEventType.RemoveStep);
                     break;
                 case "btnRemoveJump"://消突跳
@@ -1076,7 +997,7 @@ namespace xxkUI
                     mtc.LinesUnion();
                     break;
                 case "btnLinesBreak"://测线拆分
-
+                    mtc.LinesBreak(TChartEventType.LineBreak);
                     break;
 
             }
@@ -1116,10 +1037,10 @@ namespace xxkUI
             }
         }
 
-      
+
         #region 观测数据的显示、增加、删除、修改
 
-       
+
         private void barbtnObsData_ItemClick(object sender, ItemClickEventArgs e)
         {
             switch (e.Item.Name)
@@ -1216,7 +1137,7 @@ namespace xxkUI
                         }
                     }
                     break;
-              
+
             }
         }
 
@@ -1249,14 +1170,14 @@ namespace xxkUI
                             if (drv["obvdate"].ToString() == "" || drv["obvvalue"].ToString() == "")
                                 return;
 
-                          
+
                             DateTime obsdate = new DateTime();
                             DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
 
                             double obdv = double.NaN;
                             double.TryParse(drv["obvvalue"].ToString(), out obdv);
                             gridViewObsdata.UpdateCurrentRow();
-                           
+
                             mtc.AddChartlineData(obsdate, obdv);
                         }
                         break;
@@ -1346,7 +1267,7 @@ namespace xxkUI
                             SwapDb();
                         }
                         else if (this.dockPanelDb.Text.Contains("本地"))
-                        { 
+                        {
                             SwapDb();
                         }
 
@@ -1369,7 +1290,7 @@ namespace xxkUI
                 MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
                 xtl.bSignDbTree(DataFromPath.RemoteDbPath);
                 dockPanelDb.Text = "远程信息库";
-             
+
             }
             else if (this.dockPanelDb.Text.Contains("远程"))
             {
@@ -1416,17 +1337,7 @@ namespace xxkUI
 
         private void xtraTabControl1_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
         {
-
-            if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
-            {
-                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                panelContainerDataItemVisible("");
-            }
-            else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage")
-            {
-                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                panelContainerDataItemVisible(this.dockPanelEqkCatalog.Name);
-            }
+            ChangePanelContainerItemVisible();
         }
 
         /// <summary>
@@ -1448,7 +1359,7 @@ namespace xxkUI
                     try
                     {
                         this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-                  
+
                         DataRowView drv = (DataRowView)this.gridViewEqklist.GetRow(hInfo.RowHandle);
 
                         this.gMapCtrl.Position = new PointLatLng(double.Parse(drv["Latitude"].ToString()), double.Parse(drv["Longtitude"].ToString()));
@@ -1464,6 +1375,227 @@ namespace xxkUI
 
                 }
             }
+        }
+
+        private void dockPanelEqkCatalog_ClosedPanel(object sender, DevExpress.XtraBars.Docking.DockPanelEventArgs e)
+        {
+            IsEqkShow = false;
+            this.gridControlEqklist.DataSource = null;
+            this.gridControlEqklist.Refresh();
+            GMapMarkerKdcSite.ClearAllEqkMarker(gMapCtrl);
+
+        }
+
+
+        /// <summary>  
+        /// 分页事件处理  
+        /// </summary>  
+        /// <param name="eventString">事件名称</param>  
+        /// <param name="button">按钮控件</param>  
+        /// <author>PengZhen</author>  
+        /// <time>2013-11-5 14:25:59</time>  
+        void ShowEvent(string eventString, NavigatorButtonBase button)
+        {
+            NavigatorCustomButton btn = (NavigatorCustomButton)button;
+           
+        }
+
+        /// <summary>  
+        /// 绑定分页控件和GridControl数据  
+        /// </summary>  
+        /// <author>PengZhen</author>  
+        /// <time>2013-11-5 14:22:22</time>  
+        /// <param name="strWhere">查询条件</param>  
+        public void BindPageGridList(string strWhere)
+        {
+
+            //记录获取开始数  
+            int startIndex = (pageIndex - 1) * pagesize;
+            //结束数  
+            int endIndex = pageIndex * pagesize;
+
+            //总行数  
+              
+            int row = EqkBll.Instance.GetRecordCount(Regex.Split(strWhere, "ORDER", RegexOptions.IgnoreCase)[0]);
+
+            //获取总页数    
+            if (row % pagesize > 0)
+            {
+                pageCount = row / pagesize + 1;
+            }
+            else
+            {
+                pageCount = row / pagesize;
+            }
+
+            if (pageIndex == 1)
+            {
+                dataNavigator.Buttons.First.Enabled = false;
+                dataNavigator.Buttons.Prev.Enabled = false;
+                dataNavigator.Buttons.Next.Enabled = true;
+                dataNavigator.Buttons.Last.Enabled = true;
+            }
+
+            //最后页时获取真实记录数  
+            if (pageCount == pageIndex)
+            {
+                endIndex = row;
+                dataNavigator.Buttons.First.Enabled = true;
+                dataNavigator.Buttons.Prev.Enabled = true;
+                dataNavigator.Buttons.Next.Enabled = false;
+                dataNavigator.Buttons.Last.Enabled = false;
+            }
+
+            List<EqkBean> eqkDataList = EqkBll.Instance.GetListByPage(strWhere, "").ToList();
+         
+            if (eqkDataList.Count() > 0)
+            {
+                this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                IsEqkShow = true;
+                ChangePanelContainerItemVisible();
+                ModelHandler<EqkBean> mh = new ModelHandler<EqkBean>();
+
+                DataTable eqkShowData = mh.FillDataTable(eqkDataList);
+
+                this.gridControlEqklist.DataSource = eqkShowData;
+                this.gridControlEqklist.Refresh();
+                dataNavigator.DataSource = eqkShowData;
+                dataNavigator.TextStringFormat = string.Format("第 {0}页, 共 {1}页", pageIndex, pageCount);
+
+                GMapMarkerKdcSite.ClearAllEqkMarker(gMapCtrl);
+                GMapMarkerKdcSite.AnnotationEqkToMap(eqkDataList, gMapCtrl);
+
+            }
+            else
+            {
+                throw new Exception("没有相应震例");
+            }
+        }
+
+        /// <summary>  
+        /// 获取查询条件  
+        /// </summary>  
+        /// <author>PengZhen</author>  
+        /// <time>2013-11-5 15:25:00</time>  
+        /// <returns>返回查询条件</returns>  
+        private string GetSqlWhere()
+        {
+            //查询条件  
+            string strReturnWhere = " 1=1 ";
+
+
+            float eqkMlMin = float.NaN;
+            float eqkMlMax = float.NaN;
+            try
+            {
+                eqkMlMin = float.Parse(this.beiEqkMinMtd.EditValue.ToString());
+                eqkMlMax = float.Parse(this.beiEqkMaxMtd.EditValue.ToString());
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("不是有效的震级！", "提示");
+                return string.Empty;
+            }
+
+            if (eqkMlMin > eqkMlMax)
+            {
+                XtraMessageBox.Show("最大震级应大于最小震级，重新输入！", "提示");
+                this.beiEqkMinMtd.EditValue = "";
+                this.beiEqkMaxMtd.EditValue = "";
+                return string.Empty;
+            }
+
+
+            float eqkDepthMin = float.NaN;
+            float eqkDepthMax = float.NaN;
+            try
+            {
+                eqkDepthMin = float.Parse(this.beiEqkMinDepth.EditValue.ToString());
+                eqkDepthMax = float.Parse(this.beiEqkMaxDepth.EditValue.ToString());
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("不是有效的震源深度值！", "提示");
+                return string.Empty;
+            }
+
+            if (eqkDepthMin > eqkDepthMax)
+            {
+                XtraMessageBox.Show("最大深度应大于最小深度，重新输入！", "提示");
+                this.beiEqkMinDepth.EditValue = "";
+                this.beiEqkMinDepth.EditValue = "";
+                return string.Empty;
+            }
+
+            string timeStStr = this.beiEqkStartTime.EditValue.ToString();
+            DateTime timeStc = Convert.ToDateTime(timeStStr);
+            DateTime timeSt = Convert.ToDateTime(timeStc).Date;
+            string timeEdStr = this.beiEqkEndTime.EditValue.ToString();
+            DateTime timeEdc = Convert.ToDateTime(timeEdStr);
+            DateTime timeEd = Convert.ToDateTime(timeEdc).Date;
+            if (DateTime.Compare(timeSt, timeEd) > 0)
+            {
+                XtraMessageBox.Show("结束时间应在开始时间之后！", "提示");
+                this.beiEqkStartTime.EditValue = "";
+                this.beiEqkEndTime.EditValue = "";
+                return string.Empty;
+            }
+
+
+            if (eqkMlMin == eqkMlMax) strReturnWhere += " and MAGNTD = " + eqkMlMin;
+            else
+                strReturnWhere += " and MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
+
+            if (eqkDepthMin == eqkDepthMax)
+                strReturnWhere += " and DEPTH =" + eqkDepthMin;
+            else
+                strReturnWhere += " and DEPTH >=" + eqkDepthMin + " and DEPTH <=" + eqkDepthMax;
+
+            if (DateTime.Compare(timeSt, timeEd) == 0)
+                strReturnWhere += " and EAKDATE =" + "'" + timeSt.ToString() + "'";
+            else
+                strReturnWhere += " and EAKDATE between '" + timeSt.ToString() + "' and '" + timeEd.ToString() + "'";
+
+              return strReturnWhere += " ORDER BY t.EQKCODE limit " + pageIndex.ToString() + "," + pagesize.ToString() + "";
+        }
+
+        private void dataNavigator_ButtonClick(object sender, NavigatorButtonClickEventArgs e)
+        {
+            string type = e.Button.Tag.ToString();
+            if (type == "首页")
+            {
+                pageIndex = 1;
+            }
+
+            if (type == "下一页")
+            {
+                pageIndex++;
+            }
+
+            if (type == "末页")
+            {
+                pageIndex = pageCount;
+            }
+
+            if (type == "上一页")
+            {
+                pageIndex--;
+            }
+
+            //绑定分页控件和GridControl数据  
+            try
+            {
+                string sqlwhere = GetSqlWhere();
+                if (sqlwhere != string.Empty)
+                    BindPageGridList(sqlwhere);
+                else
+                    throw new Exception("不是有效的查询语句");
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("查询失败：" + ex.Message, "错误");
+            }
+
         }
     }
 }

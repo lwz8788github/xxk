@@ -234,6 +234,10 @@ namespace xxkUI.Tool
         /// </summary>
         RemoveJump,
         /// <summary>
+        /// 测项拆分
+        /// </summary>
+        LineBreak,
+        /// <summary>
         /// 无操作
         /// </summary>
         NoProg

@@ -373,30 +373,30 @@ namespace xxkUI
             string filePath = "";
             switch (e.Item.Name)
             {
-                case "btnSaveToManip"://保存到处理数据处理缓存
-                    {
-                        if (this.dockPanelDb.Text == "本地信息库")
-                        {
-                            filePath = DataFromPath.LocalDbPath;
-                        }
-                        else if (this.dockPanelDb.Text == "远程信息库")
-                        {
-                            filePath = DataFromPath.RemoteDbPath;
-                        }
-                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-                        {
-                            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListData.Name);
-                            foreach (LineBean checkedLb in checkedNodes)
-                            {
-                                string sourceFilenanme = filePath + "//" + checkedLb.OBSLINECODE + ".xls";
-                                string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
-                                string messageStr = "";
-                                FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
-                            }
-                            xtl.bSignInitManipdbTree();
-                        }
-                    }
-                    break;
+                //case "btnSaveToManip"://保存到处理数据处理缓存
+                //    {
+                //        if (this.dockPanelDb.Text == "本地信息库")
+                //        {
+                //            filePath = DataFromPath.LocalDbPath;
+                //        }
+                //        else if (this.dockPanelDb.Text == "远程信息库")
+                //        {
+                //            filePath = DataFromPath.RemoteDbPath;
+                //        }
+                //        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                //        {
+                //            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListData.Name);
+                //            foreach (LineBean checkedLb in checkedNodes)
+                //            {
+                //                string sourceFilenanme = filePath + "//" + checkedLb.OBSLINECODE + ".xls";
+                //                string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
+                //                string messageStr = "";
+                //                FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
+                //            }
+                //            xtl.bSignInitManipdbTree();
+                //        }
+                //    }
+                //    break;
                 case "btnChart"://趋势图
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
@@ -998,6 +998,9 @@ namespace xxkUI
                     break;
                 case "btnLinesBreak"://测线拆分
                     mtc.LinesBreak(TChartEventType.LineBreak);
+                    break;
+                case "barSaveToChuLi"://保存处理数据
+                    mtc.SaveHandleData();
                     break;
 
             }

@@ -105,6 +105,7 @@
             this.btnCreateLocaDb = new DevExpress.XtraBars.BarButtonItem();
             this.btnSwitchDb = new DevExpress.XtraBars.BarButtonItem();
             this.btnCopyDb = new DevExpress.XtraBars.BarButtonItem();
+            this.barSaveToChuLi = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -322,10 +323,12 @@
             this.barButtonItem8,
             this.btnCreateLocaDb,
             this.btnSwitchDb,
-            this.btnCopyDb});
+            this.btnCopyDb,
+            this.barSaveToChuLi});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ribbon.MaxItemId = 107;
+            this.ribbon.MaxItemId = 108;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -896,6 +899,14 @@
             this.btnCopyDb.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnCopyDb.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDb_ItemClick);
             // 
+            // barSaveToChuLi
+            // 
+            this.barSaveToChuLi.Caption = "保存为处理数据";
+            this.barSaveToChuLi.Id = 107;
+            this.barSaveToChuLi.Name = "barSaveToChuLi";
+            this.barSaveToChuLi.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.barSaveToChuLi.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -1006,6 +1017,7 @@
             this.ribbonPageGroup13.ItemLinks.Add(this.btnRemoveJump);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesUnion);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesBreak);
+            this.ribbonPageGroup13.ItemLinks.Add(this.barSaveToChuLi);
             this.ribbonPageGroup13.Name = "ribbonPageGroup13";
             this.ribbonPageGroup13.Text = "数据处理方法";
             // 
@@ -1358,6 +1370,11 @@
             this.dockPanelObsData.Name = "dockPanelObsData";
             this.dockPanelObsData.OriginalSize = new System.Drawing.Size(349, 414);
             this.dockPanelObsData.Size = new System.Drawing.Size(302, 423);
+            this.dockPanelObsData.Location = new System.Drawing.Point(5, 23);
+            this.dockPanelObsData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dockPanelObsData.Name = "dockPanelObsData";
+            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(267, 322);
+            this.dockPanelObsData.Size = new System.Drawing.Size(305, 322);
             this.dockPanelObsData.Text = "监测数据";
             // 
             // controlContainer2
@@ -1366,6 +1383,9 @@
             this.controlContainer2.Location = new System.Drawing.Point(0, 0);
             this.controlContainer2.Name = "controlContainer2";
             this.controlContainer2.Size = new System.Drawing.Size(302, 423);
+            this.controlContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.controlContainer2.Name = "controlContainer2";
+            this.controlContainer2.Size = new System.Drawing.Size(305, 322);
             this.controlContainer2.TabIndex = 0;
             // 
             // gridControlObsdata
@@ -1377,6 +1397,11 @@
             this.gridControlObsdata.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridControlObsdata.Name = "gridControlObsdata";
             this.gridControlObsdata.Size = new System.Drawing.Size(302, 423);
+            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
+            this.gridControlObsdata.MainView = this.gridViewObsdata;
+            this.gridControlObsdata.Name = "gridControlObsdata";
+            this.gridControlObsdata.Size = new System.Drawing.Size(305, 322);
             this.gridControlObsdata.TabIndex = 18;
             this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewObsdata});
@@ -1436,6 +1461,7 @@
             this.controlContainer3.Location = new System.Drawing.Point(0, 0);
             this.controlContainer3.Name = "controlContainer3";
             this.controlContainer3.Size = new System.Drawing.Size(302, 423);
+            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.controlContainer3.TabIndex = 0;
             // 
             // imageList1
@@ -1842,5 +1868,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraEditors.DataNavigator dataNavigator;
+        private DevExpress.XtraBars.BarButtonItem barSaveToChuLi;
     }
 }

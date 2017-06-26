@@ -51,7 +51,7 @@ namespace xxkUI
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
 
-            this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
+            //this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
 
             mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
             xtl = new XTreeList(this.treeListData, this.treeListManipData);
@@ -80,10 +80,9 @@ namespace xxkUI
                 using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                 {
                     currentUserBar.Caption = currentUserBar.Caption + lg.Username;
-
                     //获取用户权限，放入userAut
                     List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                    //xtl.InitOriDataTree(userAhtList, this.gmmkks);
+                  
 
                 }
             }
@@ -120,7 +119,12 @@ namespace xxkUI
         /// <param name="e"></param>
         private void gMapCtrl_Load(object sender, EventArgs e)
         {
-            GMapMarkerKdcSite.InitMap(this.gMapCtrl);
+            if (GMapMarkerKdcSite.InitMap(this.gMapCtrl))
+            {
+                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+                //加载场地标记(lwl)
+                GMapMarkerKdcSite.LoadSiteMarker(sbEnumt, gMapCtrl);
+            }
         }
 
         private void gMapCtrl_DoubleClick(object sender, EventArgs e)
@@ -184,6 +188,12 @@ namespace xxkUI
                         {
                             XtraMessageBox.Show("查询失败：" + ex.Message, "错误");
                         }
+                    }
+                    break;
+                case "btnClearEqk":
+                    {
+                        this.gridControlEqklist.DataSource = null;
+                        GMapMarkerKdcSite.ClearAllEqkMarker(this.gMapCtrl);
                     }
                     break;
 
@@ -262,29 +272,40 @@ namespace xxkUI
         /// <param name="controlname"></param>
         private void ChangePanelContainerItemVisible()
         {
-            if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
+            try
             {
-                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
+                {
+                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.ribbon.SelectedPage = ribbonPageTchartTool;
 
-            }
-            else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage" && IsEqkShow)
-            {
-                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-            }
-            else
-            {
-                this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-            }
+                }
+                else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage" && IsEqkShow)
+                {
+                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.ribbon.SelectedPage = ribbonPageMapTool;
+                }
+                else if(this.xtraTabControl1.SelectedTabPage.Name== "recycleTabPage")
+                {
+                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
 
+                    this.ribbon.SelectedPage = ribbonPageStart;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
 
         }
 
@@ -397,12 +418,15 @@ namespace xxkUI
                             }
                              this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-                          
+                            //跳转至菜单栏
+                            this.Ribbon.SelectedPage = ribbonPageTchartTool;
+
                         }
                     }
                     break;
                 case "btnSiteLocation"://定位到地图
                     this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                    this.Ribbon.SelectedPage = ribbonPageMapTool;
                     GMapMarkerKdcSite.ZoomToSite((SiteBean)currentClickNodeInfo.Tag, this.gMapCtrl);
                     break;
                 case "btnSiteInfo"://信息库
@@ -859,33 +883,7 @@ namespace xxkUI
         //    return downLoadName;
         //}
 
-        /// <summary>
-        /// 打开SiteAttri窗体
-        /// </summary>
-        private void GetSiteAttriForm()
-        {
-            if (siteAttriFrm != null)
-            {
-                if (siteAttriFrm.IsDisposed)//如果已经销毁，则重新创建子窗口对象
-                {
-                    siteAttriFrm = new SiteAttri();//此为你双击打开的FORM
-                    siteAttriFrm.Show();
-                    siteAttriFrm.Focus();
-                }
-                else
-                {
-                    siteAttriFrm.Show();
-                    siteAttriFrm.Focus();
-                }
-            }
-            else
-            {
-                siteAttriFrm = new SiteAttri();
-                siteAttriFrm.Show();
-                siteAttriFrm.Focus();
-            }
 
-        }
 
 
         private void treeListOriData_CustomDrawNodeImages(object sender, CustomDrawNodeImagesEventArgs e)
@@ -956,7 +954,7 @@ namespace xxkUI
         {
             this.recycleTabPage.PageVisible = true;
             this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
-            this.recycleControl2.LoadRecycleItems();
+            this.recycleControl.LoadRecycleItems();
         }
 
 
@@ -1193,12 +1191,17 @@ namespace xxkUI
                 {
                     try
                     {
+                        if (xtraTabControl1.SelectedTabPage.Name != "chartTabPage")
+                            xtraTabControl1.SelectedTabPage = chartTabPage;
+
                         DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(hInfo.RowHandle);
                         DateTime obsdate = new DateTime();
                         DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
                         double obsv = double.NaN;
                         double.TryParse(drv["obvvalue"].ToString(), out obsv);
                         mtc.GoTodata(obsdate, obsv);
+
+                       
                     }
                     catch (Exception ex)
                     {
@@ -1347,8 +1350,9 @@ namespace xxkUI
                 {
                     try
                     {
-                        this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-
+                        if (xtraTabControl1.SelectedTabPage.Name != "mapTabPage")
+                            xtraTabControl1.SelectedTabPage = mapTabPage;
+;
                         DataRowView drv = (DataRowView)this.gridViewEqklist.GetRow(hInfo.RowHandle);
 
                         this.gMapCtrl.Position = new PointLatLng(double.Parse(drv["Latitude"].ToString()), double.Parse(drv["Longtitude"].ToString()));

@@ -14,19 +14,20 @@ using Steema.TeeChart;
 using Steema.TeeChart.Styles;
 using Steema.TeeChart.Tools;
 using GMap.NET;
+using xxkUI.Bll;
 
 namespace xxkUI.Form
 {
     public partial class EqkShow :XtraForm
     {
        private List<EqkBean> eqkDataList = new List<EqkBean>();
-       private LineTag lineTag = new LineTag();
+       private object lineTag;
        private TChart tChart;
        private DragPoint DragPtTool;
        private DrawLine DrawlnTool;
        private eqkList eqklist = null;
      
-        public EqkShow(LineTag _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
+        public EqkShow(object _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
         {
             InitializeComponent();
             this.lineTag = _lineTag;
@@ -90,8 +91,11 @@ namespace xxkUI.Form
                     textEdit8.Text = "";
                     return;
                 }
-                double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", lineTag.Sitecode));
-                double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", lineTag.Sitecode));
+
+                string linecode = lineTag.ToString().Split(',')[1];
+                string sitecode = LineBll.Instance.GetSitecodeByLinecode(linecode);
+                double lon = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LONGTITUDE", "SITECODE", sitecode));
+                double lat = double.Parse(xxkUI.Bll.SiteBll.Instance.GetNameByID("LATITUDE", "SITECODE", sitecode));
 
                 string sql0 = "select longtitude,latitude,eakdate, magntd, depth, place";
                 string sql1 = "  from t_eqkcatalog where MAGNTD >= " + eqkMlMin + " and MAGNTD <=" + eqkMlMax;
@@ -369,7 +373,6 @@ namespace xxkUI.Form
             {
                 Control xtraTabControl1 = Application.OpenForms["RibbonForm"].Controls.Find("xtraTabControl1", true)[0];
                 Control mapTabPage = Application.OpenForms["RibbonForm"].Controls.Find("mapTabPage", true)[0];
-
                 ((DevExpress.XtraTab.XtraTabControl)xtraTabControl1).SelectedTabPage = (DevExpress.XtraTab.XtraTabPage)mapTabPage;
 
                 GMap.NET.WindowsForms.GMapControl gmapcontrol = Application.OpenForms["RibbonForm"].Controls.Find("gMapCtrl", true)[0] as GMap.NET.WindowsForms.GMapControl;

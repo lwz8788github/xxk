@@ -140,12 +140,6 @@
     <Compile Include="BLL\SiteBll.cs" />
     <Compile Include="BLL\UnitInfoBll.cs" />
     <Compile Include="BLL\UserInfoBll.cs" />
-    <Compile Include="Controls\ObsDataControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ObsDataControl.Designer.cs">
-      <DependentUpon>ObsDataControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\RecycleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -287,9 +281,6 @@
     <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
-    <EmbeddedResource Include="Controls\ObsDataControl.resx">
-      <DependentUpon>ObsDataControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RecycleControl.resx">
       <DependentUpon>RecycleControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -373,6 +364,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\蓝色风格.png" />
     <Content Include="TeeChart.dll" />
   </ItemGroup>
   <ItemGroup>

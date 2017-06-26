@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecycleControl));
             this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.btnDeleteSelected = new DevExpress.XtraEditors.SimpleButton();
             this.btnRecoverySelected = new DevExpress.XtraEditors.SimpleButton();
@@ -40,20 +41,21 @@
             this.gcRecySize = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcRecySite = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcRecyTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.rICheckEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridDeleteCompleteBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.gcRecyRecoveryBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+            this.gridDeleteCompleteBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+            this.rICheckEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRecycle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecycle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcRecyRecoveryBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
             this.btnClear.Location = new System.Drawing.Point(6, 14);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(101, 33);
@@ -64,6 +66,7 @@
             // btnDeleteSelected
             // 
             this.btnDeleteSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteSelected.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteSelected.Image")));
             this.btnDeleteSelected.Location = new System.Drawing.Point(113, 14);
             this.btnDeleteSelected.Name = "btnDeleteSelected";
             this.btnDeleteSelected.Size = new System.Drawing.Size(101, 33);
@@ -74,6 +77,7 @@
             // btnRecoverySelected
             // 
             this.btnRecoverySelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRecoverySelected.Image = ((System.Drawing.Image)(resources.GetObject("btnRecoverySelected.Image")));
             this.btnRecoverySelected.Location = new System.Drawing.Point(220, 14);
             this.btnRecoverySelected.Name = "btnRecoverySelected";
             this.btnRecoverySelected.Size = new System.Drawing.Size(101, 33);
@@ -84,6 +88,7 @@
             // btnRecoveryRefresh
             // 
             this.btnRecoveryRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRecoveryRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnRecoveryRefresh.Image")));
             this.btnRecoveryRefresh.Location = new System.Drawing.Point(327, 14);
             this.btnRecoveryRefresh.Name = "btnRecoveryRefresh";
             this.btnRecoveryRefresh.Size = new System.Drawing.Size(101, 33);
@@ -186,18 +191,6 @@
             this.gcRecyTime.VisibleIndex = 3;
             this.gcRecyTime.Width = 321;
             // 
-            // rICheckEdit
-            // 
-            this.rICheckEdit.AutoHeight = false;
-            this.rICheckEdit.Name = "rICheckEdit";
-            // 
-            // gridDeleteCompleteBtn
-            // 
-            this.gridDeleteCompleteBtn.AutoHeight = false;
-            this.gridDeleteCompleteBtn.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.gridDeleteCompleteBtn.Name = "gridDeleteCompleteBtn";
-            // 
             // gcRecyRecoveryBtn
             // 
             this.gcRecyRecoveryBtn.AutoHeight = false;
@@ -206,6 +199,18 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Redo)});
             this.gcRecyRecoveryBtn.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.gcRecyRecoveryBtn.Name = "gcRecyRecoveryBtn";
+            // 
+            // gridDeleteCompleteBtn
+            // 
+            this.gridDeleteCompleteBtn.AutoHeight = false;
+            this.gridDeleteCompleteBtn.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.gridDeleteCompleteBtn.Name = "gridDeleteCompleteBtn";
+            // 
+            // rICheckEdit
+            // 
+            this.rICheckEdit.AutoHeight = false;
+            this.rICheckEdit.Name = "rICheckEdit";
             // 
             // RecycleControl
             // 
@@ -218,9 +223,9 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRecycle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecycle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcRecyRecoveryBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).EndInit();
             this.ResumeLayout(false);
 
         }

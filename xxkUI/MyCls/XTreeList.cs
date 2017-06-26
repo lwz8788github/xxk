@@ -81,20 +81,11 @@ namespace xxkUI.MyCls
                          tb.Tag = sb;//lwl
                          treeData.Add(tb);
                  }
+           
+                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
 
-                 //#region 将加载场地标记的的过程移植到此处(lwl)
-                 //string userahths = "(";
-                 //foreach (string str in userAhtList)
-                 //{
-                 //    userahths += "'" + str + "',";
-                 //}
-                 //userahths = userahths.Substring(0, userahths.Length - 1) + ")";
-                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();//.GetSitesByAuth(userahths);
-                 //gmmkks.LoadSiteMarker(sbEnumt);
-                 //#endregion
-
-                 //场地列表显示
-                 List<string> olSiteCode = new List<string>();
+                //场地列表显示
+                List<string> olSiteCode = new List<string>();
                  foreach (SiteBean sb in sbEnumt)
                  {
                      olSiteCode.Add(sb.SiteCode);

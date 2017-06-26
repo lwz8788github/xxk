@@ -75,6 +75,10 @@ public class PriAlgorithmHelper
         public int nLeftStep = 0;
         public int nRightStep = 0;
 
+        private int TipLeftIndex = 0;
+        private int TipRightIndex = 0;
+        private string Tipstr = "";
+
         Left_Right change;
 
         /// <summary>
@@ -196,6 +200,10 @@ public class PriAlgorithmHelper
                             rt.Offset = m_offset;//偏移量
 
                             rt.Tip = "[突跳消除@" + DateTime.Now.ToShortDateString() + "]\r\n偏移值：" + m_offset.ToString() + "\r\n偏移区间：" + startSel.ToShortDateString() + "-" + endSel.ToShortDateString();
+                            TipLeftIndex = n_left;
+
+                            TipRightIndex = n_left + datasel.Rows.Count-1;
+                            Tipstr = rt.Tip;
                         }
                         break;
                     case DataProcessMethod.RemoveStep:
@@ -246,6 +254,9 @@ public class PriAlgorithmHelper
                         rt.Offset = m_offset;
                         rt.Tip = "[台阶消除@" + DateTime.Now.ToShortDateString() + "]\r\n偏移值：" + m_offset.ToString();
 
+                        TipLeftIndex = nLeftStep;
+                        TipRightIndex = nLeftStep + datasel.Rows.Count-1;
+                        Tipstr = rt.Tip;
                         break;
                     default:
                         break;
@@ -268,8 +279,17 @@ public class PriAlgorithmHelper
         /// <param name="oper"></param>
         /// <param name="select"></param>
         /// <returns></returns>
-        public DataTable RemoveStepJump(DataTable dataIn, DataTable datasel, DataProcessMethod oper, Left_Right select, out DataTable Points)
+        public DataTable RemoveStepJump(DataTable dataIn, DataTable datasel, DataProcessMethod oper, Left_Right select,bool  AddNote,out DataTable Points)
         {
+
+            DataView dataView = dataIn.DefaultView;
+            dataView.Sort = "obvdate asc";
+            dataIn = dataView.ToTable();
+
+            DataView dataViewselec = datasel.DefaultView;
+            dataViewselec.Sort = "obvdate asc";
+            datasel = dataViewselec.ToTable();
+
             Points = dataIn.Clone();
 
             switch (oper)
@@ -281,7 +301,7 @@ public class PriAlgorithmHelper
                         {
                             double d = double.Parse(dataIn.Rows[i][1].ToString());
                             d = d + m_offset;
-                            dataIn.Rows[i][1] = d;
+                            dataIn.Rows[i][1] = Math.Round(d, 2);
                         }
                     }
                     else if (select == Left_Right.right)//消右边台阶
@@ -290,7 +310,7 @@ public class PriAlgorithmHelper
                         {
                             double d = double.Parse(dataIn.Rows[i][1].ToString());
                             d = d + m_offset;
-                            dataIn.Rows[i][1] = d;
+                            dataIn.Rows[i][1] = Math.Round(d, 2);
                         }
                     }
                     for (int i = index_left; i <= index_right; i++)
@@ -306,11 +326,11 @@ public class PriAlgorithmHelper
                     {
                         double d = double.Parse(dataIn.Rows[i][1].ToString());
                         d = d + m_offset;
-                        dataIn.Rows[i][1] = d;
+                        dataIn.Rows[i][1] = Math.Round(d, 2);
 
                         DataRow dr = Points.NewRow();
                         dr[0] = dataIn.Rows[i][0];
-                        dr[1] = d;
+                        dr[1] = Math.Round(d, 2);
                         Points.Rows.Add(dr);
                     }
                     break;
@@ -318,6 +338,26 @@ public class PriAlgorithmHelper
                     break;
             }
 
+
+            if (AddNote)
+            {
+
+               
+
+                if (select == Left_Right.left || select == Left_Right.both)
+                {
+                    dataIn.Rows[TipLeftIndex][2] = Tipstr + "\r\n" + dataIn.Rows[TipLeftIndex][2].ToString();
+                }
+                else if (select == Left_Right.right)
+                {
+                    dataIn.Rows[TipRightIndex][2] = Tipstr + "\r\n" + dataIn.Rows[TipRightIndex][2].ToString();
+                }
+               
+            }
+
+            DataView dvover = dataIn.DefaultView;
+            dvover.Sort = "obvdate asc";
+            dataIn = dvover.ToTable();
             return dataIn;
         }
 

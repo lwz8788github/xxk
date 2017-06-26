@@ -97,7 +97,6 @@ namespace xxkUI.MyCls
                  List<string> olSiteCode = new List<string>();
                  foreach (SiteBean sb in sbEnumt)
                  {
-
                      olSiteCode.Add(sb.SiteCode);
                      TreeBean tb = new TreeBean();
                      tb.KeyFieldName = sb.SiteCode;
@@ -108,7 +107,6 @@ namespace xxkUI.MyCls
                      treeData.Add(tb);
                  }
                  //远程信息库测线列表显示
-              
                  List<String> remoteExcelList = new List<string>();
                  remoteExcelList = getFile(foldName);
 
@@ -116,16 +114,15 @@ namespace xxkUI.MyCls
                  {
                      string subLineCode = remoteLineCode.Substring(0, remoteLineCode.Length - 4);
                      LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
-                     if (olSiteCode.Contains(ol.SITECODE))
-                     {
-                         TreeBean tb = new TreeBean();
-                         tb.KeyFieldName = ol.OBSLINECODE;
-                         tb.ParentFieldName = ol.SITECODE;
-                         tb.Caption = ol.OBSLINENAME;
-                         tb.LineStatus = ol.LineStatus == "0" ? "正常" : (ol.LineStatus == "1" ? "停测" : "改造中");
-                         tb.Tag = ol;//lwl
-                         treeData.Add(tb);
-                     }
+                    if (olSiteCode.Contains(ol.SITECODE))
+                    {
+                        TreeBean tb = new TreeBean();
+                        tb.KeyFieldName = ol.OBSLINECODE;
+                        tb.ParentFieldName = ol.SITECODE;
+                        tb.Caption = ol.OBSLINENAME;
+                        tb.Tag = ol;//lwl
+                        treeData.Add(tb);
+                    }
                  }
 
                  //树列表显示
@@ -437,52 +434,7 @@ namespace xxkUI.MyCls
             }
         }
 
-        /// <summary>
-        /// 太慢了，暂时不用
-        /// /// </summary>
-        /// <param name="nodes"></param>
-        private void InitNodeImg(TreeListNodes nodes)
-        {
-            foreach (TreeListNode node in nodes)
-            {
-                if (node.Level == 1)
-                {
-                    TreeBean tb = node.TreeList.GetDataRecordByNode(node) as TreeBean;
-                    if (tb != null)
-                    {
-                        SiteBean sb = tb.Tag as SiteBean;
-                        if (sb.SiteCode.Substring(0, 1) == "L")
-                        {
-                            node.StateImageIndex = 1;
-                            node.ImageIndex = 1;
-                        }
-                        else
-                        {
-                            node.StateImageIndex = 0;
-                            node.ImageIndex = 0;
-                        }
-                    }
-                }
-                else
-                {
-                    node.StateImageIndex = -1;
-                    node.ImageIndex = -1;
-                }
-                
-                if (node.HasChildren)
-                {
-                    InitNodeImg(node.Nodes);
-                }
-            }
-        }
 
-        /// <summary>
-        /// 刷新原始数据树，未完待续
-        /// </summary>
-        public void RefreshOrigData()
-        {
-
-        }
 
         /// <summary>
         /// 刷新
@@ -510,13 +462,18 @@ namespace xxkUI.MyCls
                 List<String> excelList = new List<string>();
 
                 excelList = getFile(workSpace);
+
+
+
                 foreach (string lineCode in excelList)
                 {
                     string subLineCode = lineCode.Substring(0, lineCode.Length - 4);
+
                     TreeBean tb = new TreeBean();
                     tb.KeyFieldName = subLineCode;
                     tb.Caption = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", subLineCode);
                     tb.ParentFieldName = LineBll.Instance.GetNameByID("SITECODE", "OBSLINECODE", subLineCode);
+                    tb.Tag = LineBll.Instance.GetInfoByID(subLineCode);
                     if (treebData.Find(n => n.KeyFieldName == subLineCode) == null)
                         treebData.Add(tb);
                 }
@@ -629,13 +586,15 @@ namespace xxkUI.MyCls
             TreeList tree = null;
             if (treeType == "treeListData")
                 tree = this.treeListData;
+            else
+                return null;
 
             List<LineBean> lblist = new List<LineBean>();
             try
             {
                 foreach (TreeListNode dn in tree.Nodes)
                 {
-                     GetCheckedNode(dn, ref lblist);
+                    GetCheckedNode(dn, ref lblist);
                 }
             }
             catch (Exception ex)
@@ -643,9 +602,37 @@ namespace xxkUI.MyCls
                 throw new Exception(ex.Message);
             }
             return lblist;
-                
         }
 
+        /// <summary>
+        /// 获取处理数据树选中的节点
+        /// </summary>
+        /// <param name="treeType"></param>
+        /// <returns></returns>
+        public List<string> GetCheckedLineOnMuniTree(string treeType)
+        {
+            TreeList tree = null;
+            if (treeType == "treeListManipData")
+                tree = this.treeListManipData;
+
+            List<string> lblist = new List<string>();
+            try
+            {
+                foreach (TreeListNode dn in tree.Nodes)
+                {
+                    if (dn.CheckState == CheckState.Checked)
+                    {
+                        lblist.Add(dn.GetDisplayText(0));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return lblist;
+
+        }
 
         public List<TreeListNode> GetNodesByKey(string treeType,string keyfieldname)
         {
@@ -681,18 +668,18 @@ namespace xxkUI.MyCls
 
             foreach (TreeListNode node in parentNode.Nodes)
             {
-               
-                    if (node.CheckState == CheckState.Checked)
+
+                if (node.CheckState == CheckState.Checked)
+                {
+                    TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
+                    LineBean tag = nodeInfo.Tag as LineBean;
+                    if (tag != null)
                     {
-                        TreeBean nodeInfo = node.TreeList.GetDataRecordByNode(node) as TreeBean;
-                        LineBean tag = nodeInfo.Tag as LineBean;
-                        if (tag != null)
-                        {
-                            lblist.Add(tag);
-                        }
+                        lblist.Add(tag);
                     }
-                    GetCheckedNode(node, ref lblist);
-              
+                }
+                GetCheckedNode(node, ref lblist);
+
             }
 
         }

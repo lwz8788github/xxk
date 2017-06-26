@@ -327,7 +327,6 @@
             this.barSaveToChuLi});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ribbon.MaxItemId = 107;
             this.ribbon.MaxItemId = 108;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -1216,6 +1215,7 @@
             this.treeListManipData.Name = "treeListManipData";
             this.treeListManipData.Size = new System.Drawing.Size(174, 423);
             this.treeListManipData.TabIndex = 0;
+            this.treeListManipData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn3
             // 
@@ -1227,9 +1227,9 @@
             // 
             // panelContainerData
             // 
-            this.panelContainerData.ActiveChild = this.dockPanelEqkCatalog;
-            this.panelContainerData.Controls.Add(this.dockPanelObsData);
+            this.panelContainerData.ActiveChild = this.dockPanelObsData;
             this.panelContainerData.Controls.Add(this.dockPanelChartAttri);
+            this.panelContainerData.Controls.Add(this.dockPanelObsData);
             this.panelContainerData.Controls.Add(this.dockPanelEqkCatalog);
             this.panelContainerData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
             this.panelContainerData.ID = new System.Guid("7e8ffaee-6075-48ce-9727-38e17ddd3a38");
@@ -1367,44 +1367,35 @@
             this.dockPanelObsData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
             this.dockPanelObsData.ID = new System.Guid("58455861-352f-464c-8365-a68e15fd0423");
             this.dockPanelObsData.Location = new System.Drawing.Point(7, 28);
-            this.dockPanelObsData.Name = "dockPanelObsData";
-            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(349, 414);
-            this.dockPanelObsData.Size = new System.Drawing.Size(302, 423);
-            this.dockPanelObsData.Location = new System.Drawing.Point(5, 23);
             this.dockPanelObsData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dockPanelObsData.Name = "dockPanelObsData";
-            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(267, 322);
-            this.dockPanelObsData.Size = new System.Drawing.Size(305, 322);
+            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(305, 322);
+            this.dockPanelObsData.Size = new System.Drawing.Size(302, 423);
             this.dockPanelObsData.Text = "监测数据";
             // 
             // controlContainer2
             // 
             this.controlContainer2.Controls.Add(this.gridControlObsdata);
             this.controlContainer2.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer2.Name = "controlContainer2";
-            this.controlContainer2.Size = new System.Drawing.Size(302, 423);
             this.controlContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.controlContainer2.Name = "controlContainer2";
-            this.controlContainer2.Size = new System.Drawing.Size(305, 322);
+            this.controlContainer2.Size = new System.Drawing.Size(302, 423);
             this.controlContainer2.TabIndex = 0;
             // 
             // gridControlObsdata
             // 
             this.gridControlObsdata.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
             this.gridControlObsdata.MainView = this.gridViewObsdata;
             this.gridControlObsdata.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridControlObsdata.Name = "gridControlObsdata";
             this.gridControlObsdata.Size = new System.Drawing.Size(302, 423);
-            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
-            this.gridControlObsdata.MainView = this.gridViewObsdata;
-            this.gridControlObsdata.Name = "gridControlObsdata";
-            this.gridControlObsdata.Size = new System.Drawing.Size(305, 322);
             this.gridControlObsdata.TabIndex = 18;
             this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewObsdata});
+            this.gridControlObsdata.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseDown);
+            this.gridControlObsdata.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseUp);
             // 
             // gridViewObsdata
             // 
@@ -1459,9 +1450,9 @@
             // controlContainer3
             // 
             this.controlContainer3.Location = new System.Drawing.Point(0, 0);
+            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.controlContainer3.Name = "controlContainer3";
             this.controlContainer3.Size = new System.Drawing.Size(302, 423);
-            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.controlContainer3.TabIndex = 0;
             // 
             // imageList1
@@ -1649,8 +1640,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1261, 714);
             this.Controls.Add(this.xtraTabControl1);
-            this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.panelContainerData);
+            this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

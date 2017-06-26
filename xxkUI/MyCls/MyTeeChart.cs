@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using xxkUI.Tool;
 using DevExpress.XtraGrid;
 using DevExpress.XtraEditors;
+using System.IO;
 
 namespace xxkUI.MyCls
 {
@@ -50,7 +51,7 @@ namespace xxkUI.MyCls
         private Graphics g;
         private bool isDrawing = false;
         private Points RemoveJumpORStepPoints = null;
-        private Points LineBreakPoints = null;
+       
         List<SelectedPointStruct> selectedPtlist = new List<SelectedPointStruct>();
 
         #endregion
@@ -247,6 +248,11 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="obsdatalist">数据列表</param>
         /// <returns>是否添加成功</returns>
+        /// <summary>
+        /// 添加一条曲线
+        /// </summary>
+        /// <param name="obsdatalist">数据列表</param>
+        /// <returns>是否添加成功</returns>
         public bool AddSeries(List<LineBean> obsdatalist, string excelPath)
         {
 
@@ -255,12 +261,21 @@ namespace xxkUI.MyCls
             try
             {
                 this.tChart.Series.Clear();
+
                 foreach (LineBean checkedLb in obsdatalist)
                 {
                     DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb.OBSLINECODE, excelPath);
-                    if (!ObsdataCls.IsExisted(checkedLb.OBSLINENAME))
-                        ObsdataCls.ObsdataHash.Add(checkedLb.OBSLINENAME, dt);
 
+                    DataView dataViewselec = dt.DefaultView;
+                    dataViewselec.Sort = "obvdate asc";
+                    dt = dataViewselec.ToTable();
+                    //构建哈希表key（文件夹+测项名）
+
+                    string[] dirName = excelPath.Split('\\');
+                    string DtKey = dirName[dirName.Length - 1] + "," + checkedLb.OBSLINECODE;
+
+                    if (!ObsdataCls.IsExisted(DtKey))
+                        ObsdataCls.ObsdataHash.Add(DtKey, dt);
 
                     Line line = new Line();
                     tChart.Series.Add(line);
@@ -269,12 +284,12 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "obvvalue";
                     line.XValues.DateTime = true;
 
-                    line.DataSource = ObsdataCls.ObsdataHash[checkedLb.OBSLINENAME] as DataTable;
+                    line.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
 
                     /*只有一条曲线时不显示图例*/
                     line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
                     line.Marks.Visible = false;
-                    line.Tag = new LineTag() { Sitecode = checkedLb.SITECODE, Linecode = checkedLb.OBSLINECODE };
+                    line.Tag = DtKey;
                     line.MouseEnter += Line_MouseEnter;
                     line.MouseLeave += Line_MouseLeave;
                     line.GetSeriesMark += Line_GetSeriesMark;
@@ -284,19 +299,81 @@ namespace xxkUI.MyCls
 
                     if (obsdatalist.Count == 1)
                     {
-                        this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[checkedLb.OBSLINENAME] as DataTable;
+                        this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
                         this.ObsDatacontrol.Refresh();
                     }
                 }
 
-
                 AddVisibleLineVerticalAxis();
+                ShowNotes();
 
 
             }
             catch (Exception ex)
             {
-             //   throw new Exception(ex.Message);
+                //   throw new Exception(ex.Message);
+            }
+            return isok;
+        }
+
+
+        public bool AddSeries(List<string> obsdatalist, string excelPath)
+        {
+
+            bool isok = false;
+            this.tChart.Header.Text = "";
+            try
+            {
+                this.tChart.Series.Clear();
+
+                foreach (string checkedLb in obsdatalist)
+                {
+                    DataTable dt = LineObsBll.Instance.GetDataTable(checkedLb, excelPath);
+                    DataView dataViewselec = dt.DefaultView;
+                    dataViewselec.Sort = "obvdate asc";
+                    dt = dataViewselec.ToTable();
+                    //构建哈希表key（文件夹+测项名）
+
+                    string[] dirName = excelPath.Split('\\');
+                    string DtKey = dirName[dirName.Length - 1] + "," + checkedLb;
+
+                    if (!ObsdataCls.IsExisted(DtKey))
+                        ObsdataCls.ObsdataHash.Add(DtKey, dt);
+
+                    Line line = new Line();
+                    tChart.Series.Add(line);
+                    line.Title = checkedLb;
+                    line.XValues.DataMember = "obvdate";
+                    line.YValues.DataMember = "obvvalue";
+                    line.XValues.DateTime = true;
+
+                    line.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+
+                    /*只有一条曲线时不显示图例*/
+                    line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
+                    line.Marks.Visible = false;
+                    line.Tag = DtKey;
+                    line.MouseEnter += Line_MouseEnter;
+                    line.MouseLeave += Line_MouseLeave;
+                    line.GetSeriesMark += Line_GetSeriesMark;
+                    if (this.tChart.Header.Text != "")
+                        this.tChart.Header.Text += "/";
+                    this.tChart.Header.Text += line.Title;
+
+                    if (obsdatalist.Count == 1)
+                    {
+                        this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+                        this.ObsDatacontrol.Refresh();
+                    }
+                }
+
+                AddVisibleLineVerticalAxis();
+
+                ShowNotes();
+            }
+            catch (Exception ex)
+            {
+                //   throw new Exception(ex.Message);
             }
             return isok;
         }
@@ -308,7 +385,7 @@ namespace xxkUI.MyCls
         /// <param name="dt"></param>
         /// <param name="linename"></param>
         /// <returns></returns>
-        public bool AddSingleSeries(string linename)
+        public bool AddSingleSeries(string linename,string Dtkey)
         {
             bool isok = false;
             try
@@ -321,10 +398,10 @@ namespace xxkUI.MyCls
                 line.XValues.DataMember = "obvdate";
                 line.YValues.DataMember = "obvvalue";
                 line.XValues.DateTime = true;
-                line.DataSource = ObsdataCls.ObsdataHash[linename] as DataTable;
+                line.DataSource = ObsdataCls.ObsdataHash[Dtkey] as DataTable;
                 line.Legend.Visible = false;
                 line.Marks.Visible = false;
-
+                line.Tag = Dtkey;
                 line.MouseEnter += Line_MouseEnter;
                 line.MouseLeave += Line_MouseLeave;
                 line.GetSeriesMark += Line_GetSeriesMark;
@@ -332,7 +409,7 @@ namespace xxkUI.MyCls
                 AddVisibleLineVerticalAxis();
 
                 /*只有一条曲线时要显示数据列表*/
-                this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[linename] as DataTable;
+                this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[Dtkey] as DataTable;
                 this.ObsDatacontrol.Refresh();
 
             }
@@ -368,10 +445,10 @@ namespace xxkUI.MyCls
                     Points pts = new Points(this.tChart.Chart);
                     pts.Pointer.Style = PointerStyles.Circle;
                     pts.Legend.Visible = false;
-                    pts.Color = Color.Orange;
+                    pts.Color = Color.FromArgb(0, 255, 0);
                     foreach (DataRow dr in ((DataTable)ln.DataSource).Rows)
                     {
-                        if (dr["备注"].ToString() != "")
+                        if (dr["note"].ToString() != "")
                         {
                             pts.Add(DateTime.FromOADate(ln[j].X), ln[j].Y);
                         }
@@ -380,17 +457,17 @@ namespace xxkUI.MyCls
 
                     this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
 
-
                     this.tChart.Series[0].Marks.Arrow.Width = 1;          //标签与单元之间连线的宽度
                     this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.DashDot;       //标签与单元之间连线样式
-                                                                                                                //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
-                                                                                                                //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
-                                                                                                                //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
-                                                                                                                //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
-                                                                                                                //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
-                                                                                                                //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
+                    this.tChart.Series[0].Marks.Font.Color =  Color.Black;
+                   
+                    //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
+                    //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
+                    //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
+                    //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
+                    //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
+                    //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
                     this.tChart.Series[0].Marks.MultiLine = true;               //是否允许标签多行显示(当标签太长时)
-
                     this.tChart.Series[0].Marks.TailStyle = MarksTail.None;
                     this.tChart.Series[0].Marks.ShapeStyle = TextShapeStyle.Rectangle;
                     this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
@@ -581,7 +658,7 @@ namespace xxkUI.MyCls
         {
             Line line1 = series as Line;
             DataTable ds = (DataTable)line1.DataSource;
-            e.MarkText = ds.Rows[e.ValueIndex]["备注"].ToString();
+            e.MarkText = ds.Rows[e.ValueIndex]["note"].ToString();
         }
 
         /// <summary>
@@ -628,8 +705,8 @@ namespace xxkUI.MyCls
                             selectedPtlist.Clear();
                             RemoveJumpORStepPoints.Clear();
                             tChart.Refresh();
-
                             g = this.tChart.CreateGraphics();
+
                             start.X = e.X;
                             start.Y = e.Y;
                             end.X = e.X;
@@ -795,16 +872,21 @@ namespace xxkUI.MyCls
         /// <param name="e"></param>
         private void TChart_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (GetLineSeriesCount() != 1)
-                return;
-            if (e.Delta > 0)
+            try
             {
-                tChart.Zoom.ZoomPercent(110);
+                if (GetLineSeriesCount() != 1)
+                    return;
+                if (e.Delta > 0)
+                {
+                    tChart.Zoom.ZoomPercent(110);
+                }
+                else
+                {
+                    tChart.Zoom.ZoomPercent(90);
+                }
             }
-            else
-            {
-                tChart.Zoom.ZoomPercent(90);
-            }
+            catch { }
+
         }
 
         /// <summary>
@@ -880,7 +962,7 @@ namespace xxkUI.MyCls
             {
                 Line ln = s as Line;
                 if (this.tChart.Series.Count > 1)
-                    AddSingleSeries(ln.Title);
+                    AddSingleSeries(ln.Title, ln.Tag.ToString());
             }
             catch (Exception ex)
             {
@@ -1008,14 +1090,14 @@ namespace xxkUI.MyCls
 
             Line ln = this.tChart.Series[0] as Line;
 
-            DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+            DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
 
             DataProgreeFrm dpf = new DataProgreeFrm(dt.Rows.Count);
             if (dpf.ShowDialog() == DialogResult.OK)
             {
                 PriAlgorithmHelper pralg = new PriAlgorithmHelper();
-                ObsdataCls.ObsdataHash[ln.Title] = pralg.PlusMinusMultiplyDivide(dt, dpf.progreeValue, dpf.dpm);
-                AddSingleSeries(this.tChart.Header.Text);
+                ObsdataCls.ObsdataHash[ln.Tag.ToString()] = pralg.PlusMinusMultiplyDivide(dt, dpf.progreeValue, dpf.dpm);
+                AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
             }
         }
         /// <summary>
@@ -1061,13 +1143,13 @@ namespace xxkUI.MyCls
             if (olmf.ShowDialog() == DialogResult.OK)
             {
 
-                DataTable dtone = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                DataTable dtone = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
                 DataTable dttwo = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue,note from t_obsrvtntb where obslinecode = '" + olmf.SelectedObsLineCode + "'");
 
                 PriAlgorithmHelper pralg = new PriAlgorithmHelper();
-                ObsdataCls.ObsdataHash[ln.Title] = pralg.Merge(dtone, dttwo, olmf.MoveToAverage);
+                ObsdataCls.ObsdataHash[ln.Tag.ToString()] = pralg.Merge(dtone, dttwo, olmf.MoveToAverage);
 
-                AddSingleSeries(this.tChart.Header.Text);
+                AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
             }
         }
         /// <summary>
@@ -1108,7 +1190,7 @@ namespace xxkUI.MyCls
             try
             {
                 Line ln = this.tChart.Series[0] as Line;
-                DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
                 NpoiCreator npcreator = new NpoiCreator();
                 npcreator.TemplateFile = DataFromPath.HandleDataPath;
                 npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + ln.Title + ".xls");
@@ -1143,7 +1225,7 @@ namespace xxkUI.MyCls
                         {
                             Series series = tChart.Series[0];
                             Line ln = series as Line;
-                            DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                            DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
 
                             //this.tChart.Refresh();
                             for (int i = 0; i < ln.Count; i++)
@@ -1175,13 +1257,21 @@ namespace xxkUI.MyCls
                                         RemoveJumpFrm dpf = new RemoveJumpFrm(dt, selectdt);
                                         if (dpf.ShowDialog() == DialogResult.OK)
                                         {
-                                            ObsdataCls.ObsdataHash[ln.Title] = dpf.dataout;
+                                            ObsdataCls.ObsdataHash[ln.Tag.ToString()] = dpf.dataout;
                                             /*重画曲线*/
-                                            AddSingleSeries(this.tChart.Header.Text);
+                                            AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
                                             /*重画选中的点*/
                                             ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
                                             tchartEventType = TChartEventType.NoProg;
                                         }
+                                        else
+                                        {
+                                            selectedPtlist.Clear();
+                                            RemoveJumpORStepPoints.Clear();
+                                            tChart.Refresh();
+                                            g = this.tChart.CreateGraphics();
+                                        }
+
                                     }
                                     break;
                                 case TChartEventType.RemoveStep://消台阶
@@ -1198,12 +1288,19 @@ namespace xxkUI.MyCls
                                         RemoveStepFrm dpf = new RemoveStepFrm(dt, selectdt);
                                         if (dpf.ShowDialog() == DialogResult.OK)
                                         {
-                                            ObsdataCls.ObsdataHash[ln.Title] = dpf.dataout;
+                                            ObsdataCls.ObsdataHash[ln.Tag.ToString()] = dpf.dataout;
                                             /*重画曲线*/
-                                            AddSingleSeries(this.tChart.Header.Text);
+                                            AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
                                             /*重画选中的点*/
                                             ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
                                             tchartEventType = TChartEventType.NoProg;
+                                        }
+                                        else
+                                        {
+                                            selectedPtlist.Clear();
+                                            RemoveJumpORStepPoints.Clear();
+                                            tChart.Refresh();
+                                            g = this.tChart.CreateGraphics();
                                         }
                                     }
                                     break;
@@ -1220,12 +1317,12 @@ namespace xxkUI.MyCls
                                         }
 
                                         PriAlgorithmHelper pralg = new PriAlgorithmHelper();
-                                        DataTable dtin = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
-                                        ObsdataCls.ObsdataHash[ln.Title] = pralg.Split(dtin, selectdt,"" );
+                                        DataTable dtin = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
+                                        ObsdataCls.ObsdataHash[ln.Tag.ToString()] = pralg.Split(dtin, selectdt,"" );
 
                                         RemoveJumpORStepPoints.Clear();
                                         /*重画曲线*/
-                                        AddSingleSeries(this.tChart.Header.Text);
+                                        AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
 
                                         tchartEventType = TChartEventType.NoProg;
                                     }
@@ -1285,7 +1382,7 @@ namespace xxkUI.MyCls
         public void RefreshLineDatasource()
         {
             Line ln = this.tChart.Series[0] as Line;
-            ln.DataSource = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+            ln.DataSource = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
             this.tChart.Refresh();
         }
 
@@ -1312,13 +1409,16 @@ namespace xxkUI.MyCls
             {
                 if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
                 {
-                    Points pts = new Points(this.tChart.Chart);
-                    pts.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
 
-                    pts.Pointer.Style = PointerStyles.Circle;
+                    Points pts = new Points(this.tChart.Chart);
 
                     pts.Legend.Visible = false;
-                    pts.Color = Color.DeepSkyBlue;
+
+                    pts.Pointer.Color = Color.Red;
+                    pts.Pointer.Style = PointerStyles.Circle;
+                    pts.Marks.Visible = false;
+                    pts.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
+
                 }
             }
             this.tChart.Refresh();
@@ -1344,5 +1444,95 @@ namespace xxkUI.MyCls
 
 
         #endregion
-    }
+
+
+
+
+        /// <summary>
+        /// 生成缩略图
+        /// </summary>
+        /// <param name="originalImagePath">源图路径（物理路径）</param>
+        /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
+        /// <param name="width">缩略图宽度</param>
+        /// <param name="height">缩略图高度</param>
+        /// <param name="mode">生成缩略图的方式:HW,W,H,Cut</param>    
+        public void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode)
+        {
+            System.Drawing.Image originalImage = System.Drawing.Image.FromFile(originalImagePath);
+
+            int towidth = width;
+            int toheight = height;
+
+            int x = 0;
+            int y = 0;
+            int ow = originalImage.Width;
+            int oh = originalImage.Height;
+
+            switch (mode)
+            {
+                case "HW"://指定高宽缩放（可能变形）                
+                    break;
+                case "W"://指定宽，高按比例                    
+                    toheight = originalImage.Height * width / originalImage.Width;
+                    break;
+                case "H"://指定高，宽按比例
+                    towidth = originalImage.Width * height / originalImage.Height;
+                    break;
+                case "Cut"://指定高宽裁减（不变形）                
+                    if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
+                    {
+                        oh = originalImage.Height;
+                        ow = originalImage.Height * towidth / toheight;
+                        y = 0;
+                        x = (originalImage.Width - ow) / 2;
+                    }
+                    else
+                    {
+                        ow = originalImage.Width;
+                        oh = originalImage.Width * height / towidth;
+                        x = 0;
+                        y = (originalImage.Height - oh) / 2;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            //新建一个bmp图片
+            System.Drawing.Image bitmap = new System.Drawing.Bitmap(towidth, toheight);
+
+            //新建一个画板
+            Graphics g = System.Drawing.Graphics.FromImage(bitmap);
+
+            //设置高质量插值法
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+            //设置高质量,低速度呈现平滑程度
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+            //清空画布并以透明背景色填充
+            g.Clear(Color.Transparent);
+
+            //在指定位置并且按指定大小绘制原图片的指定部分
+            g.DrawImage(originalImage, new Rectangle(0, 0, towidth, toheight),
+                new Rectangle(x, y, ow, oh),
+                GraphicsUnit.Pixel);
+
+            try
+            {
+                //以jpg格式保存缩略图
+                bitmap.Save(thumbnailPath, System.Drawing.Imaging.ImageFormat.Jpeg);//走这里就错了
+            }
+            catch (System.Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                originalImage.Dispose();
+                bitmap.Dispose();
+                g.Dispose();
+            }
+        }
+        }
 }

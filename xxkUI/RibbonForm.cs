@@ -32,6 +32,7 @@ namespace xxkUI
         private XTreeList xtl;
         private List<string> userAut = new List<string>();
         private TreeBean currentClickNodeInfo;// 当前点击的树节点信息
+        private TreeList currentTree;//当前树
         private SiteAttri siteAttriFrm = new SiteAttri();
         private List<string> importDataFiles = new List<string>();// 导入数据的文件路径集
         private ActionType actiontype = ActionType.NoAction;// 观测数据操作类型
@@ -279,6 +280,9 @@ namespace xxkUI
             else
             {
                 this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
             }
 
 
@@ -293,6 +297,7 @@ namespace xxkUI
         private void tree_MouseUp(object sender, MouseEventArgs e)
         {
             TreeList tree = sender as TreeList;
+            currentTree = tree;
             if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
             {
                 Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
@@ -301,66 +306,36 @@ namespace xxkUI
                 {
                     tree.SetFocusedNode(hitInfo.Node);
 
-                    currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
-                    if (currentClickNodeInfo == null)
+                    if (tree.Name == "treeListData")//信息库树
                     {
-                        return;
-                    }
-                    if (hitInfo.Node.Level == 1)
-                    {
-                        popRemoteSiteTree.ShowPopup(p);
-                    }
-                    else if (hitInfo.Node.Level == 2)
-                    {
-                        popRemoteLineTree.ShowPopup(p);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 本地库树点击事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void treeListLocalData_MouseUp(object sender, MouseEventArgs e)
-        {
-            TreeList tree = sender as TreeList;
-
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
-            {
-                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
-                if (tree.Nodes.Count > 0)
-                {
-                    TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
-                    if (hitInfo.HitInfoType == HitInfoType.Cell)
-                    {
-                        tree.SetFocusedNode(hitInfo.Node);
-
                         currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
                         if (currentClickNodeInfo == null)
                         {
                             return;
                         }
+
                         if (hitInfo.Node.Level == 1)
                         {
                             popRemoteSiteTree.ShowPopup(p);
-
                         }
                         else if (hitInfo.Node.Level == 2)
                         {
-                            //popLineTree.ShowPopup(p);
-                            popLineTreeWork.ShowPopup(p);
+                            popRemoteLineTree.ShowPopup(p);
                         }
                     }
-                }
-                else
-                {
-
-                    popRemoteSiteTree.ShowPopup(p);
+                    if (tree.Name == "treeListManipData")//处理数据
+                    {
+                        popRemoteLineTree.ShowPopup(p);
+                    }
+                   
+                    
                 }
             }
+
+
+
         }
+
 
         /// <summary>
         /// 菜单项点击事件
@@ -401,17 +376,28 @@ namespace xxkUI
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                         {
-                            if (this.dockPanelDb.Text == "本地信息库")
+                            if (currentTree.Name == this.treeListData.Name)
                             {
-                                filePath = DataFromPath.LocalDbPath;
+                                if (this.dockPanelDb.Text == "本地信息库")
+                                {
+                                    filePath = DataFromPath.LocalDbPath;
+                                }
+                                else if (this.dockPanelDb.Text == "远程信息库")
+                                {
+                                    filePath = DataFromPath.RemoteDbPath;
+                                }
+
+                                mtc.AddSeries(xtl.GetCheckedLine(currentTree.Name), filePath);
                             }
-                            else if (this.dockPanelDb.Text == "远程信息库")
+                            else if (currentTree.Name == this.treeListManipData.Name)
                             {
-                                filePath = DataFromPath.RemoteDbPath;
+                                filePath = DataFromPath.HandleDataPath;
+
+                                mtc.AddSeries(xtl.GetCheckedLineOnMuniTree(currentTree.Name), filePath);
                             }
-                            this.chartTabPage.PageVisible = true;//曲线图页面可见
+                             this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-                            mtc.AddSeries(xtl.GetCheckedLine(this.treeListData.Name), filePath);
+                          
                         }
                     }
                     break;
@@ -541,7 +527,8 @@ namespace xxkUI
                             }
                         }
                     }
-
+                 
+                   // xtl.bSignDbTree(datafilepath);
                     xtl.RefreshWorkspace(datafilepath);
                 }
 
@@ -1172,7 +1159,6 @@ namespace xxkUI
                         {
                             if (drv["obvdate"].ToString() == "" || drv["obvvalue"].ToString() == "")
                                 return;
-
 
                             DateTime obsdate = new DateTime();
                             DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);

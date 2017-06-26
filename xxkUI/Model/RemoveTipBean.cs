@@ -31,6 +31,7 @@ namespace xxkUI.Model
         private DateTime _StartSel;
         private DateTime _EndSel;
 
+        private int _TipRowIndex;
         private string _Tip;
 
 
@@ -218,6 +219,20 @@ namespace xxkUI.Model
                 _TargetNum = value;
             }
         }
+        /// <summary>
+        /// 备注存放的位置
+        /// </summary>
+        public int TipRowIndex
+        {
+            get
+            {
+                return _TipRowIndex;
+            }
 
+            set
+            {
+                _TipRowIndex = value;
+            }
+        }
     }
 }

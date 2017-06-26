@@ -66,10 +66,8 @@ namespace xxkUI.Form
             {
 
                 TreeBean tb = this.treeListData.GetDataRecordByNode(this.treeListData.FocusedNode) as TreeBean;
-
                 SelectedObsLineCode = (tb.Tag as LineBean).OBSLINECODE;
                 this.MoveToAverage = (this.radioGroup.SelectedIndex == 0) ? true : false;
-
                 this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)

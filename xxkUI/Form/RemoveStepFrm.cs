@@ -42,7 +42,14 @@ namespace xxkUI.Form
             if (this.radioGroup.SelectedIndex == -1 || this.spinEditAvgSimpling.Text == "")
                 return;
 
-            dataout = pralgthHelper.RemoveStepJump(datain, dataselect, DataProcessMethod.RemoveStep, lr, out dataoutsel);
+            
+
+
+            string note = this.richTxtboxNote.Text;
+            if (this.checkAddNote.CheckState == CheckState.Unchecked)
+                dataout = pralgthHelper.RemoveStepJump(datain, dataselect, DataProcessMethod.RemoveStep, lr, false, out dataoutsel);
+            else
+                dataout = pralgthHelper.RemoveStepJump(datain, dataselect, DataProcessMethod.RemoveJump, lr, true, out dataoutsel);
 
             this.DialogResult = DialogResult.OK;
             this.Close();

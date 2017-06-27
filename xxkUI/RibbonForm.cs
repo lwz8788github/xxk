@@ -50,6 +50,7 @@ namespace xxkUI
             this.chartTabPage.PageVisible = false;//曲线图页面不可见
             this.siteInfoTabPage.PageVisible = false;//文档页面不可见
             this.recycleTabPage.PageVisible = false;
+            this.addXxkTabPage.PageVisible = false;
 
             //this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
 
@@ -440,6 +441,15 @@ namespace xxkUI
                             this.siteInfoTabPage.PageVisible = true;
                             this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
                         }
+                    }
+                    break;
+                case "btnAddSiteInfo"://新增信息库
+                    {
+                        this.addXxkTabPage.PageVisible = true;
+                        this.xtraTabControl1.SelectedTabPage = this.addXxkTabPage;
+                        SetBaseinfoVGridControl();
+                        SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
+
                     }
                     break;
                 case "btnImportObsline"://导入观测数据
@@ -1588,6 +1598,206 @@ namespace xxkUI
             {
                 XtraMessageBox.Show("查询失败：" + ex.Message, "错误");
             }
+
+        }
+
+        private void btnXxkAdd_Click(object sender, EventArgs e)
+        {
+            vGridControlSiteInfo.UpdateFocusedRecord();
+            try
+            {
+                SiteBean AddSiteinfo = new SiteBean();
+                string ldordd = "";
+                if (GetValue(4) == "流动")
+                {
+                    ldordd = "LD";
+                }
+                else { ldordd = "DD"; }
+
+                AddSiteinfo.SiteCode = SiteBll.Instance.CreateNewSiteCode(ldordd);
+                AddSiteinfo.SiteName = GetValue(0);
+                AddSiteinfo.FaultName = GetValue(1);
+                AddSiteinfo.SiteStatus = GetValue(2);
+                AddSiteinfo.Historysite = GetValue(3);
+                AddSiteinfo.SiteType = GetValue(4);
+                AddSiteinfo.Type = GetValue(5);
+                AddSiteinfo.Locations = GetValue(6);
+                AddSiteinfo.MarkStoneType = GetValue(7);
+
+                AddSiteinfo.Latitude = double.Parse(GetValue(8));
+                AddSiteinfo.Longtitude = double.Parse(GetValue(9));
+                AddSiteinfo.Altitude = double.Parse(GetValue(10));
+                AddSiteinfo.BuildUnit = GetValue(11);
+                AddSiteinfo.ObsUnit = GetValue(12);
+                AddSiteinfo.StartDate = GetValue(13);
+                AddSiteinfo.Datachg = GetValue(14);
+                AddSiteinfo.SiteSituation = GetValue(15);
+                AddSiteinfo.GeoSituation = GetValue(16);
+
+                AddSiteinfo.RemoteMap = GetPicStream(17);
+                AddSiteinfo.LayoutMap = GetPicStream(18);
+                AddSiteinfo.OtherSituation = GetValue(19);
+                AddSiteinfo.Note = GetValue(20);
+
+                SiteBll.Instance.Add(AddSiteinfo);
+
+                XtraMessageBox.Show("上传成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception excep)
+            {
+                XtraMessageBox.Show("上传编辑后的值失败，" + excep.Message, "错误提示");
+                return;
+            }
+            btnXxkAdd.Enabled = false;
+        }
+
+        /// 设置是VGridControl行列样式
+        /// </summary>
+        private void SetBaseinfoVGridControl()
+        {
+
+            try
+            {
+                PublicHelper ph = new PublicHelper();
+                int cHeight = vGridControlSiteInfo.Height;
+
+                DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+                memoEdit.LinesCount = 1;
+
+                wxtFileBtnEdit.ButtonClick += wxtFileBtnEdit_ButtonClick;
+                bstFileBtnEdit.ButtonClick += bstFileBtnEdit_ButtonClick;
+
+                for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
+                {
+                    vGridControlSiteInfo.Rows[i].Properties.ReadOnly = false;
+                    vGridControlSiteInfo.Rows[i].Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
+
+                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+                    vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+                    if (i == 0)
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
+                    }
+
+                    if (i == 2)//运行状况
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "正常", "停测", "改造中" });
+                    }
+                    if (i == 4)//场地类型
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "定点", "流动" });
+                    }
+                    if (i == 5)//观测类型
+                    {
+
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "基线", "水准", "综合" });
+                    }
+                    if (i == 7)//标石类型
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "水准标石", "综合观测墩" });
+                    }
+                    if (i == 11)//建设单位
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "北京局", "天津局","河北局","山西局","内蒙局","辽宁局", "吉林局","黑龙江局","上海局"
+                        ,"江苏局","浙江局","安徽局", "福建局","江西局","山东局","河南局","湖南局","湖北局","广东局","广西局","海南局" ,"重庆局","四川局","云南局","西藏局", "陕西局","甘肃局"
+                        ,"青海局","宁夏局","新疆局","贵州局","台网中心","搜救中心","震防中心","地壳工程中心","物探中心","一测中心","二测中心","驻深办","服务中心","出版社","防灾学院","地球所"
+                        ,"地质所","地壳所","预测所","工力所"});
+                    }
+                    if (i == 12)//监测单位
+                    {
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "北京局", "天津局","河北局","山西局","内蒙局","辽宁局", "吉林局","黑龙江局","上海局"
+                        ,"江苏局","浙江局","安徽局", "福建局","江西局","山东局","河南局","湖南局","湖北局","广东局","广西局","海南局" ,"重庆局","四川局","云南局","西藏局", "陕西局","甘肃局"
+                        ,"青海局","宁夏局","新疆局","贵州局","台网中心","搜救中心","震防中心","地壳工程中心","物探中心","一测中心","二测中心","驻深办","服务中心","出版社","防灾学院","地球所"
+                        ,"地质所","地壳所","预测所","工力所"});
+                    }
+                    if (i == vGridControlSiteInfo.Rows.Count - 1 || i == vGridControlSiteInfo.Rows.Count - 2)
+                    {
+                        vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count * 3;
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
+                    }
+                    else
+                        vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
+                }
+
+                vGridControlSiteInfo.RowHeaderWidth = vGridControlSiteInfo.Width / 3;
+                vGridControlSiteInfo.RecordWidth = vGridControlSiteInfo.Width / 3 * 2 - 20;
+                //vGridControlSiteInfo.Rows[0].Height = vGridControlSiteInfo.Width / 3 * 2 - 10;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
+
+        }
+
+        void wxtFileBtnEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "(*.jpg,*.png,*.jpeg,*.bmp,*.gif)|*.jgp;*.png;*.jpeg;*.bmp;*.gif|All files(*.*)|*.*";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[16], 0, ofd.FileName);
+        }
+        void bstFileBtnEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "(*.jpg,*.png,*.jpeg,*.bmp,*.gif)|*.jgp;*.png;*.jpeg;*.bmp;*.gif|All files(*.*)|*.*";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[17], 0, ofd.FileName);
+        }
+
+        private string GetValue(int row)
+        {
+            int iRecordIndex = 0;
+            Type type = vGridControlSiteInfo.Rows[row].Properties.RowType;
+
+            object value = vGridControlSiteInfo.GetCellValue(vGridControlSiteInfo.Rows[row], iRecordIndex);
+
+            if (type.FullName == "System.Int32")
+            {
+                value = (value == DBNull.Value || value == null) ? "null" : value;
+            }
+            else if (type.FullName == "System.Double")
+            {
+                value = (value == DBNull.Value || value == null) ? "null" : value;
+            }
+            else if (type.FullName == "System.DataTime")
+            {
+                value = (value == DBNull.Value || value == null) ? "null" : value;
+            }
+            else if (type.FullName == "System.Decimal")
+            {
+                value = (value == DBNull.Value || value == null) ? "null" : value;
+            }
+
+            return value.ToString();
+        }
+
+        private byte[] GetPicStream(int row)
+        {
+            int iRecordIndex = 0;
+            Type type = vGridControlSiteInfo.Rows[row].Properties.RowType;
+
+            object value = vGridControlSiteInfo.GetCellValue(vGridControlSiteInfo.Rows[row], iRecordIndex);
+
+            if (type.FullName == "System.Byte[]")
+            {
+                value = (value == DBNull.Value || value == null) ? "null" : value;
+            }
+
+            if (value != "null")
+            {
+                return (byte[])value;
+            }
+            else
+            {
+                return new byte[0];
+            }
+
+        }
+
+        private void btnXxkReset_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -171,6 +171,13 @@ public class SiteBean
         set { _RemoteMap = value; }
     }
 
+    [Description("布设图")]
+    private byte[] _LayoutMap;
+    public byte[] LayoutMap
+    {
+        get { return _LayoutMap; }
+        set { _LayoutMap = value; }
+    }
 
 
     [Description("坐标集")]

@@ -140,6 +140,15 @@ namespace xxkUI.MyCls
         }
 
         /// <summary>
+        /// 释放拖拽工具
+        /// </summary>
+        private void DisposeDragPtTool()
+        {
+            if (this.dragPoints != null)
+                this.dragPoints.Active = false;
+
+        }
+        /// <summary>
         /// 初始化DragPoint
         /// </summary>
         private void InitDrawLines()
@@ -242,22 +251,12 @@ namespace xxkUI.MyCls
         #endregion
 
         #region 方法（添加数据、显示备注、获取可见Series、添加多个坐标轴）
-
-        /// <summary>
-        /// 添加一条曲线
-        /// </summary>
-        /// <param name="obsdatalist">数据列表</param>
-        /// <returns>是否添加成功</returns>
-        /// <summary>
-        /// 添加一条曲线
-        /// </summary>
-        /// <param name="obsdatalist">数据列表</param>
-        /// <returns>是否添加成功</returns>
         public bool AddSeries(List<LineBean> obsdatalist, string excelPath)
         {
 
             bool isok = false;
             this.tChart.Header.Text = "";
+            DisposeDragPtTool();//释放拖拽工具
             try
             {
                 this.tChart.Series.Clear();
@@ -301,13 +300,12 @@ namespace xxkUI.MyCls
                     {
                         this.ObsDatacontrol.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
                         this.ObsDatacontrol.Refresh();
+                      
                     }
                 }
-
+                
                 AddVisibleLineVerticalAxis();
-                ShowNotes();
-
-
+               
             }
             catch (Exception ex)
             {
@@ -316,12 +314,12 @@ namespace xxkUI.MyCls
             return isok;
         }
 
-
         public bool AddSeries(List<string> obsdatalist, string excelPath)
         {
 
             bool isok = false;
             this.tChart.Header.Text = "";
+            DisposeDragPtTool();//释放拖拽工具
             try
             {
                 this.tChart.Series.Clear();
@@ -366,10 +364,10 @@ namespace xxkUI.MyCls
                         this.ObsDatacontrol.Refresh();
                     }
                 }
-
+               
                 AddVisibleLineVerticalAxis();
 
-                ShowNotes();
+               // 
             }
             catch (Exception ex)
             {
@@ -388,6 +386,7 @@ namespace xxkUI.MyCls
         public bool AddSingleSeries(string linename,string Dtkey)
         {
             bool isok = false;
+            DisposeDragPtTool();//释放拖拽工具
             try
             {
                 this.tChart.Series.Clear();
@@ -429,10 +428,11 @@ namespace xxkUI.MyCls
             if (this.tChart.Series.Count == 0)
                 return;
 
-            this.dragMarks.Active = !this.dragMarks.Active;
+            
 
             try
             {
+                this.dragMarks.Active = !this.dragMarks.Active;
                 if (this.dragMarks.Active)
                 {
                     Line ln = this.tChart.Series[0] as Line;
@@ -876,13 +876,20 @@ namespace xxkUI.MyCls
         /// <param name="dt"></param>
         private void ReLoadRemoveJumpORStepPointsData(DataTable dt)
         {
-            RemoveJumpORStepPoints.Clear();
-            foreach (DataRow dr in dt.Rows)
+            try
             {
-                RemoveJumpORStepPoints.Add(DateTime.Parse(dr[0].ToString()), double.Parse(dr[1].ToString()));
+                RemoveJumpORStepPoints.Clear();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    RemoveJumpORStepPoints.Add(DateTime.Parse(dr[0].ToString()), double.Parse(dr[1].ToString()));
+                }
+                this.tChart.Series.Add(RemoveJumpORStepPoints);
+                this.tChart.Refresh();
             }
-            this.tChart.Series.Add(RemoveJumpORStepPoints);
-            this.tChart.Refresh();
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
         }
 
         /// <summary>
@@ -1171,10 +1178,15 @@ namespace xxkUI.MyCls
             try
             {
                 Line ln = this.tChart.Series[0] as Line;
-                DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
-                NpoiCreator npcreator = new NpoiCreator();
-                npcreator.TemplateFile = DataFromPath.HandleDataPath;
-                npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + ln.Title + ".xls");
+                SaveToManipData stmfrm = new SaveToManipData(ln.Title);
+                if (stmfrm.ShowDialog() == DialogResult.OK)
+                {
+                   
+                    DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
+                    NpoiCreator npcreator = new NpoiCreator();
+                    npcreator.TemplateFile = DataFromPath.HandleDataPath;
+                    npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + stmfrm.targitFileName + ".xls");
+                }
 
             }
             catch (Exception ex)

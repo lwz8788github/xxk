@@ -19,9 +19,11 @@ namespace xxkUI.Form
     public partial class SaveToManipData : DevExpress.XtraEditors.XtraForm
     {
         public string targitFileName = string.Empty;
-        public SaveToManipData()
+    
+        public SaveToManipData(string lntitle)
         {
             InitializeComponent();
+            this.txtFileName.Text = lntitle;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

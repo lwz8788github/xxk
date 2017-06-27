@@ -284,10 +284,18 @@ namespace xxkUI
                     this.ribbon.SelectedPage = ribbonPageTchartTool;
 
                 }
-                else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage" && IsEqkShow)
+                else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage")
                 {
-                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    if (IsEqkShow)
+                    {
+                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                    }
+                    else
+                    {
+                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    }
                     this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     this.ribbon.SelectedPage = ribbonPageMapTool;
@@ -996,6 +1004,7 @@ namespace xxkUI
                     break;
                 case "barSaveToChuLi"://保存处理数据
                     mtc.SaveHandleData();
+                    xtl.bSignInitManipdbTree();
                     break;
 
             }

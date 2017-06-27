@@ -48,7 +48,25 @@ namespace xxkUI.Bll
         /// <returns></returns>
         public string GetSitecodeByLinecode(string linecode)
         {
-            return LineDal.Instance.GetAll().ToList().Find(n => n.OBSLINECODE == linecode).SITECODE;
+            try
+            {
+                List<LineBean> lblist = LineDal.Instance.GetAll().ToList();
+
+                if (lblist != null)
+                {
+                    if (lblist.Count > 0)
+                        return lblist.Find(n => n.OBSLINECODE == linecode).SITECODE;
+                    else
+                        throw new Exception("找不到测线对应的场地");
+                }
+                else
+                    throw new Exception("找不到测线对应的场地");
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("找不到测线对应的场地");
+            }
         }
 
         /// <summary>

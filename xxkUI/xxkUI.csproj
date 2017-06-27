@@ -240,6 +240,9 @@
     <Compile Include="Form\测试Frm.Designer.cs">
       <DependentUpon>测试Frm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GsProject\GSCoordConvertionClass_2000.cs" />
+    <Compile Include="GsProject\ProjectionConversion2.cs" />
+    <Compile Include="GsProject\GSCoordConvertionClass_Xian80.cs" />
     <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
@@ -365,6 +368,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\蓝色风格.png" />
+    <Content Include="Images\蓝色风格 - 副本.png" />
+    <Content Include="Images\银色风格.png" />
     <Content Include="TeeChart.dll" />
   </ItemGroup>
   <ItemGroup>

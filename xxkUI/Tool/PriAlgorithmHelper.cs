@@ -521,6 +521,104 @@ public class PriAlgorithmHelper
 
             return dataIn;
         }
+        /// <summary>
+        /// 等间隔处理
+        /// 2017.6.27
+        /// 张超
+        /// </summary>
+        /// <param name="dataIn">输入数据</param>
+        /// <param name="dataOut">返回结果</param>
+        /// <param name="num">等间隔数（单位：天）</param>
+        /// <param name="pro_method">数据处理方法（后续添加）</param>
+        /// <returns></returns>
+        public DataTable Interval(DataTable dataIn,int num,int pro_method)
+        {
+            if ( num <= 0 || num > 31)
+            {
+                MessageBox.Show("请输入正确的间隔天数！");
+                return null;
+            }
+
+            DataTable res = null;
+            DataTable dtPro = null;
+            int method = pro_method;
+            method = 1;//默认为1
+
+            //观测数据排序
+            DataView dataViewselec = dataIn.DefaultView;
+            dataViewselec.Sort = "obvdate asc";
+            dtPro = dataViewselec.ToTable();
+
+            //转换输入数据
+            //根据等间隔值计算需要输出数据的时间节点（即，需要计算的插值点）        
+            int n_In = dtPro.Rows.Count;
+            ObsPoint[] points = new ObsPoint[n_In];
+            for (int i = 0; i < n_In; i++)
+            {
+                points[i] = new ObsPoint();
+                points[i].x = DateTime.Parse(dtPro.Rows[i][0].ToString()).ToOADate();
+                points[i].y = double.Parse(dtPro.Rows[i][1].ToString());
+                
+                                
+            }
+
+            //根据等间隔值计算需要输出数据的时间节点（即，需要计算的插值点）
+            List<ObsPoint> rt = new List<ObsPoint>();
+            DateTime Last = DateTime.Parse(dtPro.Rows[n_In-1][0].ToString());
+
+            DateTime r = DateTime.Parse(dtPro.Rows[0][0].ToString());
+            ObsPoint t1 = new ObsPoint();
+            DateTime s = new DateTime();
+            t1.x = r.ToOADate();//添加第一个节点
+            rt.Add(t1);       
+            while(DateTime.Compare(Last, r) > 0)//添加其他节点
+            {
+                ObsPoint point = new ObsPoint();
+                s = r.AddDays(num);
+                if (DateTime.Compare(Last, s) < 0)
+                {
+                    break;
+                }
+                else
+                {
+                    point.x = s.ToOADate();
+                    rt.Add(point);
+                    r = s;
+                }               
+                
+            }
+            //将等间隔数据转换为数组模式
+            ObsPoint[] rt_points = rt.ToArray();
+
+            switch (method)
+            {
+                case 1:
+                    MathHelper Res = new MathHelper();                    
+                    Res.SplineInsertPoint(points,ref rt_points,1);
+                    //将返回数据实例化为表
+                    res = new DataTable();
+                    res.Columns.Add("obvdate");
+                    res.Columns.Add("obvvalue");
+                    res.Columns.Add("note");
+                    int total = rt_points.Length;
+                    for(int i = 0; i < total; i++)
+                    {
+                        DataRow dr = res.NewRow();
+                        dr[0] = DateTime.FromOADate(rt_points[i].x);
+                        dr[1] = rt_points[i].y;
+                        dr[2] = string.Empty;
+                        res.Rows.Add(dr);
+                        //res.LoadDataRow(dr.ItemArray, true);
+                    }                    
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+
+            }
+            return res;
+        }
 
         
     }

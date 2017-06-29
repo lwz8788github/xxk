@@ -83,8 +83,9 @@
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\Net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -164,6 +165,16 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\frm_SplashAhead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frm_SplashAhead.Designer.cs">
+      <DependentUpon>frm_SplashAhead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\IntervalFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\IntervalFrm.Designer.cs" />
     <Compile Include="Form\ObslineMergeFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -269,6 +280,7 @@
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
     <Compile Include="Tool\FileOperateProxy.cs" />
+    <Compile Include="Tool\MathHelper.cs" />
     <Compile Include="Tool\ObsdataCls.cs" />
     <Compile Include="Tool\NumberHelper.cs" />
     <Compile Include="Tool\PriAlgorithmHelper.cs" />
@@ -293,6 +305,10 @@
     <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\frm_SplashAhead.resx">
+      <DependentUpon>frm_SplashAhead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\IntervalFrm.resx" />
     <EmbeddedResource Include="Form\ObslineMergeFrm.resx">
       <DependentUpon>ObslineMergeFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -368,6 +384,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\蓝色风格.png" />
+    <Content Include="Images\bd.png" />
     <Content Include="Images\蓝色风格 - 副本.png" />
     <Content Include="Images\银色风格.png" />
     <Content Include="TeeChart.dll" />

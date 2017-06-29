@@ -19,7 +19,7 @@ namespace xxkUI.Bll
 
         public int Add(SiteBean model)
         {
-            model = new SiteBean();
+            //model = new SiteBean();
            
             return SiteDal.Instance.Insert(model);
         }
@@ -166,6 +166,10 @@ namespace xxkUI.Bll
             return SiteDal.Instance.Writeblob(sql, "blobData", blobData);
         }
 
+        public int UpdateWhatWhere(object what, object where)
+        {
+            return SiteDal.Instance.UpdateWhatWhere(what, where);
+        }
 
         public string CreateNewSiteCode(string ldordd)
         {

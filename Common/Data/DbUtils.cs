@@ -141,7 +141,7 @@ namespace Common.Data
                 cmd.CommandText = "insert " + TableConvention.Resolve(o) + " ("
                     .InjectFrom(new FieldsBy().IgnoreFields("keyid"), o) + ") values("
                     .InjectFrom(new FieldsBy().IgnoreFields("keyid").SetFormat("@{0}"), o) + ")";
-                    //+ ") select @@identity";
+                //+ ") select @@identity";
 
                 cmd.InjectFrom(new SetParamsValues().IgnoreFields("keyid"), o);
 

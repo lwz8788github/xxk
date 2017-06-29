@@ -180,7 +180,7 @@ namespace xxkUI.Controls
 
         private void fileSaveItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (this.richEditControl.SaveDocument() && FileName != string.Empty)
+            if (FileName != string.Empty)
             {
                 string sitecode = Path.GetFileName(FileName).Split('.')[0];
                 SiteBll.Instance.UpdateBASEINFO(sitecode, FileName);

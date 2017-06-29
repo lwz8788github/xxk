@@ -17,11 +17,17 @@ using System.Windows.Forms;
 using System.IO;
 using xxkUI.Tool;
 using xxkUI.Bll;
+using DevExpress.XtraEditors;
+using xxkUI.MyCls;
+
 namespace xxkUI.Controls
 {
     public partial class RecycleControl : UserControl
     {
-        
+     
+        public delegate void RefreshTreeHandler(string dbpath);
+        public event RefreshTreeHandler RefreshTree;
+
         private string recyclePath = System.Windows.Forms.Application.StartupPath + "/回收站/";
 
         public RecycleControl()
@@ -34,11 +40,11 @@ namespace xxkUI.Controls
                 //创建文件夹
                 Directory.CreateDirectory(recyclePath);
             }
-
-           
         }
 
-   
+
+
+
 
         public void LoadRecycleItems()
         {
@@ -73,6 +79,8 @@ namespace xxkUI.Controls
             {
                 throw;
             }
+
+            LoadRecycleItems();
         }
 
         private void btnDeleteSelected_Click(object sender, EventArgs e)
@@ -82,9 +90,15 @@ namespace xxkUI.Controls
                 int rowindex = this.gridViewRecycle.GetSelectedRows()[i];
                 DataRow row = gridViewRecycle.GetDataRow(rowindex);
 
-                string filename = LineBll.Instance.GetIdByName(row["RecyName"].ToString()) 
-                    + "+" + SiteBll.Instance.GetSiteCodeByName(row["RecySite"].ToString()) 
-                    + "+" + row["RecyTime"] + row["RecyFileType"];
+                string datatype = "";
+                if (row["RecySite"].ToString() == "远程")
+                    datatype = "YC";
+                if (row["RecySite"].ToString() == "本地")
+                    datatype = "BD";
+                if (row["RecySite"].ToString() == "处理")
+                    datatype = "CL";
+
+                string filename = row["RecyTime"].ToString()+ datatype + row["RecyName"] + row["RecyFileType"];
 
                 if (File.Exists(recyclePath + filename))
                 {
@@ -97,7 +111,57 @@ namespace xxkUI.Controls
 
         private void btnRecoverySelected_Click(object sender, EventArgs e)
         {
+            string datafile = "";
+            try
+            {
+                for (int i = 0; i < this.gridViewRecycle.GetSelectedRows().Length; i++)
+                {
+                    int rowindex = this.gridViewRecycle.GetSelectedRows()[i];
+                    DataRow row = gridViewRecycle.GetDataRow(rowindex);
 
+                   
+                    string datatype = "";
+                    if (row["RecySite"].ToString() == "远程")
+                    {
+                        datafile = DataFromPath.RemoteDbPath;
+                        datatype = "YC";
+                    }
+                    if (row["RecySite"].ToString() == "本地")
+                    {
+                        datafile = DataFromPath.LocalDbPath;
+                        datatype = "BD";
+                    }
+                    if (row["RecySite"].ToString() == "处理")
+                    {
+                        datafile = DataFromPath.HandleDataPath;
+                        datatype = "CL";
+                    }
+
+                    string sourceFilePath = DataFromPath.RecycleDataPath + "//" + row["RecyTime"].ToString() + datatype + row["RecyName"] + row["RecyFileType"];
+                    string destFileName = datafile + "//" + row["RecyName"] + row["RecyFileType"];
+
+                    if (File.Exists(destFileName))
+                    {
+                        if (XtraMessageBox.Show("相同文件已经存在，是否覆盖？如选择不覆盖，请重新选择文件", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+
+                            File.Copy(sourceFilePath, destFileName);
+                            File.Delete(sourceFilePath);
+                        }
+                    }
+                    else
+                    {
+                        File.Copy(sourceFilePath, destFileName);
+                        File.Delete(sourceFilePath);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            { }
+
+            RefreshTree(datafile);
+            LoadRecycleItems();
         }
 
         private void btnRecoveryRefresh_Click(object sender, EventArgs e)
@@ -115,34 +179,35 @@ namespace xxkUI.Controls
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("RecyName");
-            dt.Columns.Add("RecyFileType");
-            dt.Columns.Add("RecySize");
             dt.Columns.Add("RecySite");
+            dt.Columns.Add("RecyFileType");
             dt.Columns.Add("RecyTime");
-         
+            dt.Columns.Add("RecySize");
 
             DirectoryInfo folder = new DirectoryInfo(recyclePath);
 
             foreach (FileInfo file in folder.GetFiles("*.*"))
             {
                 string filename = Path.GetFileNameWithoutExtension(file.FullName);
-                string[] splts = filename.Split('+');
-                if (splts.Length != 3)
-                    continue;
 
-                string recyName = LineBll.Instance.GetNameByID("OBSLINENAME", "OBSLINECODE", splts[0]); ;
-                string recySite = SiteBll.Instance.GetSitenameByID(splts[1]);
-                string recyTime = splts[2];
-                string recyFileType = Path.GetExtension(file.FullName);
-                string recySize = (file.Length/1024).ToString()+"kb";
+                string recyTime = filename.Substring(0, 14);//前14位为时间
+                string recyFileType = filename.Substring(14, 2);//时间后面接类型CL、YC、BD（处理、远程、本地）
+                if (recyFileType == "YC")
+                    recyFileType = "远程";
+                if (recyFileType == "BD")
+                    recyFileType = "本地";
+                if (recyFileType == "CL")
+                    recyFileType = "处理";
+                string recyName = filename.Substring(16, filename.Length - 16);//类型后面接文件名
+                string recySize = (file.Length / 1024).ToString() + "kb";
 
                 DataRow dr = dt.NewRow();
                 dr["RecyName"] = recyName;
-                dr["RecyFileType"] = recyFileType;
-                dr["RecySize"] = recySize;
-                dr["RecySite"] = recySite;
+                dr["RecySite"] = recyFileType;
+                dr["RecyFileType"] = file.Extension;
                 dr["RecyTime"] = recyTime;
-              
+                dr["RecySize"] = recySize;
+
                 dt.Rows.Add(dr);
             }
 

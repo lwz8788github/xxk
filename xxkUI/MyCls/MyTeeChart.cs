@@ -279,11 +279,20 @@ namespace xxkUI.MyCls
                     Line line = new Line();
                     tChart.Series.Add(line);
                     line.Title = checkedLb.OBSLINENAME;
-                    line.XValues.DataMember = "obvdate";
-                    line.YValues.DataMember = "obvvalue";
+                    //line.XValues.DataMember = "obvdate";
+                    //line.YValues.DataMember = "obvvalue";
                     line.XValues.DateTime = true;
 
-                    line.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+
+                    DataTable dtsource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+                    foreach (DataRow dr in dtsource.Rows)
+                    {
+                        DateTime datetime = DateTime.Parse(dr[0].ToString());
+                        double d = double.Parse(dr[1].ToString());
+                        line.Add(datetime, d);
+                    }
+
+                    //line.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
 
                     /*只有一条曲线时不显示图例*/
                     line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
@@ -345,7 +354,16 @@ namespace xxkUI.MyCls
                     line.YValues.DataMember = "obvvalue";
                     line.XValues.DateTime = true;
 
-                    line.DataSource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+                    
+                    DataTable dtsource = ObsdataCls.ObsdataHash[DtKey] as DataTable;
+                    foreach (DataRow dr in dtsource.Rows)
+                    {
+                        DateTime datetime = DateTime.Parse(dr[0].ToString());
+                        double d = double.Parse(dr[1].ToString());
+                        line.Add(datetime, d);
+                    }
+
+                   // line.DataSource =
 
                     /*只有一条曲线时不显示图例*/
                     line.Legend.Visible = true ? obsdatalist.Count > 1 : obsdatalist.Count <= 1;
@@ -394,10 +412,19 @@ namespace xxkUI.MyCls
                 tChart.Series.Add(line);
                 line.Title = linename;
 
-                line.XValues.DataMember = "obvdate";
-                line.YValues.DataMember = "obvvalue";
+                //line.XValues.DataMember = "obvdate";
+                //line.YValues.DataMember = "obvvalue";
                 line.XValues.DateTime = true;
-                line.DataSource = ObsdataCls.ObsdataHash[Dtkey] as DataTable;
+
+                DataTable dtsource =ObsdataCls.ObsdataHash[Dtkey] as DataTable;
+                foreach (DataRow dr in dtsource.Rows)
+                {
+                    DateTime datetime = DateTime.Parse(dr[0].ToString());
+                    double d = double.Parse(dr[1].ToString());
+                    line.Add(datetime, d);
+                }
+
+                //line.DataSource = dtsource;
                 line.Legend.Visible = false;
                 line.Marks.Visible = false;
                 line.Tag = Dtkey;
@@ -1169,6 +1196,33 @@ namespace xxkUI.MyCls
             RemoveJumpORStepPoints.Pointer.SizeUnits = PointerSizeUnits.Axis;
             RemoveJumpORStepPoints.Pointer.SizeDouble = 20;
            
+        }
+        /// <summary>
+        /// 等间隔采样
+        /// 2017.06.27
+        /// 张超
+        /// </summary>
+        public void IntervalPross()
+        {
+            if (this.tChart == null)
+                return;
+            if (this.tChart.Series.Count == 0)
+                return;
+
+            Line ln = this.tChart.Series[0] as Line;
+            DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
+            IntervalFrm interval = new IntervalFrm();
+            int inter = 0;
+            if (interval.ShowDialog() == DialogResult.OK)
+            {
+                inter = interval.Interval;
+
+                PriAlgorithmHelper test = new PriAlgorithmHelper();
+
+                ObsdataCls.ObsdataHash[ln.Tag.ToString()] = test.Interval(dt, inter, 1);
+                AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
+            }
+
         }
         /// <summary>
         /// 保存处理数据

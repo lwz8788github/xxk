@@ -22,13 +22,6 @@ public class SiteBean
         get { return _SiteName; }
         set { _SiteName = value; }
     }
-    [Description("场地类型")]
-    private string _SiteType;
-    public string SiteType
-    {
-        get { return _SiteType; }
-        set { _SiteType = value; }
-    }
     [Description("观测类型")]
     private string _Type;
     public string Type

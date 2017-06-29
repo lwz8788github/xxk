@@ -42,69 +42,69 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="gmmkks">GMAP控件</param>
         public void bSignDbTree(string foldName)
-         {
-             if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
-             { 
-                 return;
-             }
-             try
-             {
-                 this.treeListData.ClearNodes();
-                 this.treeListData.DataSource = null;
-                 List<TreeBean> treeData = new List<TreeBean>();
-               
-                 IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+        {
+            if (!MysqlEasy.IsCanConnected(MysqlEasy.ConnectionString))
+            {
+                return;
+            }
+            try
+            {
+                this.treeListData.ClearNodes();
+                this.treeListData.DataSource = null;
+                List<TreeBean> treeData = new List<TreeBean>();
 
-                 foreach (UnitInfoBean sb in ubEnumt)
-                 {
-                     TreeBean tb = new TreeBean();
-                     if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
-                         || sb.UnitCode == "152006" || sb.UnitCode == "152008"
-                         || sb.UnitCode == "152009" || sb.UnitCode == "152010"
-                         || sb.UnitCode == "152012" || sb.UnitCode == "152015"
-                         || sb.UnitCode == "152022" || sb.UnitCode == "152023"
-                         || sb.UnitCode == "152026" || sb.UnitCode == "152029"
-                         || sb.UnitCode == "152032" || sb.UnitCode == "152034"
-                         || sb.UnitCode == "152035" || sb.UnitCode == "152036"
-                         || sb.UnitCode == "152039" || sb.UnitCode == "152040"
-                         || sb.UnitCode == "152041" || sb.UnitCode == "152042"
-                         || sb.UnitCode == "152043" || sb.UnitCode == "152044"
-                         || sb.UnitCode == "152045" || sb.UnitCode == "152046"
-                         || sb.UnitCode == "152001" || sb.UnitCode == "152047")
+                IEnumerable<UnitInfoBean> ubEnumt = UnitInfoBll.Instance.GetAll();
+
+                foreach (UnitInfoBean sb in ubEnumt)
+                {
+                    TreeBean tb = new TreeBean();
+                    if (sb.UnitCode == "152002" || sb.UnitCode == "152003"
+                        || sb.UnitCode == "152006" || sb.UnitCode == "152008"
+                        || sb.UnitCode == "152009" || sb.UnitCode == "152010"
+                        || sb.UnitCode == "152012" || sb.UnitCode == "152015"
+                        || sb.UnitCode == "152022" || sb.UnitCode == "152023"
+                        || sb.UnitCode == "152026" || sb.UnitCode == "152029"
+                        || sb.UnitCode == "152032" || sb.UnitCode == "152034"
+                        || sb.UnitCode == "152035" || sb.UnitCode == "152036"
+                        || sb.UnitCode == "152039" || sb.UnitCode == "152040"
+                        || sb.UnitCode == "152041" || sb.UnitCode == "152042"
+                        || sb.UnitCode == "152043" || sb.UnitCode == "152044"
+                        || sb.UnitCode == "152045" || sb.UnitCode == "152046"
+                        || sb.UnitCode == "152001" || sb.UnitCode == "152047")
                     { continue; }
 
-                         tb.KeyFieldName = sb.UnitCode;
-                         tb.ParentFieldName = "0";
-                         tb.Caption = sb.UnitName;
-                         tb.SiteType = "";
-                         tb.LineStatus = "";
-                         tb.Tag = sb;//lwl
-                         treeData.Add(tb);
-                 }
-           
-                 IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
+                    tb.KeyFieldName = sb.UnitCode;
+                    tb.ParentFieldName = "0";
+                    tb.Caption = sb.UnitName;
+                    tb.SiteType = "";
+                    tb.LineStatus = "";
+                    tb.Tag = sb;//lwl
+                    treeData.Add(tb);
+                }
+
+                IEnumerable<SiteBean> sbEnumt = SiteBll.Instance.GetAll();
 
                 //场地列表显示
                 List<string> olSiteCode = new List<string>();
-                 foreach (SiteBean sb in sbEnumt)
-                 {
-                     olSiteCode.Add(sb.SiteCode);
-                     TreeBean tb = new TreeBean();
-                     tb.KeyFieldName = sb.SiteCode;
-                     tb.ParentFieldName = sb.UnitCode;
-                     tb.Caption = sb.SiteName;
-                     tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
-                     tb.Tag = sb;//lwl
-                     treeData.Add(tb);
-                 }
-                 //远程信息库测线列表显示
-                 List<String> remoteExcelList = new List<string>();
-                 remoteExcelList = getFile(foldName);
+                foreach (SiteBean sb in sbEnumt)
+                {
+                    olSiteCode.Add(sb.SiteCode);
+                    TreeBean tb = new TreeBean();
+                    tb.KeyFieldName = sb.SiteCode;
+                    tb.ParentFieldName = sb.UnitCode;
+                    tb.Caption = sb.SiteName;
+                    tb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                    tb.Tag = sb;//lwl
+                    treeData.Add(tb);
+                }
+                //远程信息库测线列表显示
+                List<String> remoteExcelList = new List<string>();
+                remoteExcelList = getFile(foldName);
 
-                 foreach (string remoteLineCode in remoteExcelList)
-                 {
-                     string subLineCode = remoteLineCode.Substring(0, remoteLineCode.Length - 4);
-                     LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
+                foreach (string remoteLineCode in remoteExcelList)
+                {
+                    string subLineCode = remoteLineCode.Substring(0, remoteLineCode.Length - 4);
+                    LineBean ol = LineBll.Instance.GetInfoByID(subLineCode);
                     if (olSiteCode.Contains(ol.SITECODE))
                     {
                         TreeBean tb = new TreeBean();
@@ -114,23 +114,23 @@ namespace xxkUI.MyCls
                         tb.Tag = ol;//lwl
                         treeData.Add(tb);
                     }
-                 }
+                }
 
-                 //树列表显示
-                 this.treeListData.KeyFieldName = "KeyFieldName";　　　　      //这里绑定的ID的值必须是独一无二的
-                 this.treeListData.ParentFieldName = "ParentFieldName";　　//表示使用parentID进行树形绑定
-                 this.treeListData.DataSource = treeData;　　//绑定数据源
-                 this.treeListData.OptionsView.ShowCheckBoxes = true;
-                 this.treeListData.OptionsBehavior.AllowRecursiveNodeChecking = true;
-                 this.treeListData.OptionsBehavior.Editable = false;
+                //树列表显示
+                this.treeListData.KeyFieldName = "KeyFieldName";          //这里绑定的ID的值必须是独一无二的
+                this.treeListData.ParentFieldName = "ParentFieldName";  //表示使用parentID进行树形绑定
+                this.treeListData.DataSource = treeData;  //绑定数据源
+                this.treeListData.OptionsView.ShowCheckBoxes = true;
+                this.treeListData.OptionsBehavior.AllowRecursiveNodeChecking = true;
+                this.treeListData.OptionsBehavior.Editable = false;
 
-             }
-             catch (Exception ex)
-             {
-                 XtraMessageBox.Show(ex.Message, "错误");
-             }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
 
-         }
+        }
 
         /// <summary>
         /// 加载测项合并数列表

@@ -45,26 +45,120 @@ namespace xxkUI
         public RibbonForm()
         {
             InitializeComponent();
-            defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";//蓝色风格
+            InitForm();
+            InitTree();
+            InitFaultCombobox();
+            InitChartTab();
+            InitSiteinTab();
+            InitRecycleTab();
+            InitStyle();
+        }
+
+        /// <summary>
+        /// 初始化主框架
+        /// </summary>
+        public void InitForm()
+        {
             this.WindowState = FormWindowState.Maximized;//默认最大化窗体
-            this.chartTabPage.PageVisible = false;//曲线图页面不可见
-            this.siteInfoTabPage.PageVisible = false;//文档页面不可见
-            this.recycleTabPage.PageVisible = false;
-            this.addXxkTabPage.PageVisible = false;
+        }
 
-            //this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;//默认隐藏
-
-            mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
+        /// <summary>
+        /// 初始化信息树
+        /// </summary>
+        public void InitTree()
+        {
             xtl = new XTreeList(this.treeListData, this.treeListManipData);
 
             if (this.dockPanelDb.Text.Contains("本地"))
                 SwapDb();
 
-            InitFaultCombobox();
             xtl.bSignDbTree(DataFromPath.RemoteDbPath);
             xtl.bSignInitManipdbTree();
-
         }
+
+
+        /// <summary>
+        /// 初始化断层数据列表
+        /// </summary>
+        public void InitFaultCombobox()
+        {
+            try
+            {
+                List<string> districtlist = new List<string>() {
+                    "前第四纪活动断裂(隐伏)",
+                    "全新世活动断裂(非隐伏)",
+                    "全新世活动断裂(隐伏)",
+                    "晚更新世活动断裂(非隐伏)",
+                    "晚更新世活动断裂(隐伏)",
+                    "早第四纪活动断裂(Q12)(非隐伏)",
+                    "早第四纪活动断裂(Q12)(隐伏)",
+                    "早第四纪活动断裂(Q1)(非隐伏)",
+                    "早第四纪活动断裂(Q1)(隐伏)",
+                    "早第四纪活动断裂(Q2)(非隐伏)",
+                    "早第四纪活动断裂(Q2)(隐伏)"};
+
+                this.faultChckCbbxEdit.Items.Clear();
+
+                CheckedListBoxItem[] itemListQuery = new CheckedListBoxItem[districtlist.Count];
+                int check = 0;
+                foreach (string det in districtlist)
+                {
+                    itemListQuery[check] = new CheckedListBoxItem(det);
+                    check++;
+                }
+                this.faultChckCbbxEdit.Items.AddRange(itemListQuery);
+                this.faultChckCbbxEdit.AllowMultiSelect = true;
+                this.faultChckCbbxEdit.SelectAllItemVisible = true;
+                this.faultChckCbbxEdit.SelectAllItemCaption = "全选";
+                for (int i = 0; i < this.faultChckCbbxEdit.Items.Count; i++)
+                {
+                    this.faultChckCbbxEdit.Items[i].CheckState = CheckState.Checked;
+                }
+                barFault.EditValue = faultChckCbbxEdit.GetCheckedItems();
+            }
+            catch (Exception ex)
+            {
+
+                XtraMessageBox.Show("初始化断层数据发生错误：" + ex.Message, "错误");
+            }
+        }
+
+
+        /// <summary>
+        /// 初始化Chart页面及工具
+        /// </summary>
+        public void InitChartTab()
+        {
+            this.chartTabPage.PageVisible = false;//曲线图页面不可见
+            mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
+        }
+        /// <summary>
+        /// 初始化信息库页面
+        /// </summary>
+        public void InitSiteinTab()
+        {
+            this.siteInfoTabPage.PageVisible = false;//文档页面不可见
+            this.addXxkTabPage.PageVisible = false;
+        }
+
+        /// <summary>
+        /// 初始化回收站页面
+        /// </summary>
+        public void InitRecycleTab()
+        {
+            this.recycleTabPage.PageVisible = false;
+        }
+        /// <summary>
+        /// 设置界面风格
+        /// </summary>
+        public void InitStyle()
+        {
+            defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";//蓝色风格
+        }
+
+        
+
+
 
         /// <summary>
         /// 登录
@@ -147,8 +241,8 @@ namespace xxkUI
             {
 
                 /*点击场地标注弹出测项下拉列表*/
-                SiteBean sb = (SiteBean)item.Tag;
-                sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                //SiteBean sb = (SiteBean)item.Tag;
+                //sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                 /*点击地震标注弹出地震详细说明*/
             }
             catch
@@ -219,51 +313,6 @@ namespace xxkUI
             }
         }
 
-        /// <summary>
-        /// 初始化断层数据下拉列表
-        /// </summary>
-        private void InitFaultCombobox()
-        {
-            try
-            {
-                List<string> districtlist = new List<string>() {
-                    "前第四纪活动断裂(隐伏)",
-                    "全新世活动断裂(非隐伏)",
-                    "全新世活动断裂(隐伏)",
-                    "晚更新世活动断裂(非隐伏)",
-                    "晚更新世活动断裂(隐伏)",
-                    "早第四纪活动断裂(Q12)(非隐伏)",
-                    "早第四纪活动断裂(Q12)(隐伏)",
-                    "早第四纪活动断裂(Q1)(非隐伏)",
-                    "早第四纪活动断裂(Q1)(隐伏)",
-                    "早第四纪活动断裂(Q2)(非隐伏)",
-                    "早第四纪活动断裂(Q2)(隐伏)"};
-
-                this.faultChckCbbxEdit.Items.Clear();
-
-                CheckedListBoxItem[] itemListQuery = new CheckedListBoxItem[districtlist.Count];
-                int check = 0;
-                foreach (string det in districtlist)
-                {
-                    itemListQuery[check] = new CheckedListBoxItem(det);
-                    check++;
-                }
-                this.faultChckCbbxEdit.Items.AddRange(itemListQuery);
-                this.faultChckCbbxEdit.AllowMultiSelect = true;
-                this.faultChckCbbxEdit.SelectAllItemVisible = true;
-                this.faultChckCbbxEdit.SelectAllItemCaption = "全选";
-                for (int i = 0; i < this.faultChckCbbxEdit.Items.Count; i++)
-                {
-                    this.faultChckCbbxEdit.Items[i].CheckState = CheckState.Checked;
-                }
-                barFault.EditValue = faultChckCbbxEdit.GetCheckedItems();
-            }
-            catch (Exception ex)
-            {
-
-                XtraMessageBox.Show("初始化断层数据发生错误：" + ex.Message, "错误");
-            }
-        }
 
 
 
@@ -313,7 +362,7 @@ namespace xxkUI
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show(ex.Message, "错误");
+                //XtraMessageBox.Show(ex.Message, "错误");
             }
 
         }
@@ -357,11 +406,9 @@ namespace xxkUI
                     {
                         popRemoteLineTree.ShowPopup(p);
                     }
-                   
-                    
+
                 }
             }
-
 
 
         }
@@ -378,30 +425,6 @@ namespace xxkUI
             string filePath = "";
             switch (e.Item.Name)
             {
-                //case "btnSaveToManip"://保存到处理数据处理缓存
-                //    {
-                //        if (this.dockPanelDb.Text == "本地信息库")
-                //        {
-                //            filePath = DataFromPath.LocalDbPath;
-                //        }
-                //        else if (this.dockPanelDb.Text == "远程信息库")
-                //        {
-                //            filePath = DataFromPath.RemoteDbPath;
-                //        }
-                //        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-                //        {
-                //            List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListData.Name);
-                //            foreach (LineBean checkedLb in checkedNodes)
-                //            {
-                //                string sourceFilenanme = filePath + "//" + checkedLb.OBSLINECODE + ".xls";
-                //                string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
-                //                string messageStr = "";
-                //                FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
-                //            }
-                //            xtl.bSignInitManipdbTree();
-                //        }
-                //    }
-                //    break;
                 case "btnChart"://趋势图
                     {
                         using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
@@ -429,7 +452,6 @@ namespace xxkUI
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
                             //跳转至菜单栏
                             this.Ribbon.SelectedPage = ribbonPageTchartTool;
-
                         }
                     }
                     break;
@@ -455,9 +477,29 @@ namespace xxkUI
                     {
                         this.addXxkTabPage.PageVisible = true;
                         this.xtraTabControl1.SelectedTabPage = this.addXxkTabPage;
+
+                        this.addXxkTabPage.Text = "新增信息库";
+                        this.groupControl1.Text = "新增信息库表单";
+                        this.btnXxkAdd.Text = "上传至数据库";
+                        this.btnXxkAdd.Enabled = true;
+
+                        SetBaseinfoVGridControl();
+                        SetSiteValueVGridControl(null, true);
+                        //SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
+
+                    }
+                    break;
+                case "btnUpdateSiteInfo"://更新信息库
+                    {
+                        this.addXxkTabPage.PageVisible = true;
+                        this.xtraTabControl1.SelectedTabPage = this.addXxkTabPage;
                         SetBaseinfoVGridControl();
                         SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-
+                        this.addXxkTabPage.Text = "更新信息库";
+                        this.groupControl1.Text = "更新信息库表单";
+                        this.btnXxkAdd.Text = "更新至数据库";
+                        this.btnXxkAdd.Enabled = true;
+                        SetSiteValueVGridControl(sb,false);
                     }
                     break;
                 case "btnImportObsline"://导入观测数据
@@ -504,6 +546,65 @@ namespace xxkUI
 
                         DownloadData(userName);
 
+                    }
+                    break;
+                case "btnDeleteObsline"://删除测项至回收站
+                    {
+                        PublicHelper php = new PublicHelper();
+                        DataFromType dft = DataFromType.Nothing;
+                        if (currentTree.Name == this.treeListData.Name)
+                        {
+                            if (this.dockPanelDb.Text == "本地信息库")
+                            {
+                                filePath = DataFromPath.LocalDbPath;
+                                dft = DataFromType.LocalDb;
+                            }
+                            else if (this.dockPanelDb.Text == "远程信息库")
+                            {
+                                filePath = DataFromPath.RemoteDbPath;
+                                dft = DataFromType.RemoteDb;
+                            }
+
+                            List<LineBean> lblist = xtl.GetCheckedLine(currentTree.Name);
+
+                            foreach (LineBean lb in lblist)
+                            {
+                                string sourceFilePath = filePath + "\\" + lb.OBSLINECODE + ".xls";
+
+                                string dbtype = (dft == DataFromType.RemoteDb) ? "YC" : "BD";
+                                string deletetime = php.CreateTimeStr();
+                                string excelname = lb.OBSLINECODE;
+
+                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+                                File.Copy(sourceFilePath, destFileName);
+                                File.Delete(sourceFilePath);
+                            }
+
+                            xtl.bSignDbTree(filePath);
+                        }
+                        else if (currentTree.Name == this.treeListManipData.Name)
+                        {
+                            filePath = DataFromPath.HandleDataPath;
+                            dft = DataFromType.HandleData;
+                            List<string> checklines = xtl.GetCheckedLineOnMuniTree(currentTree.Name);
+
+                            foreach (string lb in checklines)
+                            {
+                                string sourceFilePath = filePath + "\\" + lb + ".xls";
+
+                                string deletetime = php.CreateTimeStr();
+                                string dbtype = "CL";
+                                string excelname = lb;
+                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+
+                                File.Copy(sourceFilePath, destFileName);
+                                File.Delete(sourceFilePath);
+                            }
+
+                            xtl.bSignInitManipdbTree();
+                        }
+
+                        recycleControl.LoadRecycleItems();
                     }
                     break;
 
@@ -581,114 +682,6 @@ namespace xxkUI
             }
         }
 
-        //private void popMenuLocal_ItemClick(object sender, ItemClickEventArgs e)
-        //{
-        //    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
-        //    MysqlHelper.connectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
-        //    switch (e.Item.Name)
-        //    {
-        //        case "btnSaveToManip"://保存到处理数据处理缓存
-        //            {
-        //                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-        //                {
-        //                    List<LineBean> checkedNodes = xtl.GetCheckedLine(this.treeListData.Name);
-        //                    foreach (LineBean checkedLb in checkedNodes)
-        //                    {
-        //                        string sourceFilenanme = DataFromPath.LocalDbPath + "//" + checkedLb.OBSLINECODE + ".xls";
-        //                        string targetFilenanme = DataFromPath.HandleDataPath + "//" + checkedLb.OBSLINENAME + ".xls";
-        //                        string messageStr = "";
-        //                        FileOperateProxy.CopyFile(sourceFilenanme, targetFilenanme, true, false, true, ref messageStr);
-        //                    }
-        //                    xtl.bSignInitManipdbTree();
-        //                }
-        //            }
-        //            break;
-        //        case "btnChart"://趋势图
-        //            {
-        //                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-        //                {
-        //                    this.chartTabPage.PageVisible = true;//曲线图页面可见
-        //                    this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-        //                    mtc.AddSeries(xtl.GetCheckedLine(this.treeListData.Name), DataFromPath.LocalDbPath);
-        //                }
-        //            }
-        //            break;
-        //        case "btnSiteLocation"://定位到地图
-        //            this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-        //            GMapMarkerKdcSite.ZoomToSite((SiteBean)currentClickNodeInfo.Tag,this.gMapCtrl);
-        //            break;
-        //        case "btnSiteInfo"://信息库
-        //            {
-        //                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-        //                {
-        //                    SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
-        //                    this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
-        //                    this.siteInfoDocCtrl1.FillBookMarkText(sb);
-        //                    this.siteInfoTabPage.PageVisible = true;
-        //                    this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
-        //                }
-        //            }
-        //            break;
-        //        case "btnImportObsline"://导入观测数据
-        //            {
-        //                try
-        //                {
-        //                    OpenFileDialog ofd = new OpenFileDialog();
-        //                    ofd.Multiselect = true;//可多选
-        //                    ofd.Filter = "Excel文件|*.xls;*.xlsx;";
-        //                    if (ofd.ShowDialog() == DialogResult.OK)
-        //                    {
-        //                        importDataFiles = ofd.FileNames.ToList();
-        //                        ProgressForm ptPro = new ProgressForm();
-        //                        ptPro.Show(this);
-        //                        ptPro.progressWorker.DoWork += ImportData_DoWork;
-        //                        ptPro.beginWorking();
-        //                        ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
-        //                    }
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
-        //                }
-        //            }
-        //            break;
-        //        case "btnDownLoad"://下载数据
-        //            {
-        //                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-        //                {
-        //                    List<SiteBean> checkedNodes = xtl.GetCheckedSite(this.treeListData.Name);
-        //                    foreach (SiteBean checkedSb in checkedNodes)
-        //                    {
-        //                        DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
-        //                        foreach (DataRow row in linecode.Rows)
-        //                        {
-        //                            string lCode = row[0].ToString();
-        //                            string lName = row[1].ToString();
-        //                            DataTable dt = LineObsBll.Instance.GetDataTable("select obvdate,obvvalue,note,from t_obsrvtntb where OBSLINECODE = '" + lCode + "'");
-        //                            if (dt.Rows.Count > 0)
-        //                            {
-        //                                NpoiCreator npcreator = new NpoiCreator();
-        //                                npcreator.TemplateFile = DataFromPath.LocalDbPath;
-        //                                npcreator.NpoiExcel(dt, lCode + ".xls", DataFromPath.LocalDbPath + "/" + lCode + ".xls");
-
-        //                                TreeBean tb = new TreeBean();
-
-        //                                tb.KeyFieldName = lCode;
-        //                                tb.ParentFieldName = checkedSb.SiteCode;
-        //                                tb.Caption = lName;
-        //                            }
-        //                        }
-        //                    }
-        //                    xtl.RefreshWorkspace(DataFromPath.LocalDbPath);
-
-        //                }
-
-        //            }
-        //            break;
-
-        //    }
-
-        //}
 
         #region 导入观测数据
 
@@ -883,78 +876,12 @@ namespace xxkUI
         #endregion
 
 
-        /////<summary>
-        /////数据下载
-        /////</summary>
-        /////
-        //private string Download(DownLoadInfoBean dlb)
-        //{
-        //    try
-        //    {
-        //        string targetPath = dlb.DownloadPath;
-
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return downLoadName;
-        //}
-
 
 
 
         private void treeListOriData_CustomDrawNodeImages(object sender, CustomDrawNodeImagesEventArgs e)
         {
-            //try
-            //{
-            //    if (e.Node.Nodes.Count > 0)
-            //    {
-
-            //if (e.Node.Level == 1)
-            //{
-            //    TreeBean tb = e.Node.TreeList.GetDataRecordByNode(e.Node) as TreeBean;
-            //    if (tb != null)
-            //    {
-            //        SiteBean sb = tb.Tag as SiteBean;
-            //        if (sb.SiteCode.Substring(0, 1) == "L")
-            //        {
-            //            e.Node.StateImageIndex = 1;
-            //            e.Node.ImageIndex = 1;
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            e.Node.StateImageIndex = 0;
-            //            e.Node.ImageIndex = 0;
-            //            return;
-            //        }
-
-            //    }
-            //    else
-            //    {
-            //        e.Node.StateImageIndex = -1;
-            //        e.Node.ImageIndex = -1;
-            //    }
-            //}
-            //else
-            //{
-            //    e.Node.StateImageIndex = -1;
-            //    e.Node.ImageIndex = -1;
-            //    return;
-            //}
-            //    }
-            //    else
-            //    {
-            //        e.StateImageIndex = -1;
-            //        e.SelectImageIndex = -1;
-            //        return;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    XtraMessageBox.Show(ex.Message, "错误");
-            //}
+           
 
         }
 
@@ -988,23 +915,41 @@ namespace xxkUI
             switch (e.Item.Name)
             {
                 case "btnFourCal"://加减乘除
-                    mtc.PlusMinusMultiplyDivide();
+                    {
+                        mtc.PlusMinusMultiplyDivide();
+                    }
                     break;
                 case "btnRemoveStep"://消台阶
-                    mtc.RemoStepOrJump(TChartEventType.RemoveStep);
+                    {
+                        mtc.RemoStepOrJump(TChartEventType.RemoveStep);
+                    }
                     break;
                 case "btnRemoveJump"://消突跳
-                    mtc.RemoStepOrJump(TChartEventType.RemoveJump);
+                    {
+                        mtc.RemoStepOrJump(TChartEventType.RemoveJump);
+                    }
                     break;
                 case "btnLinesUnion"://测线合并
-                    mtc.LinesUnion();
+                    {
+                        mtc.LinesUnion();
+                    }
                     break;
                 case "btnLinesBreak"://测线拆分
-                    mtc.LinesBreak(TChartEventType.LineBreak);
+                    {
+                        mtc.LinesBreak(TChartEventType.LineBreak);
+                    }
                     break;
                 case "barSaveToChuLi"://保存处理数据
-                    mtc.SaveHandleData();
-                    xtl.bSignInitManipdbTree();
+                    {
+                        mtc.SaveHandleData();
+                        xtl.bSignInitManipdbTree();
+                    }
+                    break;
+
+                case "btnInterval"://等间隔处理
+                    {
+                        mtc.IntervalPross();
+                    }
                     break;
 
             }
@@ -1616,41 +1561,130 @@ namespace xxkUI
             try
             {
                 SiteBean AddSiteinfo = new SiteBean();
-                string ldordd = "";
-                if (GetValue(4) == "流动")
+                string ldordd = GetValue(4);
+
+                if (ldordd == "流动")
                 {
                     ldordd = "LD";
                 }
-                else { ldordd = "DD"; }
-
-                AddSiteinfo.SiteCode = SiteBll.Instance.CreateNewSiteCode(ldordd);
+                else if (ldordd == "定点")
+                {
+                    ldordd = "DD";
+                }
+                else if (ldordd == string.Empty)
+                {
+                    XtraMessageBox.Show("场地类型不能为空", "提示");
+                    return;
+                }
+                AddSiteinfo.UnitCode = currentClickNodeInfo.ParentFieldName;
+                if (this.btnXxkAdd.Text == "更新至数据库")
+                {
+                    AddSiteinfo.SiteCode = currentClickNodeInfo.KeyFieldName;
+                }
+                else if (this.btnXxkAdd.Text == "上传至数据库")
+                {
+                    AddSiteinfo.SiteCode = SiteBll.Instance.CreateNewSiteCode(ldordd);
+                }
                 AddSiteinfo.SiteName = GetValue(0);
                 AddSiteinfo.FaultName = GetValue(1);
                 AddSiteinfo.SiteStatus = GetValue(2);
                 AddSiteinfo.Historysite = GetValue(3);
-                AddSiteinfo.SiteType = GetValue(4);
                 AddSiteinfo.Type = GetValue(5);
                 AddSiteinfo.Locations = GetValue(6);
                 AddSiteinfo.MarkStoneType = GetValue(7);
 
-                AddSiteinfo.Latitude = double.Parse(GetValue(8));
-                AddSiteinfo.Longtitude = double.Parse(GetValue(9));
-                AddSiteinfo.Altitude = double.Parse(GetValue(10));
-                AddSiteinfo.BuildUnit = GetValue(11);
-                AddSiteinfo.ObsUnit = GetValue(12);
-                AddSiteinfo.StartDate = GetValue(13);
-                AddSiteinfo.Datachg = GetValue(14);
-                AddSiteinfo.SiteSituation = GetValue(15);
-                AddSiteinfo.GeoSituation = GetValue(16);
+                double lat = double.NaN, ln = double.NaN, alt = double.NaN;
+                double.TryParse(GetValue(8), out lat);
+                double.TryParse(GetValue(9), out ln);
+                double.TryParse(GetValue(10), out alt);
 
-                AddSiteinfo.RemoteMap = GetPicStream(17);
-                AddSiteinfo.LayoutMap = GetPicStream(18);
-                AddSiteinfo.OtherSituation = GetValue(19);
-                AddSiteinfo.Note = GetValue(20);
+                AddSiteinfo.Latitude = lat;
+                AddSiteinfo.Longtitude = ln;
+                AddSiteinfo.Altitude = alt;
 
-                SiteBll.Instance.Add(AddSiteinfo);
+                AddSiteinfo.Place = GetValue(11);
+                AddSiteinfo.BuildUnit = GetValue(12);
+                AddSiteinfo.ObsUnit = GetValue(13);
+                AddSiteinfo.StartDate = GetValue(14);
+                AddSiteinfo.Datachg = GetValue(15);
+                AddSiteinfo.SiteSituation = GetValue(16);
+                AddSiteinfo.GeoSituation = GetValue(17);
+
+                AddSiteinfo.RemoteMap = GetPicStream(18);
+                //byte[] blobData = File.ReadAllBytes(filename);
+                AddSiteinfo.LayoutMap = GetPicStream(19);
+                AddSiteinfo.OtherSituation = GetValue(20);
+                AddSiteinfo.Note = GetValue(21);
+
+                if (this.btnXxkAdd.Text == "更新至数据库")
+                {
+                    SiteBll.Instance.UpdateWhatWhere(
+                        new
+                        {
+                            sitename = AddSiteinfo.SiteName,
+                            faultname = AddSiteinfo.FaultName,
+                            sitestatus = AddSiteinfo.SiteStatus,
+                            historysite = AddSiteinfo.Historysite,
+                            unitcode = AddSiteinfo.UnitCode,
+                            type = AddSiteinfo.Type,
+                            place = AddSiteinfo.Place,
+                            markstonetype = AddSiteinfo.MarkStoneType,
+                            locations = AddSiteinfo.Locations,
+                            altitude = AddSiteinfo.Altitude,
+                            buildunit = AddSiteinfo.BuildUnit,
+                            obsunit = AddSiteinfo.ObsUnit,
+                            startdate = AddSiteinfo.StartDate,
+                            datachg = AddSiteinfo.Datachg,
+                            sitesituation = AddSiteinfo.SiteSituation,
+                            geosituation = AddSiteinfo.GeoSituation,
+                            note = AddSiteinfo.Note,
+                            othersituation = AddSiteinfo.OtherSituation
+                        },
+                        new { sitecode = AddSiteinfo.SiteCode }
+                        );
+
+                    if (AddSiteinfo.RemoteMap != null)
+                        if (AddSiteinfo.RemoteMap.Length != 0)
+                        {
+                            SiteBll.Instance.UpdateWhatWhere(new { remotemap = AddSiteinfo.RemoteMap }, new { sitecode = AddSiteinfo.SiteCode });
+                        }
+                    if (AddSiteinfo.LayoutMap != null)
+                        if (AddSiteinfo.LayoutMap.Length != 0)
+                        {
+                            SiteBll.Instance.UpdateWhatWhere(new { layoutmap = AddSiteinfo.LayoutMap }, new { sitecode = AddSiteinfo.SiteCode });
+                        }
+                }
+                else
+                {
+                    SiteBll.Instance.Add(AddSiteinfo);
+                }
 
                 XtraMessageBox.Show("上传成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                string curentdbfile = string.Empty;
+                if (this.dockPanelDb.Text == "远程信息库")
+                {
+                    curentdbfile = DataFromPath.RemoteDbPath;
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["RemoteDbConnnect"].ConnectionString;
+                }
+                else if (this.dockPanelDb.Text == "本地信息库")
+                {
+                    curentdbfile = DataFromPath.LocalDbPath;
+                    MysqlEasy.ConnectionString = ConfigurationManager.ConnectionStrings["LocalDbConnnect"].ConnectionString;
+                }
+
+                //加载树列表
+                xtl.bSignDbTree(curentdbfile);
+                //加载场地标记
+                GMapMarkerKdcSite.LoadSiteMarker(SiteBll.Instance.GetAll(), gMapCtrl);
+                //隐藏新增页面
+                this.addXxkTabPage.PageVisible = false;
+                //重置表格
+                for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
+                {
+                    vGridControlSiteInfo.Rows[i].Properties.Value = "";
+                }
             }
             catch (Exception excep)
             {
@@ -1660,6 +1694,8 @@ namespace xxkUI
             btnXxkAdd.Enabled = false;
         }
 
+        /// 设置是VGridControl行列样式
+        /// </summary>
         /// 设置是VGridControl行列样式
         /// </summary>
         private void SetBaseinfoVGridControl()
@@ -1684,11 +1720,6 @@ namespace xxkUI
                     vGridControlSiteInfo.Rows[i].Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
                     vGridControlSiteInfo.Rows[i].Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
 
-                    if (i == 0)
-                    {
-                        vGridControlSiteInfo.Rows[i].Properties.ReadOnly = true;
-                    }
-
                     if (i == 2)//运行状况
                     {
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "正常", "停测", "改造中" });
@@ -1706,14 +1737,14 @@ namespace xxkUI
                     {
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "水准标石", "综合观测墩" });
                     }
-                    if (i == 11)//建设单位
+                    if (i == 12)//建设单位
                     {
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "北京局", "天津局","河北局","山西局","内蒙局","辽宁局", "吉林局","黑龙江局","上海局"
                         ,"江苏局","浙江局","安徽局", "福建局","江西局","山东局","河南局","湖南局","湖北局","广东局","广西局","海南局" ,"重庆局","四川局","云南局","西藏局", "陕西局","甘肃局"
                         ,"青海局","宁夏局","新疆局","贵州局","台网中心","搜救中心","震防中心","地壳工程中心","物探中心","一测中心","二测中心","驻深办","服务中心","出版社","防灾学院","地球所"
                         ,"地质所","地壳所","预测所","工力所"});
                     }
-                    if (i == 12)//监测单位
+                    if (i == 13)//监测单位
                     {
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = ph.CreateLookUpEdit(new string[] { "北京局", "天津局","河北局","山西局","内蒙局","辽宁局", "吉林局","黑龙江局","上海局"
                         ,"江苏局","浙江局","安徽局", "福建局","江西局","山东局","河南局","湖南局","湖北局","广东局","广西局","海南局" ,"重庆局","四川局","云南局","西藏局", "陕西局","甘肃局"
@@ -1738,6 +1769,70 @@ namespace xxkUI
                 XtraMessageBox.Show(ex.Message, "错误");
             }
 
+        }
+
+        /// <summary>
+        /// 设置VGrid行值
+        /// </summary>
+        /// <param name="sb"></param>
+        private void SetSiteValueVGridControl(SiteBean sb, bool NewSite)
+        {
+            if (NewSite)
+            {
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[0], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[1], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[2], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[3], 0,"");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[4], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[5], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[6], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[7], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[8], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[9], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[10], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[11], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[12], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[13], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[14], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[15], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[16], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[17], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[20], 0, "");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[21], 0, "");
+            }
+            else
+            {
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[0], 0, sb.SiteName);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[1], 0, sb.FaultName);
+
+                string siteStatus = sb.SiteStatus == "0" ? "正常" : (sb.SiteStatus == "1" ? "停测" : "改造中");
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[2], 0, siteStatus);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[3], 0, sb.Historysite);
+
+                string siteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[4], 0, siteType);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[5], 0, sb.Type);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[6], 0, sb.Locations);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[7], 0, sb.MarkStoneType);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[8], 0, sb.Latitude);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[9], 0, sb.Longtitude);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[10], 0, sb.Altitude);
+
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[11], 0, sb.Place);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[12], 0, sb.BuildUnit);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[13], 0, sb.ObsUnit);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[14], 0, sb.StartDate);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[15], 0, sb.Datachg);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[16], 0, sb.SiteSituation);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[17], 0, sb.GeoSituation);
+
+
+                //vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[18], 0, sb.RemoteMap);
+                //vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[19], 0, sb.LayoutMap);
+
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[20], 0, sb.OtherSituation);
+                vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[21], 0, sb.Note);
+            }
         }
 
         void wxtFileBtnEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
@@ -1779,26 +1874,36 @@ namespace xxkUI
                 value = (value == DBNull.Value || value == null) ? "null" : value;
             }
 
-            return value.ToString();
+            if (value == null)
+                return string.Empty;
+            else
+                return value.ToString();
         }
 
         private byte[] GetPicStream(int row)
         {
-            int iRecordIndex = 0;
-            Type type = vGridControlSiteInfo.Rows[row].Properties.RowType;
-
-            object value = vGridControlSiteInfo.GetCellValue(vGridControlSiteInfo.Rows[row], iRecordIndex);
-
-            if (type.FullName == "System.Byte[]")
+            try
             {
-                value = (value == DBNull.Value || value == null) ? "null" : value;
-            }
+                int iRecordIndex = 0;
+                Type type = vGridControlSiteInfo.Rows[row].Properties.RowType;
 
-            if (value != "null")
-            {
-                return (byte[])value;
+                object value = vGridControlSiteInfo.GetCellValue(vGridControlSiteInfo.Rows[row], iRecordIndex);
+
+                if (type.FullName == "System.Byte[]")
+                {
+                    value = (value == DBNull.Value || value == null) ? "null" : value;
+                }
+
+                if (value != "null")
+                {
+                    return (byte[])value;
+                }
+                else
+                {
+                    return new byte[0];
+                }
             }
-            else
+            catch (Exception ex)
             {
                 return new byte[0];
             }
@@ -1808,6 +1913,19 @@ namespace xxkUI
         private void btnXxkReset_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void recycleControl_RefreshTree(string dbpath)
+        {
+            xtl.bSignDbTree(dbpath);
+            xtl.bSignInitManipdbTree();
+        }
+
+        private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //等间隔处理
+            //返回值为datatable
+            
         }
     }
 }

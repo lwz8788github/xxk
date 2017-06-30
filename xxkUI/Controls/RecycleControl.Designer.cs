@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecycleControl));
             this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             this.btnDeleteSelected = new DevExpress.XtraEditors.SimpleButton();
             this.btnRecoverySelected = new DevExpress.XtraEditors.SimpleButton();
@@ -40,23 +41,25 @@
             this.gcRecySize = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcRecySite = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcRecyTime = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.rICheckEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridDeleteCompleteBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.gcRecyRecoveryBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+            this.gridDeleteCompleteBtn = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+            this.rICheckEdit = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRecycle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecycle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcRecyRecoveryBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClear.Location = new System.Drawing.Point(6, 14);
+            this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
+            this.btnClear.Location = new System.Drawing.Point(0, 11);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(101, 33);
+            this.btnClear.Size = new System.Drawing.Size(94, 26);
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "清空回收站";
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -64,9 +67,11 @@
             // btnDeleteSelected
             // 
             this.btnDeleteSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDeleteSelected.Location = new System.Drawing.Point(113, 14);
+            this.btnDeleteSelected.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteSelected.Image")));
+            this.btnDeleteSelected.Location = new System.Drawing.Point(98, 11);
+            this.btnDeleteSelected.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteSelected.Name = "btnDeleteSelected";
-            this.btnDeleteSelected.Size = new System.Drawing.Size(101, 33);
+            this.btnDeleteSelected.Size = new System.Drawing.Size(76, 26);
             this.btnDeleteSelected.TabIndex = 2;
             this.btnDeleteSelected.Text = "删除选中";
             this.btnDeleteSelected.Click += new System.EventHandler(this.btnDeleteSelected_Click);
@@ -74,9 +79,11 @@
             // btnRecoverySelected
             // 
             this.btnRecoverySelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRecoverySelected.Location = new System.Drawing.Point(220, 14);
+            this.btnRecoverySelected.Image = ((System.Drawing.Image)(resources.GetObject("btnRecoverySelected.Image")));
+            this.btnRecoverySelected.Location = new System.Drawing.Point(178, 12);
+            this.btnRecoverySelected.Margin = new System.Windows.Forms.Padding(2);
             this.btnRecoverySelected.Name = "btnRecoverySelected";
-            this.btnRecoverySelected.Size = new System.Drawing.Size(101, 33);
+            this.btnRecoverySelected.Size = new System.Drawing.Size(87, 26);
             this.btnRecoverySelected.TabIndex = 3;
             this.btnRecoverySelected.Text = "还原选中";
             this.btnRecoverySelected.Click += new System.EventHandler(this.btnRecoverySelected_Click);
@@ -84,9 +91,11 @@
             // btnRecoveryRefresh
             // 
             this.btnRecoveryRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRecoveryRefresh.Location = new System.Drawing.Point(327, 14);
+            this.btnRecoveryRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnRecoveryRefresh.Image")));
+            this.btnRecoveryRefresh.Location = new System.Drawing.Point(269, 11);
+            this.btnRecoveryRefresh.Margin = new System.Windows.Forms.Padding(2);
             this.btnRecoveryRefresh.Name = "btnRecoveryRefresh";
-            this.btnRecoveryRefresh.Size = new System.Drawing.Size(101, 33);
+            this.btnRecoveryRefresh.Size = new System.Drawing.Size(106, 26);
             this.btnRecoveryRefresh.TabIndex = 4;
             this.btnRecoveryRefresh.Text = "刷新回收站";
             this.btnRecoveryRefresh.Click += new System.EventHandler(this.btnRecoveryRefresh_Click);
@@ -98,23 +107,27 @@
             this.groupBox1.Controls.Add(this.btnDeleteSelected);
             this.groupBox1.Controls.Add(this.btnRecoverySelected);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 331);
+            this.groupBox1.Location = new System.Drawing.Point(0, 265);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(864, 53);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(648, 42);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
             // gridControlRecycle
             // 
             this.gridControlRecycle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlRecycle.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2);
             this.gridControlRecycle.Location = new System.Drawing.Point(0, 0);
             this.gridControlRecycle.MainView = this.gridViewRecycle;
+            this.gridControlRecycle.Margin = new System.Windows.Forms.Padding(2);
             this.gridControlRecycle.Name = "gridControlRecycle";
             this.gridControlRecycle.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.gcRecyRecoveryBtn,
             this.gridDeleteCompleteBtn,
             this.rICheckEdit});
-            this.gridControlRecycle.Size = new System.Drawing.Size(864, 331);
+            this.gridControlRecycle.Size = new System.Drawing.Size(648, 265);
             this.gridControlRecycle.TabIndex = 6;
             this.gridControlRecycle.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRecycle});
@@ -170,7 +183,7 @@
             // 
             // gcRecySite
             // 
-            this.gcRecySite.Caption = "所属场地";
+            this.gcRecySite.Caption = "原始位置";
             this.gcRecySite.FieldName = "RecySite";
             this.gcRecySite.Name = "gcRecySite";
             this.gcRecySite.Visible = true;
@@ -186,18 +199,6 @@
             this.gcRecyTime.VisibleIndex = 3;
             this.gcRecyTime.Width = 321;
             // 
-            // rICheckEdit
-            // 
-            this.rICheckEdit.AutoHeight = false;
-            this.rICheckEdit.Name = "rICheckEdit";
-            // 
-            // gridDeleteCompleteBtn
-            // 
-            this.gridDeleteCompleteBtn.AutoHeight = false;
-            this.gridDeleteCompleteBtn.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.gridDeleteCompleteBtn.Name = "gridDeleteCompleteBtn";
-            // 
             // gcRecyRecoveryBtn
             // 
             this.gcRecyRecoveryBtn.AutoHeight = false;
@@ -207,20 +208,33 @@
             this.gcRecyRecoveryBtn.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.gcRecyRecoveryBtn.Name = "gcRecyRecoveryBtn";
             // 
+            // gridDeleteCompleteBtn
+            // 
+            this.gridDeleteCompleteBtn.AutoHeight = false;
+            this.gridDeleteCompleteBtn.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.gridDeleteCompleteBtn.Name = "gridDeleteCompleteBtn";
+            // 
+            // rICheckEdit
+            // 
+            this.rICheckEdit.AutoHeight = false;
+            this.rICheckEdit.Name = "rICheckEdit";
+            // 
             // RecycleControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gridControlRecycle);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "RecycleControl";
-            this.Size = new System.Drawing.Size(864, 384);
+            this.Size = new System.Drawing.Size(648, 307);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlRecycle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRecycle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcRecyRecoveryBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDeleteCompleteBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rICheckEdit)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -7,6 +7,8 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using GsProject;
+using xxkUI.GsProject;
 
 namespace xxkUI.MyCls
 {
@@ -157,8 +159,61 @@ namespace xxkUI.MyCls
                 {
                     gMapCtrl.Overlays[i].Markers.Clear();
                 }
+                if (gMapCtrl.Overlays[i].Id == "circleOverlay")
+                {
+                    gMapCtrl.Overlays[i].Polygons.Clear();
+                }
             }
         }
+
+        /// <summary>
+        /// 画圆
+        /// </summary>
+        /// <param name="circleCenter">圆心</param>
+        /// <param name="r">半径</param>
+        public static void CreateCircle(PointLatLng circleCenter,double radius, GMap.NET.WindowsForms.GMapControl gMapCtrl)
+        {
+            radius = radius * 1000;
+            GSCoordConvertionClass_Xian80 cc = new GSCoordConvertionClass_Xian80();
+            cc.IsBigNumber = true;
+            cc.Strip = EnumStrip.Strip3;
+            cc.L0 = decimal.Parse(circleCenter.Lng.ToString());
+            decimal x = decimal.MinValue, y = decimal.MinValue;
+            cc.GetXYFromBL(decimal.Parse(circleCenter.Lat.ToString()), decimal.Parse(circleCenter.Lng.ToString()), ref x, ref y);
+
+            GPoint gp = gMapCtrl.FromLatLngToLocal(circleCenter);
+           
+
+            List<PointLatLng> gpollist = new List<PointLatLng>();
+
+            double seg = Math.PI * 2 / 100;
+
+            for (int i = 0; i < 100; i++)
+            {
+                double theta = seg * i;
+                decimal a = decimal.Parse((double.Parse(x.ToString()) + Math.Cos(theta) * radius).ToString());
+                decimal b = decimal.Parse((double.Parse(y.ToString()) + Math.Sin(theta) * radius).ToString());
+
+                decimal B = decimal.MinValue, L = decimal.MinValue;
+                cc.GetBLFromXY(a, b, ref B, ref L);
+
+                PointLatLng gpoi = new PointLatLng(double.Parse(B.ToString()), double.Parse(L.ToString()));
+                gpollist.Add(gpoi);
+            }
+            GMapPolygon gpol = new GMapPolygon(gpollist, "circlePolygon");
+
+            gpol.Fill = new SolidBrush(Color.FromArgb(50, 0, 155, 255));
+            gpol.Stroke = new Pen(Color.FromArgb(50, 0, 155, 255), 0);
+
+            GMapOverlay CircleOverlay = new GMapOverlay("circleOverlay");
+            CircleOverlay.Polygons.Add(gpol);
+            gMapCtrl.Overlays.Add(CircleOverlay);
+
+
+        }
+
+
+
         /// <summary>
         /// Map标注地震
         /// </summary>
@@ -215,8 +270,10 @@ namespace xxkUI.MyCls
                 marker.Tag = eqkList[i];
                 EqkOverlay.Markers.Add(marker);
             }
-            gMapCtrl.Zoom += 1;
-            gMapCtrl.Refresh();
+
+            gMapCtrl.Position = chinaCenter;
+            gMapCtrl.Zoom = 4;
+            //gMapCtrl.Refresh();
 
         }
 

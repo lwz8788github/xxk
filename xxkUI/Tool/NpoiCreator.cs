@@ -282,30 +282,30 @@ namespace xxkUI.Tool
                                     }
                                     else
                                     {
-                                        if (j == 0)
-                                        {
-                                            dataRow[j] = DateTime.Parse(cell.ToString());
-                                        }
-                                        else if (j == 1)
-                                            dataRow[j] = cell.ToString();
-                                        //CellType(Unknown = -1,Numeric = 0,String = 1,Formula = 2,Blank = 3,Boolean = 4,Error = 5,)  
-                                        //switch (cell.CellType)
+                                        //if (j == 0)
                                         //{
-                                        //    case CellType.Blank:
-                                        //        dataRow[j] = "";
-                                        //        break;
-                                        //    case CellType.Numeric:
-                                        //        short format = cell.CellStyle.DataFormat;
-                                        //        //对时间格式（2015.12.5、2015/12/5、2015-12-5等）的处理  
-                                        //        if (format == 14 || format == 31 || format == 57 || format == 58)
-                                        //            dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
-                                        //        else
-                                        //            dataRow[j] = cell.NumericCellValue;
-                                        //        break;
-                                        //    case CellType.String:
-                                        //        dataRow[j] = cell.StringCellValue;
-                                        //        break;
+                                        //    dataRow[j] = DateTime.Parse(cell.ToString());
                                         //}
+                                        //else if (j == 1)
+                                        //    dataRow[j] = cell.ToString();
+                                        //CellType(Unknown = -1, Numeric = 0, String = 1, Formula = 2, Blank = 3, Boolean = 4, Error = 5,)
+                                        switch (cell.CellType)
+                                        {
+                                            case CellType.Blank:
+                                                dataRow[j] = "";
+                                                break;
+                                            case CellType.Numeric:
+                                                short format = cell.CellStyle.DataFormat;
+                                                //对时间格式（2015.12.5、2015/12/5、2015-12-5等）的处理  
+                                                if (format == 14 || format == 31 || format == 57 || format == 58)
+                                                    dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
+                                                else
+                                                    dataRow[j] = cell.NumericCellValue;
+                                                break;
+                                            case CellType.String:
+                                                dataRow[j] = cell.StringCellValue;
+                                                break;
+                                        }
                                     }
                                 }
                                 dataTable.Rows.Add(dataRow);

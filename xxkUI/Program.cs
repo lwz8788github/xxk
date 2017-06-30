@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using xxkUI.Form;
 
 namespace xxkUI
 {
@@ -16,7 +17,9 @@ namespace xxkUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new frm_SplashAhead());
             Application.Run(new RibbonForm());
+            
         }
     }
 }

@@ -45,7 +45,7 @@ namespace xxkUI.Bll
         {
             DataTable dt = null;
 
-            string filename = path + "//" + linecode + ".xls";
+            string filename = path + "\\" + linecode + ".xls";
             if (File.Exists(filename))
             {
                 NpoiCreator npcreator = new NpoiCreator();

@@ -156,9 +156,11 @@ namespace xxkUI.Tool
 
     public static class DataFromPath
     {
-        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "//远程信息库缓存";
-        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "//本地信息库缓存";
-        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "//处理数据缓存";
+        public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "\\远程信息库缓存";
+        public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "\\本地信息库缓存";
+        public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "\\处理数据缓存";
+        public static string RecycleDataPath = System.Windows.Forms.Application.StartupPath + "回收站";
+
     }
 
 
@@ -167,7 +169,7 @@ namespace xxkUI.Tool
     /// </summary>
     public enum DataFromType
     {
-        RemoteDb, LocalDb, HandleData
+        RemoteDb, LocalDb, HandleData, Nothing
     }
 
     #region 数据处理
@@ -234,9 +236,23 @@ namespace xxkUI.Tool
         /// </summary>
         RemoveJump,
         /// <summary>
+        /// 测项拆分
+        /// </summary>
+        LineBreak,
+        /// <summary>
         /// 无操作
         /// </summary>
         NoProg
+    }
+    /// <summary>
+    /// 观测值结构体
+    /// x:观测时间
+    /// y:观测值
+    /// </summary>
+    public struct ObsPoint
+    {
+        public double x;
+        public double y;
     }
 
     #endregion

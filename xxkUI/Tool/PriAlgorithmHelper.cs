@@ -75,6 +75,10 @@ public class PriAlgorithmHelper
         public int nLeftStep = 0;
         public int nRightStep = 0;
 
+        private int TipLeftIndex = 0;
+        private int TipRightIndex = 0;
+        private string Tipstr = "";
+
         Left_Right change;
 
         /// <summary>
@@ -196,6 +200,10 @@ public class PriAlgorithmHelper
                             rt.Offset = m_offset;//偏移量
 
                             rt.Tip = "[突跳消除@" + DateTime.Now.ToShortDateString() + "]\r\n偏移值：" + m_offset.ToString() + "\r\n偏移区间：" + startSel.ToShortDateString() + "-" + endSel.ToShortDateString();
+                            TipLeftIndex = n_left;
+
+                            TipRightIndex = n_left + datasel.Rows.Count-1;
+                            Tipstr = rt.Tip;
                         }
                         break;
                     case DataProcessMethod.RemoveStep:
@@ -246,6 +254,9 @@ public class PriAlgorithmHelper
                         rt.Offset = m_offset;
                         rt.Tip = "[台阶消除@" + DateTime.Now.ToShortDateString() + "]\r\n偏移值：" + m_offset.ToString();
 
+                        TipLeftIndex = nLeftStep;
+                        TipRightIndex = nLeftStep + datasel.Rows.Count-1;
+                        Tipstr = rt.Tip;
                         break;
                     default:
                         break;
@@ -268,8 +279,17 @@ public class PriAlgorithmHelper
         /// <param name="oper"></param>
         /// <param name="select"></param>
         /// <returns></returns>
-        public DataTable RemoveStepJump(DataTable dataIn, DataTable datasel, DataProcessMethod oper, Left_Right select, out DataTable Points)
+        public DataTable RemoveStepJump(DataTable dataIn, DataTable datasel, DataProcessMethod oper, Left_Right select,bool  AddNote,out DataTable Points)
         {
+
+            DataView dataView = dataIn.DefaultView;
+            dataView.Sort = "obvdate asc";
+            dataIn = dataView.ToTable();
+
+            DataView dataViewselec = datasel.DefaultView;
+            dataViewselec.Sort = "obvdate asc";
+            datasel = dataViewselec.ToTable();
+
             Points = dataIn.Clone();
 
             switch (oper)
@@ -281,7 +301,7 @@ public class PriAlgorithmHelper
                         {
                             double d = double.Parse(dataIn.Rows[i][1].ToString());
                             d = d + m_offset;
-                            dataIn.Rows[i][1] = d;
+                            dataIn.Rows[i][1] = Math.Round(d, 2);
                         }
                     }
                     else if (select == Left_Right.right)//消右边台阶
@@ -290,7 +310,7 @@ public class PriAlgorithmHelper
                         {
                             double d = double.Parse(dataIn.Rows[i][1].ToString());
                             d = d + m_offset;
-                            dataIn.Rows[i][1] = d;
+                            dataIn.Rows[i][1] = Math.Round(d, 2);
                         }
                     }
                     for (int i = index_left; i <= index_right; i++)
@@ -306,11 +326,11 @@ public class PriAlgorithmHelper
                     {
                         double d = double.Parse(dataIn.Rows[i][1].ToString());
                         d = d + m_offset;
-                        dataIn.Rows[i][1] = d;
+                        dataIn.Rows[i][1] = Math.Round(d, 2);
 
                         DataRow dr = Points.NewRow();
                         dr[0] = dataIn.Rows[i][0];
-                        dr[1] = d;
+                        dr[1] = Math.Round(d, 2);
                         Points.Rows.Add(dr);
                     }
                     break;
@@ -318,6 +338,26 @@ public class PriAlgorithmHelper
                     break;
             }
 
+
+            if (AddNote)
+            {
+
+               
+
+                if (select == Left_Right.left || select == Left_Right.both)
+                {
+                    dataIn.Rows[TipLeftIndex][2] = Tipstr + "\r\n" + dataIn.Rows[TipLeftIndex][2].ToString();
+                }
+                else if (select == Left_Right.right)
+                {
+                    dataIn.Rows[TipRightIndex][2] = Tipstr + "\r\n" + dataIn.Rows[TipRightIndex][2].ToString();
+                }
+               
+            }
+
+            DataView dvover = dataIn.DefaultView;
+            dvover.Sort = "obvdate asc";
+            dataIn = dvover.ToTable();
             return dataIn;
         }
 
@@ -428,7 +468,24 @@ public class PriAlgorithmHelper
                 }
                 if (divide)
                 {
+                    //按时间排序
+                    dataIn.DefaultView.Sort = "obvdate ASC";
+                    dataIn = dataIn.DefaultView.ToTable();
+
+                    //计算观测周期
+                    DateTime InStart = DateTime.Parse(dataIn.Rows[0][0].ToString());
+                    DateTime InEnd = DateTime.Parse(dataIn.Rows[dataIn.Rows.Count - 1][0].ToString());
+                    TimeSpan ts = InEnd - InStart;
+                    int days = ts.Days;
+                    double obsRecycle = double.Parse((days / dataIn.Rows.Count).ToString());
+
+
+
                     DateTime SelStart = DateTime.Parse(datasel.Rows[0][0].ToString());
+                    DateTime SelEnd = DateTime.Parse(datasel.Rows[datasel.Rows.Count - 1][0].ToString());
+                    TimeSpan selectts = SelEnd - SelStart;
+                    int selectdays = selectts.Days;
+
                     int lenSel = datasel.Rows.Count;
                     int StartSplit = 0;
                     int EndSplit = 0;
@@ -444,7 +501,15 @@ public class PriAlgorithmHelper
                     EndSplit = StartSplit + datasel.Rows.Count;
                     for (int i = StartSplit; i < EndSplit; i++)
                     {
-                        dataIn.Rows[i].Delete();
+
+                        if (selectdays >= obsRecycle * 2)
+                        {
+                            dataIn.Rows[i][1] = double.NaN;
+                        }
+                        else
+                        {
+                            dataIn.Rows[i].Delete();
+                        }
                     }
 
                 }
@@ -455,6 +520,104 @@ public class PriAlgorithmHelper
             }
 
             return dataIn;
+        }
+        /// <summary>
+        /// 等间隔处理
+        /// 2017.6.27
+        /// 张超
+        /// </summary>
+        /// <param name="dataIn">输入数据</param>
+        /// <param name="dataOut">返回结果</param>
+        /// <param name="num">等间隔数（单位：天）</param>
+        /// <param name="pro_method">数据处理方法（后续添加）</param>
+        /// <returns></returns>
+        public DataTable Interval(DataTable dataIn,int num,int pro_method)
+        {
+            if ( num <= 0 || num > 31)
+            {
+                MessageBox.Show("请输入正确的间隔天数！");
+                return null;
+            }
+
+            DataTable res = null;
+            DataTable dtPro = null;
+            int method = pro_method;
+            method = 1;//默认为1
+
+            //观测数据排序
+            DataView dataViewselec = dataIn.DefaultView;
+            dataViewselec.Sort = "obvdate asc";
+            dtPro = dataViewselec.ToTable();
+
+            //转换输入数据
+            //根据等间隔值计算需要输出数据的时间节点（即，需要计算的插值点）        
+            int n_In = dtPro.Rows.Count;
+            ObsPoint[] points = new ObsPoint[n_In];
+            for (int i = 0; i < n_In; i++)
+            {
+                points[i] = new ObsPoint();
+                points[i].x = DateTime.Parse(dtPro.Rows[i][0].ToString()).ToOADate();
+                points[i].y = double.Parse(dtPro.Rows[i][1].ToString());
+                
+                                
+            }
+
+            //根据等间隔值计算需要输出数据的时间节点（即，需要计算的插值点）
+            List<ObsPoint> rt = new List<ObsPoint>();
+            DateTime Last = DateTime.Parse(dtPro.Rows[n_In-1][0].ToString());
+
+            DateTime r = DateTime.Parse(dtPro.Rows[0][0].ToString());
+            ObsPoint t1 = new ObsPoint();
+            DateTime s = new DateTime();
+            t1.x = r.ToOADate();//添加第一个节点
+            rt.Add(t1);       
+            while(DateTime.Compare(Last, r) > 0)//添加其他节点
+            {
+                ObsPoint point = new ObsPoint();
+                s = r.AddDays(num);
+                if (DateTime.Compare(Last, s) < 0)
+                {
+                    break;
+                }
+                else
+                {
+                    point.x = s.ToOADate();
+                    rt.Add(point);
+                    r = s;
+                }               
+                
+            }
+            //将等间隔数据转换为数组模式
+            ObsPoint[] rt_points = rt.ToArray();
+
+            switch (method)
+            {
+                case 1:
+                    MathHelper Res = new MathHelper();                    
+                    Res.SplineInsertPoint(points,ref rt_points,1);
+                    //将返回数据实例化为表
+                    res = new DataTable();
+                    res.Columns.Add("obvdate");
+                    res.Columns.Add("obvvalue");
+                    res.Columns.Add("note");
+                    int total = rt_points.Length;
+                    for(int i = 0; i < total; i++)
+                    {
+                        DataRow dr = res.NewRow();
+                        dr[0] = DateTime.FromOADate(rt_points[i].x);
+                        dr[1] = rt_points[i].y;
+                        dr[2] = string.Empty;
+                        res.Rows.Add(dr);
+                        //res.LoadDataRow(dr.ItemArray, true);
+                    }                    
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+
+            }
+            return res;
         }
 
         

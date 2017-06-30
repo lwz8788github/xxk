@@ -59,5 +59,15 @@ namespace xxkUI.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 蓝色风格 {
+            get {
+                object obj = ResourceManager.GetObject("蓝色风格", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

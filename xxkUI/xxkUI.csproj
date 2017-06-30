@@ -83,8 +83,9 @@
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\Net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -140,12 +141,6 @@
     <Compile Include="BLL\SiteBll.cs" />
     <Compile Include="BLL\UnitInfoBll.cs" />
     <Compile Include="BLL\UserInfoBll.cs" />
-    <Compile Include="Controls\ObsDataControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ObsDataControl.Designer.cs">
-      <DependentUpon>ObsDataControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\RecycleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,6 +165,16 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\frm_SplashAhead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frm_SplashAhead.Designer.cs">
+      <DependentUpon>frm_SplashAhead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\IntervalFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\IntervalFrm.Designer.cs" />
     <Compile Include="Form\ObslineMergeFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,6 +245,15 @@
     <Compile Include="Form\SiteAttri.Designer.cs">
       <DependentUpon>SiteAttri.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\测试Frm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\测试Frm.Designer.cs">
+      <DependentUpon>测试Frm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GsProject\GSCoordConvertionClass_2000.cs" />
+    <Compile Include="GsProject\ProjectionConversion2.cs" />
+    <Compile Include="GsProject\GSCoordConvertionClass_Xian80.cs" />
     <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
@@ -266,6 +280,7 @@
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
     <Compile Include="Tool\FileOperateProxy.cs" />
+    <Compile Include="Tool\MathHelper.cs" />
     <Compile Include="Tool\ObsdataCls.cs" />
     <Compile Include="Tool\NumberHelper.cs" />
     <Compile Include="Tool\PriAlgorithmHelper.cs" />
@@ -281,9 +296,6 @@
     <Compile Include="Tool\MyBackgroundWorker.designer.cs" />
     <Compile Include="Tool\NpoiCreator.cs" />
     <Compile Include="Tool\PublicHelper.cs" />
-    <EmbeddedResource Include="Controls\ObsDataControl.resx">
-      <DependentUpon>ObsDataControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RecycleControl.resx">
       <DependentUpon>RecycleControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -293,6 +305,10 @@
     <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\frm_SplashAhead.resx">
+      <DependentUpon>frm_SplashAhead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\IntervalFrm.resx" />
     <EmbeddedResource Include="Form\ObslineMergeFrm.resx">
       <DependentUpon>ObslineMergeFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -326,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\SiteAttri.resx">
       <DependentUpon>SiteAttri.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\测试Frm.resx">
+      <DependentUpon>测试Frm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -364,6 +383,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\蓝色风格.png" />
+    <Content Include="Images\bd.png" />
+    <Content Include="Images\蓝色风格 - 副本.png" />
+    <Content Include="Images\银色风格.png" />
     <Content Include="TeeChart.dll" />
   </ItemGroup>
   <ItemGroup>

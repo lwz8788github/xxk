@@ -44,5 +44,20 @@ namespace xxkUI.BLL
             return EqkDal.Instance.GetList(sql);
         }
 
+        public int GetRecordCount(string strWhere)
+        {
+            return EqkDal.Instance.CountWhere(strWhere);
+        }
+
+        public IEnumerable<EqkBean> GetPage(string strWhere,int page,int pagesize)
+        {
+            return EqkDal.Instance.GetPage(strWhere, page, pagesize);
+        }
+
+        public IEnumerable<EqkBean> GetListByPage(string strWhere, string orderby)
+        {
+            string sqlstr = @"SELECT t.* FROM t_eqkcatalog t WHERE " + strWhere;
+            return EqkDal.Instance.GetList(sqlstr);
+        }
     }
 }

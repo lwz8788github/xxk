@@ -78,11 +78,14 @@ namespace Common.Data
             return DbUtils.InsertNoIdentity(o);
         }
 
-        public  IEnumerable<T> GetPage(int page, int pageSize)
+        public  IEnumerable<T> GetPage(string strWhere,int page, int pageSize)
+        {
+            return DbUtils.GetPage<T>(strWhere,page, pageSize);
+        }
+        public IEnumerable<T> GetPage(int page, int pageSize)
         {
             return DbUtils.GetPage<T>(page, pageSize);
         }
-
         public int Count()
         {
             return DbUtils.Count<T>();
@@ -118,6 +121,11 @@ namespace Common.Data
         }
 
         public int CountWhere(object where)
+        {
+            return DbUtils.CountWhere<T>(where);
+        }
+
+        public int CountWhere(string where)
         {
             return DbUtils.CountWhere<T>(where);
         }

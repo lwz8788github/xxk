@@ -19,7 +19,7 @@ namespace xxkUI.Bll
 
         public int Add(SiteBean model)
         {
-            model = new SiteBean();
+            //model = new SiteBean();
            
             return SiteDal.Instance.Insert(model);
         }
@@ -164,6 +164,51 @@ namespace xxkUI.Bll
             string sql = "update t_siteinfodb set BASEINFO = @blobData where SiteCode ='" + sitecode + "'";
            
             return SiteDal.Instance.Writeblob(sql, "blobData", blobData);
+        }
+
+        public int UpdateWhatWhere(object what, object where)
+        {
+            return SiteDal.Instance.UpdateWhatWhere(what, where);
+        }
+
+        public string CreateNewSiteCode(string ldordd)
+        {
+            string sitecodestr = "";
+
+            try
+            {
+                IEnumerable<SiteBean> sblist = GetAll();
+
+                int maxcode = 0;
+
+                foreach (SiteBean dr in sblist)
+                {
+                    string sitecode = dr.SiteCode;
+                    int code = int.Parse(sitecode.Substring(2, 3));
+                    if (code > maxcode)
+                        maxcode = code;
+                }
+
+                if (maxcode.ToString().Length == 1)
+                {
+                    sitecodestr = ldordd + "00" + (maxcode + 1).ToString();
+                }
+                if (maxcode.ToString().Length == 2)
+                {
+                    sitecodestr = ldordd + "0" + (maxcode + 1).ToString();
+                }
+                if (maxcode.ToString().Length == 3)
+                {
+                    sitecodestr = ldordd + (maxcode + 1).ToString();
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+
+            return sitecodestr;
         }
     }
 }

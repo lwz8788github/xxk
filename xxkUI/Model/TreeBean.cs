@@ -16,8 +16,6 @@ namespace xxkUI.Model
             set { _KeyFieldName = value; }
         }
 
-
-
         private string _ParentFieldName;
         public string ParentFieldName 
         {

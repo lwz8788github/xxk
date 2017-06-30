@@ -34,10 +34,39 @@ namespace xxkUI.Bll
         public LineBean Get(int id)
         {
             return LineDal.Instance.Get(id);
+            
         }
         public string GetNameByID(string getwhat, string idname, string idvalue)
         {
             return LineDal.Instance.GetByID(getwhat, idname, idvalue).ToString();
+        }
+
+        /// <summary>
+        /// 根据测线编码获取场地编码
+        /// </summary>
+        /// <param name="linecode"></param>
+        /// <returns></returns>
+        public string GetSitecodeByLinecode(string linecode)
+        {
+            try
+            {
+                List<LineBean> lblist = LineDal.Instance.GetAll().ToList();
+
+                if (lblist != null)
+                {
+                    if (lblist.Count > 0)
+                        return lblist.Find(n => n.OBSLINECODE == linecode).SITECODE;
+                    else
+                        throw new Exception("找不到测线对应的场地");
+                }
+                else
+                    throw new Exception("找不到测线对应的场地");
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("找不到测线对应的场地");
+            }
         }
 
         /// <summary>

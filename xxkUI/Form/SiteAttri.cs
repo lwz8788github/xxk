@@ -7,6 +7,8 @@ using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraEditors.Controls;
 
 namespace xxkUI.Form
 {
@@ -31,9 +33,19 @@ namespace xxkUI.Form
                 int cHeight = vGridControlSiteInfo.Height;
 
                 DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
-                memoEdit.LinesCount = 1;
-                DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
-                imgEdit.ShowIcon = true;
+               
+                //DevExpress.XtraEditors.Repository.RepositoryItemImageEdit imgEdit = new DevExpress.XtraEditors.Repository.RepositoryItemImageEdit();
+                //imgEdit.ShowIcon = true;
+
+
+
+
+                RepositoryItemPictureEdit pictureEdit = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+                pictureEdit.SizeMode = PictureSizeMode.Zoom;
+                pictureEdit.NullText = " ";
+
+
+
 
                 for (int i = 0; i < vGridControlSiteInfo.Rows.Count; i++)
                 {
@@ -46,7 +58,7 @@ namespace xxkUI.Form
                     if (i != 0)
                         vGridControlSiteInfo.Rows[i].Properties.RowEdit = memoEdit;
                     else
-                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = imgEdit;
+                        vGridControlSiteInfo.Rows[i].Properties.RowEdit = pictureEdit;
 
                     vGridControlSiteInfo.Rows[i].Height = (cHeight) / vGridControlSiteInfo.Rows.Count;
                 }

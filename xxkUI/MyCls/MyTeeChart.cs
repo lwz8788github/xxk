@@ -1055,11 +1055,15 @@ namespace xxkUI.MyCls
         {
             try
             {
-                Line ln = this.tChart.Series[0] as Line;
-                DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
-                NpoiCreator npcreator = new NpoiCreator();
-                npcreator.TemplateFile = DataFromPath.HandleDataPath;
-                npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + ln.Title + ".xls");
+                SaveToManipData stmfrm = new SaveToManipData();
+                if (stmfrm.ShowDialog() == DialogResult.OK)
+                {
+                    Line ln = this.tChart.Series[0] as Line;
+                    DataTable dt = ObsdataCls.ObsdataHash[ln.Title] as DataTable;
+                    NpoiCreator npcreator = new NpoiCreator();
+                    npcreator.TemplateFile = DataFromPath.HandleDataPath;
+                    npcreator.NpoiExcel(dt, ln.Title + ".xls", DataFromPath.HandleDataPath + "/" + stmfrm.targitFileName + ".xls");
+                }
 
             }
             catch (Exception ex)

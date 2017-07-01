@@ -8,8 +8,15 @@ namespace xxkUI.Model
 {
    public class TreeBean
     {
+        [Description("树名称")]
+        private string _TreeName;
+        public string TreeName
+        {
+            get { return _TreeName; }
+            set { _TreeName = value; }
+        }
 
-       private string _KeyFieldName;
+        private string _KeyFieldName;
         public string KeyFieldName 
         {
             get { return _KeyFieldName; }

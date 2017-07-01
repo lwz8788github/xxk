@@ -24,6 +24,7 @@ using System.Configuration;
 using Common.Data.MySql;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using System.Text.RegularExpressions;
+using DevExpress.XtraTab;
 
 namespace xxkUI
 {
@@ -174,11 +175,7 @@ namespace xxkUI
             {
                 using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                 {
-                    currentUserBar.Caption = currentUserBar.Caption + lg.Username;
-                    //获取用户权限，放入userAut
-                    List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                  
-
+                    currentUserBar.Caption = currentUserBar.Caption + CurrentUSerInfo.UIB.UserName;
                 }
             }
             else
@@ -195,9 +192,8 @@ namespace xxkUI
         {
             try
             {
-                xtl.ClearTreelistNodes();
-                GMapMarkerKdcSite.ClearAllSiteMarker(this.gMapCtrl);
-                currentUserBar.Caption = "当前用户:";
+                CurrentUSerInfo.UIB = new UserInfoBean();
+                currentUserBar.Caption = "当前用户:" + CurrentUSerInfo.UIB.UserName;
             }
             catch (Exception ex)
             {
@@ -448,7 +444,7 @@ namespace xxkUI
 
                                 mtc.AddSeries(xtl.GetCheckedLineOnMuniTree(currentTree.Name), filePath);
                             }
-                             this.chartTabPage.PageVisible = true;//曲线图页面可见
+                            this.chartTabPage.PageVisible = true;//曲线图页面可见
                             this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
                             //跳转至菜单栏
                             this.Ribbon.SelectedPage = ribbonPageTchartTool;
@@ -499,19 +495,89 @@ namespace xxkUI
                         this.groupControl1.Text = "更新信息库表单";
                         this.btnXxkAdd.Text = "更新至数据库";
                         this.btnXxkAdd.Enabled = true;
-                        SetSiteValueVGridControl(sb,false);
+                        SetSiteValueVGridControl(sb, false);
                     }
                     break;
                 case "btnImportObsline"://导入观测数据
                     {
-                        string userName = this.currentUserBar.Caption.Split('：')[1];
-
-                        if (userName == string.Empty && this.dockPanelDb.Text == "远程信息库")
+                        if (currentTree.Name == this.treeListData.Name)//远程库
                         {
-                            XtraMessageBox.Show("没有登录！", "警告");
-                            return;
+                            if (CurrentUSerInfo.UIB.UserName == null|| CurrentUSerInfo.UIB.UserName == string.Empty)
+                            {
+                                //先登录再下载
+                                Login lg = new Login();
+                                if (lg.ShowDialog() == DialogResult.OK)
+                                {
+                                    using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                    {
+                                        currentUserBar.Caption = CurrentUSerInfo.UIB.UserName;
+                                        string sitecode = currentClickNodeInfo.ParentFieldName;
+                                        if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(sitecode))
+                                        {
+                                            XtraMessageBox.Show("当前用户无该场地权限，请向管理部门申请相应权限再执行该操作！", "提示");
+                                            return;
+                                        }
+
+                                        try
+                                        {
+                                            OpenFileDialog ofd = new OpenFileDialog();
+                                            ofd.Multiselect = true;//可多选
+                                            ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                                            if (ofd.ShowDialog() == DialogResult.OK)
+                                            {
+                                                importDataFiles = ofd.FileNames.ToList();
+                                                ProgressForm ptPro = new ProgressForm();
+                                                ptPro.Show(this);
+                                                ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                                ptPro.beginWorking();
+                                                ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                {
+                                    currentUserBar.Caption = CurrentUSerInfo.UIB.UserName;
+                                    string sitecode = currentClickNodeInfo.ParentFieldName;
+                                    if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(sitecode))
+                                    {
+                                        XtraMessageBox.Show("当前用户无该场地权限，请向管理部门申请相应权限再执行该操作！", "提示");
+                                        return;
+                                    }
+                                    try
+                                    {
+                                        OpenFileDialog ofd = new OpenFileDialog();
+                                        ofd.Multiselect = true;//可多选
+                                        ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                                        if (ofd.ShowDialog() == DialogResult.OK)
+                                        {
+                                            importDataFiles = ofd.FileNames.ToList();
+                                            ProgressForm ptPro = new ProgressForm();
+                                            ptPro.Show(this);
+                                            ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                            ptPro.beginWorking();
+                                            ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                                    }
+                                }
+                            }
                         }
-                        else
+                        else if (currentTree.Name == this.treeListManipData.Name)//本地库
                         {
                             try
                             {
@@ -537,75 +603,96 @@ namespace xxkUI
                     break;
                 case "btnDownLoad"://下载数据
                     {
-                        string userName = this.currentUserBar.Caption.Split('：')[1];
-                        if (userName == string.Empty && this.dockPanelDb.Text.Contains("远程"))
+                        if (this.dockPanelDb.Text.Contains("远程"))
                         {
-                            XtraMessageBox.Show("没有登录！", "警告");
-                            return;
+                            if (CurrentUSerInfo.UIB.UserName == null|| CurrentUSerInfo.UIB.UserName == string.Empty)
+                            {
+                                Login lg = new Login();
+
+                                if (lg.ShowDialog() == DialogResult.OK)
+                                {
+                                    using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                    {
+                                        currentUserBar.Caption = "当前用户：" + CurrentUSerInfo.UIB.UserName;
+                                    }
+                                }
+                                else
+                                {
+                                    return;
+                                }
+
+                            }
                         }
-
-                        DownloadData(userName);
-
+                       
+                        DownloadData();
                     }
                     break;
                 case "btnDeleteObsline"://删除测项至回收站
                     {
-                        PublicHelper php = new PublicHelper();
-                        DataFromType dft = DataFromType.Nothing;
-                        if (currentTree.Name == this.treeListData.Name)
+                        try
                         {
-                            if (this.dockPanelDb.Text == "本地信息库")
+                            PublicHelper php = new PublicHelper();
+                            DataFromType dft = DataFromType.Nothing;
+                            if (currentTree.Name == this.treeListData.Name)
                             {
-                                filePath = DataFromPath.LocalDbPath;
-                                dft = DataFromType.LocalDb;
+                                if (this.dockPanelDb.Text == "本地信息库")
+                                {
+                                    filePath = DataFromPath.LocalDbPath;
+                                    dft = DataFromType.LocalDb;
+                                }
+                                else if (this.dockPanelDb.Text == "远程信息库")
+                                {
+                                    filePath = DataFromPath.RemoteDbPath;
+                                    dft = DataFromType.RemoteDb;
+                                }
+
+                                List<LineBean> lblist = xtl.GetCheckedLine(currentTree.Name);
+
+                                foreach (LineBean lb in lblist)
+                                {
+                                    string sourceFilePath = filePath + "\\" + lb.OBSLINECODE + ".xls";
+
+                                    string dbtype = (dft == DataFromType.RemoteDb) ? "YC" : "BD";
+                                    string deletetime = php.CreateTimeStr();
+                                    string excelname = lb.OBSLINECODE;
+
+                                    string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+                                    File.Copy(sourceFilePath, destFileName);
+                                    File.Delete(sourceFilePath);
+                                }
+
+                                xtl.bSignDbTree(filePath);
                             }
-                            else if (this.dockPanelDb.Text == "远程信息库")
+                            else if (currentTree.Name == this.treeListManipData.Name)
                             {
-                                filePath = DataFromPath.RemoteDbPath;
-                                dft = DataFromType.RemoteDb;
+                                filePath = DataFromPath.HandleDataPath;
+                                dft = DataFromType.HandleData;
+                                List<string> checklines = xtl.GetCheckedLineOnMuniTree(currentTree.Name);
+
+                                foreach (string lb in checklines)
+                                {
+                                    string sourceFilePath = filePath + "\\" + lb + ".xls";
+
+                                    string deletetime = php.CreateTimeStr();
+                                    string dbtype = "CL";
+                                    string excelname = lb;
+                                    string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+
+                                    File.Copy(sourceFilePath, destFileName);
+                                    File.Delete(sourceFilePath);
+                                }
+
+                                xtl.bSignInitManipdbTree();
                             }
 
-                            List<LineBean> lblist = xtl.GetCheckedLine(currentTree.Name);
-
-                            foreach (LineBean lb in lblist)
-                            {
-                                string sourceFilePath = filePath + "\\" + lb.OBSLINECODE + ".xls";
-
-                                string dbtype = (dft == DataFromType.RemoteDb) ? "YC" : "BD";
-                                string deletetime = php.CreateTimeStr();
-                                string excelname = lb.OBSLINECODE;
-
-                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
-                                File.Copy(sourceFilePath, destFileName);
-                                File.Delete(sourceFilePath);
-                            }
-
-                            xtl.bSignDbTree(filePath);
+                            recycleControl.LoadRecycleItems();
                         }
-                        else if (currentTree.Name == this.treeListManipData.Name)
+                        catch (Exception ex)
                         {
-                            filePath = DataFromPath.HandleDataPath;
-                            dft = DataFromType.HandleData;
-                            List<string> checklines = xtl.GetCheckedLineOnMuniTree(currentTree.Name);
-
-                            foreach (string lb in checklines)
-                            {
-                                string sourceFilePath = filePath + "\\" + lb + ".xls";
-
-                                string deletetime = php.CreateTimeStr();
-                                string dbtype = "CL";
-                                string excelname = lb;
-                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
-
-                                File.Copy(sourceFilePath, destFileName);
-                                File.Delete(sourceFilePath);
-                            }
-
-                            xtl.bSignInitManipdbTree();
+                            XtraMessageBox.Show(ex.Message, "错误");
                         }
-
-                        recycleControl.LoadRecycleItems();
                     }
+
                     break;
 
             }
@@ -616,17 +703,16 @@ namespace xxkUI
         /// 下载数据
         /// </summary>
         /// <param name="username">用户名</param>
-        private void DownloadData(string username)
+        private void DownloadData()
         {
-
             try
             {
                 string datafilepath = "";
-                List<string> userAhtyList = null;
+              
                 if (this.dockPanelDb.Text.Contains("远程"))
                 {
                     datafilepath = DataFromPath.RemoteDbPath;
-                    userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(username);
+                  
                 }
                 else
                 {
@@ -639,16 +725,18 @@ namespace xxkUI
 
                     foreach (SiteBean checkedSb in checkedNodes)
                     {
+                        if (this.dockPanelDb.Text.Contains("远程"))
+                        {
+                            if (CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList() != null)
+                                if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(checkedSb.UnitCode))
+                                {
+                                    string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
+                                    XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
+                                    continue;
+                                }
+                        }
 
-                        DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
-
-                        if (userAhtyList != null)
-                            if (!userAhtyList.Contains(checkedSb.UnitCode))
-                            {
-                                string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
-                                XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
-                                continue;
-                            }
+                       DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
 
                         foreach (DataRow row in linecode.Rows)
                         {
@@ -661,12 +749,6 @@ namespace xxkUI
                                 NpoiCreator npcreator = new NpoiCreator();
                                 npcreator.TemplateFile = datafilepath;
                                 npcreator.NpoiExcel(dt, lCode + ".xls", datafilepath + "/" + lCode + ".xls");
-
-                                TreeBean tb = new TreeBean();
-
-                                tb.KeyFieldName = lCode;
-                                tb.ParentFieldName = checkedSb.SiteCode;
-                                tb.Caption = lName;
                             }
                         }
                     }
@@ -765,7 +847,7 @@ namespace xxkUI
 
         private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            xtl.bSignDbTree(DataFromPath.LocalDbPath);
+            //xtl.bSignDbTree(DataFromPath.LocalDbPath);
         }
 
         #endregion
@@ -1230,7 +1312,96 @@ namespace xxkUI
                     }
                     break;
                 case "btnCopyDb"://数据库备份
-                    { }
+                    {
+                        try
+                        {
+                            //String command = "mysqldump --quick --host=localhost --default-character-set=gb2312 --lock-tables --verbose  --force --port=端口号 --user=用户名 --password=密码 数据库名 -r 备份到的地址";
+
+                            if (!System.IO.File.Exists(Application.StartupPath + "\\mysqldump.exe"))
+                            {
+                                XtraMessageBox.Show("无法完成备份，请检查 mysqldump.exe 是否存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                return;
+                            }
+
+                            BakupDbFrm bdf = new BakupDbFrm();
+                            if (bdf.ShowDialog() == DialogResult.OK)
+                            {
+                                //构建执行的命令
+                                StringBuilder sbcommand = new StringBuilder();
+
+                                string portnum = bdf.Port;
+                                string username = bdf.UserName;
+                                string psd = bdf.Psd;
+                                string dbname = bdf.DbName;
+                                string directory = bdf.SavetoFilename;
+
+                                sbcommand.AppendFormat("mysqldump --quick --host=localhost --default-character-set=gbk --lock-tables --verbose  --force --port=" + portnum +
+                                    " --user=" + username + " --password=" + psd + " " + dbname + " -r \"{0}\"", directory);
+                                String command = sbcommand.ToString();
+
+                                //获取mysqldump.exe所在路径
+                                String appDirecroty = System.Windows.Forms.Application.StartupPath + "\\";
+                                Cmd.StartCmd(appDirecroty, command);
+                                XtraMessageBox.Show(@"数据库已成功备份到 " + directory + " 文件中", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("数据库备份失败！","错误");
+
+                        }
+                    }
+                    break;
+                case "btnDbExeute"://数据库还原
+                    {
+                        if (!System.IO.File.Exists(Application.StartupPath + "\\mysql.exe"))
+                        {
+                            XtraMessageBox.Show("无法完成数据库恢复，请检查 mysql.exe 是否存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+
+
+                        try
+                        {
+
+                            RestoreDbFrm bdf = new RestoreDbFrm();
+                            if (bdf.ShowDialog() == DialogResult.OK)
+                            {
+                                //构建执行的命令
+                                StringBuilder sbcommand = new StringBuilder();
+
+                                string portnum = bdf.Port;
+                                string username = bdf.UserName;
+                                string psd = bdf.Psd;
+                                string dbname = bdf.DbName;
+                                string directory = bdf.SavetoFilename;
+
+                                //在文件路径后面加上""避免空格出现异常
+                                sbcommand.AppendFormat("mysql --host=localhost --default-character-set=gbk --port=" + portnum
+                                    + " --user=" + username + " --password=" + psd + " " + dbname + "<\"{0}\"", directory);
+                                String command = sbcommand.ToString();
+
+                                //获取mysql.exe所在路径
+                                String appDirecroty = System.Windows.Forms.Application.StartupPath + "\\";
+
+                                DialogResult result = XtraMessageBox.Show("您是否真的想覆盖以前的数据库吗？那么以前的数据库数据将丢失！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (result == DialogResult.Yes)
+                                {
+                                    Cmd.StartCmd(appDirecroty, command);
+                                    XtraMessageBox.Show("数据库还原成功！");
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("数据库还原失败！");
+                        }
+
+
+
+                    }
                     break;
             }
         }
@@ -1926,6 +2097,22 @@ namespace xxkUI
             //等间隔处理
             //返回值为datatable
             
+        }
+
+        private void xtraTabControl1_CloseButtonClick(object sender, EventArgs e)
+        {
+            DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs EArg = (DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs)e;
+            string name = EArg.Page.Text;//得到关闭的选项卡的text  
+            foreach (XtraTabPage page in xtraTabControl1.TabPages)//遍历得到和关闭的选项卡一样的Text  
+            {
+                if (page.Text == name)
+                {
+                    //xtraTabControl1.TabPages.Remove(page);
+                    //page.Dispose();
+                    page.PageVisible = false;
+                    return;
+                }
+            }
         }
     }
 }

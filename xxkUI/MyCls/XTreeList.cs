@@ -73,6 +73,7 @@ namespace xxkUI.MyCls
                         || sb.UnitCode == "152001" || sb.UnitCode == "152047")
                     { continue; }
 
+                    tb.TreeName = treeListData.Name;
                     tb.KeyFieldName = sb.UnitCode;
                     tb.ParentFieldName = "0";
                     tb.Caption = sb.UnitName;

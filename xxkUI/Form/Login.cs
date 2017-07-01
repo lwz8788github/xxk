@@ -11,12 +11,12 @@ using xxkUI.Dal;
 using xxkUI.Bll;
 using Common.Data.MySql;
 using System.Configuration;
+using xxkUI.Tool;
 
 namespace xxkUI.Form
 {
     public partial class Login : DevExpress.XtraEditors.XtraForm
     {
-        public string Username{get;set;}
         public string CurrentDb { get; set; }
         public Login()
         {
@@ -25,7 +25,6 @@ namespace xxkUI.Form
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            this.Username = "";
             if (txtUsername.Text == "" || txtPsd.Text == "")
             {
                 XtraMessageBox.Show("用户名和密码不能为空!", "提示");
@@ -49,8 +48,8 @@ namespace xxkUI.Form
                 {
                     if (UserInfoBll.Instance.GetLogin(u))
                     {
-                        this.Username = txtUsername.Text;
-                    }
+                        CurrentUSerInfo.UIB = u;
+                                         }
                     else
                     {
                         XtraMessageBox.Show("用户名或密码错误!", "提示");

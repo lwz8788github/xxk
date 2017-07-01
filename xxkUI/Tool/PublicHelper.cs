@@ -258,6 +258,12 @@ namespace xxkUI.Tool
     #endregion
 
 
- 
 
+    /// <summary>
+    /// 当前登录的用户信息
+    /// </summary>
+    public static class CurrentUSerInfo
+    {
+        public static UserInfoBean UIB = new UserInfoBean();
+    }
 }

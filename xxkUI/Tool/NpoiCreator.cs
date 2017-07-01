@@ -292,18 +292,38 @@ namespace xxkUI.Tool
                                         switch (cell.CellType)
                                         {
                                             case CellType.Blank:
-                                                dataRow[j] = "";
+                                                {
+                                                    dataRow[j] = "";
+                                                }
                                                 break;
                                             case CellType.Numeric:
-                                                short format = cell.CellStyle.DataFormat;
-                                                //对时间格式（2015.12.5、2015/12/5、2015-12-5等）的处理  
-                                                if (format == 14 || format == 31 || format == 57 || format == 58)
-                                                    dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
-                                                else
-                                                    dataRow[j] = cell.NumericCellValue;
+                                                {
+
+                                                    //NPOI中数字和日期都是NUMERIC类型的，这里对其进行判断是否是日期类型
+                                                    if (HSSFDateUtil.IsCellDateFormatted(cell))//日期类型
+                                                    {
+                                                        dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
+                                                    }
+                                                    else//其他数字类型
+                                                    {
+                                                        dataRow[j] = cell.NumericCellValue;
+                                                    }
+
+
+                                                    //short format = cell.CellStyle.DataFormat;
+                                                    ////对时间格式（2015.12.5、2015/12/5、2015-12-5等）的处理  
+
+                                                    //if (cell.CellStyle.DataFormat == XSSFDataFormat.GetBuiltinFormat("yyyy-MM-dd"))
+                                                    ////if (format == 14 || format == 31 || format == 57 || format == 58)
+                                                    //    dataRow[j] = DateTime.Parse(cell.DateCellValue.ToShortDateString());
+                                                    //else
+                                                    //    dataRow[j] = cell.NumericCellValue;
+                                                }
                                                 break;
                                             case CellType.String:
-                                                dataRow[j] = cell.StringCellValue;
+                                                {
+                                                    dataRow[j] = cell.StringCellValue;
+                                                }
                                                 break;
                                         }
                                     }
@@ -316,7 +336,7 @@ namespace xxkUI.Tool
                 }
                 return dataTable;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (fs != null)
                 {

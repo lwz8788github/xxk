@@ -85,7 +85,7 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\开发资料\NPOI 2.2.1 binary package\Release\Net40\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -165,6 +165,18 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\RestoreDbFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\RestoreDbFrm.Designer.cs">
+      <DependentUpon>RestoreDbFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\BakupDbFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\BakupDbFrm.Designer.cs">
+      <DependentUpon>BakupDbFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\frm_SplashAhead.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +291,7 @@
       <DependentUpon>RibbonForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tool\BackgroundWorkerHelper.cs" />
+    <Compile Include="Tool\Cmd.cs" />
     <Compile Include="Tool\FileOperateProxy.cs" />
     <Compile Include="Tool\MathHelper.cs" />
     <Compile Include="Tool\ObsdataCls.cs" />
@@ -304,6 +317,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SiteLayoutMaps.resx">
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\RestoreDbFrm.resx">
+      <DependentUpon>RestoreDbFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\BakupDbFrm.resx">
+      <DependentUpon>BakupDbFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frm_SplashAhead.resx">
       <DependentUpon>frm_SplashAhead.cs</DependentUpon>

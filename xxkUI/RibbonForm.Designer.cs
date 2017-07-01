@@ -206,6 +206,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.popObsdata = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.btnDbExeute = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -361,9 +362,10 @@
             this.btnAddSiteInfo,
             this.btnDeleteObsline,
             this.btnUpdateSiteInfo,
-            this.btnInterval});
+            this.btnInterval,
+            this.btnDbExeute});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 125;
+            this.ribbon.MaxItemId = 126;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageStart,
@@ -1053,6 +1055,7 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.btnCreateLocaDb);
             this.ribbonPageGroup3.ItemLinks.Add(this.btnSwitchDb);
             this.ribbonPageGroup3.ItemLinks.Add(this.btnCopyDb);
+            this.ribbonPageGroup3.ItemLinks.Add(this.btnDbExeute);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "数据库";
             // 
@@ -1536,6 +1539,7 @@
             // 
             // xtraTabControl1
             // 
+            this.xtraTabControl1.ClosePageButtonShowMode = DevExpress.XtraTab.ClosePageButtonShowMode.InAllTabPageHeaders;
             this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraTabControl1.Location = new System.Drawing.Point(186, 147);
             this.xtraTabControl1.Name = "xtraTabControl1";
@@ -1549,11 +1553,13 @@
             this.recycleTabPage,
             this.addXxkTabPage});
             this.xtraTabControl1.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl1_SelectedPageChanged);
+            this.xtraTabControl1.CloseButtonClick += new System.EventHandler(this.xtraTabControl1_CloseButtonClick);
             // 
             // mapTabPage
             // 
             this.mapTabPage.Controls.Add(this.gMapCtrl);
             this.mapTabPage.Name = "mapTabPage";
+            this.mapTabPage.ShowCloseButton = DevExpress.Utils.DefaultBoolean.False;
             this.mapTabPage.Size = new System.Drawing.Size(1162, 563);
             this.mapTabPage.Text = "场地分布";
             // 
@@ -1635,7 +1641,6 @@
             this.recycleControl.Name = "recycleControl";
             this.recycleControl.Size = new System.Drawing.Size(1162, 563);
             this.recycleControl.TabIndex = 0;
-            this.recycleControl.RefreshTree += new xxkUI.Controls.RecycleControl.RefreshTreeHandler(this.recycleControl_RefreshTree);
             // 
             // addXxkTabPage
             // 
@@ -1991,6 +1996,15 @@
             this.popObsdata.Name = "popObsdata";
             this.popObsdata.Ribbon = this.ribbon;
             // 
+            // btnDbExeute
+            // 
+            this.btnDbExeute.Caption = "数据库还原";
+            this.btnDbExeute.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDbExeute.Glyph")));
+            this.btnDbExeute.Id = 125;
+            this.btnDbExeute.Name = "btnDbExeute";
+            this.btnDbExeute.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnDbExeute.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDb_ItemClick);
+            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -2250,5 +2264,6 @@
         private DevExpress.XtraVerticalGrid.Rows.EditorRow row19;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow row16;
         private DevExpress.XtraBars.BarButtonItem btnInterval;
+        private DevExpress.XtraBars.BarButtonItem btnDbExeute;
     }
 }

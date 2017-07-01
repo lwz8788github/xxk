@@ -1,4 +1,5 @@
-﻿/***********************************************************/
+﻿using DevExpress.XtraEditors;
+/***********************************************************/
 //---模    块：保存到数据处理文件
 //---功能描述：保存到数据处理文件窗体
 //---编码时间：2017-5-23
@@ -28,8 +29,20 @@ namespace xxkUI.Form
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (txtFileName.Text == string.Empty)
+            {
+                XtraMessageBox.Show("请输入文件名！", "提示");
+                this.txtFileName.Focus();
+                return;
+            }
             this.targitFileName = this.txtFileName.Text;
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.Close();
         }
     }
 }

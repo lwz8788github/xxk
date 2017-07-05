@@ -68,6 +68,11 @@ namespace xxkUI.Form
                 backgroundWorker.ReportProgress(70);
                 Thread.Sleep(800);
 
+                statusTxt = "正在加载布设图组件...";
+                MainFrm.InitLayoutmapTab();
+                backgroundWorker.ReportProgress(75);
+                Thread.Sleep(800);
+             
                 statusTxt = "正在设置界面风格...";
                 MainFrm.InitStyle();
                 backgroundWorker.ReportProgress(80);

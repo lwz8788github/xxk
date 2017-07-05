@@ -341,9 +341,6 @@ public class PriAlgorithmHelper
 
             if (AddNote)
             {
-
-               
-
                 if (select == Left_Right.left || select == Left_Right.both)
                 {
                     dataIn.Rows[TipLeftIndex][2] = Tipstr + "\r\n" + dataIn.Rows[TipLeftIndex][2].ToString();
@@ -479,8 +476,6 @@ public class PriAlgorithmHelper
                     int days = ts.Days;
                     double obsRecycle = double.Parse((days / dataIn.Rows.Count).ToString());
 
-
-
                     DateTime SelStart = DateTime.Parse(datasel.Rows[0][0].ToString());
                     DateTime SelEnd = DateTime.Parse(datasel.Rows[datasel.Rows.Count - 1][0].ToString());
                     TimeSpan selectts = SelEnd - SelStart;
@@ -558,8 +553,6 @@ public class PriAlgorithmHelper
                 points[i] = new ObsPoint();
                 points[i].x = DateTime.Parse(dtPro.Rows[i][0].ToString()).ToOADate();
                 points[i].y = double.Parse(dtPro.Rows[i][1].ToString());
-                
-                                
             }
 
             //根据等间隔值计算需要输出数据的时间节点（即，需要计算的插值点）

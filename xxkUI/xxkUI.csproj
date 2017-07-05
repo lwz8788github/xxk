@@ -140,6 +140,7 @@
     <Compile Include="BLL\LineObsBll.cs" />
     <Compile Include="BLL\SiteBll.cs" />
     <Compile Include="BLL\UnitInfoBll.cs" />
+    <Compile Include="BLL\LayoutmapBll.cs" />
     <Compile Include="BLL\UserInfoBll.cs" />
     <Compile Include="Controls\RecycleControl.cs">
       <SubType>UserControl</SubType>
@@ -160,6 +161,7 @@
       <DependentUpon>SiteLayoutMaps.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\EqkDal.cs" />
+    <Compile Include="DAL\LayoutmapDal.cs" />
     <Compile Include="DAL\LineDal.cs" />
     <Compile Include="DAL\LineObsDal.cs" />
     <Compile Include="DAL\SiteDal.cs" />
@@ -266,6 +268,7 @@
     <Compile Include="GsProject\GSCoordConvertionClass_2000.cs" />
     <Compile Include="GsProject\ProjectionConversion2.cs" />
     <Compile Include="GsProject\GSCoordConvertionClass_Xian80.cs" />
+    <Compile Include="Model\LayoutmapBean.cs" />
     <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />

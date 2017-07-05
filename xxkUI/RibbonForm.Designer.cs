@@ -109,6 +109,10 @@
             this.btnDeleteObsline = new DevExpress.XtraBars.BarButtonItem();
             this.btnUpdateSiteInfo = new DevExpress.XtraBars.BarButtonItem();
             this.btnInterval = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDbExeute = new DevExpress.XtraBars.BarButtonItem();
+            this.btnExportToExcel = new DevExpress.XtraBars.BarButtonItem();
+            this.btnExportToTXT = new DevExpress.XtraBars.BarButtonItem();
+            this.btnLayoutmap = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageStart = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -148,15 +152,25 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.dataNavigator = new DevExpress.XtraEditors.DataNavigator();
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelDb = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.treeListData = new DevExpress.XtraTreeList.TreeList();
-            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.dockPanelManipData = new DevExpress.XtraBars.Docking.DockPanel();
             this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListManipData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
+            this.dockPanelDb = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.treeListData = new DevExpress.XtraTreeList.TreeList();
+            this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.TabControl = new DevExpress.XtraTab.XtraTabControl();
+            this.layoutmapTabpage = new DevExpress.XtraTab.XtraTabPage();
+            this.gridControlLymp = new DevExpress.XtraGrid.GridControl();
+            this.cardViewLymp = new DevExpress.XtraGrid.Views.Card.CardView();
+            this.columPicCode = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.columPicName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.columBindingLines = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.lyotmapCheckedCmb = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+            this.columPic = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.lyotmapPicEdit = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
+            this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -174,6 +188,7 @@
             this.bstFileBtnEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.wxtFileBtnEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.repositoryItemDateEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+            this.linebstFileBtnEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.row1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.row2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
@@ -206,7 +221,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.popObsdata = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.btnDbExeute = new DevExpress.XtraBars.BarButtonItem();
+            this.popLayoutmap = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -236,14 +251,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).BeginInit();
             this.panelContainer1.SuspendLayout();
-            this.dockPanelDb.SuspendLayout();
-            this.dockPanel3_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeListData)).BeginInit();
             this.dockPanelManipData.SuspendLayout();
             this.controlContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
-            this.xtraTabControl1.SuspendLayout();
+            this.dockPanelDb.SuspendLayout();
+            this.dockPanel3_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeListData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TabControl)).BeginInit();
+            this.TabControl.SuspendLayout();
+            this.layoutmapTabpage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlLymp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cardViewLymp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lyotmapCheckedCmb)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lyotmapPicEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             this.mapTabPage.SuspendLayout();
             this.chartTabPage.SuspendLayout();
             this.siteInfoTabPage.SuspendLayout();
@@ -259,10 +280,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.wxtFileBtnEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit3.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linebstFileBtnEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popObsdata)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLayoutmap)).BeginInit();
             this.SuspendLayout();
             // 
             // splashScreenManager
@@ -363,9 +386,12 @@
             this.btnDeleteObsline,
             this.btnUpdateSiteInfo,
             this.btnInterval,
-            this.btnDbExeute});
+            this.btnDbExeute,
+            this.btnExportToExcel,
+            this.btnExportToTXT,
+            this.btnLayoutmap});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 126;
+            this.ribbon.MaxItemId = 129;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageStart,
@@ -1022,6 +1048,42 @@
             this.btnInterval.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnInterval.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
             // 
+            // btnDbExeute
+            // 
+            this.btnDbExeute.Caption = "数据库还原";
+            this.btnDbExeute.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDbExeute.Glyph")));
+            this.btnDbExeute.Id = 125;
+            this.btnDbExeute.Name = "btnDbExeute";
+            this.btnDbExeute.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnDbExeute.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDb_ItemClick);
+            // 
+            // btnExportToExcel
+            // 
+            this.btnExportToExcel.Caption = "输出Excel文件";
+            this.btnExportToExcel.Glyph = ((System.Drawing.Image)(resources.GetObject("btnExportToExcel.Glyph")));
+            this.btnExportToExcel.Id = 126;
+            this.btnExportToExcel.Name = "btnExportToExcel";
+            this.btnExportToExcel.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnExportToExcel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
+            // btnExportToTXT
+            // 
+            this.btnExportToTXT.Caption = "输出TXT文件";
+            this.btnExportToTXT.Glyph = ((System.Drawing.Image)(resources.GetObject("btnExportToTXT.Glyph")));
+            this.btnExportToTXT.Id = 127;
+            this.btnExportToTXT.Name = "btnExportToTXT";
+            this.btnExportToTXT.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnExportToTXT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
+            // btnLayoutmap
+            // 
+            this.btnLayoutmap.Caption = "查看布设图";
+            this.btnLayoutmap.Glyph = ((System.Drawing.Image)(resources.GetObject("btnLayoutmap.Glyph")));
+            this.btnLayoutmap.Id = 128;
+            this.btnLayoutmap.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnLayoutmap.LargeGlyph")));
+            this.btnLayoutmap.Name = "btnLayoutmap";
+            this.btnLayoutmap.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
+            // 
             // ribbonPageStart
             // 
             this.ribbonPageStart.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -1099,6 +1161,8 @@
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesBreak);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnInterval);
             this.ribbonPageGroup13.ItemLinks.Add(this.barSaveToChuLi);
+            this.ribbonPageGroup13.ItemLinks.Add(this.btnExportToExcel);
+            this.ribbonPageGroup13.ItemLinks.Add(this.btnExportToTXT);
             this.ribbonPageGroup13.Name = "ribbonPageGroup13";
             this.ribbonPageGroup13.Text = "数据处理方法";
             // 
@@ -1434,7 +1498,7 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.ActiveChild = this.dockPanelDb;
+            this.panelContainer1.ActiveChild = this.dockPanelManipData;
             this.panelContainer1.Controls.Add(this.dockPanelDb);
             this.panelContainer1.Controls.Add(this.dockPanelManipData);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
@@ -1445,6 +1509,46 @@
             this.panelContainer1.Size = new System.Drawing.Size(186, 592);
             this.panelContainer1.Tabbed = true;
             this.panelContainer1.Text = "panelContainer1";
+            // 
+            // dockPanelManipData
+            // 
+            this.dockPanelManipData.Controls.Add(this.controlContainer1);
+            this.dockPanelManipData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+            this.dockPanelManipData.ID = new System.Guid("c3051830-b722-4138-a46f-080928d6e09b");
+            this.dockPanelManipData.Image = ((System.Drawing.Image)(resources.GetObject("dockPanelManipData.Image")));
+            this.dockPanelManipData.Location = new System.Drawing.Point(4, 23);
+            this.dockPanelManipData.Name = "dockPanelManipData";
+            this.dockPanelManipData.OriginalSize = new System.Drawing.Size(152, 544);
+            this.dockPanelManipData.Size = new System.Drawing.Size(177, 537);
+            this.dockPanelManipData.Text = "处理数据";
+            // 
+            // controlContainer1
+            // 
+            this.controlContainer1.Controls.Add(this.treeListManipData);
+            this.controlContainer1.Location = new System.Drawing.Point(0, 0);
+            this.controlContainer1.Name = "controlContainer1";
+            this.controlContainer1.Size = new System.Drawing.Size(177, 537);
+            this.controlContainer1.TabIndex = 0;
+            // 
+            // treeListManipData
+            // 
+            this.treeListManipData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.treeListColumn3});
+            this.treeListManipData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeListManipData.Location = new System.Drawing.Point(0, 0);
+            this.treeListManipData.Name = "treeListManipData";
+            this.treeListManipData.Size = new System.Drawing.Size(177, 537);
+            this.treeListManipData.TabIndex = 0;
+            this.treeListManipData.DoubleClick += new System.EventHandler(this.treeList_DoubleClick);
+            this.treeListManipData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
+            // 
+            // treeListColumn3
+            // 
+            this.treeListColumn3.Caption = "文件";
+            this.treeListColumn3.FieldName = "文件";
+            this.treeListColumn3.Name = "treeListColumn3";
+            this.treeListColumn3.Visible = true;
+            this.treeListColumn3.VisibleIndex = 0;
             // 
             // dockPanelDb
             // 
@@ -1484,6 +1588,7 @@
             this.treeListData.Size = new System.Drawing.Size(177, 537);
             this.treeListData.TabIndex = 0;
             this.treeListData.CustomDrawNodeImages += new DevExpress.XtraTreeList.CustomDrawNodeImagesEventHandler(this.treeListOriData_CustomDrawNodeImages);
+            this.treeListData.DoubleClick += new System.EventHandler(this.treeList_DoubleClick);
             this.treeListData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
             // 
             // treeListColumn1
@@ -1498,62 +1603,118 @@
             this.treeListColumn1.VisibleIndex = 0;
             this.treeListColumn1.Width = 190;
             // 
-            // dockPanelManipData
+            // TabControl
             // 
-            this.dockPanelManipData.Controls.Add(this.controlContainer1);
-            this.dockPanelManipData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelManipData.ID = new System.Guid("c3051830-b722-4138-a46f-080928d6e09b");
-            this.dockPanelManipData.Image = ((System.Drawing.Image)(resources.GetObject("dockPanelManipData.Image")));
-            this.dockPanelManipData.Location = new System.Drawing.Point(4, 23);
-            this.dockPanelManipData.Name = "dockPanelManipData";
-            this.dockPanelManipData.OriginalSize = new System.Drawing.Size(152, 544);
-            this.dockPanelManipData.Size = new System.Drawing.Size(177, 537);
-            this.dockPanelManipData.Text = "处理数据";
-            // 
-            // controlContainer1
-            // 
-            this.controlContainer1.Controls.Add(this.treeListManipData);
-            this.controlContainer1.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer1.Name = "controlContainer1";
-            this.controlContainer1.Size = new System.Drawing.Size(177, 537);
-            this.controlContainer1.TabIndex = 0;
-            // 
-            // treeListManipData
-            // 
-            this.treeListManipData.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn3});
-            this.treeListManipData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListManipData.Location = new System.Drawing.Point(0, 0);
-            this.treeListManipData.Name = "treeListManipData";
-            this.treeListManipData.Size = new System.Drawing.Size(177, 537);
-            this.treeListManipData.TabIndex = 0;
-            this.treeListManipData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
-            // 
-            // treeListColumn3
-            // 
-            this.treeListColumn3.Caption = "文件";
-            this.treeListColumn3.FieldName = "文件";
-            this.treeListColumn3.Name = "treeListColumn3";
-            this.treeListColumn3.Visible = true;
-            this.treeListColumn3.VisibleIndex = 0;
-            // 
-            // xtraTabControl1
-            // 
-            this.xtraTabControl1.ClosePageButtonShowMode = DevExpress.XtraTab.ClosePageButtonShowMode.InAllTabPageHeaders;
-            this.xtraTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl1.Location = new System.Drawing.Point(186, 147);
-            this.xtraTabControl1.Name = "xtraTabControl1";
-            this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
-            this.xtraTabControl1.Size = new System.Drawing.Size(1168, 592);
-            this.xtraTabControl1.TabIndex = 10;
-            this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.TabControl.ClosePageButtonShowMode = DevExpress.XtraTab.ClosePageButtonShowMode.InAllTabPageHeaders;
+            this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl.Location = new System.Drawing.Point(186, 147);
+            this.TabControl.Name = "TabControl";
+            this.TabControl.SelectedTabPage = this.layoutmapTabpage;
+            this.TabControl.Size = new System.Drawing.Size(1168, 592);
+            this.TabControl.TabIndex = 10;
+            this.TabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.mapTabPage,
             this.chartTabPage,
             this.siteInfoTabPage,
             this.recycleTabPage,
-            this.addXxkTabPage});
-            this.xtraTabControl1.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl1_SelectedPageChanged);
-            this.xtraTabControl1.CloseButtonClick += new System.EventHandler(this.xtraTabControl1_CloseButtonClick);
+            this.addXxkTabPage,
+            this.layoutmapTabpage});
+            this.TabControl.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl1_SelectedPageChanged);
+            this.TabControl.CloseButtonClick += new System.EventHandler(this.xtraTabControl1_CloseButtonClick);
+            // 
+            // layoutmapTabpage
+            // 
+            this.layoutmapTabpage.Controls.Add(this.gridControlLymp);
+            this.layoutmapTabpage.Name = "layoutmapTabpage";
+            this.layoutmapTabpage.Size = new System.Drawing.Size(1162, 563);
+            this.layoutmapTabpage.Text = "测项布设图";
+            // 
+            // gridControlLymp
+            // 
+            this.gridControlLymp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlLymp.Location = new System.Drawing.Point(0, 0);
+            this.gridControlLymp.MainView = this.cardViewLymp;
+            this.gridControlLymp.MenuManager = this.ribbon;
+            this.gridControlLymp.Name = "gridControlLymp";
+            this.gridControlLymp.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.lyotmapPicEdit,
+            this.repositoryItemCheckEdit2,
+            this.lyotmapCheckedCmb});
+            this.gridControlLymp.Size = new System.Drawing.Size(1162, 563);
+            this.gridControlLymp.TabIndex = 0;
+            this.gridControlLymp.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.cardViewLymp});
+            // 
+            // cardViewLymp
+            // 
+            this.cardViewLymp.CardWidth = 450;
+            this.cardViewLymp.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.columPicCode,
+            this.columPicName,
+            this.columBindingLines,
+            this.columPic});
+            this.cardViewLymp.DetailHeight = 50;
+            this.cardViewLymp.FocusedCardTopFieldIndex = 0;
+            this.cardViewLymp.GridControl = this.gridControlLymp;
+            this.cardViewLymp.MaximumCardColumns = 4;
+            this.cardViewLymp.MaximumCardRows = 2;
+            this.cardViewLymp.Name = "cardViewLymp";
+            this.cardViewLymp.OptionsBehavior.AutoHorzWidth = true;
+            this.cardViewLymp.OptionsBehavior.FieldAutoHeight = true;
+            this.cardViewLymp.OptionsSelection.MultiSelect = true;
+            this.cardViewLymp.CustomDrawCardCaption += new DevExpress.XtraGrid.Views.Card.CardCaptionCustomDrawEventHandler(this.cardViewLymp_CustomDrawCardCaption);
+            // 
+            // columPicCode
+            // 
+            this.columPicCode.Caption = "编码";
+            this.columPicCode.FieldName = "layoutmapcode";
+            this.columPicCode.Name = "columPicCode";
+            this.columPicCode.Visible = true;
+            this.columPicCode.VisibleIndex = 0;
+            // 
+            // columPicName
+            // 
+            this.columPicName.Caption = "名称";
+            this.columPicName.FieldName = "layoutmapname";
+            this.columPicName.Name = "columPicName";
+            this.columPicName.Visible = true;
+            this.columPicName.VisibleIndex = 1;
+            // 
+            // columBindingLines
+            // 
+            this.columBindingLines.Caption = "绑定测线";
+            this.columBindingLines.ColumnEdit = this.lyotmapCheckedCmb;
+            this.columBindingLines.FieldName = "Bindinglines";
+            this.columBindingLines.Name = "columBindingLines";
+            this.columBindingLines.Visible = true;
+            this.columBindingLines.VisibleIndex = 2;
+            // 
+            // lyotmapCheckedCmb
+            // 
+            this.lyotmapCheckedCmb.AutoHeight = false;
+            this.lyotmapCheckedCmb.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.lyotmapCheckedCmb.Name = "lyotmapCheckedCmb";
+            // 
+            // columPic
+            // 
+            this.columPic.Caption = "图片";
+            this.columPic.ColumnEdit = this.lyotmapPicEdit;
+            this.columPic.FieldName = "layoutmap";
+            this.columPic.Name = "columPic";
+            this.columPic.Visible = true;
+            this.columPic.VisibleIndex = 3;
+            // 
+            // lyotmapPicEdit
+            // 
+            this.lyotmapPicEdit.CustomHeight = 200;
+            this.lyotmapPicEdit.Name = "lyotmapPicEdit";
+            this.lyotmapPicEdit.ZoomAccelerationFactor = 1D;
+            // 
+            // repositoryItemCheckEdit2
+            // 
+            this.repositoryItemCheckEdit2.AutoHeight = false;
+            this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
             // 
             // mapTabPage
             // 
@@ -1621,7 +1782,7 @@
             // 
             this.siteInfoDocCtrl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.siteInfoDocCtrl1.Location = new System.Drawing.Point(0, 0);
-            this.siteInfoDocCtrl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.siteInfoDocCtrl1.Margin = new System.Windows.Forms.Padding(2);
             this.siteInfoDocCtrl1.Name = "siteInfoDocCtrl1";
             this.siteInfoDocCtrl1.Size = new System.Drawing.Size(1162, 563);
             this.siteInfoDocCtrl1.TabIndex = 0;
@@ -1724,7 +1885,8 @@
             this.repositoryItemImageEdit1,
             this.bstFileBtnEdit,
             this.wxtFileBtnEdit,
-            this.repositoryItemDateEdit3});
+            this.repositoryItemDateEdit3,
+            this.linebstFileBtnEdit});
             this.vGridControlSiteInfo.RowHeaderWidth = 131;
             this.vGridControlSiteInfo.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.row,
@@ -1793,6 +1955,13 @@
             this.repositoryItemDateEdit3.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.repositoryItemDateEdit3.Name = "repositoryItemDateEdit3";
+            // 
+            // linebstFileBtnEdit
+            // 
+            this.linebstFileBtnEdit.AutoHeight = false;
+            this.linebstFileBtnEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.linebstFileBtnEdit.Name = "linebstFileBtnEdit";
             // 
             // row
             // 
@@ -1914,7 +2083,7 @@
             // row18
             // 
             this.row18.Name = "row18";
-            this.row18.Properties.Caption = "布设图";
+            this.row18.Properties.Caption = "场地布设图";
             this.row18.Properties.Padding = new System.Windows.Forms.Padding(0);
             this.row18.Properties.RowEdit = this.bstFileBtnEdit;
             // 
@@ -1967,6 +2136,7 @@
             this.popRemoteSiteTree.ItemLinks.Add(this.btnSiteInfo);
             this.popRemoteSiteTree.ItemLinks.Add(this.btnUpdateSiteInfo);
             this.popRemoteSiteTree.ItemLinks.Add(this.btnAddSiteInfo);
+            this.popRemoteSiteTree.ItemLinks.Add(this.btnLayoutmap);
             this.popRemoteSiteTree.ItemLinks.Add(this.btnSiteLocation);
             this.popRemoteSiteTree.ItemLinks.Add(this.btnImportObsline);
             this.popRemoteSiteTree.ItemLinks.Add(this.btnDownLoad);
@@ -1996,21 +2166,19 @@
             this.popObsdata.Name = "popObsdata";
             this.popObsdata.Ribbon = this.ribbon;
             // 
-            // btnDbExeute
+            // popLayoutmap
             // 
-            this.btnDbExeute.Caption = "数据库还原";
-            this.btnDbExeute.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDbExeute.Glyph")));
-            this.btnDbExeute.Id = 125;
-            this.btnDbExeute.Name = "btnDbExeute";
-            this.btnDbExeute.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.btnDbExeute.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDb_ItemClick);
+            this.popLayoutmap.ItemLinks.Add(this.btnDeleteObsline);
+            this.popLayoutmap.ItemLinks.Add(this.btnChart);
+            this.popLayoutmap.Name = "popLayoutmap";
+            this.popLayoutmap.Ribbon = this.ribbon;
             // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 770);
-            this.Controls.Add(this.xtraTabControl1);
+            this.Controls.Add(this.TabControl);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
@@ -2047,14 +2215,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).EndInit();
             this.panelContainer1.ResumeLayout(false);
-            this.dockPanelDb.ResumeLayout(false);
-            this.dockPanel3_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListData)).EndInit();
             this.dockPanelManipData.ResumeLayout(false);
             this.controlContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListManipData)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
-            this.xtraTabControl1.ResumeLayout(false);
+            this.dockPanelDb.ResumeLayout(false);
+            this.dockPanel3_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeListData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TabControl)).EndInit();
+            this.TabControl.ResumeLayout(false);
+            this.layoutmapTabpage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlLymp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cardViewLymp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lyotmapCheckedCmb)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lyotmapPicEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             this.mapTabPage.ResumeLayout(false);
             this.chartTabPage.ResumeLayout(false);
             this.siteInfoTabPage.ResumeLayout(false);
@@ -2070,10 +2244,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.wxtFileBtnEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit3.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.linebstFileBtnEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popObsdata)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popLayoutmap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2102,7 +2278,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup18;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup19;
         private DevExpress.XtraBars.Docking.DockManager dockManager;
-        private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
+        private DevExpress.XtraTab.XtraTabControl TabControl;
         private DevExpress.XtraTab.XtraTabPage mapTabPage;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelDb;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel3_Container;
@@ -2265,5 +2441,20 @@
         private DevExpress.XtraVerticalGrid.Rows.EditorRow row16;
         private DevExpress.XtraBars.BarButtonItem btnInterval;
         private DevExpress.XtraBars.BarButtonItem btnDbExeute;
+        private DevExpress.XtraBars.BarButtonItem btnExportToExcel;
+        private DevExpress.XtraBars.BarButtonItem btnExportToTXT;
+        private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit linebstFileBtnEdit;
+        private DevExpress.XtraTab.XtraTabPage layoutmapTabpage;
+        private DevExpress.XtraGrid.GridControl gridControlLymp;
+        private DevExpress.XtraGrid.Views.Card.CardView cardViewLymp;
+        private DevExpress.XtraBars.BarButtonItem btnLayoutmap;
+        private DevExpress.XtraGrid.Columns.GridColumn columPicCode;
+        private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit lyotmapPicEdit;
+        private DevExpress.XtraGrid.Columns.GridColumn columPic;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
+        private DevExpress.XtraBars.PopupMenu popLayoutmap;
+        private DevExpress.XtraGrid.Columns.GridColumn columPicName;
+        private DevExpress.XtraGrid.Columns.GridColumn columBindingLines;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit lyotmapCheckedCmb;
     }
 }

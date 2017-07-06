@@ -802,7 +802,7 @@ namespace xxkUI
                 //自定义card长宽
                 int w = this.gridControlLymp.Width;
                 int h = this.gridControlLymp.Height;
-                this.cardViewLymp.CardWidth = (w - 20) / 4;
+                this.cardViewLymp.CardWidth = (w - 50) / 4;
                 this.lyotmapPicEdit.CustomHeight = h / 2;
 
                 List<LineBean> lblist = LineBll.Instance.GetBySitecode(sitecode).ToList();

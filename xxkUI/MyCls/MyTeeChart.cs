@@ -18,11 +18,6 @@ using System.IO;
 namespace xxkUI.MyCls
 {
 
-    public class LineTag
-    {
-        public string Sitecode { get; set; }
-        public string Linecode { get; set; }
-    }
     public class MyTeeChart
     {
         /// <summary>
@@ -50,7 +45,7 @@ namespace xxkUI.MyCls
         private Point end = new Point();//矩形终点
         private Graphics g;
         private bool isDrawing = false;
-        private Points RemoveJumpORStepPoints = null;
+        private Points RemoveJumpORStepPoints = null;//选中的点
        
         List<SelectedPointStruct> selectedPtlist = new List<SelectedPointStruct>();
 
@@ -456,7 +451,7 @@ namespace xxkUI.MyCls
 
             try
             {
-                this.dragMarks.Active = !this.dragMarks.Active;
+                this.dragMarks.Active = true;
                 if (this.dragMarks.Active)
                 {
                     Line ln = this.tChart.Series[0] as Line;
@@ -531,28 +526,7 @@ namespace xxkUI.MyCls
             return visibleSeries;
         }
 
-        /// <summary>
-        /// 获取曲线Series数量
-        /// </summary>
-        /// <returns></returns>
-        private int GetLineSeriesCount()
-        {
-            int seriesCount = 0;
-            for (int i = 0; i < this.tChart.Series.Count; i++)
-            {
-                try
-                {
-                    Line ln = this.tChart.Series[i] as Line;
-                    if (ln != null)
-                        seriesCount++;
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-            return seriesCount;
-        }
+
 
         /// <summary>
         /// 添加多个纵坐标轴
@@ -641,14 +615,6 @@ namespace xxkUI.MyCls
         /// <summary>
         /// 打开历史震例窗体
         /// </summary>
-        public void GetEqkShowForm()
-        {
-            InitDragPoints();
-            InitDrawLines();
-            eqkfrm = new EqkShow(this.tChart.Series[0].Tag, this.tChart, this.dragPoints, this.drawLines);
-            eqkfrm.ShowDialog();
-            eqkfrm.Focus();
-        }
 
         void eqkfrm_FocousToMapPage(List<EqkBean> eblist)
         {
@@ -877,21 +843,6 @@ namespace xxkUI.MyCls
         /// <param name="e"></param>
         private void TChart_MouseWheel(object sender, MouseEventArgs e)
         {
-            try
-            {
-                if (GetLineSeriesCount() != 1)
-                    return;
-                if (e.Delta > 0)
-                {
-                    tChart.Zoom.ZoomPercent(110);
-                }
-                else
-                {
-                    tChart.Zoom.ZoomPercent(90);
-                }
-            }
-            catch { }
-
         }
 
         /// <summary>
@@ -935,14 +886,21 @@ namespace xxkUI.MyCls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="g"></param>
-        private void TChart_AfterDraw(object sender, Graphics3D g)
+        private void TChart_AfterDraw(object sender, Graphics3D g3d)
         {
             if (RemoveJumpORStepPoints != null)
                 /*重新计算SelectedPtlist的屏幕XY值*/
                 ReCalculateSelectedPtlist();
-            if (this.selectedPtlist.Count <= 1)
+            if (this.selectedPtlist.Count < 1)
                 return;
 
+            if (this.selectedPtlist.Count == 1)
+            {
+                Point pt1 = this.selectedPtlist[0].PtElement;
+                string text = this.selectedPtlist[0].PtValue.ToString();
+                g3d.TextOut(pt1.X, pt1.Y, text);
+            }
+          
             /*重新绘制台阶线*/
             for (int i = 1; i < this.selectedPtlist.Count; i++)
             {
@@ -950,15 +908,13 @@ namespace xxkUI.MyCls
                 Point pt2 = new Point(this.selectedPtlist[i - 1].PtElement.X, this.selectedPtlist[i].PtElement.Y);
                 Point pt3 = this.selectedPtlist[i].PtElement;
 
-                g.Brush.Color = Color.Gray;
-
-                g.Line(pt1, pt2);
-                g.Line(pt2, pt3);
+                g3d.Brush.Color = Color.Gray;
+                g3d.Line(pt1, pt2);
+                g3d.Line(pt2, pt3);
 
                 string text = Math.Round((this.selectedPtlist[i].PtValue - this.selectedPtlist[i - 1].PtValue), 3).ToString();
-                g.TextOut(pt1.X, pt3.Y - 12, text);
+                g3d.TextOut(pt1.X, pt3.Y - 12, text);
             }
-
         }
 
         /// <summary>
@@ -1094,6 +1050,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void PlusMinusMultiplyDivide()
         {
+            DisposeDragPtTool();
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -1117,7 +1074,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void RemoStepOrJump(TChartEventType tep)
         {
-          
+            DisposeDragPtTool();
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -1129,7 +1086,19 @@ namespace xxkUI.MyCls
             g = this.tChart.CreateGraphics();
 
             this.tChart.Cursor = Cursors.Cross;
-            this.tChart.Series.Remove(this.RemoveJumpORStepPoints);
+         
+            InitRemoveJumpORStepPoints();
+        }
+
+
+        private void InitRemoveJumpORStepPoints()
+        {
+            selectedPtlist.Clear();
+            if (RemoveJumpORStepPoints != null)
+            {
+                RemoveJumpORStepPoints.Clear();
+                RemoveJumpORStepPoints = null;
+            }
             RemoveJumpORStepPoints = new Points(this.tChart.Chart);
             RemoveJumpORStepPoints.Color = Color.Red;
             RemoveJumpORStepPoints.Legend.Visible = false;
@@ -1137,13 +1106,14 @@ namespace xxkUI.MyCls
             RemoveJumpORStepPoints.Pointer.Style = PointerStyles.PolishedSphere;
             RemoveJumpORStepPoints.Pointer.SizeUnits = PointerSizeUnits.Axis;
             RemoveJumpORStepPoints.Pointer.SizeDouble = 20;
+          
         }
-
         /// <summary>
         /// 测项合并
         /// </summary>
         public void LinesUnion()
         {
+            DisposeDragPtTool();
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -1169,7 +1139,7 @@ namespace xxkUI.MyCls
         /// </summary>
         public void LinesBreak(TChartEventType tep)
         {
-
+            DisposeDragPtTool();
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -1442,32 +1412,18 @@ namespace xxkUI.MyCls
         /// <param name="obsv"></param>
         public void GoTodata(DateTime obsdate, double obsv)
         {
-            /*
-             * * 保留第一个Series，其他删除
-             */
-            int sc = this.tChart.Series.Count;
-            if (sc > 1)
-            {
-                for (int i = 1; i < sc; i++)
-                    this.tChart.Series.RemoveAt(i);
-            }
-
+       
+            InitRemoveJumpORStepPoints();
+            
             Line ln = tChart.Series[0] as Line;
 
             for (int i = 0; i < ln.Count; i++)
             {
                 if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
                 {
-
-                    Points pts = new Points(this.tChart.Chart);
-
-                    pts.Legend.Visible = false;
-
-                    pts.Pointer.Color = Color.Red;
-                    pts.Pointer.Style = PointerStyles.Circle;
-                    pts.Marks.Visible = false;
-                    pts.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
-
+                    int screenX = ln.CalcXPosValue(ln[i].X);
+                    int screenY = ln.CalcYPosValue(ln[i].Y);
+                    RemoveJumpORStepPoints.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
                 }
             }
             this.tChart.Refresh();

@@ -132,25 +132,6 @@
             this.repositoryItemCalcEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCalcEdit();
             this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
-            this.panelContainerData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanelObsData = new DevExpress.XtraBars.Docking.DockPanel();
-            this.controlContainer2 = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.gridControlObsdata = new DevExpress.XtraGrid.GridControl();
-            this.gridViewObsdata = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumnObsDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnObsValue = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnNote = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dockPanelChartAttri = new DevExpress.XtraBars.Docking.DockPanel();
-            this.controlContainer3 = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.dockPanelEqkCatalog = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-            this.gridControlEqklist = new DevExpress.XtraGrid.GridControl();
-            this.gridViewEqklist = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dataNavigator = new DevExpress.XtraEditors.DataNavigator();
             this.panelContainer1 = new DevExpress.XtraBars.Docking.DockPanel();
             this.dockPanelManipData = new DevExpress.XtraBars.Docking.DockPanel();
             this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
@@ -160,6 +141,15 @@
             this.dockPanel3_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.treeListData = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.dockPanelEqkCatalog = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.gridControlEqklist = new DevExpress.XtraGrid.GridControl();
+            this.gridViewEqklist = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dataNavigator = new DevExpress.XtraEditors.DataNavigator();
             this.TabControl = new DevExpress.XtraTab.XtraTabControl();
             this.layoutmapTabpage = new DevExpress.XtraTab.XtraTabPage();
             this.gridControlLymp = new DevExpress.XtraGrid.GridControl();
@@ -174,7 +164,6 @@
             this.mapTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.gMapCtrl = new GMap.NET.WindowsForms.GMapControl();
             this.chartTabPage = new DevExpress.XtraTab.XtraTabPage();
-            this.chartGroupBox = new System.Windows.Forms.GroupBox();
             this.siteInfoTabPage = new DevExpress.XtraTab.XtraTabPage();
             this.siteInfoDocCtrl1 = new xxkUI.Controls.SiteInfoDocCtrl();
             this.recycleTabPage = new DevExpress.XtraTab.XtraTabPage();
@@ -220,8 +209,9 @@
             this.popLineTreeWork = new DevExpress.XtraBars.PopupMenu(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
-            this.popObsdata = new DevExpress.XtraBars.PopupMenu(this.components);
             this.popLayoutmap = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.myBackgroundWorker1 = new xxkUI.Tool.MyBackgroundWorker();
+            this.tChartControl = new xxkUI.Controls.TChartControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -240,16 +230,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
-            this.panelContainerData.SuspendLayout();
-            this.dockPanelObsData.SuspendLayout();
-            this.controlContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).BeginInit();
-            this.dockPanelChartAttri.SuspendLayout();
-            this.dockPanelEqkCatalog.SuspendLayout();
-            this.dockPanel1_Container.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).BeginInit();
             this.panelContainer1.SuspendLayout();
             this.dockPanelManipData.SuspendLayout();
             this.controlContainer1.SuspendLayout();
@@ -257,6 +237,10 @@
             this.dockPanelDb.SuspendLayout();
             this.dockPanel3_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListData)).BeginInit();
+            this.dockPanelEqkCatalog.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TabControl)).BeginInit();
             this.TabControl.SuspendLayout();
             this.layoutmapTabpage.SuspendLayout();
@@ -284,7 +268,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.popObsdata)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLayoutmap)).BeginInit();
             this.SuspendLayout();
             // 
@@ -917,7 +900,6 @@
             this.barbtnInsertRec.Id = 97;
             this.barbtnInsertRec.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barbtnInsertRec.LargeGlyph")));
             this.barbtnInsertRec.Name = "barbtnInsertRec";
-            this.barbtnInsertRec.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barbtnObsData_ItemClick);
             // 
             // barbtnDeleteRec
             // 
@@ -926,7 +908,6 @@
             this.barbtnDeleteRec.Id = 98;
             this.barbtnDeleteRec.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barbtnDeleteRec.LargeGlyph")));
             this.barbtnDeleteRec.Name = "barbtnDeleteRec";
-            this.barbtnDeleteRec.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barbtnObsData_ItemClick);
             // 
             // barbtnEditRec
             // 
@@ -935,7 +916,6 @@
             this.barbtnEditRec.Id = 99;
             this.barbtnEditRec.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barbtnEditRec.LargeGlyph")));
             this.barbtnEditRec.Name = "barbtnEditRec";
-            this.barbtnEditRec.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barbtnObsData_ItemClick);
             // 
             // barbtnSaveRec
             // 
@@ -944,7 +924,6 @@
             this.barbtnSaveRec.Id = 100;
             this.barbtnSaveRec.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barbtnSaveRec.LargeGlyph")));
             this.barbtnSaveRec.Name = "barbtnSaveRec";
-            this.barbtnSaveRec.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barbtnObsData_ItemClick);
             // 
             // barButtonItem2
             // 
@@ -1248,7 +1227,7 @@
             // 
             this.dockManager.Form = this;
             this.dockManager.HiddenPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.panelContainerData});
+            this.dockPanelEqkCatalog});
             this.dockManager.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
             this.panelContainer1});
             this.dockManager.TopZIndexControls.AddRange(new string[] {
@@ -1262,239 +1241,6 @@
             "DevExpress.XtraBars.Navigation.OfficeNavigationBar",
             "DevExpress.XtraBars.Navigation.TileNavPane",
             "DevExpress.XtraBars.TabFormControl"});
-            // 
-            // panelContainerData
-            // 
-            this.panelContainerData.ActiveChild = this.dockPanelObsData;
-            this.panelContainerData.Controls.Add(this.dockPanelChartAttri);
-            this.panelContainerData.Controls.Add(this.dockPanelObsData);
-            this.panelContainerData.Controls.Add(this.dockPanelEqkCatalog);
-            this.panelContainerData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
-            this.panelContainerData.ID = new System.Guid("7e8ffaee-6075-48ce-9727-38e17ddd3a38");
-            this.panelContainerData.Location = new System.Drawing.Point(1084, 184);
-            this.panelContainerData.Name = "panelContainerData";
-            this.panelContainerData.OriginalSize = new System.Drawing.Size(314, 200);
-            this.panelContainerData.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Right;
-            this.panelContainerData.SavedIndex = 1;
-            this.panelContainerData.Size = new System.Drawing.Size(314, 490);
-            this.panelContainerData.Tabbed = true;
-            this.panelContainerData.Text = "panelContainer2";
-            this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-            // 
-            // dockPanelObsData
-            // 
-            this.dockPanelObsData.Controls.Add(this.controlContainer2);
-            this.dockPanelObsData.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelObsData.ID = new System.Guid("58455861-352f-464c-8365-a68e15fd0423");
-            this.dockPanelObsData.Location = new System.Drawing.Point(7, 28);
-            this.dockPanelObsData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dockPanelObsData.Name = "dockPanelObsData";
-            this.dockPanelObsData.OriginalSize = new System.Drawing.Size(302, 423);
-            this.dockPanelObsData.Size = new System.Drawing.Size(302, 423);
-            this.dockPanelObsData.Text = "监测数据";
-            // 
-            // controlContainer2
-            // 
-            this.controlContainer2.Controls.Add(this.gridControlObsdata);
-            this.controlContainer2.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.controlContainer2.Name = "controlContainer2";
-            this.controlContainer2.Size = new System.Drawing.Size(302, 423);
-            this.controlContainer2.TabIndex = 0;
-            // 
-            // gridControlObsdata
-            // 
-            this.gridControlObsdata.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlObsdata.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlObsdata.Location = new System.Drawing.Point(0, 0);
-            this.gridControlObsdata.MainView = this.gridViewObsdata;
-            this.gridControlObsdata.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlObsdata.Name = "gridControlObsdata";
-            this.gridControlObsdata.Size = new System.Drawing.Size(302, 423);
-            this.gridControlObsdata.TabIndex = 18;
-            this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewObsdata});
-            this.gridControlObsdata.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseDown);
-            this.gridControlObsdata.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseUp);
-            // 
-            // gridViewObsdata
-            // 
-            this.gridViewObsdata.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumnObsDate,
-            this.gridColumnObsValue,
-            this.gridColumnNote});
-            this.gridViewObsdata.GridControl = this.gridControlObsdata;
-            this.gridViewObsdata.Name = "gridViewObsdata";
-            this.gridViewObsdata.OptionsBehavior.Editable = false;
-            this.gridViewObsdata.OptionsView.ShowGroupPanel = false;
-            this.gridViewObsdata.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gridViewObsdata_ShowingEditor);
-            this.gridViewObsdata.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewObsdata_CellValueChanged);
-            this.gridViewObsdata.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseDown);
-            this.gridViewObsdata.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridViewObsdata_MouseUp);
-            // 
-            // gridColumnObsDate
-            // 
-            this.gridColumnObsDate.Caption = "观测时间";
-            this.gridColumnObsDate.FieldName = "obvdate";
-            this.gridColumnObsDate.Name = "gridColumnObsDate";
-            this.gridColumnObsDate.Visible = true;
-            this.gridColumnObsDate.VisibleIndex = 0;
-            // 
-            // gridColumnObsValue
-            // 
-            this.gridColumnObsValue.Caption = "观测值";
-            this.gridColumnObsValue.FieldName = "obvvalue";
-            this.gridColumnObsValue.Name = "gridColumnObsValue";
-            this.gridColumnObsValue.Visible = true;
-            this.gridColumnObsValue.VisibleIndex = 1;
-            // 
-            // gridColumnNote
-            // 
-            this.gridColumnNote.Caption = "备注";
-            this.gridColumnNote.FieldName = "note";
-            this.gridColumnNote.Name = "gridColumnNote";
-            this.gridColumnNote.Visible = true;
-            this.gridColumnNote.VisibleIndex = 2;
-            // 
-            // dockPanelChartAttri
-            // 
-            this.dockPanelChartAttri.Controls.Add(this.controlContainer3);
-            this.dockPanelChartAttri.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelChartAttri.ID = new System.Guid("25ee6056-20ad-4ea4-83fc-26f7be4808e2");
-            this.dockPanelChartAttri.Location = new System.Drawing.Point(7, 28);
-            this.dockPanelChartAttri.Name = "dockPanelChartAttri";
-            this.dockPanelChartAttri.OriginalSize = new System.Drawing.Size(302, 423);
-            this.dockPanelChartAttri.Size = new System.Drawing.Size(302, 423);
-            this.dockPanelChartAttri.Text = "曲线属性";
-            // 
-            // controlContainer3
-            // 
-            this.controlContainer3.Location = new System.Drawing.Point(0, 0);
-            this.controlContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.controlContainer3.Name = "controlContainer3";
-            this.controlContainer3.Size = new System.Drawing.Size(302, 423);
-            this.controlContainer3.TabIndex = 0;
-            // 
-            // dockPanelEqkCatalog
-            // 
-            this.dockPanelEqkCatalog.Controls.Add(this.dockPanel1_Container);
-            this.dockPanelEqkCatalog.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
-            this.dockPanelEqkCatalog.ID = new System.Guid("4ecb6577-4aed-4bf1-b83b-fe69d6ef8d90");
-            this.dockPanelEqkCatalog.Location = new System.Drawing.Point(7, 28);
-            this.dockPanelEqkCatalog.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dockPanelEqkCatalog.Name = "dockPanelEqkCatalog";
-            this.dockPanelEqkCatalog.OriginalSize = new System.Drawing.Size(302, 423);
-            this.dockPanelEqkCatalog.Size = new System.Drawing.Size(302, 423);
-            this.dockPanelEqkCatalog.Text = "地震目录";
-            this.dockPanelEqkCatalog.ClosedPanel += new DevExpress.XtraBars.Docking.DockPanelEventHandler(this.dockPanelEqkCatalog_ClosedPanel);
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.gridControlEqklist);
-            this.dockPanel1_Container.Controls.Add(this.dataNavigator);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(302, 423);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
-            // gridControlEqklist
-            // 
-            this.gridControlEqklist.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlEqklist.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlEqklist.Location = new System.Drawing.Point(0, 0);
-            this.gridControlEqklist.MainView = this.gridViewEqklist;
-            this.gridControlEqklist.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControlEqklist.Name = "gridControlEqklist";
-            this.gridControlEqklist.Size = new System.Drawing.Size(302, 399);
-            this.gridControlEqklist.TabIndex = 15;
-            this.gridControlEqklist.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewEqklist});
-            // 
-            // gridViewEqklist
-            // 
-            this.gridViewEqklist.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn3,
-            this.gridColumn4,
-            this.gridColumn5,
-            this.gridColumn6});
-            this.gridViewEqklist.GridControl = this.gridControlEqklist;
-            this.gridViewEqklist.Name = "gridViewEqklist";
-            this.gridViewEqklist.OptionsBehavior.Editable = false;
-            this.gridViewEqklist.OptionsSelection.MultiSelect = true;
-            this.gridViewEqklist.OptionsView.ShowGroupPanel = false;
-            this.gridViewEqklist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlEqklist_MouseDown);
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "时间";
-            this.gridColumn3.FieldName = "EakDate";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 0;
-            this.gridColumn3.Width = 92;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.Caption = "震级(ML)";
-            this.gridColumn4.FieldName = "Magntd";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 1;
-            this.gridColumn4.Width = 44;
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "地点";
-            this.gridColumn5.FieldName = "Place";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 2;
-            this.gridColumn5.Width = 92;
-            // 
-            // gridColumn6
-            // 
-            this.gridColumn6.Caption = "深度(KM)";
-            this.gridColumn6.FieldName = "Depth";
-            this.gridColumn6.Name = "gridColumn6";
-            this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 3;
-            this.gridColumn6.Width = 40;
-            // 
-            // dataNavigator
-            // 
-            this.dataNavigator.Buttons.Append.Enabled = false;
-            this.dataNavigator.Buttons.Append.Visible = false;
-            this.dataNavigator.Buttons.CancelEdit.Enabled = false;
-            this.dataNavigator.Buttons.CancelEdit.Visible = false;
-            this.dataNavigator.Buttons.EndEdit.Enabled = false;
-            this.dataNavigator.Buttons.EndEdit.Visible = false;
-            this.dataNavigator.Buttons.First.Tag = "首页";
-            this.dataNavigator.Buttons.Last.Tag = "末页";
-            this.dataNavigator.Buttons.Next.Tag = "下一页";
-            this.dataNavigator.Buttons.NextPage.Enabled = false;
-            this.dataNavigator.Buttons.NextPage.Visible = false;
-            this.dataNavigator.Buttons.Prev.Tag = "上一页";
-            this.dataNavigator.Buttons.PrevPage.Enabled = false;
-            this.dataNavigator.Buttons.PrevPage.Visible = false;
-            this.dataNavigator.Buttons.Remove.Enabled = false;
-            this.dataNavigator.Buttons.Remove.Visible = false;
-            this.dataNavigator.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.dataNavigator.CustomButtons.AddRange(new DevExpress.XtraEditors.NavigatorCustomButton[] {
-            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "首页"),
-            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "上一页"),
-            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "下一页"),
-            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "末页")});
-            this.dataNavigator.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataNavigator.Location = new System.Drawing.Point(0, 399);
-            this.dataNavigator.Name = "dataNavigator";
-            this.dataNavigator.ShowToolTips = true;
-            this.dataNavigator.Size = new System.Drawing.Size(302, 24);
-            this.dataNavigator.TabIndex = 15;
-            this.dataNavigator.Text = "dataNavigator1";
-            this.dataNavigator.TextLocation = DevExpress.XtraEditors.NavigatorButtonsTextLocation.Center;
-            this.dataNavigator.TextStringFormat = "第 {0}页 ,共 {1}";
-            this.dataNavigator.ButtonClick += new DevExpress.XtraEditors.NavigatorButtonClickEventHandler(this.dataNavigator_ButtonClick);
             // 
             // panelContainer1
             // 
@@ -1603,6 +1349,130 @@
             this.treeListColumn1.VisibleIndex = 0;
             this.treeListColumn1.Width = 190;
             // 
+            // dockPanelEqkCatalog
+            // 
+            this.dockPanelEqkCatalog.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelEqkCatalog.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
+            this.dockPanelEqkCatalog.ID = new System.Guid("4ecb6577-4aed-4bf1-b83b-fe69d6ef8d90");
+            this.dockPanelEqkCatalog.Location = new System.Drawing.Point(1040, 147);
+            this.dockPanelEqkCatalog.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanelEqkCatalog.Name = "dockPanelEqkCatalog";
+            this.dockPanelEqkCatalog.OriginalSize = new System.Drawing.Size(314, 200);
+            this.dockPanelEqkCatalog.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Right;
+            this.dockPanelEqkCatalog.SavedIndex = 1;
+            this.dockPanelEqkCatalog.Size = new System.Drawing.Size(314, 592);
+            this.dockPanelEqkCatalog.Text = "地震目录";
+            this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+            this.dockPanelEqkCatalog.ClosedPanel += new DevExpress.XtraBars.Docking.DockPanelEventHandler(this.dockPanelEqkCatalog_ClosedPanel);
+            // 
+            // dockPanel1_Container
+            // 
+            this.dockPanel1_Container.Controls.Add(this.gridControlEqklist);
+            this.dockPanel1_Container.Controls.Add(this.dataNavigator);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(5, 23);
+            this.dockPanel1_Container.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(305, 565);
+            this.dockPanel1_Container.TabIndex = 0;
+            // 
+            // gridControlEqklist
+            // 
+            this.gridControlEqklist.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlEqklist.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControlEqklist.Location = new System.Drawing.Point(0, 0);
+            this.gridControlEqklist.MainView = this.gridViewEqklist;
+            this.gridControlEqklist.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControlEqklist.Name = "gridControlEqklist";
+            this.gridControlEqklist.Size = new System.Drawing.Size(305, 541);
+            this.gridControlEqklist.TabIndex = 15;
+            this.gridControlEqklist.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewEqklist});
+            // 
+            // gridViewEqklist
+            // 
+            this.gridViewEqklist.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn3,
+            this.gridColumn4,
+            this.gridColumn5,
+            this.gridColumn6});
+            this.gridViewEqklist.GridControl = this.gridControlEqklist;
+            this.gridViewEqklist.Name = "gridViewEqklist";
+            this.gridViewEqklist.OptionsBehavior.Editable = false;
+            this.gridViewEqklist.OptionsSelection.MultiSelect = true;
+            this.gridViewEqklist.OptionsView.ShowGroupPanel = false;
+            this.gridViewEqklist.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlEqklist_MouseDown);
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.Caption = "时间";
+            this.gridColumn3.FieldName = "EakDate";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 0;
+            this.gridColumn3.Width = 92;
+            // 
+            // gridColumn4
+            // 
+            this.gridColumn4.Caption = "震级(ML)";
+            this.gridColumn4.FieldName = "Magntd";
+            this.gridColumn4.Name = "gridColumn4";
+            this.gridColumn4.Visible = true;
+            this.gridColumn4.VisibleIndex = 1;
+            this.gridColumn4.Width = 44;
+            // 
+            // gridColumn5
+            // 
+            this.gridColumn5.Caption = "地点";
+            this.gridColumn5.FieldName = "Place";
+            this.gridColumn5.Name = "gridColumn5";
+            this.gridColumn5.Visible = true;
+            this.gridColumn5.VisibleIndex = 2;
+            this.gridColumn5.Width = 92;
+            // 
+            // gridColumn6
+            // 
+            this.gridColumn6.Caption = "深度(KM)";
+            this.gridColumn6.FieldName = "Depth";
+            this.gridColumn6.Name = "gridColumn6";
+            this.gridColumn6.Visible = true;
+            this.gridColumn6.VisibleIndex = 3;
+            this.gridColumn6.Width = 40;
+            // 
+            // dataNavigator
+            // 
+            this.dataNavigator.Buttons.Append.Enabled = false;
+            this.dataNavigator.Buttons.Append.Visible = false;
+            this.dataNavigator.Buttons.CancelEdit.Enabled = false;
+            this.dataNavigator.Buttons.CancelEdit.Visible = false;
+            this.dataNavigator.Buttons.EndEdit.Enabled = false;
+            this.dataNavigator.Buttons.EndEdit.Visible = false;
+            this.dataNavigator.Buttons.First.Tag = "首页";
+            this.dataNavigator.Buttons.Last.Tag = "末页";
+            this.dataNavigator.Buttons.Next.Tag = "下一页";
+            this.dataNavigator.Buttons.NextPage.Enabled = false;
+            this.dataNavigator.Buttons.NextPage.Visible = false;
+            this.dataNavigator.Buttons.Prev.Tag = "上一页";
+            this.dataNavigator.Buttons.PrevPage.Enabled = false;
+            this.dataNavigator.Buttons.PrevPage.Visible = false;
+            this.dataNavigator.Buttons.Remove.Enabled = false;
+            this.dataNavigator.Buttons.Remove.Visible = false;
+            this.dataNavigator.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.dataNavigator.CustomButtons.AddRange(new DevExpress.XtraEditors.NavigatorCustomButton[] {
+            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "首页"),
+            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "上一页"),
+            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "下一页"),
+            new DevExpress.XtraEditors.NavigatorCustomButton(-1, -1, true, true, "", "末页")});
+            this.dataNavigator.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataNavigator.Location = new System.Drawing.Point(0, 541);
+            this.dataNavigator.Name = "dataNavigator";
+            this.dataNavigator.ShowToolTips = true;
+            this.dataNavigator.Size = new System.Drawing.Size(305, 24);
+            this.dataNavigator.TabIndex = 15;
+            this.dataNavigator.Text = "dataNavigator1";
+            this.dataNavigator.TextLocation = DevExpress.XtraEditors.NavigatorButtonsTextLocation.Center;
+            this.dataNavigator.TextStringFormat = "第 {0}页 ,共 {1}";
+            this.dataNavigator.ButtonClick += new DevExpress.XtraEditors.NavigatorButtonClickEventHandler(this.dataNavigator_ButtonClick);
+            // 
             // TabControl
             // 
             this.TabControl.ClosePageButtonShowMode = DevExpress.XtraTab.ClosePageButtonShowMode.InAllTabPageHeaders;
@@ -1626,7 +1496,7 @@
             // 
             this.layoutmapTabpage.Controls.Add(this.gridControlLymp);
             this.layoutmapTabpage.Name = "layoutmapTabpage";
-            this.layoutmapTabpage.Size = new System.Drawing.Size(1162, 563);
+            this.layoutmapTabpage.Size = new System.Drawing.Size(848, 563);
             this.layoutmapTabpage.Text = "测项布设图";
             // 
             // gridControlLymp
@@ -1640,7 +1510,7 @@
             this.lyotmapPicEdit,
             this.repositoryItemCheckEdit2,
             this.lyotmapCheckedCmb});
-            this.gridControlLymp.Size = new System.Drawing.Size(1162, 563);
+            this.gridControlLymp.Size = new System.Drawing.Size(848, 563);
             this.gridControlLymp.TabIndex = 0;
             this.gridControlLymp.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.cardViewLymp});
@@ -1721,7 +1591,7 @@
             this.mapTabPage.Controls.Add(this.gMapCtrl);
             this.mapTabPage.Name = "mapTabPage";
             this.mapTabPage.ShowCloseButton = DevExpress.Utils.DefaultBoolean.False;
-            this.mapTabPage.Size = new System.Drawing.Size(1162, 563);
+            this.mapTabPage.Size = new System.Drawing.Size(848, 563);
             this.mapTabPage.Text = "场地分布";
             // 
             // gMapCtrl
@@ -1746,7 +1616,7 @@
             this.gMapCtrl.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapCtrl.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapCtrl.ShowTileGridLines = false;
-            this.gMapCtrl.Size = new System.Drawing.Size(1162, 563);
+            this.gMapCtrl.Size = new System.Drawing.Size(848, 563);
             this.gMapCtrl.TabIndex = 0;
             this.gMapCtrl.Zoom = 0D;
             this.gMapCtrl.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.gMapCtrl_OnMarkerClick);
@@ -1756,26 +1626,17 @@
             // 
             // chartTabPage
             // 
-            this.chartTabPage.Controls.Add(this.chartGroupBox);
+            this.chartTabPage.Controls.Add(this.tChartControl);
             this.chartTabPage.Name = "chartTabPage";
             this.chartTabPage.Size = new System.Drawing.Size(1162, 563);
             this.chartTabPage.Text = "趋势图";
-            // 
-            // chartGroupBox
-            // 
-            this.chartGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartGroupBox.Location = new System.Drawing.Point(0, 0);
-            this.chartGroupBox.Name = "chartGroupBox";
-            this.chartGroupBox.Size = new System.Drawing.Size(1162, 563);
-            this.chartGroupBox.TabIndex = 11;
-            this.chartGroupBox.TabStop = false;
             // 
             // siteInfoTabPage
             // 
             this.siteInfoTabPage.Controls.Add(this.siteInfoDocCtrl1);
             this.siteInfoTabPage.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.siteInfoTabPage.Name = "siteInfoTabPage";
-            this.siteInfoTabPage.Size = new System.Drawing.Size(1162, 563);
+            this.siteInfoTabPage.Size = new System.Drawing.Size(848, 563);
             this.siteInfoTabPage.Text = "场地基础信息";
             // 
             // siteInfoDocCtrl1
@@ -1784,14 +1645,14 @@
             this.siteInfoDocCtrl1.Location = new System.Drawing.Point(0, 0);
             this.siteInfoDocCtrl1.Margin = new System.Windows.Forms.Padding(2);
             this.siteInfoDocCtrl1.Name = "siteInfoDocCtrl1";
-            this.siteInfoDocCtrl1.Size = new System.Drawing.Size(1162, 563);
+            this.siteInfoDocCtrl1.Size = new System.Drawing.Size(848, 563);
             this.siteInfoDocCtrl1.TabIndex = 0;
             // 
             // recycleTabPage
             // 
             this.recycleTabPage.Controls.Add(this.recycleControl);
             this.recycleTabPage.Name = "recycleTabPage";
-            this.recycleTabPage.Size = new System.Drawing.Size(1162, 563);
+            this.recycleTabPage.Size = new System.Drawing.Size(848, 563);
             this.recycleTabPage.Text = "回收站";
             // 
             // recycleControl
@@ -1800,7 +1661,7 @@
             this.recycleControl.Location = new System.Drawing.Point(0, 0);
             this.recycleControl.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.recycleControl.Name = "recycleControl";
-            this.recycleControl.Size = new System.Drawing.Size(1162, 563);
+            this.recycleControl.Size = new System.Drawing.Size(848, 563);
             this.recycleControl.TabIndex = 0;
             // 
             // addXxkTabPage
@@ -1809,7 +1670,7 @@
             this.addXxkTabPage.Controls.Add(this.btnXxkAdd);
             this.addXxkTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addXxkTabPage.Name = "addXxkTabPage";
-            this.addXxkTabPage.Size = new System.Drawing.Size(1162, 563);
+            this.addXxkTabPage.Size = new System.Drawing.Size(848, 563);
             this.addXxkTabPage.Text = "新增信息库";
             // 
             // groupControl1
@@ -2157,21 +2018,25 @@
             this.popLineTreeWork.Name = "popLineTreeWork";
             this.popLineTreeWork.Ribbon = this.ribbon;
             // 
-            // popObsdata
-            // 
-            this.popObsdata.ItemLinks.Add(this.barbtnInsertRec);
-            this.popObsdata.ItemLinks.Add(this.barbtnDeleteRec);
-            this.popObsdata.ItemLinks.Add(this.barbtnEditRec);
-            this.popObsdata.ItemLinks.Add(this.barbtnSaveRec);
-            this.popObsdata.Name = "popObsdata";
-            this.popObsdata.Ribbon = this.ribbon;
-            // 
             // popLayoutmap
             // 
             this.popLayoutmap.ItemLinks.Add(this.btnDeleteObsline);
             this.popLayoutmap.ItemLinks.Add(this.btnChart);
             this.popLayoutmap.Name = "popLayoutmap";
             this.popLayoutmap.Ribbon = this.ribbon;
+            // 
+            // myBackgroundWorker1
+            // 
+            this.myBackgroundWorker1.IsExitWithException = false;
+            this.myBackgroundWorker1.StatusText = null;
+            // 
+            // tChartControl
+            // 
+            this.tChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tChartControl.Location = new System.Drawing.Point(0, 0);
+            this.tChartControl.Name = "tChartControl";
+            this.tChartControl.Size = new System.Drawing.Size(1162, 563);
+            this.tChartControl.TabIndex = 0;
             // 
             // RibbonForm
             // 
@@ -2204,16 +2069,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCalcEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
-            this.panelContainerData.ResumeLayout(false);
-            this.dockPanelObsData.ResumeLayout(false);
-            this.controlContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlObsdata)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewObsdata)).EndInit();
-            this.dockPanelChartAttri.ResumeLayout(false);
-            this.dockPanelEqkCatalog.ResumeLayout(false);
-            this.dockPanel1_Container.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).EndInit();
             this.panelContainer1.ResumeLayout(false);
             this.dockPanelManipData.ResumeLayout(false);
             this.controlContainer1.ResumeLayout(false);
@@ -2221,6 +2076,10 @@
             this.dockPanelDb.ResumeLayout(false);
             this.dockPanel3_Container.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListData)).EndInit();
+            this.dockPanelEqkCatalog.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlEqklist)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewEqklist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TabControl)).EndInit();
             this.TabControl.ResumeLayout(false);
             this.layoutmapTabpage.ResumeLayout(false);
@@ -2248,7 +2107,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteSiteTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popRemoteLineTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLineTreeWork)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.popObsdata)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.popLayoutmap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2336,7 +2194,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
 
         private DevExpress.XtraBars.PopupMenu popupMenu1;
-        private System.Windows.Forms.GroupBox chartGroupBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private DevExpress.XtraBars.BarButtonItem btnBlueStyle;
         private DevExpress.XtraBars.BarButtonItem btnSilveryStyle;
@@ -2368,20 +2225,10 @@
         private DevExpress.XtraBars.BarButtonItem btnMouseCur;
         private DevExpress.XtraBars.BarButtonItem btnMaxMinValue;
         private DevExpress.XtraBars.BarButtonItem btnExportChart;
-        private DevExpress.XtraBars.Docking.DockPanel panelContainerData;
-        private DevExpress.XtraBars.Docking.DockPanel dockPanelObsData;
-        private DevExpress.XtraBars.Docking.ControlContainer controlContainer2;
-        private DevExpress.XtraBars.Docking.DockPanel dockPanelChartAttri;
-        private DevExpress.XtraBars.Docking.ControlContainer controlContainer3;
         private DevExpress.XtraBars.BarButtonItem barbtnInsertRec;
         private DevExpress.XtraBars.BarButtonItem barbtnDeleteRec;
         private DevExpress.XtraBars.BarButtonItem barbtnEditRec;
         private DevExpress.XtraBars.BarButtonItem barbtnSaveRec;
-        private DevExpress.XtraGrid.GridControl gridControlObsdata;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewObsdata;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnObsDate;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnObsValue;
-        private DevExpress.XtraBars.PopupMenu popObsdata;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem8;
@@ -2389,7 +2236,6 @@
         private DevExpress.XtraBars.BarButtonItem btnSwitchDb;
         private DevExpress.XtraBars.BarButtonItem btnCopyDb;
         private Controls.SiteInfoDocCtrl siteInfoDocCtrl1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnNote;
         private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
         private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2;
         private DevExpress.XtraBars.Docking.DockPanel dockPanelEqkCatalog;
@@ -2456,5 +2302,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn columPicName;
         private DevExpress.XtraGrid.Columns.GridColumn columBindingLines;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit lyotmapCheckedCmb;
+        private Tool.MyBackgroundWorker myBackgroundWorker1;
+        private Controls.TChartControl tChartControl;
     }
 }

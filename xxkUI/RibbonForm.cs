@@ -37,8 +37,8 @@ namespace xxkUI
         private TreeList currentTree;//当前树
         private SiteAttri siteAttriFrm = new SiteAttri();
         private List<string> importDataFiles = new List<string>();// 导入数据的文件路径集
-        private ActionType actiontype = ActionType.NoAction;// 观测数据操作类型
-        private MyTeeChart mtc = null;
+     
+    
         private bool IsEqkShow = false;// 是否显示地震目录列表
         private int pagesize = 50;// 页行数
         private int pageIndex = 1;// 当前页
@@ -50,7 +50,7 @@ namespace xxkUI
             InitForm();
             InitTree();
             InitFaultCombobox();
-            InitChartTab();
+          
             InitSiteinTab();
             InitRecycleTab();
             InitLayoutmapTab();
@@ -130,11 +130,7 @@ namespace xxkUI
         /// <summary>
         /// 初始化Chart页面及工具
         /// </summary>
-        public void InitChartTab()
-        {
-            this.chartTabPage.PageVisible = false;//曲线图页面不可见
-            mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
-        }
+     
         /// <summary>
         /// 初始化信息库页面
         /// </summary>
@@ -324,43 +320,43 @@ namespace xxkUI
             {
                 if (this.TabControl.SelectedTabPage.Name == "chartTabPage")
                 {
-                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
                     this.ribbon.SelectedPage = ribbonPageTchartTool;
-
                 }
                 else if (this.TabControl.SelectedTabPage.Name == "mapTabPage")
                 {
                     if (IsEqkShow)
                     {
-                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                        if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Visible)
+                            this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
                     }
                     else
                     {
-                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                        
+                        if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                            this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     }
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+
                     this.ribbon.SelectedPage = ribbonPageMapTool;
                 }
                 else if(this.TabControl.SelectedTabPage.Name== "recycleTabPage")
                 {
-                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-
+                    if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     this.ribbon.SelectedPage = ribbonPageStart;
                 }
-                
+                else if (this.TabControl.SelectedTabPage.Name == "layoutmapTabpage")
+                {
+                   
+                    if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.ribbon.SelectedPage = ribbonPageStart;
+                }
+
+
             }
             catch (Exception ex)
             {
-                //XtraMessageBox.Show(ex.Message, "错误");
+                XtraMessageBox.Show(ex.Message, "错误");
             }
 
         }
@@ -373,12 +369,65 @@ namespace xxkUI
         /// <param name="e"></param>
         private void tree_MouseUp(object sender, MouseEventArgs e)
         {
-            TreeList tree = sender as TreeList;
-            currentTree = tree;
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
+            try
             {
-                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
-                TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                TreeList tree = sender as TreeList;
+                currentTree = tree;
+                if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
+                {
+                    Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                    if (hitInfo.HitInfoType == HitInfoType.Cell)
+                    {
+                        tree.SetFocusedNode(hitInfo.Node);
+
+                        if (tree.Name == "treeListData")//信息库树
+                        {
+                            currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
+                            if (currentClickNodeInfo == null)
+                            {
+                                return;
+                            }
+
+                            if (hitInfo.Node.Level == 1)
+                            {
+                                popRemoteSiteTree.ShowPopup(p);
+                            }
+                            else if (hitInfo.Node.Level == 2)
+                            {
+                                popRemoteLineTree.ShowPopup(p);
+                            }
+                        }
+                        if (tree.Name == "treeListManipData")//处理数据
+                        {
+                            popRemoteLineTree.ShowPopup(p);
+                        }
+
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+
+            }
+
+        }
+
+        /// <summary>
+        /// treelist双击事件，显示曲线
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeList_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                TreeList tree = sender as TreeList;
+                MouseEventArgs me = e as MouseEventArgs;
+
+                TreeListHitInfo hitInfo = tree.CalcHitInfo(me.Location);
                 if (hitInfo.HitInfoType == HitInfoType.Cell)
                 {
                     tree.SetFocusedNode(hitInfo.Node);
@@ -390,66 +439,31 @@ namespace xxkUI
                         {
                             return;
                         }
+                        if (hitInfo.Node.Level == 1)//场地
+                        {
 
-                        if (hitInfo.Node.Level == 1)
-                        {
-                            popRemoteSiteTree.ShowPopup(p);
                         }
-                        else if (hitInfo.Node.Level == 2)
+                        if (hitInfo.Node.Level == 2)//测线
                         {
-                            popRemoteLineTree.ShowPopup(p);
+                            LineBean tag = currentClickNodeInfo.Tag as LineBean;
+                            string filePath = (this.dockPanelDb.Text == "本地信息库") ? DataFromPath.LocalDbPath : DataFromPath.RemoteDbPath;
+                            AddSeriesToChart(new List<LineBean>() { tag }, filePath);
                         }
+
                     }
                     if (tree.Name == "treeListManipData")//处理数据
                     {
-                        popRemoteLineTree.ShowPopup(p);
+                        AddSeriesToChart(new List<string>() { hitInfo.Node.GetDisplayText(0) }, DataFromPath.HandleDataPath);
                     }
 
                 }
             }
-
-
-        }
-
-        /// <summary>
-        /// treelist双击事件，显示曲线
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void treeList_DoubleClick(object sender, EventArgs e)
-        {
-            TreeList tree = sender as TreeList;
-            MouseEventArgs me = e as MouseEventArgs;
-
-            TreeListHitInfo hitInfo = tree.CalcHitInfo(me.Location);
-            if (hitInfo.HitInfoType == HitInfoType.Cell)
+            catch (Exception ex)
             {
-                tree.SetFocusedNode(hitInfo.Node);
-
-                if (tree.Name == "treeListData")//信息库树
-                {
-                    currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
-                    if (currentClickNodeInfo == null)
-                    {
-                        return;
-                    }
-
-                    if (hitInfo.Node.Level == 2)
-                    {
-                        LineBean tag = currentClickNodeInfo.Tag as LineBean;
-                        string filePath = (this.dockPanelDb.Text == "本地信息库") ? DataFromPath.LocalDbPath : DataFromPath.RemoteDbPath;
-
-                        AddSeriesToChart(new List<LineBean>() { tag }, filePath);
-                       
-                    }
-
-                }
-                if (tree.Name == "treeListManipData")//处理数据
-                {
-                    AddSeriesToChart(new List<string>() { hitInfo.Node.GetDisplayText(0) }, DataFromPath.HandleDataPath);
-                }
-
+                XtraMessageBox.Show(ex.Message, "错误");
             }
+
+            ChangePanelContainerItemVisible();
 
 
 
@@ -463,11 +477,11 @@ namespace xxkUI
                 Type t = typeof(T);
                 if (t.Name == "LineBean")
                 {
-                    mtc.AddSeries(checkednode as List<LineBean>, dfp);
+                    this.tChartControl.AddSeries(checkednode as List<LineBean>, dfp);
                 }
                 else if (t.Name == "String")
                 {
-                    mtc.AddSeries(checkednode as List<string>, dfp);
+                    this.tChartControl.AddSeries(checkednode as List<string>, dfp);
                 }
 
                 this.chartTabPage.PageVisible = true;//曲线图页面可见
@@ -803,7 +817,7 @@ namespace xxkUI
                 int w = this.gridControlLymp.Width;
                 int h = this.gridControlLymp.Height;
                 this.cardViewLymp.CardWidth = (w - 50) / 4;
-                this.lyotmapPicEdit.CustomHeight = h / 2;
+                this.lyotmapPicEdit.CustomHeight = (h -20)/ 2;
 
                 List<LineBean> lblist = LineBll.Instance.GetBySitecode(sitecode).ToList();
                 this.lyotmapCheckedCmb.Items.Clear();
@@ -822,6 +836,8 @@ namespace xxkUI
                 this.gridControlLymp.DataSource = lymplist;
                 this.layoutmapTabpage.PageVisible = true;
                 this.TabControl.SelectedTabPage = this.layoutmapTabpage;
+
+                ChangePanelContainerItemVisible();
             }
             catch (Exception ex)
             {
@@ -847,12 +863,10 @@ namespace xxkUI
                 List<LayoutmapBean> datasource = this.gridControlLymp.DataSource as List<LayoutmapBean>;
                 LayoutmapBean focusedRow = datasource[myView.FocusedRowHandle];
                 string lyoutmapcode = focusedRow.layoutmapcode;
-
                 //更新数据库
                 LayoutmapBll.Instance.UpdateWhatWhere(new { BINDINGLINES = bingdinglinesStr }, new { LAYOUTMAPCODE = lyoutmapcode });
                 datasource[myView.FocusedRowHandle].Bindinglines = bingdinglinesStr;
                 this.gridControlLymp.DataSource = datasource;
-
             }
 
             catch (Exception ex)
@@ -1145,39 +1159,39 @@ namespace xxkUI
             {
                 case "btnFourCal"://加减乘除
                     {
-                        mtc.PlusMinusMultiplyDivide();
+                        this.tChartControl.PlusMinusMultiplyDivide();
                     }
                     break;
                 case "btnRemoveStep"://消台阶
                     {
-                        mtc.RemoStepOrJump(TChartEventType.RemoveStep);
+                        this.tChartControl.RemoStepOrJump(TChartEventType.RemoveStep);
                     }
                     break;
                 case "btnRemoveJump"://消突跳
                     {
-                        mtc.RemoStepOrJump(TChartEventType.RemoveJump);
+                        this.tChartControl.RemoStepOrJump(TChartEventType.RemoveJump);
                     }
                     break;
                 case "btnLinesUnion"://测线合并
                     {
-                        mtc.LinesUnion();
+                        this.tChartControl.LinesUnion();
                     }
                     break;
                 case "btnLinesBreak"://测线拆分
                     {
-                        mtc.LinesBreak(TChartEventType.LineBreak);
+                        this.tChartControl.LinesBreak(TChartEventType.LineBreak);
                     }
                     break;
                 case "barSaveToChuLi"://保存处理数据
                     {
-                        mtc.SaveHandleData();
+                        this.tChartControl.SaveHandleData();
                         xtl.bSignInitManipdbTree();
                     }
                     break;
 
                 case "btnInterval"://等间隔处理
                     {
-                        mtc.IntervalPross();
+                        this.tChartControl.IntervalPross();
                     }
                     break;
                 case "btnExportToExcel"://输出为Excel
@@ -1186,7 +1200,7 @@ namespace xxkUI
                         sfd.Filter = "Excel文件(*.xls)|*.xls";
                         if (sfd.ShowDialog() == DialogResult.OK)
                         {
-                            this.gridControlObsdata.ExportToXls(sfd.FileName);
+                            //this.gridControlObsdata.ExportToXls(sfd.FileName);
                         }
                     }
                     break;
@@ -1196,7 +1210,7 @@ namespace xxkUI
                         sfd.Filter = "文本文件(*.txt)|*.txt";
                         if (sfd.ShowDialog() == DialogResult.OK)
                         {
-                            this.gridControlObsdata.ExportToText(sfd.FileName);
+                            //this.gridControlObsdata.ExportToText(sfd.FileName);
                         }
                       
                     }
@@ -1215,240 +1229,31 @@ namespace xxkUI
             switch (e.Item.Name)
             {
                 case "btnShowTitle"://标题
-                    mtc.btnShowTitle();
+                    this.tChartControl.btnShowTitle();
                     break;
                 case "btnGrid"://网格
-                    mtc.btnGrid();
+                    this.tChartControl.btnGrid();
                     break;
                 case "btnShowNote"://备注
-                    mtc.ShowNotes();
+                    this.tChartControl.ShowNotes();
                     break;
                 case "btnMouseCur"://鼠标热线
-                    mtc.btnMouseCur();
+                    this.tChartControl.btnMouseCur();
                     break;
                 case "btnMaxMinValue"://最大最小值
-                    mtc.btnMaxMinValue();
+                    this.tChartControl.btnMaxMinValue();
                     break;
                 case "btnHistoryEqk"://历史地震
-                    mtc.GetEqkShowForm();
+                    this.tChartControl.GetEqkShowForm();
                     break;
                 case "btnExportChart"://导出曲线图
-                    mtc.ExportChart();
+                    this.tChartControl.ExportChart();
                     break;
             }
         }
 
 
-        #region 观测数据的显示、增加、删除、修改
-
-
-        private void barbtnObsData_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            switch (e.Item.Name)
-            {
-                case "barbtnInsertRec"://插入
-                    {
-                        DataTable dt = ObsdataCls.ObsdataHash["东焦裴村d1d2水准01_11_6"] as DataTable;
-                        actiontype = ActionType.Add;
-                        this.gridViewObsdata.OptionsBehavior.Editable = true;//可编辑
-                        int focusedRow = this.gridViewObsdata.FocusedRowHandle;
-                        this.gridViewObsdata.AddNewRow();
-                    }
-                    break;
-                case "barbtnDeleteRec"://删除
-                    {
-                        actiontype = ActionType.Delete;
-                        int focusedRow = this.gridViewObsdata.FocusedRowHandle;
-                        try
-                        {
-                            DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(focusedRow);
-                            DateTime obsdate = new DateTime();
-                            DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-                            double obsv = double.NaN;
-                            double.TryParse(drv["obvvalue"].ToString(), out obsv);
-                            mtc.DeleteChartlineData(obsdate, obsv);
-                        }
-                        catch (Exception ex)
-                        {
-                            actiontype = ActionType.NoAction;
-                            //XtraMessageBox.Show("错误", "删除失败:" + ex.Message);
-                        }
-
-                        gridViewObsdata.DeleteRow(focusedRow);
-                        gridViewObsdata.UpdateCurrentRow();
-                    }
-                    break;
-                case "barbtnEditRec"://编辑
-                    {
-                        if (barbtnEditRec.Caption == "取消编辑")
-                        {
-                            this.gridViewObsdata.OptionsBehavior.Editable = false;
-                            barbtnEditRec.Caption = "编辑数据";
-                            actiontype = ActionType.NoAction;
-                        }
-                        else if (barbtnEditRec.Caption == "编辑数据")
-                        {
-                            this.gridViewObsdata.OptionsBehavior.Editable = true;//可编辑
-                            barbtnEditRec.Caption = "取消编辑";
-                            actiontype = ActionType.Modify;
-                        }
-                    }
-                    break;
-                case "barbtnSaveRec"://保存
-                    {
-                        try
-                        {
-                            LineObsBll lob = new LineObsBll();
-                            DataTable dt = (this.gridControlObsdata.DataSource as DataTable).GetChanges();
-                            if (dt != null)
-                            {
-                                foreach (DataRow dr in dt.Rows)
-                                {
-                                    /*
-                                     * 新增
-                                     */
-                                    if (dr.RowState == DataRowState.Added)
-                                    {
-                                        LineObsBean lobean = new LineObsBean();
-
-                                    }
-
-                                    /*
-                                     * 修改
-                                     */
-                                    else if (dr.RowState == DataRowState.Modified)
-                                    {
-
-                                    }
-                                }
-                            }
-                            /*
-                             * 删除
-                             */
-                            DataView dv = new DataView((this.gridControlObsdata.DataSource as DataTable), string.Empty, string.Empty, DataViewRowState.Deleted);
-                            if (dv != null)
-                            {
-                                foreach (DataRow dr in dv.ToTable().Rows)
-                                { }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            XtraMessageBox.Show("保存失败:" + ex.Message, "错误");
-                        }
-                    }
-                    break;
-
-            }
-        }
-
-        private void gridViewObsdata_MouseUp(object sender, MouseEventArgs e)
-        {
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None))
-            {
-                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
-                GridHitInfo hitInfo = gridViewObsdata.CalcHitInfo(e.Location);
-                popObsdata.ShowPopup(p);
-            }
-        }
-
-        private void gridViewObsdata_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
-        {
-            try
-            {
-                int focusedRow = e.RowHandle;
-                DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(focusedRow);
-
-                switch (actiontype)
-                {
-                    case ActionType.Modify:
-                        {
-                            gridViewObsdata.UpdateCurrentRow();
-                        }
-                        break;
-                    case ActionType.Add:
-                        {
-                            if (drv["obvdate"].ToString() == "" || drv["obvvalue"].ToString() == "")
-                                return;
-
-                            DateTime obsdate = new DateTime();
-                            DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-
-                            double obdv = double.NaN;
-                            double.TryParse(drv["obvvalue"].ToString(), out obdv);
-                            gridViewObsdata.UpdateCurrentRow();
-
-                            mtc.AddChartlineData(obsdate, obdv);
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-
-        }
-
-
-        private void gridViewObsdata_MouseDown(object sender, MouseEventArgs e)
-        {
-            GridHitInfo hInfo = gridViewObsdata.CalcHitInfo(new Point(e.X, e.Y));
-            /*
-             * 行双击事件
-             */
-            if (e.Button == MouseButtons.Left && e.Clicks == 2)
-            {
-                //判断光标是否在行范围内 
-                if (hInfo.InRow)
-                {
-                    try
-                    {
-                        if (TabControl.SelectedTabPage.Name != "chartTabPage")
-                            TabControl.SelectedTabPage = chartTabPage;
-
-                        DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(hInfo.RowHandle);
-                        DateTime obsdate = new DateTime();
-                        DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-                        double obsv = double.NaN;
-                        double.TryParse(drv["obvvalue"].ToString(), out obsv);
-                        mtc.GoTodata(obsdate, obsv);
-
-                       
-                    }
-                    catch (Exception ex)
-                    {
-                        XtraMessageBox.Show(ex.Message, "错误");
-                    }
-
-                }
-            }
-        }
-
-        private void gridViewObsdata_ShowingEditor(object sender, CancelEventArgs e)
-        {
-            if (actiontype == ActionType.Modify)
-                e.Cancel = false;
-            else if (actiontype == ActionType.Add)
-            {
-                /*
-                 * 新增状态下只有新增行可以编辑
-                 */
-                DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(this.gridViewObsdata.FocusedRowHandle);
-                if (drv["obvvalue"].ToString() == "" || drv["obvdate"].ToString() == "")
-                {
-                    e.Cancel = false;
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-
-
-        #endregion
+        
 
         #region 数据库操作（创建、切换、备份）
         private void btnDb_ItemClick(object sender, ItemClickEventArgs e)

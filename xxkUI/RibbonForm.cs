@@ -2113,5 +2113,29 @@ namespace xxkUI
             e.Handled = true;
 
         }
+
+        private void barFault_EditValueChanged(object sender, EventArgs e)
+        {
+            List<string> checkedcountys = new List<string>();
+            for (int i = 0; i < this.faultChckCbbxEdit.Items.Count; i++)
+            {
+                if (this.faultChckCbbxEdit.Items[i].CheckState == CheckState.Checked)
+                {
+                    switch (this.faultChckCbbxEdit.Items[i].Value.ToString())
+                    {
+                        case "前第四纪活动断裂(隐伏)":
+                            {
+                                string fp = Application.StartupPath + "//断层数据//前第四纪活动断裂(隐伏).dat";
+
+                            }
+                            break;
+                    }
+                }
+                else if (this.faultChckCbbxEdit.Items[i].CheckState == CheckState.Unchecked)
+                { } 
+            }
+
+ 
+        }
     }
 }

@@ -1,18 +1,19 @@
 ﻿
 namespace GMap.NET.WindowsForms
 {
-   using System.Drawing;
-   using System.IO;
-   using System.Drawing.Imaging;
-   using System;
-   using System.Diagnostics;
-   using GMap.NET.Internals;
-   using GMap.NET.MapProviders;
+    using System.Drawing;
+    using System.IO;
+    using System.Drawing.Imaging;
+    using System;
+    using System.Diagnostics;
+    using GMap.NET.Internals;
+    using GMap.NET.MapProviders;
+    using Internals;
 
-   /// <summary>
-   /// image abstraction
-   /// </summary>
-   public class WindowsFormsImage : PureImage
+    /// <summary>
+    /// image abstraction
+    /// </summary>
+    public class WindowsFormsImage : PureImage
    {
       public System.Drawing.Image Img;
 

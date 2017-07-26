@@ -55,6 +55,8 @@ namespace xxkUI
             InitRecycleTab();
             InitLayoutmapTab();
             InitStyle();
+
+         
         }
 
         /// <summary>
@@ -243,6 +245,23 @@ namespace xxkUI
                 //SiteBean sb = (SiteBean)item.Tag;
                 //sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                 /*点击地震标注弹出地震详细说明*/
+
+                if (item is GMapMarker)
+                {
+                    if (item.Overlay.Id == "sitemarkers")//场地标签图层
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            SiteBean sb = (SiteBean)item.Tag;
+
+                            this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
+                            this.siteInfoDocCtrl1.FillBookMarkText(sb);
+                            this.siteInfoTabPage.PageVisible = true;
+                            this.TabControl.SelectedTabPage = this.siteInfoTabPage;
+                        }
+                    }
+
+                }
             }
             catch
             {

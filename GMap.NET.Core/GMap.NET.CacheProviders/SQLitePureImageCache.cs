@@ -509,8 +509,7 @@ namespace GMap.NET.CacheProviders
          }
          return ret;
       }
-
-      public static bool ExportMapDataToDB(string sourceFile, string destFile)
+        public static bool ExportMapDataToDB(string sourceFile, string destFile)
       {
          bool ret = true;
 
@@ -555,48 +554,48 @@ namespace GMap.NET.CacheProviders
                            using(DbTransaction tr = cn2.BeginTransaction())
 #endif
                            {
-                              try
-                              {
-                                 List<long> add = new List<long>();
-                                 using(SQLiteCommand cmd = new SQLiteCommand("SELECT id, X, Y, Zoom, Type FROM Tiles;", cn1))
-                                 {
-                                    using(SQLiteDataReader rd = cmd.ExecuteReader())
-                                    {
-                                       while(rd.Read())
-                                       {
-                                          long id = rd.GetInt64(0);
-                                          using(SQLiteCommand cmd2 = new SQLiteCommand(string.Format("SELECT id FROM Tiles WHERE X={0} AND Y={1} AND Zoom={2} AND Type={3};", rd.GetInt32(1), rd.GetInt32(2), rd.GetInt32(3), rd.GetInt32(4)), cn2))
-                                          {
-                                             using(SQLiteDataReader rd2 = cmd2.ExecuteReader())
-                                             {
-                                                if(!rd2.Read())
+                                        try
+                                        {
+                                            List<long> add = new List<long>();
+                                            using (SQLiteCommand cmd = new SQLiteCommand("SELECT id, X, Y, Zoom, Type FROM Tiles;", cn1))
+                                            {
+                                                using (SQLiteDataReader rd = cmd.ExecuteReader())
                                                 {
-                                                   add.Add(id);
+                                                    while (rd.Read())
+                                                    {
+                                                        long id = rd.GetInt64(0);
+                                                        using (SQLiteCommand cmd2 = new SQLiteCommand(string.Format("SELECT id FROM Tiles WHERE X={0} AND Y={1} AND Zoom={2} AND Type={3};", rd.GetInt32(1), rd.GetInt32(2), rd.GetInt32(3), rd.GetInt32(4)), cn2))
+                                                        {
+                                                            using (SQLiteDataReader rd2 = cmd2.ExecuteReader())
+                                                            {
+                                                                if (!rd2.Read())
+                                                                {
+                                                                    add.Add(id);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                             }
-                                          }
-                                       }
-                                    }
-                                 }
+                                            }
 
-                                 foreach(long id in add)
-                                 {
-                                    using(SQLiteCommand cmd = new SQLiteCommand(string.Format("INSERT INTO Tiles(X, Y, Zoom, Type, CacheTime) SELECT X, Y, Zoom, Type, CacheTime FROM Source.Tiles WHERE id={0}; INSERT INTO TilesData(id, Tile) Values((SELECT last_insert_rowid()), (SELECT Tile FROM Source.TilesData WHERE id={0}));", id), cn2))
-                                    {
-                                       cmd.Transaction = tr;
-                                       cmd.ExecuteNonQuery();
-                                    }
-                                 }
-                                 add.Clear();
+                                            foreach (long id in add)
+                                            {
+                                                using (SQLiteCommand cmd = new SQLiteCommand(string.Format("INSERT INTO Tiles(X, Y, Zoom, Type, CacheTime) SELECT X, Y, Zoom, Type, CacheTime FROM Source.Tiles WHERE id={0}; INSERT INTO TilesData(id, Tile) Values((SELECT last_insert_rowid()), (SELECT Tile FROM Source.TilesData WHERE id={0}));", id), cn2))
+                                                {
+                                                    cmd.Transaction = tr;
+                                                    cmd.ExecuteNonQuery();
+                                                }
+                                            }
+                                            add.Clear();
 
-                                 tr.Commit();
-                              }
-                              catch(Exception exx)
-                              {
-                                 Debug.WriteLine("ExportMapDataToDB: " + exx.ToString());
-                                 tr.Rollback();
-                                 ret = false;
-                              }
+                                            tr.Commit();
+                                        }
+                                        catch (Exception exx)
+                                        {
+                                            Debug.WriteLine("ExportMapDataToDB: " + exx.ToString());
+                                            tr.Rollback();
+                                            ret = false;
+                                        }
                            }
 
                            using(SQLiteCommand cmd = new SQLiteCommand("DETACH DATABASE Source;", cn2))

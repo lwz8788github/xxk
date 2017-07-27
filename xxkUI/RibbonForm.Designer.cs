@@ -36,7 +36,7 @@
             this.currentLocation = new DevExpress.XtraBars.BarStaticItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnSignup = new DevExpress.XtraBars.BarButtonItem();
             this.btnChartWp = new DevExpress.XtraBars.BarButtonItem();
             this.btnLogout = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
@@ -297,7 +297,7 @@
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
             this.btnLogin,
-            this.barButtonItem3,
+            this.btnSignup,
             this.btnChartWp,
             this.btnLogout,
             this.barButtonItem5,
@@ -398,13 +398,14 @@
             this.btnLogin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnLogin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLogin_ItemClick);
             // 
-            // barButtonItem3
+            // btnSignup
             // 
-            this.barButtonItem3.Caption = "注册";
-            this.barButtonItem3.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem3.Glyph")));
-            this.barButtonItem3.Id = 3;
-            this.barButtonItem3.Name = "barButtonItem3";
-            this.barButtonItem3.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnSignup.Caption = "注册";
+            this.btnSignup.Glyph = ((System.Drawing.Image)(resources.GetObject("btnSignup.Glyph")));
+            this.btnSignup.Id = 3;
+            this.btnSignup.Name = "btnSignup";
+            this.btnSignup.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnSignup.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnSignup_ItemClick);
             // 
             // btnChartWp
             // 
@@ -1033,7 +1034,7 @@
             // ribbonPageGroup1
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem3);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnSignup);
             this.ribbonPageGroup1.ItemLinks.Add(this.btnChartWp);
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogout);
             this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem5);
@@ -1615,7 +1616,7 @@
             // 
             this.siteInfoDocCtrl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.siteInfoDocCtrl1.Location = new System.Drawing.Point(0, 0);
-            this.siteInfoDocCtrl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.siteInfoDocCtrl1.Margin = new System.Windows.Forms.Padding(2);
             this.siteInfoDocCtrl1.Name = "siteInfoDocCtrl1";
             this.siteInfoDocCtrl1.Size = new System.Drawing.Size(1162, 563);
             this.siteInfoDocCtrl1.TabIndex = 0;
@@ -2070,7 +2071,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.BarButtonItem btnLogin;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem3;
+        private DevExpress.XtraBars.BarButtonItem btnSignup;
         private DevExpress.XtraBars.BarButtonItem btnChartWp;
         private DevExpress.XtraBars.BarButtonItem btnLogout;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;

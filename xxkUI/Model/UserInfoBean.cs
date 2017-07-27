@@ -39,5 +39,13 @@ public class UserInfoBean
         get { return _UserAthrty; }
         set { _UserAthrty = value; }
     }
+
+    [Description("用户状态")]
+    private string _Status;
+    public string Status
+    {
+        get { return _Status; }
+        set { _Status = value; }
+    }
 }
 

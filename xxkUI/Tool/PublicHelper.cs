@@ -257,7 +257,32 @@ namespace xxkUI.Tool
 
     #endregion
 
+    /// <summary>
+    /// 用户状态
+    /// </summary>
+    public enum UserStatus
+    {
+        /// <summary>
+        /// 待审核
+        /// </summary>
+        Examining = 0,
+        /// <summary>
+        /// 通过审核
+        /// </summary>
+        ExamineOK = 1,
+        /// <summary>
+        /// 未通过审核
+        /// </summary>
+        ExamineReject = 2
+     
+    }
 
+    public static class UserDicCls
+    {
+        public static Dictionary<UserStatus, string> UserDictionary = new Dictionary<UserStatus, string> { { UserStatus.Examining, "0" }, { UserStatus.ExamineOK, "1" }, { UserStatus.ExamineReject, "2" } };    
+    }
+
+    
  
 
 }

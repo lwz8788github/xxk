@@ -6,6 +6,7 @@ using System.Text;
 using Common.Provider;
 using xxkUI.Dal;
 using System.Web.Security;
+using xxkUI.Tool;
 
 namespace xxkUI.Bll
 {
@@ -18,8 +19,6 @@ namespace xxkUI.Bll
 
         public int Add(UserInfoBean model)
         {
-            model = new UserInfoBean();
-           
             return UserInfoDal.Instance.Insert(model);
         }
 
@@ -33,6 +32,10 @@ namespace xxkUI.Bll
             return UserInfoDal.Instance.Delete(keyid);
         }
 
+        public IEnumerable<UserInfoBean> GetAll()
+        {
+            return UserInfoDal.Instance.GetAll();
+        }
         public UserInfoBean Get(int id)
         {
             return UserInfoDal.Instance.Get(id);
@@ -67,11 +70,25 @@ namespace xxkUI.Bll
         /// </summary>
         /// <param name="pwd">密码</param>
         /// <returns></returns>
-        private string encryptPWD(string pwd)
+        public string encryptPWD(string pwd)
         {
             //加密算法不可逆
             string password = FormsAuthentication.HashPasswordForStoringInConfigFile(pwd, "MD5");
             return password;
+        }
+
+        /// <summary>
+        /// 用户状态转换
+        /// </summary>
+        /// <param name="us"></param>
+        /// <returns></returns>
+        public string GetUserStatusValueByKey(UserStatus us)
+        {
+            string usvalue = "";
+
+           
+
+            return usvalue;
         }
 
     }

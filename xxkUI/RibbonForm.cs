@@ -1927,5 +1927,11 @@ namespace xxkUI
             //返回值为datatable
             
         }
+
+        private void btnSignup_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            SignUp sufrm = new SignUp();
+            sufrm.ShowDialog(this);
+        }
     }
 }

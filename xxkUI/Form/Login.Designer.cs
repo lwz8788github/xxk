@@ -73,7 +73,7 @@
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 136);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 103);
             this.barDockControlBottom.Size = new System.Drawing.Size(358, 0);
             // 
             // barDockControlLeft
@@ -81,14 +81,14 @@
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 136);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 103);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControlRight.Location = new System.Drawing.Point(358, 0);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 136);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 103);
             // 
             // tabFormDefaultManager2
             // 
@@ -110,7 +110,7 @@
             // 
             this.barDockControl2.CausesValidation = false;
             this.barDockControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControl2.Location = new System.Drawing.Point(0, 136);
+            this.barDockControl2.Location = new System.Drawing.Point(0, 103);
             this.barDockControl2.Size = new System.Drawing.Size(358, 0);
             // 
             // barDockControl3
@@ -118,14 +118,14 @@
             this.barDockControl3.CausesValidation = false;
             this.barDockControl3.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControl3.Location = new System.Drawing.Point(0, 0);
-            this.barDockControl3.Size = new System.Drawing.Size(0, 136);
+            this.barDockControl3.Size = new System.Drawing.Size(0, 103);
             // 
             // barDockControl4
             // 
             this.barDockControl4.CausesValidation = false;
             this.barDockControl4.Dock = System.Windows.Forms.DockStyle.Right;
             this.barDockControl4.Location = new System.Drawing.Point(358, 0);
-            this.barDockControl4.Size = new System.Drawing.Size(0, 136);
+            this.barDockControl4.Size = new System.Drawing.Size(0, 103);
             // 
             // panelControl1
             // 
@@ -138,14 +138,14 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(358, 136);
+            this.panelControl1.Size = new System.Drawing.Size(358, 103);
             this.panelControl1.TabIndex = 8;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(274, 102);
+            this.btnCancel.Location = new System.Drawing.Point(274, 69);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -155,7 +155,7 @@
             // btnLogin
             // 
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogin.Location = new System.Drawing.Point(192, 102);
+            this.btnLogin.Location = new System.Drawing.Point(192, 69);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 11;
@@ -205,7 +205,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(358, 136);
+            this.ClientSize = new System.Drawing.Size(358, 103);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
@@ -215,6 +215,8 @@
             this.Controls.Add(this.barDockControl4);
             this.Controls.Add(this.barDockControl2);
             this.Controls.Add(this.barDockControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.SkinName = "Office 2013";
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Login";

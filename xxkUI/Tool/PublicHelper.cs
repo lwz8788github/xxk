@@ -159,7 +159,7 @@ namespace xxkUI.Tool
         public static string RemoteDbPath = System.Windows.Forms.Application.StartupPath + "\\远程信息库缓存";
         public static string LocalDbPath = System.Windows.Forms.Application.StartupPath + "\\本地信息库缓存";
         public static string HandleDataPath = System.Windows.Forms.Application.StartupPath + "\\处理数据缓存";
-        public static string RecycleDataPath = System.Windows.Forms.Application.StartupPath + "回收站";
+        public static string RecycleDataPath = System.Windows.Forms.Application.StartupPath + "\\回收站";
 
     }
 
@@ -282,7 +282,11 @@ namespace xxkUI.Tool
         public static Dictionary<UserStatus, string> UserDictionary = new Dictionary<UserStatus, string> { { UserStatus.Examining, "0" }, { UserStatus.ExamineOK, "1" }, { UserStatus.ExamineReject, "2" } };    
     }
 
-    
- 
-
+    /// <summary>
+    /// 当前登录的用户信息
+    /// </summary>
+    public static class CurrentUSerInfo
+    {
+        public static UserInfoBean UIB = new UserInfoBean();
+    }
 }

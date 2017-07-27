@@ -206,4 +206,12 @@ public class LineBean
         get { return _LineStatus; }
         set { _LineStatus = value; }
     }
+
+    [Description("布设图编码")]
+    private string _LayoutMapcode;
+    public string LayoutMapcode
+    {
+        get { return _LayoutMapcode; }
+        set { _LayoutMapcode = value; }
+    }
 }

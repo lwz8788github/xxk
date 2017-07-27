@@ -1,33 +1,34 @@
 ﻿
 namespace GMap.NET.WindowsForms
 {
-   using System;
-   using System.ComponentModel;
-   using System.Drawing;
-   using System.Drawing.Drawing2D;
-   using System.Drawing.Imaging;
-   using System.IO;
-   using System.Threading;
-   using System.Windows.Forms;
-   using GMap.NET;
-   using GMap.NET.Internals;
-   using GMap.NET.ObjectModel;
-   using System.Diagnostics;
-   using System.Drawing.Text;
-   using GMap.NET.MapProviders;
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using System.Threading;
+    using System.Windows.Forms;
+    using GMap.NET;
+    using GMap.NET.Internals;
+    using GMap.NET.ObjectModel;
+    using System.Diagnostics;
+    using System.Drawing.Text;
+    using GMap.NET.MapProviders;
 
 #if !PocketPC
-   using System.Runtime.Serialization.Formatters.Binary;
-   using System.Collections.Generic;
-   using GMap.NET.Projections;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Collections.Generic;
+    using GMap.NET.Projections;
+    using Internals;
 #else
    using OpenNETCF.ComponentModel;
 #endif
 
-   /// <summary>
-   /// GMap.NET control for Windows Forms
-   /// </summary>   
-   public partial class GMapControl : UserControl, Interface
+    /// <summary>
+    /// GMap.NET control for Windows Forms
+    /// </summary>   
+    public partial class GMapControl : UserControl, Interface
    {
 #if !PocketPC
       /// <summary>
@@ -565,8 +566,9 @@ namespace GMap.NET.WindowsForms
           WindowsFormsImageProxy.Enable();
 #if !PocketPC
           GMaps.Instance.SQLitePing();
-#endif          
-      }
+        
+#endif
+        }
 
       void Overlays_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
       {

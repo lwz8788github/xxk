@@ -24,6 +24,8 @@ using System.Configuration;
 using Common.Data.MySql;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using System.Text.RegularExpressions;
+using DevExpress.XtraTab;
+using DevExpress.XtraGrid.Views.Card;
 
 namespace xxkUI
 {
@@ -35,8 +37,8 @@ namespace xxkUI
         private TreeList currentTree;//当前树
         private SiteAttri siteAttriFrm = new SiteAttri();
         private List<string> importDataFiles = new List<string>();// 导入数据的文件路径集
-        private ActionType actiontype = ActionType.NoAction;// 观测数据操作类型
-        private MyTeeChart mtc = null;
+     
+    
         private bool IsEqkShow = false;// 是否显示地震目录列表
         private int pagesize = 50;// 页行数
         private int pageIndex = 1;// 当前页
@@ -48,10 +50,13 @@ namespace xxkUI
             InitForm();
             InitTree();
             InitFaultCombobox();
-            InitChartTab();
+          
             InitSiteinTab();
             InitRecycleTab();
+            InitLayoutmapTab();
             InitStyle();
+
+         
         }
 
         /// <summary>
@@ -127,11 +132,7 @@ namespace xxkUI
         /// <summary>
         /// 初始化Chart页面及工具
         /// </summary>
-        public void InitChartTab()
-        {
-            this.chartTabPage.PageVisible = false;//曲线图页面不可见
-            mtc = new MyTeeChart(this.chartGroupBox, this.gridControlObsdata);
-        }
+     
         /// <summary>
         /// 初始化信息库页面
         /// </summary>
@@ -148,6 +149,14 @@ namespace xxkUI
         {
             this.recycleTabPage.PageVisible = false;
         }
+
+        /// <summary>
+        /// 初始化布设图页面
+        /// </summary>
+        public void InitLayoutmapTab()
+        {
+            this.layoutmapTabpage.PageVisible = false;
+        }
         /// <summary>
         /// 设置界面风格
         /// </summary>
@@ -155,9 +164,6 @@ namespace xxkUI
         {
             defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";//蓝色风格
         }
-
-        
-
 
 
         /// <summary>
@@ -174,11 +180,7 @@ namespace xxkUI
             {
                 using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                 {
-                    currentUserBar.Caption = currentUserBar.Caption + lg.Username;
-                    //获取用户权限，放入userAut
-                    List<string> userAhtList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(lg.Username);
-                  
-
+                    currentUserBar.Caption = currentUserBar.Caption + CurrentUSerInfo.UIB.UserName;
                 }
             }
             else
@@ -195,9 +197,8 @@ namespace xxkUI
         {
             try
             {
-                xtl.ClearTreelistNodes();
-                GMapMarkerKdcSite.ClearAllSiteMarker(this.gMapCtrl);
-                currentUserBar.Caption = "当前用户:";
+                CurrentUSerInfo.UIB = new UserInfoBean();
+                currentUserBar.Caption = "当前用户:" + CurrentUSerInfo.UIB.UserName;
             }
             catch (Exception ex)
             {
@@ -244,6 +245,23 @@ namespace xxkUI
                 //SiteBean sb = (SiteBean)item.Tag;
                 //sb.SiteType = sb.SiteCode.Substring(0, 1) == "L" ? "流动" : "定点";
                 /*点击地震标注弹出地震详细说明*/
+
+                if (item is GMapMarker)
+                {
+                    if (item.Overlay.Id == "sitemarkers")//场地标签图层
+                    {
+                        using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                        {
+                            SiteBean sb = (SiteBean)item.Tag;
+
+                            this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
+                            this.siteInfoDocCtrl1.FillBookMarkText(sb);
+                            this.siteInfoTabPage.PageVisible = true;
+                            this.TabControl.SelectedTabPage = this.siteInfoTabPage;
+                        }
+                    }
+
+                }
             }
             catch
             {
@@ -296,8 +314,6 @@ namespace xxkUI
 
         }
 
-
-
         #endregion
 
 
@@ -313,9 +329,6 @@ namespace xxkUI
             }
         }
 
-
-
-
         /// <summary>
         /// 控制dockPanel的显示
         /// </summary>
@@ -324,45 +337,45 @@ namespace xxkUI
         {
             try
             {
-                if (this.xtraTabControl1.SelectedTabPage.Name == "chartTabPage")
+                if (this.TabControl.SelectedTabPage.Name == "chartTabPage")
                 {
-                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
                     this.ribbon.SelectedPage = ribbonPageTchartTool;
-
                 }
-                else if (this.xtraTabControl1.SelectedTabPage.Name == "mapTabPage")
+                else if (this.TabControl.SelectedTabPage.Name == "mapTabPage")
                 {
                     if (IsEqkShow)
                     {
-                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
-                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
+                        if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Visible)
+                            this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Visible;
                     }
                     else
                     {
-                        this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                        
+                        if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                            this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     }
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+
                     this.ribbon.SelectedPage = ribbonPageMapTool;
                 }
-                else if(this.xtraTabControl1.SelectedTabPage.Name== "recycleTabPage")
+                else if(this.TabControl.SelectedTabPage.Name== "recycleTabPage")
                 {
-                    this.panelContainerData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelObsData.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-                    this.dockPanelChartAttri.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-
+                    if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
                     this.ribbon.SelectedPage = ribbonPageStart;
                 }
-                
+                else if (this.TabControl.SelectedTabPage.Name == "layoutmapTabpage")
+                {
+                   
+                    if (this.dockPanelEqkCatalog.Visibility != DevExpress.XtraBars.Docking.DockVisibility.Hidden)
+                        this.dockPanelEqkCatalog.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
+                    this.ribbon.SelectedPage = ribbonPageStart;
+                }
+
+
             }
             catch (Exception ex)
             {
-                //XtraMessageBox.Show(ex.Message, "错误");
+                XtraMessageBox.Show(ex.Message, "错误");
             }
 
         }
@@ -375,12 +388,65 @@ namespace xxkUI
         /// <param name="e"></param>
         private void tree_MouseUp(object sender, MouseEventArgs e)
         {
-            TreeList tree = sender as TreeList;
-            currentTree = tree;
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
+            try
             {
-                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
-                TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                TreeList tree = sender as TreeList;
+                currentTree = tree;
+                if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None) && (tree.State == TreeListState.Regular))
+                {
+                    Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    TreeListHitInfo hitInfo = tree.CalcHitInfo(e.Location);
+                    if (hitInfo.HitInfoType == HitInfoType.Cell)
+                    {
+                        tree.SetFocusedNode(hitInfo.Node);
+
+                        if (tree.Name == "treeListData")//信息库树
+                        {
+                            currentClickNodeInfo = tree.GetDataRecordByNode(hitInfo.Node) as TreeBean;
+                            if (currentClickNodeInfo == null)
+                            {
+                                return;
+                            }
+
+                            if (hitInfo.Node.Level == 1)
+                            {
+                                popRemoteSiteTree.ShowPopup(p);
+                            }
+                            else if (hitInfo.Node.Level == 2)
+                            {
+                                popRemoteLineTree.ShowPopup(p);
+                            }
+                        }
+                        if (tree.Name == "treeListManipData")//处理数据
+                        {
+                            popRemoteLineTree.ShowPopup(p);
+                        }
+
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+
+            }
+
+        }
+
+        /// <summary>
+        /// treelist双击事件，显示曲线
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeList_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                TreeList tree = sender as TreeList;
+                MouseEventArgs me = e as MouseEventArgs;
+
+                TreeListHitInfo hitInfo = tree.CalcHitInfo(me.Location);
                 if (hitInfo.HitInfoType == HitInfoType.Cell)
                 {
                     tree.SetFocusedNode(hitInfo.Node);
@@ -392,25 +458,58 @@ namespace xxkUI
                         {
                             return;
                         }
+                        if (hitInfo.Node.Level == 1)//场地
+                        {
 
-                        if (hitInfo.Node.Level == 1)
-                        {
-                            popRemoteSiteTree.ShowPopup(p);
                         }
-                        else if (hitInfo.Node.Level == 2)
+                        if (hitInfo.Node.Level == 2)//测线
                         {
-                            popRemoteLineTree.ShowPopup(p);
+                            LineBean tag = currentClickNodeInfo.Tag as LineBean;
+                            string filePath = (this.dockPanelDb.Text == "本地信息库") ? DataFromPath.LocalDbPath : DataFromPath.RemoteDbPath;
+                            AddSeriesToChart(new List<LineBean>() { tag }, filePath);
                         }
+
                     }
                     if (tree.Name == "treeListManipData")//处理数据
                     {
-                        popRemoteLineTree.ShowPopup(p);
+                        AddSeriesToChart(new List<string>() { hitInfo.Node.GetDisplayText(0) }, DataFromPath.HandleDataPath);
                     }
 
                 }
             }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
+
+            ChangePanelContainerItemVisible();
 
 
+
+        }
+
+        private void AddSeriesToChart <T>(List<T> checkednode, string dfp)
+        {
+
+            try
+            {
+                Type t = typeof(T);
+                if (t.Name == "LineBean")
+                {
+                    this.tChartControl.AddSeries(checkednode as List<LineBean>, dfp);
+                }
+                else if (t.Name == "String")
+                {
+                    this.tChartControl.AddSeries(checkednode as List<string>, dfp);
+                }
+
+                this.chartTabPage.PageVisible = true;//曲线图页面可见
+                this.TabControl.SelectedTabPage = this.chartTabPage;
+                //跳转至菜单栏
+                this.Ribbon.SelectedPage = ribbonPageTchartTool;
+            }
+            catch (Exception ex)
+            { }
         }
 
 
@@ -422,7 +521,6 @@ namespace xxkUI
         private void popMenuRemote_ItemClick(object sender, ItemClickEventArgs e)
         {
 
-            string filePath = "";
             switch (e.Item.Name)
             {
                 case "btnChart"://趋势图
@@ -431,32 +529,19 @@ namespace xxkUI
                         {
                             if (currentTree.Name == this.treeListData.Name)
                             {
-                                if (this.dockPanelDb.Text == "本地信息库")
-                                {
-                                    filePath = DataFromPath.LocalDbPath;
-                                }
-                                else if (this.dockPanelDb.Text == "远程信息库")
-                                {
-                                    filePath = DataFromPath.RemoteDbPath;
-                                }
+                                string filePath = (this.dockPanelDb.Text == "本地信息库") ? DataFromPath.LocalDbPath : DataFromPath.RemoteDbPath;
+                                AddSeriesToChart(xtl.GetCheckedLine(currentTree.Name), filePath);
 
-                                mtc.AddSeries(xtl.GetCheckedLine(currentTree.Name), filePath);
                             }
                             else if (currentTree.Name == this.treeListManipData.Name)
                             {
-                                filePath = DataFromPath.HandleDataPath;
-
-                                mtc.AddSeries(xtl.GetCheckedLineOnMuniTree(currentTree.Name), filePath);
+                                AddSeriesToChart(xtl.GetCheckedLineOnMuniTree(currentTree.Name), DataFromPath.HandleDataPath);
                             }
-                             this.chartTabPage.PageVisible = true;//曲线图页面可见
-                            this.xtraTabControl1.SelectedTabPage = this.chartTabPage;
-                            //跳转至菜单栏
-                            this.Ribbon.SelectedPage = ribbonPageTchartTool;
                         }
                     }
                     break;
                 case "btnSiteLocation"://定位到地图
-                    this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                    this.TabControl.SelectedTabPage = this.mapTabPage;
                     this.Ribbon.SelectedPage = ribbonPageMapTool;
                     GMapMarkerKdcSite.ZoomToSite((SiteBean)currentClickNodeInfo.Tag, this.gMapCtrl);
                     break;
@@ -469,14 +554,14 @@ namespace xxkUI
                             this.siteInfoDocCtrl1.LoadDocument(Application.StartupPath + "/文档缓存/信息库模板.doc");
                             this.siteInfoDocCtrl1.FillBookMarkText(sb);
                             this.siteInfoTabPage.PageVisible = true;
-                            this.xtraTabControl1.SelectedTabPage = this.siteInfoTabPage;
+                            this.TabControl.SelectedTabPage = this.siteInfoTabPage;
                         }
                     }
                     break;
                 case "btnAddSiteInfo"://新增信息库
                     {
                         this.addXxkTabPage.PageVisible = true;
-                        this.xtraTabControl1.SelectedTabPage = this.addXxkTabPage;
+                        this.TabControl.SelectedTabPage = this.addXxkTabPage;
 
                         this.addXxkTabPage.Text = "新增信息库";
                         this.groupControl1.Text = "新增信息库表单";
@@ -492,26 +577,96 @@ namespace xxkUI
                 case "btnUpdateSiteInfo"://更新信息库
                     {
                         this.addXxkTabPage.PageVisible = true;
-                        this.xtraTabControl1.SelectedTabPage = this.addXxkTabPage;
+                        this.TabControl.SelectedTabPage = this.addXxkTabPage;
                         SetBaseinfoVGridControl();
                         SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
                         this.addXxkTabPage.Text = "更新信息库";
                         this.groupControl1.Text = "更新信息库表单";
                         this.btnXxkAdd.Text = "更新至数据库";
                         this.btnXxkAdd.Enabled = true;
-                        SetSiteValueVGridControl(sb,false);
+                        SetSiteValueVGridControl(sb, false);
                     }
                     break;
                 case "btnImportObsline"://导入观测数据
                     {
-                        string userName = this.currentUserBar.Caption.Split('：')[1];
-
-                        if (userName == string.Empty && this.dockPanelDb.Text == "远程信息库")
+                        if (currentTree.Name == this.treeListData.Name)//远程库
                         {
-                            XtraMessageBox.Show("没有登录！", "警告");
-                            return;
+                            if (CurrentUSerInfo.UIB.UserName == null|| CurrentUSerInfo.UIB.UserName == string.Empty)
+                            {
+                                //先登录再下载
+                                Login lg = new Login();
+                                if (lg.ShowDialog() == DialogResult.OK)
+                                {
+                                    using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                    {
+                                        currentUserBar.Caption = CurrentUSerInfo.UIB.UserName;
+                                        string sitecode = currentClickNodeInfo.ParentFieldName;
+                                        if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(sitecode))
+                                        {
+                                            XtraMessageBox.Show("当前用户无该场地权限，请向管理部门申请相应权限再执行该操作！", "提示");
+                                            return;
+                                        }
+
+                                        try
+                                        {
+                                            OpenFileDialog ofd = new OpenFileDialog();
+                                            ofd.Multiselect = true;//可多选
+                                            ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                                            if (ofd.ShowDialog() == DialogResult.OK)
+                                            {
+                                                importDataFiles = ofd.FileNames.ToList();
+                                                ProgressForm ptPro = new ProgressForm();
+                                                ptPro.Show(this);
+                                                ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                                ptPro.beginWorking();
+                                                ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                {
+                                    currentUserBar.Caption = CurrentUSerInfo.UIB.UserName;
+                                    string sitecode = currentClickNodeInfo.ParentFieldName;
+                                    if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(sitecode))
+                                    {
+                                        XtraMessageBox.Show("当前用户无该场地权限，请向管理部门申请相应权限再执行该操作！", "提示");
+                                        return;
+                                    }
+                                    try
+                                    {
+                                        OpenFileDialog ofd = new OpenFileDialog();
+                                        ofd.Multiselect = true;//可多选
+                                        ofd.Filter = "Excel文件|*.xls;*.xlsx;";
+                                        if (ofd.ShowDialog() == DialogResult.OK)
+                                        {
+                                            importDataFiles = ofd.FileNames.ToList();
+                                            ProgressForm ptPro = new ProgressForm();
+                                            ptPro.Show(this);
+                                            ptPro.progressWorker.DoWork += ImportData_DoWork;
+                                            ptPro.beginWorking();
+                                            ptPro.progressWorker.RunWorkerCompleted += ImportData_RunWorkerCompleted;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        XtraMessageBox.Show("导入失败:" + ex.Message, "错误");
+                                    }
+                                }
+                            }
                         }
-                        else
+                        else if (currentTree.Name == this.treeListManipData.Name)//本地库
                         {
                             try
                             {
@@ -537,74 +692,134 @@ namespace xxkUI
                     break;
                 case "btnDownLoad"://下载数据
                     {
-                        string userName = this.currentUserBar.Caption.Split('：')[1];
-                        if (userName == string.Empty && this.dockPanelDb.Text.Contains("远程"))
+                        if (this.dockPanelDb.Text.Contains("远程"))
                         {
-                            XtraMessageBox.Show("没有登录！", "警告");
-                            return;
+                            if (CurrentUSerInfo.UIB.UserName == null|| CurrentUSerInfo.UIB.UserName == string.Empty)
+                            {
+                                Login lg = new Login();
+
+                                if (lg.ShowDialog() == DialogResult.OK)
+                                {
+                                    using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                    {
+                                        currentUserBar.Caption = "当前用户：" + CurrentUSerInfo.UIB.UserName;
+                                    }
+                                }
+                                else
+                                {
+                                    return;
+                                }
+
+                            }
                         }
-
-                        DownloadData(userName);
-
+                       
+                        DownloadData();
                     }
                     break;
                 case "btnDeleteObsline"://删除测项至回收站
                     {
-                        PublicHelper php = new PublicHelper();
-                        DataFromType dft = DataFromType.Nothing;
-                        if (currentTree.Name == this.treeListData.Name)
+                        try
                         {
-                            if (this.dockPanelDb.Text == "本地信息库")
+                            PublicHelper php = new PublicHelper();
+                            DataFromType dft = (this.dockPanelDb.Text == "本地信息库") ? DataFromType.LocalDb : DataFromType.RemoteDb;
+                            string filePath = (this.dockPanelDb.Text == "本地信息库") ? DataFromPath.LocalDbPath : DataFromPath.RemoteDbPath;
+
+                            if (currentTree.Name == this.treeListData.Name)
                             {
-                                filePath = DataFromPath.LocalDbPath;
-                                dft = DataFromType.LocalDb;
+                              
+                                List<LineBean> lblist = xtl.GetCheckedLine(currentTree.Name);
+
+                                foreach (LineBean lb in lblist)
+                                {
+                                    string sourceFilePath = filePath + "\\" + lb.OBSLINECODE + ".xls";
+
+                                    string dbtype = (dft == DataFromType.RemoteDb) ? "YC" : "BD";//远程或本地
+                                    string deletetime = php.CreateTimeStr();
+                                    string excelname = lb.OBSLINECODE;
+
+                                    string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+                                    File.Copy(sourceFilePath, destFileName);
+                                    File.Delete(sourceFilePath);
+                                }
+
+                                xtl.bSignDbTree(filePath);
                             }
-                            else if (this.dockPanelDb.Text == "远程信息库")
+                            else if (currentTree.Name == this.treeListManipData.Name)
                             {
-                                filePath = DataFromPath.RemoteDbPath;
-                                dft = DataFromType.RemoteDb;
+                                filePath = DataFromPath.HandleDataPath;
+                                dft = DataFromType.HandleData;
+                                List<string> checklines = xtl.GetCheckedLineOnMuniTree(currentTree.Name);
+
+                                foreach (string lb in checklines)
+                                {
+                                    string sourceFilePath = filePath + "\\" + lb + ".xls";
+
+                                    string deletetime = php.CreateTimeStr();
+                                    string dbtype = "CL";
+                                    string excelname = lb;
+                                    string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
+
+                                    File.Copy(sourceFilePath, destFileName);
+                                    File.Delete(sourceFilePath);
+                                }
+
+                                xtl.bSignInitManipdbTree();
                             }
 
-                            List<LineBean> lblist = xtl.GetCheckedLine(currentTree.Name);
-
-                            foreach (LineBean lb in lblist)
-                            {
-                                string sourceFilePath = filePath + "\\" + lb.OBSLINECODE + ".xls";
-
-                                string dbtype = (dft == DataFromType.RemoteDb) ? "YC" : "BD";
-                                string deletetime = php.CreateTimeStr();
-                                string excelname = lb.OBSLINECODE;
-
-                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
-                                File.Copy(sourceFilePath, destFileName);
-                                File.Delete(sourceFilePath);
-                            }
-
-                            xtl.bSignDbTree(filePath);
+                            recycleControl.LoadRecycleItems();
                         }
-                        else if (currentTree.Name == this.treeListManipData.Name)
+                        catch (Exception ex)
                         {
-                            filePath = DataFromPath.HandleDataPath;
-                            dft = DataFromType.HandleData;
-                            List<string> checklines = xtl.GetCheckedLineOnMuniTree(currentTree.Name);
+                            XtraMessageBox.Show(ex.Message, "错误");
+                        }
+                    }
 
-                            foreach (string lb in checklines)
+                    break;
+
+                case "btnLayoutmap"://场地布设图
+                    {
+                        SiteBean sb = (SiteBean)currentClickNodeInfo.Tag;
+
+                        List<LayoutmapBean> lymplist = LayoutmapBll.Instance.GetLayoutmapBy(sb.SiteCode);
+                        if (lymplist.Count == 0)
+                        {
+                            if (XtraMessageBox.Show("没有找到与该场地对应的布设图，是否增加布设图？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
                             {
-                                string sourceFilePath = filePath + "\\" + lb + ".xls";
-
-                                string deletetime = php.CreateTimeStr();
-                                string dbtype = "CL";
-                                string excelname = lb;
-                                string destFileName = DataFromPath.RecycleDataPath + "\\" + deletetime + dbtype + excelname + ".xls";
-
-                                File.Copy(sourceFilePath, destFileName);
-                                File.Delete(sourceFilePath);
+                                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                                fbd.SelectedPath = Application.StartupPath;
+                                if (fbd.ShowDialog() == DialogResult.OK)
+                                {
+                                    using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                                    {
+                                        FileInfo[] fifs = new DirectoryInfo(fbd.SelectedPath).GetFiles();
+                                        foreach (FileInfo fi in fifs)
+                                        {
+                                            LayoutmapBean lymapbean = new LayoutmapBean();
+                                            lymapbean.layoutmapcode = LayoutmapBll.Instance.CreateLayoutmapCode();
+                                            lymapbean.sitecode = sb.SiteCode;
+                                            lymapbean.layoutmapname = Regex.Split(fi.Name, fi.Extension, RegexOptions.IgnoreCase)[0];
+                                            lymapbean.layoutmap = File.ReadAllBytes(fi.FullName);
+                                            LayoutmapBll.Instance.Add(lymapbean);
+                                            lymplist.Add(lymapbean);
+                                        }
+                                    }
+                                    SetDatasourceLympGridControl(lymplist, sb.SiteCode);
+                                }
+                                else
+                                {
+                                    return;
+                                }
                             }
-
-                            xtl.bSignInitManipdbTree();
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            SetDatasourceLympGridControl(lymplist, sb.SiteCode);
                         }
 
-                        recycleControl.LoadRecycleItems();
                     }
                     break;
 
@@ -612,26 +827,83 @@ namespace xxkUI
         }
 
 
+        private void SetDatasourceLympGridControl(List<LayoutmapBean> lymplist, string sitecode)
+        {
+            try
+            {
+                this.gridControlLymp.DataSource = null;
+                //自定义card长宽
+                int w = this.gridControlLymp.Width;
+                int h = this.gridControlLymp.Height;
+                this.cardViewLymp.CardWidth = (w - 50) / 4;
+                this.lyotmapPicEdit.CustomHeight = (h -20)/ 2;
+
+                List<LineBean> lblist = LineBll.Instance.GetBySitecode(sitecode).ToList();
+                this.lyotmapCheckedCmb.Items.Clear();
+                CheckedListBoxItem[] itemListQuery = new CheckedListBoxItem[lblist.Count];
+                int check = 0;
+                foreach (LineBean det in lblist)
+                {
+                    itemListQuery[check] = new CheckedListBoxItem(det.OBSLINECODE, det.OBSLINENAME, CheckState.Unchecked);
+                    check++;
+                }
+                this.lyotmapCheckedCmb.Items.AddRange(itemListQuery);
+                this.lyotmapCheckedCmb.AllowMultiSelect = true;
+                this.lyotmapCheckedCmb.SelectAllItemVisible = true;
+                this.lyotmapCheckedCmb.SelectAllItemCaption = "全选";
+                this.lyotmapCheckedCmb.EditValueChanged += LyotmapCheckedCmb_EditValueChanged;
+                this.gridControlLymp.DataSource = lymplist;
+                this.layoutmapTabpage.PageVisible = true;
+                this.TabControl.SelectedTabPage = this.layoutmapTabpage;
+
+                ChangePanelContainerItemVisible();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
+        }
+
+        private void LyotmapCheckedCmb_EditValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string bingdinglinesStr = "";
+                for (int i = 0; i < this.lyotmapCheckedCmb.Items.Count; i++)
+                {
+                    if (this.lyotmapCheckedCmb.Items[i].CheckState == CheckState.Checked)
+                        bingdinglinesStr += this.lyotmapCheckedCmb.Items[i].Value.ToString() + ",";
+                }
+
+                if (bingdinglinesStr != string.Empty)
+                    bingdinglinesStr = bingdinglinesStr.Substring(0, bingdinglinesStr.Length - 1);
+
+                CardView myView = (gridControlLymp.MainView as CardView);
+                List<LayoutmapBean> datasource = this.gridControlLymp.DataSource as List<LayoutmapBean>;
+                LayoutmapBean focusedRow = datasource[myView.FocusedRowHandle];
+                string lyoutmapcode = focusedRow.layoutmapcode;
+                //更新数据库
+                LayoutmapBll.Instance.UpdateWhatWhere(new { BINDINGLINES = bingdinglinesStr }, new { LAYOUTMAPCODE = lyoutmapcode });
+                datasource[myView.FocusedRowHandle].Bindinglines = bingdinglinesStr;
+                this.gridControlLymp.DataSource = datasource;
+            }
+
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "错误");
+            }
+
+        }
+
         /// <summary>
         /// 下载数据
         /// </summary>
         /// <param name="username">用户名</param>
-        private void DownloadData(string username)
+        private void DownloadData()
         {
-
             try
             {
-                string datafilepath = "";
-                List<string> userAhtyList = null;
-                if (this.dockPanelDb.Text.Contains("远程"))
-                {
-                    datafilepath = DataFromPath.RemoteDbPath;
-                    userAhtyList = UserInfoBll.Instance.GetAthrByUser<UserInfoBean>(username);
-                }
-                else
-                {
-                    datafilepath = DataFromPath.LocalDbPath;
-                }
+                string datafilepath = this.dockPanelDb.Text.Contains("远程") ? DataFromPath.RemoteDbPath : DataFromPath.LocalDbPath;
 
                 using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                 {
@@ -639,16 +911,18 @@ namespace xxkUI
 
                     foreach (SiteBean checkedSb in checkedNodes)
                     {
+                        if (this.dockPanelDb.Text.Contains("远程"))
+                        {
+                            if (CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList() != null)
+                                if (!CurrentUSerInfo.UIB.UserAthrty.Split(';').ToList().Contains(checkedSb.UnitCode))
+                                {
+                                    string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
+                                    XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
+                                    continue;
+                                }
+                        }
 
-                        DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
-
-                        if (userAhtyList != null)
-                            if (!userAhtyList.Contains(checkedSb.UnitCode))
-                            {
-                                string unitname = UnitInfoBll.Instance.GetUnitNameBy(checkedSb.UnitCode);
-                                XtraMessageBox.Show("没有下载" + unitname + "数据的权限！", "警告");
-                                continue;
-                            }
+                       DataTable linecode = LineObsBll.Instance.GetDataTable("select obslinecode,obslinename from t_obslinetb where SITECODE = '" + checkedSb.SiteCode + "'");
 
                         foreach (DataRow row in linecode.Rows)
                         {
@@ -661,12 +935,6 @@ namespace xxkUI
                                 NpoiCreator npcreator = new NpoiCreator();
                                 npcreator.TemplateFile = datafilepath;
                                 npcreator.NpoiExcel(dt, lCode + ".xls", datafilepath + "/" + lCode + ".xls");
-
-                                TreeBean tb = new TreeBean();
-
-                                tb.KeyFieldName = lCode;
-                                tb.ParentFieldName = checkedSb.SiteCode;
-                                tb.Caption = lName;
                             }
                         }
                     }
@@ -765,7 +1033,7 @@ namespace xxkUI
 
         private void ImportData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            xtl.bSignDbTree(DataFromPath.LocalDbPath);
+            //xtl.bSignDbTree(DataFromPath.LocalDbPath);
         }
 
         #endregion
@@ -876,13 +1144,9 @@ namespace xxkUI
         #endregion
 
 
-
-
-
         private void treeListOriData_CustomDrawNodeImages(object sender, CustomDrawNodeImagesEventArgs e)
         {
            
-
         }
 
         private void btnSilveryStyle_ItemClick(object sender, ItemClickEventArgs e)
@@ -898,11 +1162,9 @@ namespace xxkUI
         private void btnRecycled_ItemClick(object sender, ItemClickEventArgs e)
         {
             this.recycleTabPage.PageVisible = true;
-            this.xtraTabControl1.SelectedTabPage = this.recycleTabPage;
+            this.TabControl.SelectedTabPage = this.recycleTabPage;
             this.recycleControl.LoadRecycleItems();
         }
-
-
 
 
         /// <summary>
@@ -916,42 +1178,62 @@ namespace xxkUI
             {
                 case "btnFourCal"://加减乘除
                     {
-                        mtc.PlusMinusMultiplyDivide();
+                        this.tChartControl.PlusMinusMultiplyDivide();
                     }
                     break;
                 case "btnRemoveStep"://消台阶
                     {
-                        mtc.RemoStepOrJump(TChartEventType.RemoveStep);
+                        this.tChartControl.RemoStepOrJump(TChartEventType.RemoveStep);
                     }
                     break;
                 case "btnRemoveJump"://消突跳
                     {
-                        mtc.RemoStepOrJump(TChartEventType.RemoveJump);
+                        this.tChartControl.RemoStepOrJump(TChartEventType.RemoveJump);
                     }
                     break;
                 case "btnLinesUnion"://测线合并
                     {
-                        mtc.LinesUnion();
+                        this.tChartControl.LinesUnion();
                     }
                     break;
                 case "btnLinesBreak"://测线拆分
                     {
-                        mtc.LinesBreak(TChartEventType.LineBreak);
+                        this.tChartControl.LinesBreak(TChartEventType.LineBreak);
                     }
                     break;
                 case "barSaveToChuLi"://保存处理数据
                     {
-                        mtc.SaveHandleData();
+                        this.tChartControl.SaveHandleData();
                         xtl.bSignInitManipdbTree();
                     }
                     break;
 
                 case "btnInterval"://等间隔处理
                     {
-                        mtc.IntervalPross();
+                        this.tChartControl.IntervalPross();
                     }
                     break;
-
+                case "btnExportToExcel"://输出为Excel
+                    {
+                        SaveFileDialog sfd = new SaveFileDialog();
+                        sfd.Filter = "Excel文件(*.xls)|*.xls";
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            //this.gridControlObsdata.ExportToXls(sfd.FileName);
+                        }
+                    }
+                    break;
+                case "btnExportToTXT"://输出为TXT
+                    {
+                        SaveFileDialog sfd = new SaveFileDialog();
+                        sfd.Filter = "文本文件(*.txt)|*.txt";
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            //this.gridControlObsdata.ExportToText(sfd.FileName);
+                        }
+                      
+                    }
+                    break;
             }
 
         }
@@ -966,240 +1248,31 @@ namespace xxkUI
             switch (e.Item.Name)
             {
                 case "btnShowTitle"://标题
-                    mtc.btnShowTitle();
+                    this.tChartControl.btnShowTitle();
                     break;
                 case "btnGrid"://网格
-                    mtc.btnGrid();
+                    this.tChartControl.btnGrid();
                     break;
                 case "btnShowNote"://备注
-                    mtc.ShowNotes();
+                    this.tChartControl.ShowNotes();
                     break;
                 case "btnMouseCur"://鼠标热线
-                    mtc.btnMouseCur();
+                    this.tChartControl.btnMouseCur();
                     break;
                 case "btnMaxMinValue"://最大最小值
-                    mtc.btnMaxMinValue();
+                    this.tChartControl.btnMaxMinValue();
                     break;
                 case "btnHistoryEqk"://历史地震
-                    mtc.GetEqkShowForm();
+                    this.tChartControl.GetEqkShowForm();
                     break;
                 case "btnExportChart"://导出曲线图
-                    mtc.ExportChart();
+                    this.tChartControl.ExportChart();
                     break;
             }
         }
 
 
-        #region 观测数据的显示、增加、删除、修改
-
-
-        private void barbtnObsData_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            switch (e.Item.Name)
-            {
-                case "barbtnInsertRec"://插入
-                    {
-                        DataTable dt = ObsdataCls.ObsdataHash["东焦裴村d1d2水准01_11_6"] as DataTable;
-                        actiontype = ActionType.Add;
-                        this.gridViewObsdata.OptionsBehavior.Editable = true;//可编辑
-                        int focusedRow = this.gridViewObsdata.FocusedRowHandle;
-                        this.gridViewObsdata.AddNewRow();
-                    }
-                    break;
-                case "barbtnDeleteRec"://删除
-                    {
-                        actiontype = ActionType.Delete;
-                        int focusedRow = this.gridViewObsdata.FocusedRowHandle;
-                        try
-                        {
-                            DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(focusedRow);
-                            DateTime obsdate = new DateTime();
-                            DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-                            double obsv = double.NaN;
-                            double.TryParse(drv["obvvalue"].ToString(), out obsv);
-                            mtc.DeleteChartlineData(obsdate, obsv);
-                        }
-                        catch (Exception ex)
-                        {
-                            actiontype = ActionType.NoAction;
-                            //XtraMessageBox.Show("错误", "删除失败:" + ex.Message);
-                        }
-
-                        gridViewObsdata.DeleteRow(focusedRow);
-                        gridViewObsdata.UpdateCurrentRow();
-                    }
-                    break;
-                case "barbtnEditRec"://编辑
-                    {
-                        if (barbtnEditRec.Caption == "取消编辑")
-                        {
-                            this.gridViewObsdata.OptionsBehavior.Editable = false;
-                            barbtnEditRec.Caption = "编辑数据";
-                            actiontype = ActionType.NoAction;
-                        }
-                        else if (barbtnEditRec.Caption == "编辑数据")
-                        {
-                            this.gridViewObsdata.OptionsBehavior.Editable = true;//可编辑
-                            barbtnEditRec.Caption = "取消编辑";
-                            actiontype = ActionType.Modify;
-                        }
-                    }
-                    break;
-                case "barbtnSaveRec"://保存
-                    {
-                        try
-                        {
-                            LineObsBll lob = new LineObsBll();
-                            DataTable dt = (this.gridControlObsdata.DataSource as DataTable).GetChanges();
-                            if (dt != null)
-                            {
-                                foreach (DataRow dr in dt.Rows)
-                                {
-                                    /*
-                                     * 新增
-                                     */
-                                    if (dr.RowState == DataRowState.Added)
-                                    {
-                                        LineObsBean lobean = new LineObsBean();
-
-                                    }
-
-                                    /*
-                                     * 修改
-                                     */
-                                    else if (dr.RowState == DataRowState.Modified)
-                                    {
-
-                                    }
-                                }
-                            }
-                            /*
-                             * 删除
-                             */
-                            DataView dv = new DataView((this.gridControlObsdata.DataSource as DataTable), string.Empty, string.Empty, DataViewRowState.Deleted);
-                            if (dv != null)
-                            {
-                                foreach (DataRow dr in dv.ToTable().Rows)
-                                { }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            XtraMessageBox.Show("保存失败:" + ex.Message, "错误");
-                        }
-                    }
-                    break;
-
-            }
-        }
-
-        private void gridViewObsdata_MouseUp(object sender, MouseEventArgs e)
-        {
-            if ((e.Button == MouseButtons.Right) && (ModifierKeys == Keys.None))
-            {
-                Point p = new Point(Cursor.Position.X, Cursor.Position.Y);
-                GridHitInfo hitInfo = gridViewObsdata.CalcHitInfo(e.Location);
-                popObsdata.ShowPopup(p);
-            }
-        }
-
-        private void gridViewObsdata_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
-        {
-            try
-            {
-                int focusedRow = e.RowHandle;
-                DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(focusedRow);
-
-                switch (actiontype)
-                {
-                    case ActionType.Modify:
-                        {
-                            gridViewObsdata.UpdateCurrentRow();
-                        }
-                        break;
-                    case ActionType.Add:
-                        {
-                            if (drv["obvdate"].ToString() == "" || drv["obvvalue"].ToString() == "")
-                                return;
-
-                            DateTime obsdate = new DateTime();
-                            DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-
-                            double obdv = double.NaN;
-                            double.TryParse(drv["obvvalue"].ToString(), out obdv);
-                            gridViewObsdata.UpdateCurrentRow();
-
-                            mtc.AddChartlineData(obsdate, obdv);
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-
-        }
-
-
-        private void gridViewObsdata_MouseDown(object sender, MouseEventArgs e)
-        {
-            GridHitInfo hInfo = gridViewObsdata.CalcHitInfo(new Point(e.X, e.Y));
-            /*
-             * 行双击事件
-             */
-            if (e.Button == MouseButtons.Left && e.Clicks == 2)
-            {
-                //判断光标是否在行范围内 
-                if (hInfo.InRow)
-                {
-                    try
-                    {
-                        if (xtraTabControl1.SelectedTabPage.Name != "chartTabPage")
-                            xtraTabControl1.SelectedTabPage = chartTabPage;
-
-                        DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(hInfo.RowHandle);
-                        DateTime obsdate = new DateTime();
-                        DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-                        double obsv = double.NaN;
-                        double.TryParse(drv["obvvalue"].ToString(), out obsv);
-                        mtc.GoTodata(obsdate, obsv);
-
-                       
-                    }
-                    catch (Exception ex)
-                    {
-                        XtraMessageBox.Show(ex.Message, "错误");
-                    }
-
-                }
-            }
-        }
-
-        private void gridViewObsdata_ShowingEditor(object sender, CancelEventArgs e)
-        {
-            if (actiontype == ActionType.Modify)
-                e.Cancel = false;
-            else if (actiontype == ActionType.Add)
-            {
-                /*
-                 * 新增状态下只有新增行可以编辑
-                 */
-                DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(this.gridViewObsdata.FocusedRowHandle);
-                if (drv["obvvalue"].ToString() == "" || drv["obvdate"].ToString() == "")
-                {
-                    e.Cancel = false;
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-
-
-        #endregion
+        
 
         #region 数据库操作（创建、切换、备份）
         private void btnDb_ItemClick(object sender, ItemClickEventArgs e)
@@ -1230,7 +1303,96 @@ namespace xxkUI
                     }
                     break;
                 case "btnCopyDb"://数据库备份
-                    { }
+                    {
+                        try
+                        {
+                            //String command = "mysqldump --quick --host=localhost --default-character-set=gb2312 --lock-tables --verbose  --force --port=端口号 --user=用户名 --password=密码 数据库名 -r 备份到的地址";
+
+                            if (!System.IO.File.Exists(Application.StartupPath + "\\mysqldump.exe"))
+                            {
+                                XtraMessageBox.Show("无法完成备份，请检查 mysqldump.exe 是否存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                return;
+                            }
+
+                            BakupDbFrm bdf = new BakupDbFrm();
+                            if (bdf.ShowDialog() == DialogResult.OK)
+                            {
+                                //构建执行的命令
+                                StringBuilder sbcommand = new StringBuilder();
+
+                                string portnum = bdf.Port;
+                                string username = bdf.UserName;
+                                string psd = bdf.Psd;
+                                string dbname = bdf.DbName;
+                                string directory = bdf.SavetoFilename;
+
+                                sbcommand.AppendFormat("mysqldump --quick --host=localhost --default-character-set=gbk --lock-tables --verbose  --force --port=" + portnum +
+                                    " --user=" + username + " --password=" + psd + " " + dbname + " -r \"{0}\"", directory);
+                                String command = sbcommand.ToString();
+
+                                //获取mysqldump.exe所在路径
+                                String appDirecroty = System.Windows.Forms.Application.StartupPath + "\\";
+                                Cmd.StartCmd(appDirecroty, command);
+                                XtraMessageBox.Show(@"数据库已成功备份到 " + directory + " 文件中", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("数据库备份失败！","错误");
+
+                        }
+                    }
+                    break;
+                case "btnDbExeute"://数据库还原
+                    {
+                        if (!System.IO.File.Exists(Application.StartupPath + "\\mysql.exe"))
+                        {
+                            XtraMessageBox.Show("无法完成数据库恢复，请检查 mysql.exe 是否存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+
+
+                        try
+                        {
+
+                            RestoreDbFrm bdf = new RestoreDbFrm();
+                            if (bdf.ShowDialog() == DialogResult.OK)
+                            {
+                                //构建执行的命令
+                                StringBuilder sbcommand = new StringBuilder();
+
+                                string portnum = bdf.Port;
+                                string username = bdf.UserName;
+                                string psd = bdf.Psd;
+                                string dbname = bdf.DbName;
+                                string directory = bdf.SavetoFilename;
+
+                                //在文件路径后面加上""避免空格出现异常
+                                sbcommand.AppendFormat("mysql --host=localhost --default-character-set=gbk --port=" + portnum
+                                    + " --user=" + username + " --password=" + psd + " " + dbname + "<\"{0}\"", directory);
+                                String command = sbcommand.ToString();
+
+                                //获取mysql.exe所在路径
+                                String appDirecroty = System.Windows.Forms.Application.StartupPath + "\\";
+
+                                DialogResult result = XtraMessageBox.Show("您是否真的想覆盖以前的数据库吗？那么以前的数据库数据将丢失！！！", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (result == DialogResult.Yes)
+                                {
+                                    Cmd.StartCmd(appDirecroty, command);
+                                    XtraMessageBox.Show("数据库还原成功！");
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("数据库还原失败！");
+                        }
+
+
+
+                    }
                     break;
             }
         }
@@ -1314,8 +1476,8 @@ namespace xxkUI
                 {
                     try
                     {
-                        if (xtraTabControl1.SelectedTabPage.Name != "mapTabPage")
-                            xtraTabControl1.SelectedTabPage = mapTabPage;
+                        if (TabControl.SelectedTabPage.Name != "mapTabPage")
+                            TabControl.SelectedTabPage = mapTabPage;
 ;
                         DataRowView drv = (DataRowView)this.gridViewEqklist.GetRow(hInfo.RowHandle);
 
@@ -1407,7 +1569,7 @@ namespace xxkUI
          
             if (eqkDataList.Count() > 0)
             {
-                this.xtraTabControl1.SelectedTabPage = this.mapTabPage;
+                this.TabControl.SelectedTabPage = this.mapTabPage;
                 IsEqkShow = true;
                 ChangePanelContainerItemVisible();
                 ModelHandler<EqkBean> mh = new ModelHandler<EqkBean>();
@@ -1700,7 +1862,6 @@ namespace xxkUI
         /// </summary>
         private void SetBaseinfoVGridControl()
         {
-
             try
             {
                 PublicHelper ph = new PublicHelper();
@@ -1910,10 +2071,6 @@ namespace xxkUI
 
         }
 
-        private void btnXxkReset_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void recycleControl_RefreshTree(string dbpath)
         {
@@ -1932,6 +2089,75 @@ namespace xxkUI
         {
             SignUp sufrm = new SignUp();
             sufrm.ShowDialog(this);
+		}
+        private void xtraTabControl1_CloseButtonClick(object sender, EventArgs e)
+        {
+            DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs EArg = (DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs)e;
+            string name = EArg.Page.Text;//得到关闭的选项卡的text  
+            foreach (XtraTabPage page in TabControl.TabPages)//遍历得到和关闭的选项卡一样的Text  
+            {
+                if (page.Text == name)
+                {
+                    //xtraTabControl1.TabPages.Remove(page);
+                    //page.Dispose();
+                    page.PageVisible = false;
+                    return;
+                }
+            }
+        }
+
+        private void cardViewLymp_CustomDrawCardCaption(object sender, DevExpress.XtraGrid.Views.Card.CardCaptionCustomDrawEventArgs e)
+        {
+            var view = sender as CardView;
+            var isFocused = (e.RowHandle == view.FocusedRowHandle);
+
+            //caption的背景
+            Brush backBrush;
+            if (isFocused)
+            {
+                backBrush = e.Cache.GetGradientBrush(e.Bounds, Color.FromArgb(0, 120, 215), Color.FromArgb(0, 120, 215), System.Drawing.Drawing2D.LinearGradientMode.Vertical);
+            }
+            else
+            {
+                backBrush = e.Cache.GetGradientBrush(e.Bounds, Color.LightGray, Color.LightGray, System.Drawing.Drawing2D.LinearGradientMode.Vertical);
+            }
+            //caption字体刷
+            var foreBrush = isFocused ? Brushes.White : Brushes.Black;
+
+            var rect = e.Bounds;
+            rect.Inflate(1, 1);//边缘加1是因为程序启动后目测边缘少1px
+            //画3d效果边缘
+            ControlPaint.DrawBorder3D(e.Graphics, rect, Border3DStyle.RaisedOuter);
+            //边缘画好后填入背景色
+            e.Graphics.FillRectangle(backBrush, rect);
+
+            //背景填好后画文字
+            e.Appearance.DrawString(e.Cache, view.GetCardCaption(e.RowHandle), rect, foreBrush);
+            //句柄为true表明使用当前自定义的capiton
+            e.Handled = true;
+
+        }
+
+        private void barFault_EditValueChanged(object sender, EventArgs e)
+        {
+            List<string> checkedcountys = new List<string>();
+            for (int i = 0; i < this.faultChckCbbxEdit.Items.Count; i++)
+            {
+                if (this.faultChckCbbxEdit.Items[i].CheckState == CheckState.Checked)
+                {
+                    switch (this.faultChckCbbxEdit.Items[i].Value.ToString())
+                    {
+                        case "前第四纪活动断裂(隐伏)":
+                            {
+                                string fp = Application.StartupPath + "//断层数据//前第四纪活动断裂(隐伏).dat";
+
+                            }
+                            break;
+                    }
+                }
+                else if (this.faultChckCbbxEdit.Items[i].CheckState == CheckState.Unchecked)
+                { } 
+            }
         }
     }
 }

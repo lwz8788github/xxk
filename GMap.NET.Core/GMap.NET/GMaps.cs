@@ -30,7 +30,7 @@ namespace GMap.NET
       /// <summary>
       /// tile access mode
       /// </summary>
-      public AccessMode Mode = AccessMode.ServerAndCache;
+      public AccessMode Mode = AccessMode.CacheOnly;
 
       /// <summary>
       /// is map ussing cache for routing

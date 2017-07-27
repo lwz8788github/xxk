@@ -9,6 +9,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GsProject;
 using xxkUI.GsProject;
+using System.Threading;
 
 namespace xxkUI.MyCls
 {
@@ -27,24 +28,32 @@ namespace xxkUI.MyCls
             bool isOk = false;
             try
             {
-                gMapCtrl.BackColor = Color.Red;
-                //设置控件的管理模式  
-                gMapCtrl.Manager.Mode = AccessMode.ServerAndCache;
+                //离线模式
+                gMapCtrl.Manager.Mode = AccessMode.CacheOnly;
                 //设置控件显示的地图来源  
                 gMapCtrl.MapProvider = GMapProviders.GoogleChinaMap;
-                //设置控件显示的当前中心位置  
-                //31.7543, 121.6281  
+                //gmdb离线地图数据
+                string mapfile = System.Windows.Forms.Application.StartupPath + "\\GisMap\\Data.gmdb";
+                //载入离线地图
+                MapManagerLoader.Instance.Load(mapfile);
+
+                //不显示中心十字点  
+                gMapCtrl.ShowCenter = false;
+                //右键拖拽地图  
+                gMapCtrl.DragButton = System.Windows.Forms.MouseButtons.Left;
+
+                //设置控件显示的当前中心位置
                 gMapCtrl.Position = chinaCenter;
-                //设置控件最大的缩放比例  
+                //设置控件最大的缩放比例
                 gMapCtrl.MaxZoom = 50;
-                //设置控件最小的缩放比例  
-                gMapCtrl.MinZoom = 2;
-                //设置控件当前的缩放比例  
+                //设置控件最小的缩放比例
+                gMapCtrl.MinZoom = 4;
+                //设置控件当前的缩放比例
                 gMapCtrl.Zoom = 4;
+
 
                 isOk = true;
             }
-
             catch (Exception ex)
             {
                 isOk = false;
@@ -53,7 +62,8 @@ namespace xxkUI.MyCls
 
             return isOk;
         }
-            
+
+
         /// <summary>
         /// 重载地图
         /// </summary>
@@ -98,7 +108,6 @@ namespace xxkUI.MyCls
         /// <param name="sblist"></param>
         public static void LoadSiteMarker(IEnumerable<SiteBean> sblist, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
             GMapOverlay SiteOverlay = new GMapOverlay("sitemarkers");
 
             foreach (SiteBean sb in sblist)
@@ -112,13 +121,17 @@ namespace xxkUI.MyCls
                     marker = new GMarkerGoogle(new PointLatLng(sb.Latitude, sb.Longtitude), GMarkerGoogleType.red_small);
 
                 marker.Tag = sb;
+
+                marker.ToolTipText = sb.SiteName;
+                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+
                 SiteOverlay.Markers.Add(marker);
 
             }
             gMapCtrl.Overlays.Add(SiteOverlay);
 
             gMapCtrl.Zoom += 1;
-            gMapCtrl.Refresh();
+            //gMapCtrl.Refresh();
            
         }
 
@@ -219,7 +232,6 @@ namespace xxkUI.MyCls
         /// </summary>
         public static void AnnotationEqkToMap(List<EqkBean> eqkList, GMap.NET.WindowsForms.GMapControl gMapCtrl)
         {
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
 
             GMapOverlay EqkOverlay = null;
             for (int i = 0; i < gMapCtrl.Overlays.Count; i++)
@@ -268,6 +280,12 @@ namespace xxkUI.MyCls
                 Bitmap eqkDotPic = new Bitmap(picPath);
                 marker = new GMarkerGoogle(new PointLatLng(eqkList[i].Latitude, eqkList[i].Longtitude), eqkDotPic);
                 marker.Tag = eqkList[i];
+
+                marker.ToolTipText = "震级："+eqkList[i].Magntd + "\r\n时间："+eqkList[i].EakDate.ToString() + "\r\n地点：" + eqkList[i].Place;
+             
+                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                marker.ToolTip.Format.Alignment = StringAlignment.Near;
+
                 EqkOverlay.Markers.Add(marker);
             }
 
@@ -301,5 +319,34 @@ namespace xxkUI.MyCls
         //    return gPolList;
         //} 
 
+    }
+
+
+
+
+    public class MapManagerLoader
+    {
+        private static readonly MapManagerLoader _instance = new MapManagerLoader();
+
+        public static MapManagerLoader Instance
+        {
+            get { return _instance; }
+        }
+
+        private MapManagerLoader()
+        {
+        }
+
+        private bool _isLoaded;
+
+        public bool Load(string fileName)
+        {
+            if (!_isLoaded)
+            {
+                new Thread(() => GMaps.Instance.ImportFromGMDB(fileName)).Start();
+                _isLoaded = true;
+            }
+            return _isLoaded;
+        }
     }
 }

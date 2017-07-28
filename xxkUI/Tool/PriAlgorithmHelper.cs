@@ -590,18 +590,20 @@ public class PriAlgorithmHelper
                     Res.SplineInsertPoint(points,ref rt_points,1);
                     //将返回数据实例化为表
                     res = new DataTable();
-                    res.Columns.Add("obvdate");
-                    res.Columns.Add("obvvalue");
-                    res.Columns.Add("note");
+                    DataColumn col1 = new DataColumn("obvdate", typeof(DateTime));
+                    res.Columns.Add(col1);
+                    DataColumn col2 = new DataColumn("obvvalue", typeof(Double));
+                    res.Columns.Add(col2);
+                    DataColumn col3 = new DataColumn("note", typeof(String));
+                    res.Columns.Add(col3);                    
                     int total = rt_points.Length;
                     for(int i = 0; i < total; i++)
                     {
                         DataRow dr = res.NewRow();
                         dr[0] = DateTime.FromOADate(rt_points[i].x);
                         dr[1] = rt_points[i].y;
-                        dr[2] = string.Empty;
+                        dr[2] = "";
                         res.Rows.Add(dr);
-                        //res.LoadDataRow(dr.ItemArray, true);
                     }                    
                     break;
                 case 2:

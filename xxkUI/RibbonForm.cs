@@ -2093,6 +2093,11 @@ namespace xxkUI
             
         }
 
+        private void btnSignup_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            SignUp sufrm = new SignUp();
+            sufrm.ShowDialog(this);
+		}
         private void xtraTabControl1_CloseButtonClick(object sender, EventArgs e)
         {
             DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs EArg = (DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs)e;
@@ -2161,8 +2166,6 @@ namespace xxkUI
                 else if (this.faultChckCbbxEdit.Items[i].CheckState == CheckState.Unchecked)
                 { } 
             }
-
- 
         }
     }
 }

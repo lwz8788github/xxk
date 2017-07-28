@@ -245,6 +245,12 @@
     <Compile Include="Form\SaveToManipData.Designer.cs">
       <DependentUpon>SaveToManipData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\SignUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\SignUp.Designer.cs">
+      <DependentUpon>SignUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\WaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -365,6 +371,9 @@
     <EmbeddedResource Include="Form\ProgressForm.resx" />
     <EmbeddedResource Include="Form\SaveToManipData.resx">
       <DependentUpon>SaveToManipData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\SignUp.resx">
+      <DependentUpon>SignUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\WaitForm.resx">
       <DependentUpon>WaitForm.cs</DependentUpon>

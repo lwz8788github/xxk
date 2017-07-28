@@ -120,6 +120,11 @@ namespace Common.Data
             return DbUtils.Delete<T>(ids);
         }
 
+        public int DeleteWhere(object where)
+        {
+            return DbUtils.DeleteWhere<T>(where);
+        }
+        
         public int CountWhere(object where)
         {
             return DbUtils.CountWhere<T>(where);

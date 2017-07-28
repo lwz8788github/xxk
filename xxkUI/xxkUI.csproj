@@ -251,6 +251,12 @@
     <Compile Include="Form\SignUp.Designer.cs">
       <DependentUpon>SignUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\UserManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\UserManage.Designer.cs">
+      <DependentUpon>UserManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\WaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -287,6 +293,7 @@
     <Compile Include="Model\LayoutmapBean.cs" />
     <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
+    <Compile Include="Model\CboItemEntity.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
@@ -374,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\SignUp.resx">
       <DependentUpon>SignUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\UserManage.resx">
+      <DependentUpon>UserManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\WaitForm.resx">
       <DependentUpon>WaitForm.cs</DependentUpon>

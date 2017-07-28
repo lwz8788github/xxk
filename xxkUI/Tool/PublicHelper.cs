@@ -95,6 +95,45 @@ namespace xxkUI.Tool
             return zipname;
         }
 
+        /// <summary>
+        /// 获取用户状态描述
+        /// </summary>
+        /// <param name="userstatuscode"></param>
+        /// <returns></returns>
+        public string GetUserStatusDiscription(string userstatuscode)
+        {
+            string discription = "";
+            if (userstatuscode == "0")
+                discription = "待审核";
+            else if (userstatuscode == "1")
+                discription = "通过审核";
+            else if (userstatuscode == "2")
+                discription = "未通过审核";
+            else
+                discription = "";
+            return discription;
+        }
+
+        /// <summary>
+        /// 获取用户状态值
+        /// </summary>
+        /// <param name="userstatusdiscripton"></param>
+        /// <returns></returns>
+        public string GetUserStatusCode(string userstatusdiscripton)
+        {
+            string discription = "";
+            if (userstatusdiscripton == "待审核")
+                discription = "0";
+            else if (userstatusdiscripton == "通过审核")
+                discription = "1";
+            else if (userstatusdiscripton == "未通过审核")
+                discription = "2";
+            else
+                discription = "";
+
+            return discription;
+        }
+
     }
 
     /// <summary>

@@ -52,8 +52,13 @@ namespace xxkUI.BLL
 
         public string GetUnitNameBy(string _unitcode)
         {
-            IEnumerable<UnitInfoBean> uibEnum = UnitInfoDal.Instance.GetList("select unitname from t_unittb where unitcode=@Unitcode", new { Unitcode = _unitcode });
-            return uibEnum.ToList()[0].UnitName;
+            try
+            {
+                IEnumerable<UnitInfoBean> uibEnum = UnitInfoDal.Instance.GetList("select unitname from t_unittb where unitcode=@Unitcode", new { Unitcode = _unitcode });
+                return uibEnum.ToList()[0].UnitName;
+            }
+            catch (Exception ex)
+            { return ""; }
         }
 
 

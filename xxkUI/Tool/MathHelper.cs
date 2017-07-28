@@ -114,12 +114,11 @@ namespace xxkUI.Tool
                     double p4; p4 = p1 * (xs[i] - points[j].x) * m[j] + p2 * (xs[i] - points[j + 1].x) * m[j + 1];
                     p4 = p4 + p3;
                     insertRes[i] = p4;
-                    rt[i].y = points[j].y;
+                    rt[i].y = p4;
+                    //rt[i].y = points[j].y;
                 }
 
             }
-            //return rt;
-            //return insertRes;
         }
     }
 }

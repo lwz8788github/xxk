@@ -1009,8 +1009,16 @@ namespace xxkUI
                         BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "    测线观测数据提取成功！");
                         foreach (LineObsBean lob in lineobslist)
                         {
-                            LineObsBll.Instance.Add(new LineObsBean() { obslinecode = linecode, obvdate = lob.obvdate, obvvalue = lob.obvvalue });
-                            BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     观测时间：" + lob.obvdate + "  观测值：" + lob.obvvalue + " 已入库！");
+                            if (!LineObsBll.Instance.IsExist(lob.obvdate.ToShortDateString(), linecode))
+                            {
+                                LineObsBll.Instance.Add(new LineObsBean() { obslinecode = linecode, obvdate = lob.obvdate, obvvalue = lob.obvvalue });
+                                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Right, "     观测时间：" + lob.obvdate.ToShortDateString() + "  观测值：" + lob.obvvalue + " 已入库！");
+                            }
+                            else
+                            {
+                                BackgroundWorkerHelper.outputWorkerLog(worker, LogType.Warning, "     观测时间：" + lob.obvdate.ToShortDateString() + "  观测值：" + lob.obvvalue + " 已存在！");
+                            }
+                          
                             succedCount++;
                         }
                     }

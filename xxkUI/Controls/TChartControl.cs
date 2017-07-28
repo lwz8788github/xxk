@@ -505,7 +505,6 @@ namespace xxkUI.Controls
         }
 
 
-
         /// <summary>
         /// 添加多个纵坐标轴
         /// </summary>
@@ -602,7 +601,6 @@ namespace xxkUI.Controls
         /// </summary>
         public void btnMouseCur()
         {
-
             try
             {
                 this.cursorTool.Active = !this.cursorTool.Active;
@@ -633,38 +631,55 @@ namespace xxkUI.Controls
         /// </summary>
         public void btnMaxMinValue()
         {
-            annotation_max.Active = !annotation_max.Active;
-            annotation_min.Active = !annotation_min.Active;
-            if (!(annotation_max.Active && annotation_min.Active)) return;
-            List<BaseLine> visibleSeries = GetVisibleLine();
-            foreach (BaseLine vSeri in visibleSeries)
+            try
             {
-                ValueList listXValue = vSeri.XValues;
-                ValueList listYValue = vSeri.YValues;
+               
 
-                double maxY = vSeri.YValues.Maximum;
-                double minY = vSeri.YValues.Minimum;
-                int indexMax = vSeri.YValues.IndexOf(maxY);
-                int indexMin = vSeri.YValues.IndexOf(minY);
 
-                annotation_max.Shape.CustomPosition = true;
-                annotation_max.Shape.Gradient.Visible = true;
-                annotation_max.Shape.Transparency = 15;
-                Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
-                string showTxtMax = maxY.ToString();
-                annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
-                annotation_max.Left = int.Parse(poToScrMax.X.ToString());
-                annotation_max.Text = showTxtMax;
+                annotation_max.Active = !annotation_max.Active;
+                annotation_min.Active = !annotation_min.Active;
+                if (!(annotation_max.Active && annotation_min.Active)) return;
+                List<BaseLine> visibleSeries = GetVisibleLine();
+                foreach (BaseLine vSeri in visibleSeries)
+                {
+                    ValueList listXValue = vSeri.XValues;
+                    ValueList listYValue = vSeri.YValues;
 
-                annotation_min.Shape.CustomPosition = true;
-                annotation_min.Shape.Gradient.Visible = true;
-                annotation_min.Shape.Transparency = 15;
-                Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
-                string showTxtMin = minY.ToString();
-                annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
-                annotation_min.Left = int.Parse(poToScrMin.X.ToString());
-                annotation_min.Text = showTxtMin;
+                    double maxY = vSeri.YValues.Maximum;
+                    double minY = vSeri.YValues.Minimum;
+                    int indexMax = vSeri.YValues.IndexOf(maxY);
+                    int indexMin = vSeri.YValues.IndexOf(minY);
+
+                    annotation_max.Shape.CustomPosition = true;
+                    annotation_max.Shape.Gradient.Visible = true;
+                    annotation_max.Shape.Transparency = 15;
+                    Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
+                    string showTxtMax = maxY.ToString();
+                    annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
+                    annotation_max.Left = int.Parse(poToScrMax.X.ToString());
+                    annotation_max.Text = showTxtMax;
+
+                    annotation_min.Shape.CustomPosition = true;
+                    annotation_min.Shape.Gradient.Visible = true;
+                    annotation_min.Shape.Transparency = 15;
+                    Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
+                    string showTxtMin = minY.ToString();
+                    annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
+                    annotation_min.Left = int.Parse(poToScrMin.X.ToString());
+                    annotation_min.Text = showTxtMin;
+
+
+
+                    Graphics3D g3d = this.tChart.Graphics3D;
+                    g3d.Brush.Color = Color.Gray;
+                    g3d.Line(poToScrMax, poToScrMin);
+               
+
+                                    g3d.TextOut( poToScrMin.X, poToScrMax.Y - 12, showTxtMin);
+                }
             }
+            catch
+            { }
         }
 
 
@@ -682,7 +697,6 @@ namespace xxkUI.Controls
                 return;
             if (this.tChart.Series.Count == 0)
                 return;
-
 
             Line ln = this.tChart.Series[0] as Line;
 
@@ -1068,7 +1082,6 @@ namespace xxkUI.Controls
             this.tChart.Refresh();
         }
 
-
         /// <summary>
         /// 是否存在相同的记录
         /// </summary>
@@ -1085,7 +1098,6 @@ namespace xxkUI.Controls
 
             return isExist;
         }
-
 
         #endregion
 
@@ -1145,6 +1157,46 @@ namespace xxkUI.Controls
 
                 string text = Math.Round((this.selectedPtlist[i].PtValue - this.selectedPtlist[i - 1].PtValue), 3).ToString();
                 g3d.TextOut(pt1.X, pt3.Y - 12, text);
+            }
+
+
+            if (!(annotation_max.Active && annotation_min.Active)) return;
+            List<BaseLine> visibleSeries = GetVisibleLine();
+            foreach (BaseLine vSeri in visibleSeries)
+            {
+                ValueList listXValue = vSeri.XValues;
+                ValueList listYValue = vSeri.YValues;
+
+                double maxY = vSeri.YValues.Maximum;
+                double minY = vSeri.YValues.Minimum;
+                int indexMax = vSeri.YValues.IndexOf(maxY);
+                int indexMin = vSeri.YValues.IndexOf(minY);
+
+                annotation_max.Shape.CustomPosition = true;
+                annotation_max.Shape.Gradient.Visible = true;
+                annotation_max.Shape.Transparency = 15;
+                Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
+                string showTxtMax = maxY.ToString();
+                annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
+                annotation_max.Left = int.Parse(poToScrMax.X.ToString());
+                annotation_max.Text = showTxtMax;
+
+                annotation_min.Shape.CustomPosition = true;
+                annotation_min.Shape.Gradient.Visible = true;
+                annotation_min.Shape.Transparency = 15;
+                Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
+                string showTxtMin = minY.ToString();
+                annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
+                annotation_min.Left = int.Parse(poToScrMin.X.ToString());
+                annotation_min.Text = showTxtMin;
+
+
+               
+                g3d.Brush.Color = Color.Gray;
+                g3d.Line(poToScrMax, poToScrMin);
+
+
+                g3d.TextOut(poToScrMin.X, poToScrMax.Y - 12, showTxtMin);
             }
         }
 
@@ -1489,8 +1541,6 @@ namespace xxkUI.Controls
             }
         }
 
-
-
         private void gridViewObsdata_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             try
@@ -1528,7 +1578,6 @@ namespace xxkUI.Controls
             }
 
         }
-
 
         private void gridViewObsdata_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1594,7 +1643,6 @@ namespace xxkUI.Controls
                 }
             }
         }
-
 
 
         #endregion

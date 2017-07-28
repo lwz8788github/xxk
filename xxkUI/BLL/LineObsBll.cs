@@ -60,6 +60,38 @@ namespace xxkUI.Bll
             return LineObsDal.Instance.GetAll();
         }
 
+        /// <summary>
+        /// 是否存在相同记录
+        /// </summary>
+        /// <param name="obvdate"></param>
+        /// <param name="obslinecode"></param>
+        /// <returns></returns>
+        public bool IsExist(string obvdate, string obslinecode)
+        {
+            bool isexist = false;
+
+            string sql = "select * from t_obsrvtntb where obvdate = '" + obvdate + "' and obslinecode='" + obslinecode + "'";
+
+            DataTable dt = null;
+
+            try
+            {
+                dt = LineObsDal.Instance.GetDataTable(sql);
+
+                if (dt.Rows.Count > 0)
+                    isexist = true;
+                else
+                    isexist = false;
+            }
+            catch
+            {
+
+            }
+            
+
+            return isexist;
+           
+        }
 
         internal List<string> GetNameByID(string p1, string p2, string lineCode)
         {

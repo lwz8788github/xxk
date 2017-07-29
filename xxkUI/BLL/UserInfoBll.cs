@@ -27,9 +27,18 @@ namespace xxkUI.Bll
             return UserInfoDal.Instance.Update(model);
         }
 
+        public int UpdateWhatWhere(object what, object where)
+        {
+            return UserInfoDal.Instance.UpdateWhatWhere(what, where);
+        }
         public int Delete(int keyid)
         {
             return UserInfoDal.Instance.Delete(keyid);
+        }
+
+        public int DeleteWhere(object where)
+        {
+            return UserInfoDal.Instance.DeleteWhere(where);
         }
 
         public IEnumerable<UserInfoBean> GetAll()

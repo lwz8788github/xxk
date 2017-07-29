@@ -104,6 +104,7 @@
             this.txtPsd1.Properties.UseSystemPasswordChar = true;
             this.txtPsd1.Size = new System.Drawing.Size(207, 20);
             this.txtPsd1.TabIndex = 16;
+            this.txtPsd1.EditValueChanged += new System.EventHandler(this.txtPsd1_EditValueChanged);
             // 
             // labelPwdConf
             // 

@@ -2167,5 +2167,11 @@ namespace xxkUI
                 { } 
             }
         }
+
+        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            UserManage usfrm = new UserManage();
+            usfrm.ShowDialog(this);
+        }
     }
 }

@@ -61,7 +61,16 @@ namespace xxkUI.BLL
             { return ""; }
         }
 
-
+        public string GetUnitCodeBy(string _unitname)
+        {
+            try
+            {
+                IEnumerable<UnitInfoBean> uibEnum = UnitInfoDal.Instance.GetList("select unitcode from t_unittb where unitname=@Unitname", new { Unitname = _unitname });
+                return uibEnum.ToList()[0].UnitCode;
+            }
+            catch (Exception ex)
+            { return ""; }
+        }
 
     }
 }

@@ -38,7 +38,7 @@
             this.btnLogin = new DevExpress.XtraBars.BarButtonItem();
             this.btnSignup = new DevExpress.XtraBars.BarButtonItem();
             this.btnLogout = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnUserManager = new DevExpress.XtraBars.BarButtonItem();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
             this.btnZoomin = new DevExpress.XtraBars.BarButtonItem();
             this.btnZoomout = new DevExpress.XtraBars.BarButtonItem();
@@ -96,8 +96,6 @@
             this.barbtnDeleteRec = new DevExpress.XtraBars.BarButtonItem();
             this.barbtnEditRec = new DevExpress.XtraBars.BarButtonItem();
             this.barbtnSaveRec = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
             this.btnCreateLocaDb = new DevExpress.XtraBars.BarButtonItem();
             this.btnSwitchDb = new DevExpress.XtraBars.BarButtonItem();
@@ -112,9 +110,10 @@
             this.btnExportToExcel = new DevExpress.XtraBars.BarButtonItem();
             this.btnExportToTXT = new DevExpress.XtraBars.BarButtonItem();
             this.btnLayoutmap = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDragPoint = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDValue = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageStart = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageTchartTool = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -211,6 +210,9 @@
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.popLayoutmap = new DevExpress.XtraBars.PopupMenu(this.components);
             this.myBackgroundWorker1 = new xxkUI.Tool.MyBackgroundWorker();
+            this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnDataCommit = new DevExpress.XtraBars.BarButtonItem();
+            this.btnAdmin = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit2)).BeginInit();
@@ -305,7 +307,7 @@
             this.btnLogin,
             this.btnSignup,
             this.btnLogout,
-            this.barButtonItem5,
+            this.btnUserManager,
             this.barHeaderItem1,
             this.btnZoomin,
             this.btnZoomout,
@@ -355,8 +357,6 @@
             this.barbtnDeleteRec,
             this.barbtnEditRec,
             this.barbtnSaveRec,
-            this.barButtonItem2,
-            this.barButtonItem4,
             this.barButtonItem8,
             this.btnCreateLocaDb,
             this.btnSwitchDb,
@@ -370,9 +370,13 @@
             this.btnDbExeute,
             this.btnExportToExcel,
             this.btnExportToTXT,
-            this.btnLayoutmap});
+            this.btnLayoutmap,
+            this.btnDragPoint,
+            this.btnDValue,
+            this.btnDataCommit,
+            this.btnAdmin});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 129;
+            this.ribbon.MaxItemId = 133;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPageStart,
@@ -405,7 +409,7 @@
             this.btnLogin.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnLogin.LargeGlyph")));
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.btnLogin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLogin_ItemClick);
+            this.btnLogin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnUser_ItemClick);
             // 
             // btnSignup
             // 
@@ -414,7 +418,7 @@
             this.btnSignup.Id = 3;
             this.btnSignup.Name = "btnSignup";
             this.btnSignup.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.btnSignup.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnSignup_ItemClick);
+            this.btnSignup.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnUser_ItemClick);
             // 
             // btnLogout
             // 
@@ -423,17 +427,16 @@
             this.btnLogout.Id = 5;
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.btnLogout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLogout_ItemClick);
+            this.btnLogout.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnUser_ItemClick);
             // 
-            // barButtonItem5
+            // btnUserManager
             // 
-            this.barButtonItem5.Caption = "用户管理";
-            this.barButtonItem5.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.Glyph")));
-            this.barButtonItem5.Id = 8;
-            this.barButtonItem5.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.LargeGlyph")));
-            this.barButtonItem5.Name = "barButtonItem5";
-            this.barButtonItem5.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
+            this.btnUserManager.Caption = "用户管理";
+            this.btnUserManager.Glyph = ((System.Drawing.Image)(resources.GetObject("btnUserManager.Glyph")));
+            this.btnUserManager.Id = 8;
+            this.btnUserManager.Name = "btnUserManager";
+            this.btnUserManager.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnUserManager.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnUser_ItemClick);
             // 
             // barHeaderItem1
             // 
@@ -811,6 +814,7 @@
             // btnLinesUnion
             // 
             this.btnLinesUnion.Caption = "测项合并";
+            this.btnLinesUnion.Glyph = ((System.Drawing.Image)(resources.GetObject("btnLinesUnion.Glyph")));
             this.btnLinesUnion.Id = 88;
             this.btnLinesUnion.Name = "btnLinesUnion";
             this.btnLinesUnion.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -819,6 +823,7 @@
             // btnLinesBreak
             // 
             this.btnLinesBreak.Caption = "测项拆分";
+            this.btnLinesBreak.Glyph = ((System.Drawing.Image)(resources.GetObject("btnLinesBreak.Glyph")));
             this.btnLinesBreak.Id = 89;
             this.btnLinesBreak.Name = "btnLinesBreak";
             this.btnLinesBreak.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -827,6 +832,7 @@
             // btnHistoryEqk
             // 
             this.btnHistoryEqk.Caption = "历史地震";
+            this.btnHistoryEqk.Glyph = ((System.Drawing.Image)(resources.GetObject("btnHistoryEqk.Glyph")));
             this.btnHistoryEqk.Id = 90;
             this.btnHistoryEqk.Name = "btnHistoryEqk";
             this.btnHistoryEqk.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -918,20 +924,6 @@
             this.barbtnSaveRec.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barbtnSaveRec.LargeGlyph")));
             this.barbtnSaveRec.Name = "barbtnSaveRec";
             // 
-            // barButtonItem2
-            // 
-            this.barButtonItem2.Caption = "导入";
-            this.barButtonItem2.Id = 101;
-            this.barButtonItem2.Name = "barButtonItem2";
-            this.barButtonItem2.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
-            // barButtonItem4
-            // 
-            this.barButtonItem4.Caption = "导出";
-            this.barButtonItem4.Id = 102;
-            this.barButtonItem4.Name = "barButtonItem4";
-            this.barButtonItem4.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
-            // 
             // barButtonItem8
             // 
             this.barButtonItem8.Caption = "打印";
@@ -1015,6 +1007,7 @@
             // btnInterval
             // 
             this.btnInterval.Caption = "等间隔处理";
+            this.btnInterval.Glyph = ((System.Drawing.Image)(resources.GetObject("btnInterval.Glyph")));
             this.btnInterval.Id = 124;
             this.btnInterval.Name = "btnInterval";
             this.btnInterval.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
@@ -1056,12 +1049,30 @@
             this.btnLayoutmap.Name = "btnLayoutmap";
             this.btnLayoutmap.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.popMenuRemote_ItemClick);
             // 
+            // btnDragPoint
+            // 
+            this.btnDragPoint.Caption = "拖拽节点";
+            this.btnDragPoint.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDragPoint.Glyph")));
+            this.btnDragPoint.Id = 129;
+            this.btnDragPoint.Name = "btnDragPoint";
+            this.btnDragPoint.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnDragPoint.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnChartTool_ItemClick);
+            // 
+            // btnDValue
+            // 
+            this.btnDValue.Caption = "显示差值";
+            this.btnDValue.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDValue.Glyph")));
+            this.btnDValue.Id = 130;
+            this.btnDValue.Name = "btnDValue";
+            this.btnDValue.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnDValue.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataProgress_ItemClick);
+            // 
             // ribbonPageStart
             // 
             this.ribbonPageStart.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1,
-            this.ribbonPageGroup2,
             this.ribbonPageGroup3,
+            this.ribbonPageGroup2,
             this.ribbonPageGroup5});
             this.ribbonPageStart.Name = "ribbonPageStart";
             this.ribbonPageStart.Text = "文件";
@@ -1071,17 +1082,9 @@
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogin);
             this.ribbonPageGroup1.ItemLinks.Add(this.btnSignup);
             this.ribbonPageGroup1.ItemLinks.Add(this.btnLogout);
-            this.ribbonPageGroup1.ItemLinks.Add(this.barButtonItem5);
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnUserManager);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "用户";
-            // 
-            // ribbonPageGroup2
-            // 
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem2);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem4);
-            this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem8);
-            this.ribbonPageGroup2.Name = "ribbonPageGroup2";
-            this.ribbonPageGroup2.Text = "文件";
             // 
             // ribbonPageGroup3
             // 
@@ -1094,6 +1097,7 @@
             // 
             // ribbonPageGroup5
             // 
+            this.ribbonPageGroup5.ItemLinks.Add(this.barButtonItem8);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnRecycled);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnBlueStyle);
             this.ribbonPageGroup5.ItemLinks.Add(this.btnSilveryStyle);
@@ -1118,6 +1122,7 @@
             this.ribbonPageGroup12.ItemLinks.Add(this.btnShowNote);
             this.ribbonPageGroup12.ItemLinks.Add(this.btnMouseCur);
             this.ribbonPageGroup12.ItemLinks.Add(this.btnMaxMinValue);
+            this.ribbonPageGroup12.ItemLinks.Add(this.btnDragPoint);
             this.ribbonPageGroup12.ItemLinks.Add(this.btnHistoryEqk);
             this.ribbonPageGroup12.ItemLinks.Add(this.btnExportChart);
             this.ribbonPageGroup12.Name = "ribbonPageGroup12";
@@ -1131,6 +1136,7 @@
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesUnion);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnLinesBreak);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnInterval);
+            this.ribbonPageGroup13.ItemLinks.Add(this.btnDValue);
             this.ribbonPageGroup13.ItemLinks.Add(this.barSaveToChuLi);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnExportToExcel);
             this.ribbonPageGroup13.ItemLinks.Add(this.btnExportToTXT);
@@ -2030,6 +2036,31 @@
             this.myBackgroundWorker1.IsExitWithException = false;
             this.myBackgroundWorker1.StatusText = null;
             // 
+            // ribbonPageGroup2
+            // 
+            this.ribbonPageGroup2.ItemLinks.Add(this.btnDataCommit);
+            this.ribbonPageGroup2.ItemLinks.Add(this.btnAdmin);
+            this.ribbonPageGroup2.Name = "ribbonPageGroup2";
+            this.ribbonPageGroup2.Text = "数据上报";
+            // 
+            // btnDataCommit
+            // 
+            this.btnDataCommit.Caption = "数据提交";
+            this.btnDataCommit.Glyph = ((System.Drawing.Image)(resources.GetObject("btnDataCommit.Glyph")));
+            this.btnDataCommit.Id = 131;
+            this.btnDataCommit.Name = "btnDataCommit";
+            this.btnDataCommit.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnDataCommit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataUpload_ItemClick);
+            // 
+            // btnAdmin
+            // 
+            this.btnAdmin.Caption = "数据审核";
+            this.btnAdmin.Glyph = ((System.Drawing.Image)(resources.GetObject("btnAdmin.Glyph")));
+            this.btnAdmin.Id = 132;
+            this.btnAdmin.Name = "btnAdmin";
+            this.btnAdmin.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
+            this.btnAdmin.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDataUpload_ItemClick);
+            // 
             // RibbonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -2112,12 +2143,11 @@
         private DevExpress.XtraBars.BarButtonItem btnLogin;
         private DevExpress.XtraBars.BarButtonItem btnSignup;
         private DevExpress.XtraBars.BarButtonItem btnLogout;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
+        private DevExpress.XtraBars.BarButtonItem btnUserManager;
         private DevExpress.XtraBars.BarHeaderItem barHeaderItem1;
 
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageStart;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageTchartTool;
@@ -2220,8 +2250,6 @@
         private DevExpress.XtraBars.BarButtonItem barbtnDeleteRec;
         private DevExpress.XtraBars.BarButtonItem barbtnEditRec;
         private DevExpress.XtraBars.BarButtonItem barbtnSaveRec;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem8;
         private DevExpress.XtraBars.BarButtonItem btnCreateLocaDb;
         private DevExpress.XtraBars.BarButtonItem btnSwitchDb;
@@ -2295,5 +2323,10 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit lyotmapCheckedCmb;
         private Tool.MyBackgroundWorker myBackgroundWorker1;
         private Controls.TChartControl tChartControl;
+        private DevExpress.XtraBars.BarButtonItem btnDragPoint;
+        private DevExpress.XtraBars.BarButtonItem btnDValue;
+        private DevExpress.XtraBars.BarButtonItem btnDataCommit;
+        private DevExpress.XtraBars.BarButtonItem btnAdmin;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
     }
 }

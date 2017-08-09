@@ -112,18 +112,21 @@ namespace xxkUI.Form
                     dr["username"] = userlist[i].UserName;
                     dr["userunit"] = UnitInfoBll.Instance.GetUnitNameBy(userlist[i].UserUnit);
                     string userAthstr = "";
-                    string[] unitcodes = userlist[i].UserAthrty.Split(';');
-                    if(unitcodes.Length>0)
-                        foreach (string uc in unitcodes)
-                        {
-                            string unitname = UnitInfoBll.Instance.GetUnitNameBy(uc);
-                            if (unitname != string.Empty)
-                                userAthstr += unitname + ";";
-                        }
+                    if (userlist[i].UserAthrty != null)
+                    {
+                        string[] unitcodes = userlist[i].UserAthrty.Split(';');
+                        if (unitcodes.Length > 0)
+                            foreach (string uc in unitcodes)
+                            {
+                                string unitname = UnitInfoBll.Instance.GetUnitNameBy(uc);
+                                if (unitname != string.Empty)
+                                    userAthstr += unitname + ";";
+                            }
+                    }
                     dr["userathrty"] = userAthstr;
 
                     dr["status"] = new PublicHelper().GetUserStatusDiscription(userlist[i].Status);
-                    //dr["status"] = userlist[i].Status;
+                 
                     dt.Rows.Add(dr);
                 }
                 this.gridControl.DataSource = dt;

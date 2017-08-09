@@ -279,6 +279,10 @@ namespace xxkUI.Tool
         /// </summary>
         LineBreak,
         /// <summary>
+        /// 显示差值
+        /// </summary>
+        DValue,
+        /// <summary>
         /// 无操作
         /// </summary>
         NoProg
@@ -328,4 +332,16 @@ namespace xxkUI.Tool
     {
         public static UserInfoBean UIB = new UserInfoBean();
     }
-}
+
+    /// <summary>
+    /// 地震目录标注的结构
+    /// </summary>
+    public struct EqkAnotationStc
+    {
+        
+        public DateTime dateTime;
+        public double value;
+        public string text;
+    }
+
+    }

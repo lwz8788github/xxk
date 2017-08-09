@@ -77,6 +77,8 @@ namespace xxkUI.Form
                 backgroundWorker.ReportProgress(100);
                 Thread.Sleep(800);
                 backgroundWorker_RunWorkerCompleted(null, null);
+
+             
             }
             catch (Exception excep)
             {

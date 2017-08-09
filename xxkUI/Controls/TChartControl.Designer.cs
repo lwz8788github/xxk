@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TChartControl));
             this.splitContainerControl = new DevExpress.XtraEditors.SplitContainerControl();
             this.tChart = new Steema.TeeChart.TChart();
@@ -45,6 +46,8 @@
             this.gridColumnNote = new DevExpress.XtraGrid.Columns.GridColumn();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl)).BeginInit();
             this.splitContainerControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -66,7 +69,7 @@
             this.splitContainerControl.Panel2.Controls.Add(this.xtraTabControl1);
             this.splitContainerControl.Panel2.Text = "Panel2";
             this.splitContainerControl.Size = new System.Drawing.Size(1777, 840);
-            this.splitContainerControl.SplitterPosition = 1191;
+            this.splitContainerControl.SplitterPosition = 1127;
             this.splitContainerControl.TabIndex = 0;
             this.splitContainerControl.Text = "splitContainerControl1";
             // 
@@ -239,7 +242,7 @@
             // 
             // 
             this.tChart.Panel.Brush.Gradient.Visible = false;
-            this.tChart.Size = new System.Drawing.Size(1191, 840);
+            this.tChart.Size = new System.Drawing.Size(1127, 840);
             this.tChart.TabIndex = 0;
             // 
             // 
@@ -260,6 +263,7 @@
             this.tChart.ClickLegend += new System.Windows.Forms.MouseEventHandler(this.tChart_ClickLegend);
             this.tChart.AfterDraw += new Steema.TeeChart.PaintChartEventHandler(this.tChart_AfterDraw);
             this.tChart.ClickSeries += new Steema.TeeChart.SeriesEventHandler(this.tChart_ClickSeries);
+            this.tChart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tChart_KeyDown);
             this.tChart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tChart_MouseDown);
             this.tChart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.tChart_MouseMove);
             this.tChart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tChart_MouseUp);
@@ -272,7 +276,7 @@
             this.xtraTabControl1.Name = "xtraTabControl1";
             this.xtraTabControl1.SelectedTabPage = this.xtraTabPage1;
             this.xtraTabControl1.ShowTabHeader = DevExpress.Utils.DefaultBoolean.True;
-            this.xtraTabControl1.Size = new System.Drawing.Size(581, 840);
+            this.xtraTabControl1.Size = new System.Drawing.Size(645, 840);
             this.xtraTabControl1.TabIndex = 1;
             this.xtraTabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -287,7 +291,7 @@
             this.xtraTabPage1.Controls.Add(this.btnAddData);
             this.xtraTabPage1.Controls.Add(this.gridControlObsdata);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(575, 811);
+            this.xtraTabPage1.Size = new System.Drawing.Size(639, 811);
             this.xtraTabPage1.Text = "监测数据";
             // 
             // btnCancelEdit
@@ -295,7 +299,7 @@
             this.btnCancelEdit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancelEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelEdit.Image")));
             this.btnCancelEdit.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnCancelEdit.Location = new System.Drawing.Point(295, 774);
+            this.btnCancelEdit.Location = new System.Drawing.Point(327, 774);
             this.btnCancelEdit.Name = "btnCancelEdit";
             this.btnCancelEdit.Size = new System.Drawing.Size(29, 23);
             this.btnCancelEdit.TabIndex = 30;
@@ -306,7 +310,7 @@
             this.btnSaveData.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSaveData.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveData.Image")));
             this.btnSaveData.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnSaveData.Location = new System.Drawing.Point(330, 774);
+            this.btnSaveData.Location = new System.Drawing.Point(362, 774);
             this.btnSaveData.Name = "btnSaveData";
             this.btnSaveData.Size = new System.Drawing.Size(29, 23);
             this.btnSaveData.TabIndex = 29;
@@ -317,7 +321,7 @@
             this.btnEditData.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnEditData.Image = ((System.Drawing.Image)(resources.GetObject("btnEditData.Image")));
             this.btnEditData.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnEditData.Location = new System.Drawing.Point(260, 774);
+            this.btnEditData.Location = new System.Drawing.Point(292, 774);
             this.btnEditData.Name = "btnEditData";
             this.btnEditData.Size = new System.Drawing.Size(29, 23);
             this.btnEditData.TabIndex = 28;
@@ -328,7 +332,7 @@
             this.btnDeleteData.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnDeleteData.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteData.Image")));
             this.btnDeleteData.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnDeleteData.Location = new System.Drawing.Point(225, 774);
+            this.btnDeleteData.Location = new System.Drawing.Point(257, 774);
             this.btnDeleteData.Name = "btnDeleteData";
             this.btnDeleteData.Size = new System.Drawing.Size(29, 23);
             this.btnDeleteData.TabIndex = 27;
@@ -339,7 +343,7 @@
             this.btnAddData.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnAddData.Image = ((System.Drawing.Image)(resources.GetObject("btnAddData.Image")));
             this.btnAddData.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnAddData.Location = new System.Drawing.Point(190, 774);
+            this.btnAddData.Location = new System.Drawing.Point(222, 774);
             this.btnAddData.Name = "btnAddData";
             this.btnAddData.Size = new System.Drawing.Size(29, 23);
             this.btnAddData.TabIndex = 26;
@@ -355,7 +359,7 @@
             this.gridControlObsdata.MainView = this.gridViewObsdata;
             this.gridControlObsdata.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridControlObsdata.Name = "gridControlObsdata";
-            this.gridControlObsdata.Size = new System.Drawing.Size(575, 764);
+            this.gridControlObsdata.Size = new System.Drawing.Size(639, 764);
             this.gridControlObsdata.TabIndex = 25;
             this.gridControlObsdata.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewObsdata});
@@ -401,7 +405,7 @@
             // xtraTabPage2
             // 
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(575, 811);
+            this.xtraTabPage2.Size = new System.Drawing.Size(639, 811);
             this.xtraTabPage2.Text = "曲线设置";
             // 
             // barButtonItem1
@@ -409,6 +413,10 @@
             this.barButtonItem1.Caption = "barbtnInsertRec";
             this.barButtonItem1.Id = 0;
             this.barButtonItem1.Name = "barButtonItem1";
+            // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // TChartControl
             // 
@@ -446,5 +454,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnObsValue;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnNote;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timer1;
     }
 }

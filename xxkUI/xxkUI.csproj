@@ -138,6 +138,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\DataCommitBll.cs" />
     <Compile Include="BLL\Dic.cs" />
     <Compile Include="BLL\EqkBll.cs" />
     <Compile Include="BLL\LineBll.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Controls\TChartControl.Designer.cs">
       <DependentUpon>TChartControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DataCommitDal.cs" />
     <Compile Include="DAL\EqkDal.cs" />
     <Compile Include="DAL\LayoutmapDal.cs" />
     <Compile Include="DAL\LineDal.cs" />
@@ -177,6 +179,14 @@
     <Compile Include="DAL\SiteDal.cs" />
     <Compile Include="DAL\UnitInfoDal.cs" />
     <Compile Include="DAL\UserInfoDal.cs" />
+    <Compile Include="Form\DataAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DataAdmin.Designer.cs" />
+    <Compile Include="Form\DataCommit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DataCommit.Designer.cs" />
     <Compile Include="Form\RestoreDbFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,12 +300,14 @@
     <Compile Include="GsProject\GSCoordConvertionClass_2000.cs" />
     <Compile Include="GsProject\ProjectionConversion2.cs" />
     <Compile Include="GsProject\GSCoordConvertionClass_Xian80.cs" />
+    <Compile Include="Model\DataCommitBean.cs" />
     <Compile Include="Model\LayoutmapBean.cs" />
     <Compile Include="Model\RemoveTipBean.cs" />
     <Compile Include="Model\TreeBean.cs" />
     <Compile Include="Model\CboItemEntity.cs" />
     <Compile Include="MyCls\CreateLocalDb.cs" />
     <Compile Include="MyCls\Curve2D.cs" />
+    <Compile Include="MyCls\EqkArraCls.cs" />
     <Compile Include="MyCls\GMapMarkerKdcSite.cs" />
     <Compile Include="Model\EqkBean.cs" />
     <Compile Include="Model\LineBean.cs" />
@@ -347,6 +359,8 @@
     <EmbeddedResource Include="Controls\TChartControl.resx">
       <DependentUpon>TChartControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\DataAdmin.resx" />
+    <EmbeddedResource Include="Form\DataCommit.resx" />
     <EmbeddedResource Include="Form\RestoreDbFrm.resx">
       <DependentUpon>RestoreDbFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -439,7 +453,7 @@
   <ItemGroup>
     <None Include="Images\蓝色风格.png" />
     <Content Include="Images\bd.png" />
-    <Content Include="Images\蓝色风格 - 副本.png" />
+    <Content Include="Images\hand3.png" />
     <Content Include="Images\银色风格.png" />
     <Content Include="TeeChart.dll" />
   </ItemGroup>

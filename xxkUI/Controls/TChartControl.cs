@@ -16,6 +16,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using xxkUI.Bll;
 using DevExpress.XtraBars;
+using xxkUI.MyCls;
 
 namespace xxkUI.Controls
 {
@@ -26,7 +27,7 @@ namespace xxkUI.Controls
         /// </summary>
         struct SelectedPointStruct
         {
-            public Point PtElement;
+            public double PtDate;
             public double PtValue;
         }
 
@@ -36,7 +37,7 @@ namespace xxkUI.Controls
         private CursorTool cursorTool;
         private DragMarks dragMarks;//可拖拽标签工具
         private DragPoint dragPoints;//可拖拽节点工具
-        private DrawLine drawLines;//绘制线
+        //private DrawLine drawLines;//绘制线
 
         #region 消突跳和台阶用到的变量
 
@@ -46,15 +47,25 @@ namespace xxkUI.Controls
         private Point end = new Point();//矩形终点
         private Graphics g;
         private bool isDrawing = false;
-        private Points RemoveJumpORStepPoints = null;//选中的点
-
-        List<SelectedPointStruct> selectedPtlist = new List<SelectedPointStruct>();
-
+        List<SelectedPointStruct> selectedPtlist = new List<SelectedPointStruct>();//选中的数据点集合
+        List<SelectedPointStruct> notePtlist = new List<SelectedPointStruct>();//备注的数据点集合
         #endregion
 
         private Annotation annotation;
-        private Annotation annotation_max;
-        private Annotation annotation_min;
+
+        private bool ShowMaxMin = false;//是否显示最大最小值
+        private bool DragSeriesPt = false;//是否拖拽曲线节点
+        private bool DragEqkPt = false;//是否拖拽地节点
+        private bool ShowSelectedPoint = false;//是否显示选中数据
+        private double hInfoLineX = 0;//选中的数据表X坐标
+        private double hInfoLineY = 0;//选中的数据表Y坐标
+        private double hInfoValue = 0;//选中的数据表数据值
+
+
+        private List<EqkAnotationStc> eqkAnolist = new List<EqkAnotationStc>();//选中的地震目录数据
+        private Points eqkAnoPoints = null;
+
+
 
         #endregion
 
@@ -65,7 +76,7 @@ namespace xxkUI.Controls
             InitializeComponent();
             this.tChart.Width = int.Parse(Math.Round(this.Width * 0.8, 0).ToString());
             this.gridControlObsdata.Width = this.Width - this.tChart.Width;
-       
+
             SetTitle("");
             SetLegendStyle(this.tChart.Legend, LegendStyles.Series);
             SetAxesBottomStyle(this.tChart.Axes.Bottom, null);
@@ -73,15 +84,16 @@ namespace xxkUI.Controls
 
             InitCursorTool();
             InitDragMarks();
-
+            InitDragPoints();
             InitAnnotations();
 
-            this.tChart.MouseWheel += TChart_MouseWheel; ;//滚轮事件放大chart
+            this.tChart.MouseWheel += TChart_MouseWheel;
+
         }
 
 
         #region 初始化工具
-       
+
         /// <summary>
         /// 初始化CursorTool
         /// </summary>
@@ -106,6 +118,7 @@ namespace xxkUI.Controls
             this.dragMarks = new DragMarks();
             this.tChart.Tools.Add(this.dragMarks);
             this.dragMarks.Active = false;
+
         }
 
         /// <summary>
@@ -116,26 +129,118 @@ namespace xxkUI.Controls
             this.dragPoints = new DragPoint();
             this.tChart.Tools.Add(this.dragPoints);
             this.dragPoints.Active = false;
+            this.dragPoints.Style = DragPointStyles.Y;
+
+            this.dragPoints.Drag += DragPoints_Drag;
+        }
+
+        //point拖拽事件
+        private void DragPoints_Drag(DragPoint sender, int index)
+        {
+            if (this.dragPoints.Active)
+            {
+                //如果拖拽的曲线数据，则关联改变对应的数据表数据
+                if (this.DragSeriesPt)
+                {
+                    foreach (Series pts in this.tChart.Series)
+                    {
+                        Line ln = pts as Line;
+                        if (ln != null)
+                        {
+                            this.gridViewObsdata.SetRowCellValue(index, "obvvalue", ln[index].Y);
+
+                            hInfoLineX = ln[index].X;
+                            hInfoLineY = ln[index].Y;
+                            hInfoValue = Math.Round(ln[index].Y, 2);
+                            this.tChart.Refresh();
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+
+                }
+                else if (this.DragEqkPt)
+                {
+                    //foreach (Series pts in this.tChart.Series)
+                    //{
+                    //    Line ln = pts as Line;
+                    //    if (ln != null)
+                    //    {
+                    //        //this.gridViewObsdata.SetRowCellValue(index, "obvvalue", ln[index].Y);
+
+                    //        hInfoLineX = ln[index].X;
+                    //        hInfoLineY = ln[index].Y;
+                    //        hInfoValue = Math.Round(ln[index].Y, 2);
+                    //        this.tChart.Refresh();
+                    //        break;
+                    //    }
+                    //    else
+                    //        continue;
+                    //}
+                }
+            }
+            else
+                return;
+
         }
 
         /// <summary>
-        /// 释放拖拽工具
+        /// 激活拖拽工具
         /// </summary>
-        private void DisposeDragPtTool()
+        /// <param name="SeriesPtOrEqkPt">拖拽的点事曲线数据还是地震目录数据</param>
+        public void ShowDragPtTool()
         {
             if (this.dragPoints != null)
-                this.dragPoints.Active = false;
+            {
+                if (this.dragPoints.Active == false)
+                {
+                    this.dragPoints.Active = true;
+                    for (int i = 0; i < this.tChart.Series.Count; i++)
+                    {
+                        Line ln = this.tChart.Series[0] as Line;
+                        if (ln != null)
+                            this.dragPoints.Series = this.tChart.Series[i];
+                    }
+                    this.DragSeriesPt = true;
+                    //this.DragEqkPt = false;
+                }
+                else
+                {
+                    this.dragPoints.Active = false;
+                    this.DragSeriesPt = false;
+                }
+            }
+        }
 
-        }
-        /// <summary>
-        /// 初始化DragPoint
-        /// </summary>
-        private void InitDrawLines()
-        {
-            this.drawLines = new DrawLine();
-            this.tChart.Tools.Add(this.drawLines);
-            this.drawLines.Active = false;
-        }
+        //private void ShowDragEqkAnoTool()
+        //{
+        //    if (this.dragPoints != null)
+        //    {
+        //        this.dragPoints.Active = true;
+        //        this.DragSeriesPt = false;
+        //        this.DragEqkPt = true;
+
+        //        for (int i = 0; i < this.tChart.Series.Count; i++)
+        //        {
+        //            Points ln = this.tChart.Series[i] as Points;
+        //            if (ln != null)
+        //                if (ln.Title == "地震目录")
+        //                    this.dragPoints.Series = this.tChart.Series[i];
+
+        //        }
+        //    }
+
+        //}
+        ///// <summary>
+        ///// 初始化DragPoint
+        ///// </summary>
+        //private void InitDrawLines()
+        //{
+        //    this.drawLines = new DrawLine();
+        //    this.tChart.Tools.Add(this.drawLines);
+        //    this.drawLines.Active = false;
+        //}
 
 
         /// <summary>
@@ -143,10 +248,6 @@ namespace xxkUI.Controls
         /// </summary>
         private void InitAnnotations()
         {
-            annotation_min = new Annotation(tChart.Chart);
-            annotation_min.Active = false;
-            annotation_max = new Annotation(tChart.Chart);
-            annotation_max.Active = false;
             annotation = new Annotation(tChart.Chart);
             annotation.Active = false;
             annotation.Shape.CustomPosition = true;
@@ -229,9 +330,10 @@ namespace xxkUI.Controls
 
             bool isok = false;
             this.tChart.Header.Text = "";
-            DisposeDragPtTool();//释放拖拽工具
+
             try
             {
+                ClearSelectedPoints();
                 this.tChart.Series.Clear();
 
                 foreach (LineBean checkedLb in obsdatalist)
@@ -300,9 +402,10 @@ namespace xxkUI.Controls
 
             bool isok = false;
             this.tChart.Header.Text = "";
-            DisposeDragPtTool();//释放拖拽工具
+
             try
             {
+                ClearSelectedPoints();
                 this.tChart.Series.Clear();
 
                 foreach (string checkedLb in obsdatalist)
@@ -374,9 +477,10 @@ namespace xxkUI.Controls
         public bool AddSingleSeries(string linename, string Dtkey)
         {
             bool isok = false;
-            DisposeDragPtTool();//释放拖拽工具
+
             try
             {
+                ClearSelectedPoints();
                 this.tChart.Series.Clear();
                 Line line = new Line();
                 tChart.Series.Add(line);
@@ -416,7 +520,16 @@ namespace xxkUI.Controls
             return isok;
         }
 
+        /// <summary>
+        /// 清除选中
+        /// </summary>
+        private void ClearSelectedPoints()
+        {
+            selectedPtlist.Clear();
+            ShowSelectedPoint = false;
+            this.tChart.Refresh();
 
+        }
         /// <summary>
         /// 显示备注
         /// </summary>
@@ -424,35 +537,31 @@ namespace xxkUI.Controls
         {
             if (this.tChart.Series.Count == 0)
                 return;
-
-
-
             try
             {
                 this.dragMarks.Active = true;
                 if (this.dragMarks.Active)
                 {
                     Line ln = this.tChart.Series[0] as Line;
-                    int j = 0;
 
                     if (this.tChart.Series.Count > 1)
                     {
                         this.tChart.Series.RemoveAt(1);
                     }
-                    Points pts = new Points(this.tChart.Chart);
-                    pts.Pointer.Style = PointerStyles.Circle;
-                    pts.Legend.Visible = false;
-                    pts.Color = Color.FromArgb(0, 255, 0);
+
+
+                    int j = 0;
                     foreach (DataRow dr in ((DataTable)ln.DataSource).Rows)
                     {
                         if (dr["note"].ToString() != "")
                         {
-                            pts.Add(DateTime.FromOADate(ln[j].X), ln[j].Y);
+
+                            notePtlist.Add(new SelectedPointStruct() { PtDate = ln[j].X, PtValue = ln[j].Y });
                         }
                         j++;
                     }
 
-                    this.tChart.Series[0].Marks.Arrow.Color = pts.Color;
+                    this.tChart.Series[0].Marks.Arrow.Color = Color.Red;
 
                     this.tChart.Series[0].Marks.Arrow.Width = 1;          //标签与单元之间连线的宽度
                     this.tChart.Series[0].Marks.Arrow.Style = System.Drawing.Drawing2D.DashStyle.DashDot;       //标签与单元之间连线样式
@@ -460,7 +569,7 @@ namespace xxkUI.Controls
 
                     //this.tChart.Series[0].Marks.Transparent = false;          //标签是否透明
                     //this.tChart.Series[0].Marks.Font.Color = vbBlue;             //'标签文字色
-                    //this.tChart.Series[0].Marks.BackColor = pts.Color;            //标签背景色
+                    //this.tChart.Series[0].Marks.BackColor = Color.Red;            //标签背景色
                     //this.tChart.Series[0].Marks.Gradient.Visible = True;          //是否起用标签渐变色
                     //this.tChart.Series[0].Marks.Bevel = bvNone;                   //标签样式(凹,凸,平面)
                     //this.tChart.Series[0].Marks.ShadowSize = 0;                   //标签阴影大小
@@ -468,8 +577,12 @@ namespace xxkUI.Controls
                     this.tChart.Series[0].Marks.TailStyle = MarksTail.None;
                     this.tChart.Series[0].Marks.ShapeStyle = TextShapeStyle.Rectangle;
                     this.tChart.Series[0].Marks.Visible = this.dragMarks.Active;
+                    this.tChart.Series[0].Marks.Pen.Color = Color.Red;
                     this.dragMarks.Series = this.tChart.Series[0];
+
                     //this.dragPoints.Series = this.tChart.Series[0];
+
+
                 }
                 else
                 {
@@ -631,55 +744,8 @@ namespace xxkUI.Controls
         /// </summary>
         public void btnMaxMinValue()
         {
-            try
-            {
-               
-
-
-                annotation_max.Active = !annotation_max.Active;
-                annotation_min.Active = !annotation_min.Active;
-                if (!(annotation_max.Active && annotation_min.Active)) return;
-                List<BaseLine> visibleSeries = GetVisibleLine();
-                foreach (BaseLine vSeri in visibleSeries)
-                {
-                    ValueList listXValue = vSeri.XValues;
-                    ValueList listYValue = vSeri.YValues;
-
-                    double maxY = vSeri.YValues.Maximum;
-                    double minY = vSeri.YValues.Minimum;
-                    int indexMax = vSeri.YValues.IndexOf(maxY);
-                    int indexMin = vSeri.YValues.IndexOf(minY);
-
-                    annotation_max.Shape.CustomPosition = true;
-                    annotation_max.Shape.Gradient.Visible = true;
-                    annotation_max.Shape.Transparency = 15;
-                    Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
-                    string showTxtMax = maxY.ToString();
-                    annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
-                    annotation_max.Left = int.Parse(poToScrMax.X.ToString());
-                    annotation_max.Text = showTxtMax;
-
-                    annotation_min.Shape.CustomPosition = true;
-                    annotation_min.Shape.Gradient.Visible = true;
-                    annotation_min.Shape.Transparency = 15;
-                    Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
-                    string showTxtMin = minY.ToString();
-                    annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
-                    annotation_min.Left = int.Parse(poToScrMin.X.ToString());
-                    annotation_min.Text = showTxtMin;
-
-
-
-                    Graphics3D g3d = this.tChart.Graphics3D;
-                    g3d.Brush.Color = Color.Gray;
-                    g3d.Line(poToScrMax, poToScrMin);
-               
-
-                                    g3d.TextOut( poToScrMin.X, poToScrMax.Y - 12, showTxtMin);
-                }
-            }
-            catch
-            { }
+            ShowMaxMin = !ShowMaxMin;
+            this.tChart.Refresh();
         }
 
 
@@ -692,7 +758,7 @@ namespace xxkUI.Controls
         /// </summary>
         public void PlusMinusMultiplyDivide()
         {
-            DisposeDragPtTool();
+
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -703,7 +769,7 @@ namespace xxkUI.Controls
             DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
 
             DataProgreeFrm dpf = new DataProgreeFrm(dt.Rows.Count);
-            if (dpf.ShowDialog() == DialogResult.OK)
+            if (dpf.ShowDialog(this) == DialogResult.OK)
             {
                 PriAlgorithmHelper pralg = new PriAlgorithmHelper();
                 ObsdataCls.ObsdataHash[ln.Tag.ToString()] = pralg.PlusMinusMultiplyDivide(dt, dpf.progreeValue, dpf.dpm);
@@ -715,10 +781,10 @@ namespace xxkUI.Controls
         /// </summary>
         public void RemoStepOrJump(TChartEventType tep)
         {
-            DisposeDragPtTool();
+
             if (this.tChart == null)
                 return;
-            if (this.tChart.Series.Count == 0)
+            if (this.tChart.Series.Count != 1)
                 return;
 
             this.tchartEventType = tep;
@@ -728,32 +794,15 @@ namespace xxkUI.Controls
 
             this.tChart.Cursor = Cursors.Cross;
 
-            InitRemoveJumpORStepPoints();
         }
 
-        private void InitRemoveJumpORStepPoints()
-        {
-            selectedPtlist.Clear();
-            if (RemoveJumpORStepPoints != null)
-            {
-                RemoveJumpORStepPoints.Clear();
-                RemoveJumpORStepPoints = null;
-            }
-            RemoveJumpORStepPoints = new Points(this.tChart.Chart);
-            RemoveJumpORStepPoints.Color = Color.Red;
-            RemoveJumpORStepPoints.Legend.Visible = false;
-            RemoveJumpORStepPoints.Marks.Visible = false;
-            RemoveJumpORStepPoints.Pointer.Style = PointerStyles.PolishedSphere;
-            RemoveJumpORStepPoints.Pointer.SizeUnits = PointerSizeUnits.Axis;
-            RemoveJumpORStepPoints.Pointer.SizeDouble = 20;
 
-        }
         /// <summary>
         /// 测项合并
         /// </summary>
         public void LinesUnion()
         {
-            DisposeDragPtTool();
+
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -762,7 +811,7 @@ namespace xxkUI.Controls
             Line ln = this.tChart.Series[0] as Line;
 
             ObslineMergeFrm olmf = new ObslineMergeFrm();
-            if (olmf.ShowDialog() == DialogResult.OK)
+            if (olmf.ShowDialog(this) == DialogResult.OK)
             {
 
                 DataTable dtone = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
@@ -779,7 +828,7 @@ namespace xxkUI.Controls
         /// </summary>
         public void LinesBreak(TChartEventType tep)
         {
-            DisposeDragPtTool();
+
             if (this.tChart == null)
                 return;
             if (this.tChart.Series.Count == 0)
@@ -794,14 +843,6 @@ namespace xxkUI.Controls
 
             this.tChart.Cursor = Cursors.Cross;
 
-            this.tChart.Series.Remove(this.RemoveJumpORStepPoints);
-            RemoveJumpORStepPoints = new Points(this.tChart.Chart);
-            RemoveJumpORStepPoints.Color = Color.Red;
-            RemoveJumpORStepPoints.Legend.Visible = false;
-            RemoveJumpORStepPoints.Marks.Visible = false;
-            RemoveJumpORStepPoints.Pointer.Style = PointerStyles.PolishedSphere;
-            RemoveJumpORStepPoints.Pointer.SizeUnits = PointerSizeUnits.Axis;
-            RemoveJumpORStepPoints.Pointer.SizeDouble = 20;
 
         }
         /// <summary>
@@ -822,7 +863,7 @@ namespace xxkUI.Controls
                 DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
                 IntervalFrm interval = new IntervalFrm();
                 int inter = 0;
-                if (interval.ShowDialog() == DialogResult.OK)
+                if (interval.ShowDialog(this) == DialogResult.OK)
                 {
                     inter = interval.Interval;
 
@@ -836,6 +877,18 @@ namespace xxkUI.Controls
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 显示差值
+        /// </summary>
+        public void ShowDValue()
+        {
+            this.tchartEventType = TChartEventType.DValue;
+            start = new Point();//矩形起点
+            end = new Point();//矩形终点
+            g = this.tChart.CreateGraphics();
+            this.tChart.Cursor = Cursors.Cross;
+        }
         /// <summary>
         /// 保存处理数据
         /// </summary>
@@ -845,7 +898,7 @@ namespace xxkUI.Controls
             {
                 Line ln = this.tChart.Series[0] as Line;
                 SaveToManipData stmfrm = new SaveToManipData(ln.Title);
-                if (stmfrm.ShowDialog() == DialogResult.OK)
+                if (stmfrm.ShowDialog(this) == DialogResult.OK)
                 {
 
                     DataTable dt = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
@@ -893,11 +946,11 @@ namespace xxkUI.Controls
                                 int screenY = series.CalcYPosValue(ln[i].Y);
                                 if (screenX >= minX && screenX <= maxX && screenY >= minY && screenY <= maxY)
                                 {
-                                    RemoveJumpORStepPoints.Add(ln[i].X, ln[i].Y);
-                                    selectedPtlist.Add(new SelectedPointStruct() { PtElement = new Point(screenX, screenY), PtValue = ln[i].Y });
+                                    //RemoveJumpORStepPoints.Add(ln[i].X, ln[i].Y);
+                                    selectedPtlist.Add(new SelectedPointStruct() { PtDate = ln[i].X, PtValue = ln[i].Y });
                                 }
                             }
-                            //this.tChart.Refresh();
+                            this.tChart.Refresh();
 
                             switch (tchartEventType)
                             {
@@ -905,59 +958,55 @@ namespace xxkUI.Controls
                                     {
 
                                         DataTable selectdt = dt.Clone();
-                                        for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
+                                        for (int i = 0; i < selectedPtlist.Count; i++)
                                         {
                                             DataRow newdr = selectdt.NewRow();
-                                            newdr[0] = DateTime.FromOADate(RemoveJumpORStepPoints[i].X);
-                                            newdr[1] = RemoveJumpORStepPoints[i].Y;
+                                            newdr[0] = DateTime.FromOADate(selectedPtlist[i].PtDate);
+                                            newdr[1] = selectedPtlist[i].PtValue;
                                             selectdt.Rows.Add(newdr);
                                         }
                                         //this.tChart.Cursor = Cursors.Default;
                                         RemoveJumpFrm dpf = new RemoveJumpFrm(dt, selectdt);
-                                        if (dpf.ShowDialog() == DialogResult.OK)
+                                        if (dpf.ShowDialog(this) == DialogResult.OK)
                                         {
                                             ObsdataCls.ObsdataHash[ln.Tag.ToString()] = dpf.dataout;
                                             /*重画曲线*/
                                             AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
-                                            /*重画选中的点*/
-                                            ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
                                             tchartEventType = TChartEventType.NoProg;
                                         }
                                         else
                                         {
                                             selectedPtlist.Clear();
-                                            RemoveJumpORStepPoints.Clear();
                                             tChart.Refresh();
                                             g = this.tChart.CreateGraphics();
                                         }
-
+                                        tChart.Refresh();
                                     }
                                     break;
                                 case TChartEventType.RemoveStep://消台阶
                                     {
+
                                         DataTable selectdt = dt.Clone();
-                                        for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
+                                        for (int i = 0; i < selectedPtlist.Count; i++)
                                         {
                                             DataRow newdr = selectdt.NewRow();
-                                            newdr[0] = DateTime.FromOADate(RemoveJumpORStepPoints[i].X);
-                                            newdr[1] = RemoveJumpORStepPoints[i].Y;
+                                            newdr[0] = DateTime.FromOADate(selectedPtlist[i].PtDate);
+                                            newdr[1] = selectedPtlist[i].PtValue;
                                             selectdt.Rows.Add(newdr);
                                         }
 
                                         RemoveStepFrm dpf = new RemoveStepFrm(dt, selectdt);
-                                        if (dpf.ShowDialog() == DialogResult.OK)
+                                        if (dpf.ShowDialog(this) == DialogResult.OK)
                                         {
                                             ObsdataCls.ObsdataHash[ln.Tag.ToString()] = dpf.dataout;
                                             /*重画曲线*/
                                             AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
-                                            /*重画选中的点*/
-                                            ReLoadRemoveJumpORStepPointsData(dpf.dataoutsel);
                                             tchartEventType = TChartEventType.NoProg;
                                         }
                                         else
                                         {
                                             selectedPtlist.Clear();
-                                            RemoveJumpORStepPoints.Clear();
+
                                             tChart.Refresh();
                                             g = this.tChart.CreateGraphics();
                                         }
@@ -967,11 +1016,11 @@ namespace xxkUI.Controls
                                 case TChartEventType.LineBreak://测项拆分
                                     {
                                         DataTable selectdt = dt.Clone();
-                                        for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
+                                        for (int i = 0; i < selectedPtlist.Count; i++)
                                         {
                                             DataRow newdr = selectdt.NewRow();
-                                            newdr[0] = DateTime.FromOADate(RemoveJumpORStepPoints[i].X);
-                                            newdr[1] = RemoveJumpORStepPoints[i].Y;
+                                            newdr[0] = DateTime.FromOADate(selectedPtlist[i].PtDate);
+                                            newdr[1] = selectedPtlist[i].PtValue;
                                             selectdt.Rows.Add(newdr);
                                         }
 
@@ -979,7 +1028,6 @@ namespace xxkUI.Controls
                                         DataTable dtin = ObsdataCls.ObsdataHash[ln.Tag.ToString()] as DataTable;
                                         ObsdataCls.ObsdataHash[ln.Tag.ToString()] = pralg.Split(dtin, selectdt, "");
 
-                                        RemoveJumpORStepPoints.Clear();
                                         /*重画曲线*/
                                         AddSingleSeries(this.tChart.Header.Text, ln.Tag.ToString());
 
@@ -1001,42 +1049,8 @@ namespace xxkUI.Controls
         }
 
 
-        /// <summary>
-        /// 重新加载消突跳台阶选中点数据(用于消突跳、台阶完毕后的重画选中点)
-        /// </summary>
-        /// <param name="dt"></param>
-        private void ReLoadRemoveJumpORStepPointsData(DataTable dt)
-        {
-            try
-            {
-                RemoveJumpORStepPoints.Clear();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    RemoveJumpORStepPoints.Add(DateTime.Parse(dr[0].ToString()), double.Parse(dr[1].ToString()));
-                }
-                this.tChart.Series.Add(RemoveJumpORStepPoints);
-                this.tChart.Refresh();
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message, "错误");
-            }
-        }
 
 
-        /// <summary>
-        /// 重新计算SelectedPtlist的屏幕XY值
-        /// </summary>
-        private void ReCalculateSelectedPtlist()
-        {
-            selectedPtlist.Clear();
-            for (int i = 0; i < RemoveJumpORStepPoints.Count; i++)
-            {
-                int screenX = RemoveJumpORStepPoints.CalcXPosValue(RemoveJumpORStepPoints[i].X);
-                int screenY = RemoveJumpORStepPoints.CalcYPosValue(RemoveJumpORStepPoints[i].Y);
-                selectedPtlist.Add(new SelectedPointStruct() { PtElement = new Point(screenX, screenY), PtValue = RemoveJumpORStepPoints[i].Y });
-            }
-        }
         #endregion
 
         #region 数据增删改引起的曲线动态变化
@@ -1104,9 +1118,17 @@ namespace xxkUI.Controls
 
         private void Line_GetSeriesMark(Series series, GetSeriesMarkEventArgs e)
         {
-            Line line1 = series as Line;
-            DataTable ds = (DataTable)line1.DataSource;
-            e.MarkText = ds.Rows[e.ValueIndex]["note"].ToString();
+            try
+            {
+                Line line1 = series as Line;
+                DataTable ds = (DataTable)line1.DataSource;
+                e.MarkText = ds.Rows[e.ValueIndex]["note"].ToString();
+
+
+            }
+            catch
+            { }
+
         }
         private void TChart_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -1130,228 +1152,272 @@ namespace xxkUI.Controls
 
         private void tChart_AfterDraw(object sender, Steema.TeeChart.Drawing.Graphics3D g3d)
         {
-
-            if (RemoveJumpORStepPoints != null)
-                /*重新计算SelectedPtlist的屏幕XY值*/
-                ReCalculateSelectedPtlist();
-            if (this.selectedPtlist.Count < 1)
-                return;
-
-            if (this.selectedPtlist.Count == 1)
+            //最大最小值
+            if (ShowMaxMin)
             {
-                Point pt1 = this.selectedPtlist[0].PtElement;
-                string text = this.selectedPtlist[0].PtValue.ToString();
-                g3d.TextOut(pt1.X, pt1.Y, text);
+                try
+                {
+
+                    List<BaseLine> visibleSeries = GetVisibleLine();
+                    foreach (BaseLine vSeri in visibleSeries)
+                    {
+                        ValueList listXValue = vSeri.XValues;
+                        ValueList listYValue = vSeri.YValues;
+
+                        double maxY = vSeri.YValues.Maximum;
+                        double minY = vSeri.YValues.Minimum;
+                        int indexMax = vSeri.YValues.IndexOf(maxY);
+                        int indexMin = vSeri.YValues.IndexOf(minY);
+
+                        //最大值线起点
+                        Point maxStartPt = vSeri.ValuePointToScreenPoint(vSeri.XValues[0], maxY);
+                        //最大值线终点
+                        Point maxEndtPt = vSeri.ValuePointToScreenPoint(vSeri.XValues[vSeri.Count - 1], maxY);
+
+                        //最小值线起点
+                        Point minStartPt = vSeri.ValuePointToScreenPoint(vSeri.XValues[0], minY);
+                        //最小值线终点
+                        Point minEndtPt = vSeri.ValuePointToScreenPoint(vSeri.XValues[vSeri.Count - 1], minY);
+
+                        g3d.Brush.Color = Color.Red;
+                        g3d.Pen.Color = Color.Red;
+
+                        g3d.Line(maxStartPt, maxEndtPt);
+                        g3d.TextOut((maxStartPt.X + maxEndtPt.X) / 2, maxStartPt.Y - 15, "最大值:" + maxY.ToString());
+
+                        g3d.Brush.Color = Color.Red;
+                        g3d.Pen.Color = Color.Red;
+                        g3d.Line(minStartPt, minEndtPt);
+                        g3d.TextOut((minStartPt.X + minEndtPt.X) / 2, minStartPt.Y - 15, "最小值:" + minY.ToString());
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
-            /*重新绘制台阶线*/
-            for (int i = 1; i < this.selectedPtlist.Count; i++)
+            //显示选中数据
+            if (ShowSelectedPoint)
             {
-                Point pt1 = this.selectedPtlist[i - 1].PtElement;
-                Point pt2 = new Point(this.selectedPtlist[i - 1].PtElement.X, this.selectedPtlist[i].PtElement.Y);
-                Point pt3 = this.selectedPtlist[i].PtElement;
+                try
+                {
+                    foreach (Series ss in this.tChart.Series)
+                    {
+                        Line line = ss as Line;
 
-                g3d.Brush.Color = Color.Gray;
-                g3d.Line(pt1, pt2);
-                g3d.Line(pt2, pt3);
+                        if (line != null)
+                        {
+                            int hInfoX = line.CalcXPosValue(hInfoLineX);
+                            int hInfoY = line.CalcYPosValue(hInfoLineY);
+                            DrawSelectPoint(hInfoX, hInfoY, hInfoValue.ToString(), g3d);
 
-                string text = Math.Round((this.selectedPtlist[i].PtValue - this.selectedPtlist[i - 1].PtValue), 3).ToString();
-                g3d.TextOut(pt1.X, pt3.Y - 12, text);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show(ex.Message, "错误");
+                }
+            }
+
+            //显示地震目录
+
+            if (ShowEqkAnno)
+            {
+                foreach (EqkArraCls eac in EqkArralist)
+                {
+                    if (eac != null)
+                    {
+                        g3d.Pen.Color = Color.Red;
+                        g3d.Pen.Width = 2;
+                        Point mainPt1 = this.tChart.Series[0].ValuePointToScreenPoint(eac.x1, eac.y1);
+                        Point mainPt2 = new Point(mainPt1.X, mainPt1.Y + 40);
+                        g3d.Line(mainPt1.X, mainPt1.Y, mainPt2.X, mainPt2.Y);//主线
+
+
+                        g3d.Line(mainPt2.X - 7, mainPt2.Y - 7, mainPt2.X, mainPt2.Y);//箭头线1
+                        g3d.Line(mainPt2.X + 7, mainPt2.Y - 7, mainPt2.X, mainPt2.Y);//箭头线2
+
+                        g3d.TextOut(mainPt1.X, mainPt1.Y, eac.text);
+                    }
+                }
+            }
+           
+            //显示消突跳、台阶、差值选中点及阶梯线
+            if (tchartEventType == TChartEventType.RemoveJump || tchartEventType == TChartEventType.DValue || tchartEventType == TChartEventType.RemoveStep)
+            {
+                Series vSeri = this.tChart.Series[0];
+                /*绘制台阶线*/
+                for (int i = 1; i < this.selectedPtlist.Count; i++)
+                {
+                    Point pt1 = vSeri.ValuePointToScreenPoint(this.selectedPtlist[i - 1].PtDate, this.selectedPtlist[i - 1].PtValue);
+                    Point pt2 = vSeri.ValuePointToScreenPoint(this.selectedPtlist[i - 1].PtDate, this.selectedPtlist[i].PtValue);
+                    Point pt3 = vSeri.ValuePointToScreenPoint(this.selectedPtlist[i].PtDate, this.selectedPtlist[i].PtValue);
+
+                    g3d.Pen.Color = Color.Black;
+                    g3d.Pen.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+                    g3d.Pen.Width = 1;
+                    g3d.Line(pt1, pt2);
+                    g3d.Line(pt2, pt3);
+
+                    string text = Math.Round((this.selectedPtlist[i].PtValue - this.selectedPtlist[i - 1].PtValue), 3).ToString();
+                    g3d.TextOut(pt1.X, pt3.Y - 12, text);
+
+                    DrawSelectPoint(pt1.X, pt1.Y, "", g3d);
+                    //补上最后一个选中点
+                    if (i == this.selectedPtlist.Count - 1)
+                        DrawSelectPoint(pt3.X, pt3.Y, "", g3d);
+
+                }
+
+            }
+
+            if (this.dragMarks.Active)
+            {
+
             }
 
 
-            if (!(annotation_max.Active && annotation_min.Active)) return;
-            List<BaseLine> visibleSeries = GetVisibleLine();
-            foreach (BaseLine vSeri in visibleSeries)
-            {
-                ValueList listXValue = vSeri.XValues;
-                ValueList listYValue = vSeri.YValues;
 
-                double maxY = vSeri.YValues.Maximum;
-                double minY = vSeri.YValues.Minimum;
-                int indexMax = vSeri.YValues.IndexOf(maxY);
-                int indexMin = vSeri.YValues.IndexOf(minY);
-
-                annotation_max.Shape.CustomPosition = true;
-                annotation_max.Shape.Gradient.Visible = true;
-                annotation_max.Shape.Transparency = 15;
-                Point poToScrMax = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMax], maxY);
-                string showTxtMax = maxY.ToString();
-                annotation_max.Top = int.Parse(poToScrMax.Y.ToString());
-                annotation_max.Left = int.Parse(poToScrMax.X.ToString());
-                annotation_max.Text = showTxtMax;
-
-                annotation_min.Shape.CustomPosition = true;
-                annotation_min.Shape.Gradient.Visible = true;
-                annotation_min.Shape.Transparency = 15;
-                Point poToScrMin = vSeri.ValuePointToScreenPoint(vSeri.XValues[indexMin], minY);
-                string showTxtMin = minY.ToString();
-                annotation_min.Top = int.Parse(poToScrMin.Y.ToString());
-                annotation_min.Left = int.Parse(poToScrMin.X.ToString());
-                annotation_min.Text = showTxtMin;
-
-
-               
-                g3d.Brush.Color = Color.Gray;
-                g3d.Line(poToScrMax, poToScrMin);
-
-
-                g3d.TextOut(poToScrMin.X, poToScrMax.Y - 12, showTxtMin);
-            }
         }
 
         private void tChart_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+
+            if (!isAltDown)
             {
-                switch (tchartEventType)
+                if (e.Button == MouseButtons.Left)
                 {
-                    case TChartEventType.RemoveJump://消突跳
-                        {
-                            selectedPtlist.Clear();
-                            RemoveJumpORStepPoints.Clear();
-                            tChart.Refresh();
-
-                            g = this.tChart.CreateGraphics();
-                            start.X = e.X;
-                            start.Y = e.Y;
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            isDrawing = true;
-                        }
-                        break;
-                    case TChartEventType.RemoveStep://消台阶
-                        {
-                            selectedPtlist.Clear();
-                            RemoveJumpORStepPoints.Clear();
-                            tChart.Refresh();
-
-                            g = this.tChart.CreateGraphics();
-                            start.X = e.X;
-                            start.Y = e.Y;
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            isDrawing = true;
-                        }
-                        break;
-                    case TChartEventType.LineBreak://测项拆分
-                        {
-                            selectedPtlist.Clear();
-                            RemoveJumpORStepPoints.Clear();
-                            tChart.Refresh();
-                            g = this.tChart.CreateGraphics();
-
-                            start.X = e.X;
-                            start.Y = e.Y;
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            isDrawing = true;
-                        }
-                        break;
+                    if (tchartEventType == TChartEventType.RemoveJump || tchartEventType == TChartEventType.RemoveStep || tchartEventType == TChartEventType.DValue || tchartEventType == TChartEventType.LineBreak)
+                    {
+                        selectedPtlist.Clear();
+                        tChart.Refresh();
+                        g = this.tChart.CreateGraphics();
+                        start.X = e.X;
+                        start.Y = e.Y;
+                        end.X = e.X;
+                        end.Y = e.Y;
+                        isDrawing = true;
+                    }
                 }
             }
+            else//如果按下shift，进入移动地震标注
+            {
+                lxp = this.tChart.Series[0].ScreenPointToValuePoint(e.X,e.Y).X;
+                lyp = this.tChart.Series[0].ScreenPointToValuePoint(e.X, e.Y).Y;
+
+                //查询出与鼠标最近的地震标注
+                double mindist = double.MaxValue;
+               
+                for (int i = 0; i < EqkArralist.Count; i++)
+                {
+                    double dist1 = Math.Sqrt((lxp - EqkArralist[i].x1) * (lxp - EqkArralist[i].x1) + (lyp - EqkArralist[i].y1) * (lyp - EqkArralist[i].y1));
+                    double dist2 = Math.Sqrt((lxp - EqkArralist[i].x1) * (lxp - EqkArralist[i].x1) + (lyp - (EqkArralist[i].y1 + 40)) * (lyp - (EqkArralist[i].y1 + 40)));
+                    double dist = 0;
+                    if (dist1 < dist2)
+                        dist = dist1;
+                    else
+                        dist = dist2;
+                    if (dist < mindist)
+                    {
+                        mindist = dist;
+                        moveingEqkArr = EqkArralist[i];
+                    }
+                }
+              
+                timer.Enabled = true;
+            }
+
+            
         }
 
         private void tChart_MouseMove(object sender, MouseEventArgs e)
         {
-            switch (tchartEventType)
+            if (tchartEventType == TChartEventType.RemoveJump || tchartEventType == TChartEventType.RemoveStep || tchartEventType == TChartEventType.DValue || tchartEventType == TChartEventType.LineBreak)
             {
-                case TChartEventType.Hotline://鼠标热线
+                if (e.Button == MouseButtons.Left)
+                {
+                    if (isDrawing)
                     {
-                        int maxX = tChart.Chart.ChartRect.X + tChart.Chart.ChartRect.Width;
-                        int minX = tChart.Chart.ChartRect.X;
-                        int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
-                        int minY = tChart.Chart.ChartRect.Y;
-                        List<BaseLine> visibleSeries = GetVisibleLine();
-                        if (visibleSeries.Count == 0)
-                            return;
-                        PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
-
-                        if (e.X < maxX && e.X > minX && e.Y < maxY && e.Y > minY)
-                        {
-                            if (!this.cursorTool.Active)
-                            {
-                                return;
-                            }
-                            else
-                            {
-
-                                ValueList listXValue = visibleSeries[0].XValues;
-                                ValueList listYValue = visibleSeries[0].YValues;
-
-                                int minIndex = 0;
-                                double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
-
-                                for (int i = 1; i < listXValue.Count; i++)
-                                {
-                                    deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
-                                    if (deltX > deltX1)
-                                    {
-                                        minIndex = i;
-                                        deltX = deltX1;
-                                    }
-                                    else break;
-                                }
-                                Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
-                                DateTime showTime = DateTime.FromOADate(listXValue[minIndex]);
-                                string showTxt = "观测时间:" + showTime.ToShortDateString() + "\r\n" + "观测值:" + listYValue[minIndex].ToString();
-
-                                annotation.Top = int.Parse(poToScr.Y.ToString());
-                                annotation.Left = int.Parse(poToScr.X.ToString());
-                                annotation.Text = showTxt;
-                            }
-                        }
+                        this.tChart.Cursor = Cursors.Cross;
+                        //先擦除
+                        g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
+                        end.X = e.X;
+                        end.Y = e.Y;
+                        //再画
+                        g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
                     }
-                    break;
-
-                case TChartEventType.RemoveJump://消突跳
-                    if (e.Button == MouseButtons.Left)
-                    {
-                        if (isDrawing)
-                        {
-                            this.tChart.Cursor = Cursors.Cross;
-                            //先擦除
-                            g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            //再画
-                            g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                        }
-                    }
-                    break;
-                case TChartEventType.RemoveStep://消台阶
-                    if (e.Button == MouseButtons.Left)
-                    {
-
-                        if (isDrawing)
-                        {
-                            this.tChart.Cursor = Cursors.Cross;
-                            //先擦除
-                            g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            //再画
-                            g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                        }
-                    }
-                    break;
-                case TChartEventType.LineBreak://测项拆分
-                    if (e.Button == MouseButtons.Left)
-                    {
-
-                        if (isDrawing)
-                        {
-                            this.tChart.Cursor = Cursors.Cross;
-                            //先擦除
-                            g.DrawRectangle(new Pen(Color.White), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                            end.X = e.X;
-                            end.Y = e.Y;
-                            //再画
-                            g.DrawRectangle(new Pen(Color.Blue), start.X, start.Y, end.X - start.X, end.Y - start.Y);
-                        }
-                    }
-                    break;
+                }
             }
+            else if (tchartEventType == TChartEventType.Hotline)//鼠标热线
+            {
+                int maxX = tChart.Chart.ChartRect.X + tChart.Chart.ChartRect.Width;
+                int minX = tChart.Chart.ChartRect.X;
+                int maxY = tChart.Chart.ChartRect.Y + tChart.Chart.ChartRect.Height;
+                int minY = tChart.Chart.ChartRect.Y;
+                List<BaseLine> visibleSeries = GetVisibleLine();
+                if (visibleSeries.Count == 0)
+                    return;
+                PointDouble scrToVa = visibleSeries[0].ScreenPointToValuePoint(e.X, e.Y);
+
+                if (e.X < maxX && e.X > minX && e.Y < maxY && e.Y > minY)
+                {
+                    if (!this.cursorTool.Active)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        ValueList listXValue = visibleSeries[0].XValues;
+                        ValueList listYValue = visibleSeries[0].YValues;
+
+                        int minIndex = 0;
+                        double deltX = Math.Abs(listXValue[0] - scrToVa.X), deltX1;
+
+                        for (int i = 1; i < listXValue.Count; i++)
+                        {
+                            deltX1 = Math.Abs(listXValue[i] - scrToVa.X);
+                            if (deltX > deltX1)
+                            {
+                                minIndex = i;
+                                deltX = deltX1;
+                            }
+                            else break;
+                        }
+                        Point poToScr = visibleSeries[0].ValuePointToScreenPoint(listXValue[minIndex], listYValue[minIndex]);
+                        DateTime showTime = DateTime.FromOADate(listXValue[minIndex]);
+                        string showTxt = "观测时间:" + showTime.ToShortDateString() + "\r\n" + "观测值:" + listYValue[minIndex].ToString();
+
+                        annotation.Top = int.Parse(poToScr.Y.ToString());
+                        annotation.Left = int.Parse(poToScr.X.ToString());
+                        annotation.Text = showTxt;
+                    }
+                }
+            }
+            else
+            {
+                if (!isAltDown)
+                    return;
+                if (!timer.Enabled)
+                    return;
+                if (MouseButtons != MouseButtons.Left)
+                {
+                    isAltDown = false;
+                    timer.Enabled = false;
+                }
+                double dxp, dyp;
+                dxp = this.tChart.Series[0].ScreenPointToValuePoint(e.X,e.Y).X - lxp;
+                dyp = this.tChart.Series[0].ScreenPointToValuePoint(e.X, e.Y).Y - lyp;
+                lxp = this.tChart.Series[0].ScreenPointToValuePoint(e.X, e.Y).X;
+                lyp = this.tChart.Series[0].ScreenPointToValuePoint(e.X, e.Y).Y;
+                if (moveingEqkArr != null)
+                    moveingEqkArr.move(0, dyp);
+                tChart.Refresh();
+            }
+
         }
 
         private void tChart_MouseUp(object sender, MouseEventArgs e)
@@ -1375,6 +1441,12 @@ namespace xxkUI.Controls
                         }
                         break;
                     case TChartEventType.LineBreak://测项拆分
+                        {
+                            this.tChart.Cursor = Cursors.Arrow;
+                            DrawJumOrStepPoints(e);
+                        }
+                        break;
+                    case TChartEventType.DValue://显示差值
                         {
                             this.tChart.Cursor = Cursors.Arrow;
                             DrawJumOrStepPoints(e);
@@ -1590,35 +1662,39 @@ namespace xxkUI.Controls
                 //判断光标是否在行范围内 
                 if (hInfo.InRow)
                 {
-                    try
+
+                    //RemoveJumpORStepPoints.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
+                    this.tChart.Refresh();
+
+                    DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(hInfo.RowHandle);
+                    DateTime obsdate = new DateTime();
+                    DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
+                    double obsv = double.NaN;
+                    double.TryParse(drv["obvvalue"].ToString(), out obsv);
+
+                    //InitRemoveJumpORStepPoints();
+
+                    foreach (Series ss in this.tChart.Series)
                     {
-                        
-                        DataRowView drv = (DataRowView)this.gridViewObsdata.GetRow(hInfo.RowHandle);
-                        DateTime obsdate = new DateTime();
-                        DateTime.TryParse(drv["obvdate"].ToString(), out obsdate);
-                        double obsv = double.NaN;
-                        double.TryParse(drv["obvvalue"].ToString(), out obsv);
+                        Line line = ss as Line;
 
-                        InitRemoveJumpORStepPoints();
-
-                        Line ln = tChart.Series[0] as Line;
-                        for (int i = 0; i < ln.Count; i++)
+                        if (line != null)
                         {
-                            if (DateTime.FromOADate(ln[i].X) == obsdate && obsv == ln[i].Y)
+                            for (int i = 0; i < line.Count; i++)
                             {
-                                int screenX = ln.CalcXPosValue(ln[i].X);
-                                int screenY = ln.CalcYPosValue(ln[i].Y);
-                                RemoveJumpORStepPoints.Add(DateTime.FromOADate(ln[i].X), ln[i].Y);
+                                if (DateTime.FromOADate(line[i].X) == obsdate && obsv == line[i].Y)
+                                {
+                                    hInfoLineX = line[i].X;
+                                    hInfoLineY = line[i].Y;
+                                    hInfoValue = Math.Round(obsv, 2);
+                                }
                             }
+
                         }
-                        this.tChart.Refresh();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        XtraMessageBox.Show(ex.Message, "错误");
                     }
 
+                    this.ShowSelectedPoint = true;
+                    this.tChart.Refresh();
                 }
             }
         }
@@ -1674,11 +1750,81 @@ namespace xxkUI.Controls
         public void GetEqkShowForm()
         {
             InitDragPoints();
-            InitDrawLines();
-            eqkfrm = new EqkShow(this.tChart.Series[0].Tag, this.tChart, this.dragPoints, this.drawLines);
-            eqkfrm.ShowDialog();
+            //InitDrawLines();
+            eqkfrm = new EqkShow(this.tChart.Series[0].Tag, this.tChart);
+            eqkfrm.ShowEqkNote += Eqkfrm_ShowEqkNote;
+            eqkfrm.ShowDialog(this);
             eqkfrm.Focus();
         }
 
+        /// <summary>
+        /// 显示地震目录
+        /// </summary>
+        /// <param name="selectedEqkAno"></param>
+        private void Eqkfrm_ShowEqkNote(List<EqkArraCls> selectedEqkAno)
+        {
+            if (selectedEqkAno.Count > 0)
+            {
+                ShowEqkAnno = true;
+                
+                Series vSeri = this.tChart.Series[0];
+                EqkArralist = selectedEqkAno;
+                //foreach (EqkArraCls ea in selectedEqkAno)
+                //{
+                //    Point pt1 = vSeri.ValuePointToScreenPoint(ea.dateTime.ToOADate(), ea.value);
+                    
+                  
+                //    EqkArraCls eqkarr = new EqkArraCls(pt1.X, pt1.Y, ea.text);
+                //    EqkArralist.Add(eqkarr);
+                //}
+
+            }
+        }
+
+        public void ExportToExcel(string pah)
+        {
+            this.gridControlObsdata.ExportToXls(pah);
+        }
+        public void ExportToTxt(string pah)
+        {
+            this.gridControlObsdata.ExportToText(pah);
+        }
+
+        private void DrawSelectPoint(int x, int y, string value, Graphics3D g3d)
+        {
+            Rectangle rt = new Rectangle(x - 8, y - 8, 15, 15);
+            g3d.Pen.Color = Color.Red;
+            g3d.Brush.Color = Color.FromArgb(0, 0, 0, 0);
+            g3d.Pen.Style = System.Drawing.Drawing2D.DashStyle.Solid;
+            g3d.Pen.Width = 2;
+            g3d.Ellipse(rt);
+            g3d.TextOut(x, y, value);
+
+        }
+
+        private void DrawEqkAnotation(Point StartPt, Point EndtPt, string text, Graphics3D g3d)
+        {
+            g3d.Line(StartPt, EndtPt);
+            g3d.TextOut((StartPt.X + EndtPt.X) / 2, StartPt.Y - 15, text);
+        }
+
+
+
+        private double lxp, lyp;
+        private bool isAltDown;//是否按下shift按钮
+        private bool ShowEqkAnno;//是否显示地震标注
+        private List<EqkArraCls> EqkArralist =new List<EqkArraCls>();
+        private EqkArraCls moveingEqkArr;//当前移动的地震目录
+
+        private void tChart_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                isAltDown = true;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+           
+        }
     }
 }

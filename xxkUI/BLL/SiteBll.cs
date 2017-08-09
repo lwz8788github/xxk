@@ -66,6 +66,8 @@ namespace xxkUI.Bll
                                                 BUILDUNIT,OBSUNIT,SITESITUATION,GEOSITUATION,NOTE,LOCATIONS,OTHERSITUATION
                                                  from t_siteinfodb where UNITCODE in " + auths);
         }
+
+      
         /// <summary>
         /// 根据场地编码获取场地名称
         /// </summary>
@@ -77,7 +79,11 @@ namespace xxkUI.Bll
             return sitename;
         }
 
-
+        /// <summary>
+        /// 根据场地名称获取场地编码
+        /// </summary>
+        /// <param name="sitename">场地名称</param>
+        /// <returns>场地编码</returns>
         public string GetSiteCodeByName(string sitename)
         {
             string sitecode = SiteDal.Instance.GetByID("SITECODE", "SITENAME", sitename).ToString();

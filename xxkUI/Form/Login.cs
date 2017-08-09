@@ -49,7 +49,8 @@ namespace xxkUI.Form
                     if (UserInfoBll.Instance.GetLogin(u))
                     {
                         CurrentUSerInfo.UIB = u;
-                                         }
+                        this.DialogResult = DialogResult.OK;
+                    }
                     else
                     {
                         XtraMessageBox.Show("用户名或密码错误!", "提示");
@@ -59,13 +60,14 @@ namespace xxkUI.Form
                 else
                 {
                     XtraMessageBox.Show("用户名不存在!", "提示");
+                    this.DialogResult = DialogResult.Cancel;
                 }
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show(ex.Message,"错误");
             }
-            this.DialogResult = DialogResult.OK;
+           
 
         }
 

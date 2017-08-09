@@ -15,39 +15,37 @@ using Steema.TeeChart.Styles;
 using Steema.TeeChart.Tools;
 using GMap.NET;
 using xxkUI.Bll;
+using xxkUI.Tool;
 
 namespace xxkUI.Form
 {
     public partial class EqkShow :XtraForm
     {
-       private List<EqkBean> eqkDataList = new List<EqkBean>();
+        private List<EqkBean> eqkDataList = new List<EqkBean>();
+        public List<EqkArraCls> selectedEqk = new List<EqkArraCls>();//存储选中的地震
        private object lineTag;
        private TChart tChart;
-       private DragPoint DragPtTool;
-       private DrawLine DrawlnTool;
-       private eqkList eqklist = null;
-     
-        public EqkShow(object _lineTag,TChart _tChart,DragPoint _dragptTool,DrawLine _drawlnTool)
+    
+
+       
+        public delegate void ShowEqkNoteHandler(List<EqkArraCls> selectedEqkAno);
+        public event ShowEqkNoteHandler ShowEqkNote;
+
+        public EqkShow(object _lineTag,TChart _tChart)
         {
             InitializeComponent();
             this.lineTag = _lineTag;
             tChart = _tChart;
-            DragPtTool = _dragptTool;
-            DrawlnTool = _drawlnTool;
-
-            this.DragPtTool.Active = !this.DragPtTool.Active;
-            this.DrawlnTool.Active = !this.DrawlnTool.Active;
-            
         }
 
+    
         public void LoadEqkData(DataTable dt)
         {
-            //dt.Columns.Add("check", Type.GetType("System.Boolean"));
-            //this.gridView.Columns.Clear();
+           
             this.gridControl1.DataSource = null;
             this.gridControl1.DataSource = dt;
             this.gridControl1.Refresh();
-            //this.gridView.RefreshData();
+            
         }
         private void btnFind_Click(object sender, EventArgs e)
         {
@@ -212,16 +210,8 @@ namespace xxkUI.Form
         {
             try
             {
-                int sNum = this.tChart.Series.Count;
-                if (this.tChart.Series.Count > 1)
-                {
-                    for (int i = 1; i < sNum; i++)
-                        this.tChart.Series.RemoveAt(1);
-                }
-
                 string eakText = "";
                 string eqkTimeStr = "";
-                int eqkSelectNum = 0;
                 double scale = 1.0;
                 Boolean isEqkInTimeSpan = false;
                 this.tChart.Tools.Clear();
@@ -266,26 +256,33 @@ namespace xxkUI.Form
                     if (maxEqkT.CompareTo(eqkTime) > 0 && minEqkT.CompareTo(eqkTime) < 0)
                     {
                         eakText = this.gridView.GetRowCellValue(i, "Place").ToString() + "\r\n" + "ML=" + this.gridView.GetRowCellValue(i, "Magntd").ToString();
-                        eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
+
+                        EqkArraCls eqkarrcals = new EqkArraCls(eqkTime.ToOADate(),tChart.Chart.Series[0].YValues[minIndex], eakText);
+                        selectedEqk.Add(eqkarrcals);
+
+                        //eqkAnnotation(scale, eqkTime, tChart.Chart.Series[0].YValues[minIndex], eakText);
                         isEqkInTimeSpan = true;
                     }
-                    eqkSelectNum++;
+                  
                 }
-                if (isEqkInTimeSpan && eqkSelectNum != 0)
-                {
-                    this.DragPtTool.Chart = this.tChart.Chart;
-                    this.DragPtTool.Style = DragPointStyles.Y;
+                //if (isEqkInTimeSpan && eqkSelectNum != 0)
+                //{
+                //    this.DragPtTool.Chart = this.tChart.Chart;
+                //    this.DragPtTool.Style = DragPointStyles.Y;
 
-                    //this.DrawlnTool.Chart = this.tChart.Chart;
-                    //this.DrawlnTool.Style = DrawLineStyle.Line;
-                    //this.DrawlnTool.NewLine += DrawlnTool_NewLine;
-                    //this.DrawlnTool.Button = MouseButtons.Left;
-                    //this.DrawlnTool.EnableDraw = true;
-                    //this.DrawlnTool.EnableSelect = true;
-                    //this.DrawlnTool.Pen.Color = Color.Red;
+                //}
+
+                if (!isEqkInTimeSpan || selectedEqk.Count == 0)
+                {
+                    XtraMessageBox.Show("未选中任何震例或所选地震未在观测时间段内！", "提示");
+                    return;
                 }
-                if (eqkSelectNum == 0) XtraMessageBox.Show("未选中任何震例！", "提示");
-                if (!isEqkInTimeSpan && eqkSelectNum == 0) XtraMessageBox.Show("所选地震未在观测时间段内！", "提示");
+
+
+                if (ShowEqkNote != null)
+                {
+                    ShowEqkNote(selectedEqk);
+                }
             }
             catch (Exception ex)
             {
@@ -302,7 +299,7 @@ namespace xxkUI.Form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void eqkAnnotation(double scale,DateTime date,double value, string eakText)//
+        private void eqkAnnotation(DateTime date,double value, string eakText)//
         {
             try
             {

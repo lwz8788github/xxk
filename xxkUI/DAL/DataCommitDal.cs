@@ -11,11 +11,11 @@ using Common.Provider;
 
 namespace xxkUI.Dal
 {
-    public class DataCommitDal : BaseRepository<DataCommitBean>
+    public class LineObsDal : BaseRepository<LineObsBean>
     {
-        public static DataCommitDal Instance
+        public static LineObsDal Instance
         {
-            get { return SingletonProvider<DataCommitDal>.Instance; }
+            get { return SingletonProvider<LineObsDal>.Instance; }
         }
              
     }

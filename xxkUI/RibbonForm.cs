@@ -37,8 +37,7 @@ namespace xxkUI
         private TreeList currentTree;//当前树
         private SiteAttri siteAttriFrm = new SiteAttri();
         private List<string> importDataFiles = new List<string>();// 导入数据的文件路径集
-     
-    
+
         private bool IsEqkShow = false;// 是否显示地震目录列表
         private int pagesize = 50;// 页行数
         private int pageIndex = 1;// 当前页
@@ -50,13 +49,11 @@ namespace xxkUI
             InitForm();
             InitTree();
             InitFaultCombobox();
-          
+
             InitSiteinTab();
             InitRecycleTab();
             InitLayoutmapTab();
             InitStyle();
-
-         
         }
 
         /// <summary>
@@ -165,46 +162,6 @@ namespace xxkUI
             defaultLookAndFeel.LookAndFeel.SkinName = "Office 2010 Blue";//蓝色风格
         }
 
-
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnLogin_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
-            Login lg = new Login();
-
-            if (lg.ShowDialog() == DialogResult.OK)
-            {
-                using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
-                {
-                    currentUserBar.Caption = currentUserBar.Caption + CurrentUSerInfo.UIB.UserName;
-                }
-            }
-            else
-            {
-                return;
-            }
-        }
-        /// <summary>
-        /// 注销登录
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnLogout_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            try
-            {
-                CurrentUSerInfo.UIB = new UserInfoBean();
-                currentUserBar.Caption = "当前用户:" + CurrentUSerInfo.UIB.UserName;
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show("注销登录过程发生错误：" + ex.Message, "错误");
-            }
-        }
 
         #region 地图事件 刘文龙
 
@@ -595,7 +552,7 @@ namespace xxkUI
                             {
                                 //先登录再下载
                                 Login lg = new Login();
-                                if (lg.ShowDialog() == DialogResult.OK)
+                                if (lg.ShowDialog(this) == DialogResult.OK)
                                 {
                                     using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                                     {
@@ -612,7 +569,7 @@ namespace xxkUI
                                             OpenFileDialog ofd = new OpenFileDialog();
                                             ofd.Multiselect = true;//可多选
                                             ofd.Filter = "Excel文件|*.xls;*.xlsx;";
-                                            if (ofd.ShowDialog() == DialogResult.OK)
+                                            if (ofd.ShowDialog(this) == DialogResult.OK)
                                             {
                                                 importDataFiles = ofd.FileNames.ToList();
                                                 ProgressForm ptPro = new ProgressForm();
@@ -649,7 +606,7 @@ namespace xxkUI
                                         OpenFileDialog ofd = new OpenFileDialog();
                                         ofd.Multiselect = true;//可多选
                                         ofd.Filter = "Excel文件|*.xls;*.xlsx;";
-                                        if (ofd.ShowDialog() == DialogResult.OK)
+                                        if (ofd.ShowDialog(this) == DialogResult.OK)
                                         {
                                             importDataFiles = ofd.FileNames.ToList();
                                             ProgressForm ptPro = new ProgressForm();
@@ -673,7 +630,7 @@ namespace xxkUI
                                 OpenFileDialog ofd = new OpenFileDialog();
                                 ofd.Multiselect = true;//可多选
                                 ofd.Filter = "Excel文件|*.xls;*.xlsx;";
-                                if (ofd.ShowDialog() == DialogResult.OK)
+                                if (ofd.ShowDialog(this) == DialogResult.OK)
                                 {
                                     importDataFiles = ofd.FileNames.ToList();
                                     ProgressForm ptPro = new ProgressForm();
@@ -698,7 +655,7 @@ namespace xxkUI
                             {
                                 Login lg = new Login();
 
-                                if (lg.ShowDialog() == DialogResult.OK)
+                                if (lg.ShowDialog(this) == DialogResult.OK)
                                 {
                                     using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                                     {
@@ -787,7 +744,7 @@ namespace xxkUI
                             {
                                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                                 fbd.SelectedPath = Application.StartupPath;
-                                if (fbd.ShowDialog() == DialogResult.OK)
+                                if (fbd.ShowDialog(this) == DialogResult.OK)
                                 {
                                     using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
                                     {
@@ -1225,9 +1182,9 @@ namespace xxkUI
                     {
                         SaveFileDialog sfd = new SaveFileDialog();
                         sfd.Filter = "Excel文件(*.xls)|*.xls";
-                        if (sfd.ShowDialog() == DialogResult.OK)
+                        if (sfd.ShowDialog(this) == DialogResult.OK)
                         {
-                            //this.gridControlObsdata.ExportToXls(sfd.FileName);
+                            this.tChartControl.ExportToExcel(sfd.FileName);
                         }
                     }
                     break;
@@ -1235,11 +1192,16 @@ namespace xxkUI
                     {
                         SaveFileDialog sfd = new SaveFileDialog();
                         sfd.Filter = "文本文件(*.txt)|*.txt";
-                        if (sfd.ShowDialog() == DialogResult.OK)
+                        if (sfd.ShowDialog(this) == DialogResult.OK)
                         {
-                            //this.gridControlObsdata.ExportToText(sfd.FileName);
+                            this.tChartControl.ExportToTxt(sfd.FileName);
                         }
                       
+                    }
+                    break;
+                case "btnDValue"://显示差值
+                    {
+                        this.tChartControl.ShowDValue();
                     }
                     break;
             }
@@ -1256,25 +1218,45 @@ namespace xxkUI
             switch (e.Item.Name)
             {
                 case "btnShowTitle"://标题
-                    this.tChartControl.btnShowTitle();
+                    {
+                        this.tChartControl.btnShowTitle();
+                    }
                     break;
                 case "btnGrid"://网格
-                    this.tChartControl.btnGrid();
+                    {
+                        this.tChartControl.btnGrid();
+                    }
                     break;
                 case "btnShowNote"://备注
-                    this.tChartControl.ShowNotes();
+                    {
+                        this.tChartControl.ShowNotes();
+                    }
                     break;
                 case "btnMouseCur"://鼠标热线
-                    this.tChartControl.btnMouseCur();
+                    {
+                        this.tChartControl.btnMouseCur();
+                    }
                     break;
                 case "btnMaxMinValue"://最大最小值
-                    this.tChartControl.btnMaxMinValue();
+                    {
+                        this.tChartControl.btnMaxMinValue();
+                    }
                     break;
                 case "btnHistoryEqk"://历史地震
-                    this.tChartControl.GetEqkShowForm();
+                    {
+                        this.tChartControl.GetEqkShowForm();
+                    }
                     break;
                 case "btnExportChart"://导出曲线图
-                    this.tChartControl.ExportChart();
+                    {
+                        this.tChartControl.ExportChart();
+                    }
+                    break;
+
+                case "btnDragPoint":
+                    {
+                        this.tChartControl.ShowDragPtTool();
+                    }
                     break;
             }
         }
@@ -1323,7 +1305,7 @@ namespace xxkUI
                             }
 
                             BakupDbFrm bdf = new BakupDbFrm();
-                            if (bdf.ShowDialog() == DialogResult.OK)
+                            if (bdf.ShowDialog(this) == DialogResult.OK)
                             {
                                 //构建执行的命令
                                 StringBuilder sbcommand = new StringBuilder();
@@ -1365,7 +1347,7 @@ namespace xxkUI
                         {
 
                             RestoreDbFrm bdf = new RestoreDbFrm();
-                            if (bdf.ShowDialog() == DialogResult.OK)
+                            if (bdf.ShowDialog(this) == DialogResult.OK)
                             {
                                 //构建执行的命令
                                 StringBuilder sbcommand = new StringBuilder();
@@ -2008,14 +1990,14 @@ namespace xxkUI
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "(*.jpg,*.png,*.jpeg,*.bmp,*.gif)|*.jgp;*.png;*.jpeg;*.bmp;*.gif|All files(*.*)|*.*";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
                 vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[16], 0, ofd.FileName);
         }
         void bstFileBtnEdit_ButtonClick(object sender, ButtonPressedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "(*.jpg,*.png,*.jpeg,*.bmp,*.gif)|*.jgp;*.png;*.jpeg;*.bmp;*.gif|All files(*.*)|*.*";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
                 vGridControlSiteInfo.SetCellValue(vGridControlSiteInfo.Rows[17], 0, ofd.FileName);
         }
 
@@ -2086,18 +2068,6 @@ namespace xxkUI
             xtl.bSignInitManipdbTree();
         }
 
-        private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //等间隔处理
-            //返回值为datatable
-            
-        }
-
-        private void btnSignup_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            SignUp sufrm = new SignUp();
-            sufrm.ShowDialog(this);
-		}
         private void xtraTabControl1_CloseButtonClick(object sender, EventArgs e)
         {
             DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs EArg = (DevExpress.XtraTab.ViewInfo.ClosePageButtonEventArgs)e;
@@ -2168,10 +2138,145 @@ namespace xxkUI
             }
         }
 
-        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+
+        /// <summary>
+        /// 用户操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnUser_ItemClick(object sender, ItemClickEventArgs e)
         {
-            UserManage usfrm = new UserManage();
-            usfrm.ShowDialog(this);
+
+            switch (e.Item.Name)
+            {
+                case "btnLogin"://登录
+                    {
+                        Login lg = new Login();
+                        if (lg.ShowDialog(this) == DialogResult.OK)
+                        {
+                            using (new DevExpress.Utils.WaitDialogForm("请稍后……", "正在加载", new Size(250, 50)))
+                            {
+                                currentUserBar.Caption = currentUserBar.Caption + CurrentUSerInfo.UIB.UserName;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    break;
+                case "btnSignup"://注册
+                    {
+                        SignUp sufrm = new SignUp();
+                        sufrm.ShowDialog(this);
+                    }
+                    break;
+
+                case "btnLogout"://登出
+                    {
+                        try
+                        {
+                            CurrentUSerInfo.UIB = new UserInfoBean();
+                            currentUserBar.Caption = "当前用户:" + CurrentUSerInfo.UIB.UserName;
+                        }
+                        catch (Exception ex)
+                        {
+                            XtraMessageBox.Show("注销登录过程发生错误：" + ex.Message, "错误");
+                        }
+                    }
+                    break;
+
+                case "btnUserManager"://用户管理
+                    {
+                        if (CurrentUSerInfo.UIB.UserName == null || CurrentUSerInfo.UIB.UserName == string.Empty)
+                        {
+                            //先登录再下载
+                            Login lg = new Login();
+                            if (lg.ShowDialog(this) == DialogResult.OK)
+                            {
+                                if (CurrentUSerInfo.UIB.UserName != "superadmin")
+                                {
+
+                                }
+                                else
+                                {
+                                    UserManage usfrm = new UserManage();
+                                    usfrm.ShowDialog(this);
+                                }
+                            }
+                            else
+                                return;
+                        }
+                        else
+                        {
+                            UserManage usfrm = new UserManage();
+                            usfrm.ShowDialog(this);
+                        }
+                    }
+                    break;
+
+            }
+        }
+
+        /// <summary>
+        /// 数据提交与审核
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDataUpload_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            switch (e.Item.Name)
+            {
+                case "btnDataCommit"://提交
+                    {
+                        if (CurrentUSerInfo.UIB.UserName == null || CurrentUSerInfo.UIB.UserName == string.Empty)
+                        {
+                            //先登录再提交
+                            Login lg = new Login();
+                            if (lg.ShowDialog(this) == DialogResult.OK)
+                            {
+                                DataCommit dctFrm = new DataCommit();
+                                dctFrm.ShowDialog(this);
+                            }
+                            else
+                                return;
+                        }
+                        else
+                        {
+                            DataCommit dctFrm = new DataCommit();
+                            dctFrm.ShowDialog(this);
+                        }
+                    }
+                    break;
+                case "btnAdmin"://审核
+                    {
+                        if (CurrentUSerInfo.UIB.UserName == null || CurrentUSerInfo.UIB.UserName == string.Empty)
+                        {
+                            //先登录再审核
+                            Login lg = new Login();
+                            if (lg.ShowDialog(this) == DialogResult.OK)
+                            {
+                                if (CurrentUSerInfo.UIB.UserName == "superadmin")
+                                {
+                                    DataAdmin danFrm = new DataAdmin();
+                                    danFrm.ShowDialog(this);
+                                }
+                            }
+                            else
+                                return;
+                        }
+                        else
+                        {
+                            DataAdmin danFrm = new DataAdmin();
+                            danFrm.ShowDialog(this);
+                        }
+                    }
+                    break;
+            }
+
+
+                   
+
         }
     }
 }
